@@ -1,0 +1,1442 @@
+/* ==========================================================================
+   Wardro Outfits.css
+   A(z) "Wardro Outfits.dc.html" sablon stílusai.
+   Osztálynév-séma: ou-<szekció>-<szerep><sorszám>
+     szerep: btn = kattintható elem, abs = abszolút pozíciójú, grid = rács elrendezés,
+             row / col = flex sor / oszlop, text = szöveg, box = háttéres elem,
+             line = szegély / elválasztó, el = egyéb
+   A {{ ... }} értékű (dinamikus) stílusok a sablonban inline maradtak.
+   ========================================================================== */
+
+/* ===== Alap (globális) szabályok ===== */
+body {
+  margin: 0;
+  background: #f0eee9;
+  font-family: 'Instrument Sans',system-ui,sans-serif;
+}
+
+a {
+  color: #57462F;
+}
+
+a:hover {
+  color: #8a7250;
+}
+
+/* ===== Üres állapot – még nincs outfit (empty) ===== */
+.ou-empty-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 70px 22px 140px;
+  position: relative;
+}
+
+.ou-empty-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ou-empty-text1 {
+  font: 600 32px/1.05 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ou-empty-text2 {
+  font: 400 14.5px/1.55 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ou-empty-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 26px 0 22px;
+}
+
+.ou-empty-btn1 {
+  margin-top: auto;
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+.ou-empty-text3 {
+  font: 400 22px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ou-empty-text4 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-empty-text5 {
+  margin-top: 14px;
+  text-align: center;
+  font: 400 12.5px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ou-empty-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 96px;
+  background: #F6F1E7;
+  border-top: 1px solid rgba(87,70,47,.12);
+  display: flex;
+  padding: 12px 0 0;
+}
+
+.ou-empty-btn2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ou-empty-line1 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #6B5940;
+  border-radius: 5px;
+}
+
+.ou-empty-text6 {
+  font: 500 11px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ou-empty-box1 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #57462F;
+  border-radius: 5px;
+  background: #57462F;
+}
+
+.ou-empty-text7 {
+  font: 600 11px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-empty-line2 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #6B5940;
+  border-radius: 50%;
+}
+
+/* ===== Üres állapot – helyőrzők (empty-slots) ===== */
+.ou-empty-slots-btn1 {
+  height: 120px;
+  border-radius: 16px;
+  background: #F6F1E7;
+  border: 1px dashed rgba(87,70,47,.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+  cursor: pointer;
+  position: relative;
+}
+
+.ou-empty-slots-abs1 {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  font: 500 10.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.ou-empty-slots-text1 {
+  font: 500 13.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Outfitek böngészése (browse) ===== */
+.ou-browse-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-browse-col2 {
+  padding: 54px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ou-browse-row1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ou-browse-btn1 {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-browse-text1 {
+  font: 600 22px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  letter-spacing: -.01em;
+}
+
+.ou-browse-text2 {
+  margin-left: auto;
+  font: 400 12.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ou-browse-text3 {
+  font: 400 12.5px/1.45 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ou-browse-col3 {
+  flex: 1;
+  overflow: auto;
+  padding: 4px 18px 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ou-browse-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 88px;
+  height: 104px;
+  background: linear-gradient(transparent,#EBE2D2 44%);
+  pointer-events: none;
+}
+
+.ou-browse-btn2 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 122px;
+  height: 52px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+.ou-browse-text4 {
+  font: 400 21px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ou-browse-text5 {
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Outfit lista (böngészés) (browse-list) ===== */
+.ou-browse-list-col1 {
+  background: #F6F1E7;
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ou-browse-list-row1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ou-browse-list-btn1 {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.ou-browse-list-text1 {
+  font: 600 20px 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ou-browse-list-text2 {
+  font: 400 11.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ou-browse-list-btn2 {
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+}
+
+.ou-browse-list-btn3 {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ou-browse-list-box1 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-browse-list-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.09) 0 6px,transparent 6px 12px);
+}
+
+.ou-browse-list-box2 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #D6D2C8;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-browse-list-box3 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #D2CEC4;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-browse-list-box4 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #CDC9BF;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-browse-list-text3 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Húzós outfit-pakli (deck) ===== */
+.ou-deck-col1 {
+  height: 100%;
+  background: #2C2219;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-deck-abs1 {
+  position: absolute;
+  inset: 0;
+  background: #CFCBC1;
+}
+
+.ou-deck-abs2 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.09) 0 8px,transparent 8px 16px);
+}
+
+.ou-deck-abs3 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 56px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.ou-deck-abs4 {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 74px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  z-index: 7;
+}
+
+.ou-deck-row1 {
+  height: 30px;
+  border-radius: 10px;
+  background: rgba(38,29,18,.5);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font: 500 12px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-deck-btn1 {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+}
+
+.ou-deck-btn2 {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(38,29,18,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 500 15px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-deck-abs5 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 44%;
+  background: linear-gradient(transparent,rgba(38,29,18,.9) 42%);
+  z-index: 2;
+}
+
+.ou-deck-btn3 {
+  position: absolute;
+  left: 0;
+  top: 96px;
+  bottom: 200px;
+  width: 34%;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.ou-deck-btn4 {
+  position: absolute;
+  right: 0;
+  top: 96px;
+  bottom: 200px;
+  width: 34%;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.ou-deck-abs6 {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 186px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ou-deck-row2 {
+  display: flex;
+  gap: 7px;
+}
+
+.ou-deck-row3 {
+  height: 28px;
+  border-radius: 9px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  font: 500 12px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-deck-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ou-deck-text1 {
+  font: 600 36px/1 'Oswald',sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ou-deck-text2 {
+  font: 400 13.5px 'Instrument Sans',sans-serif;
+  color: #fff;
+}
+
+.ou-deck-row4 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 2px;
+}
+
+.ou-deck-row5 {
+  display: flex;
+  gap: 5px;
+}
+
+.ou-deck-box1 {
+  width: 34px;
+  height: 44px;
+  border-radius: 7px;
+  background: #DCD8CE;
+  border: 1.5px solid rgba(246,241,231,.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-deck-abs7 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.11) 0 5px,transparent 5px 10px);
+}
+
+.ou-deck-text3 {
+  font: 400 12.5px/1.35 'Instrument Sans',sans-serif;
+  color: #fff;
+}
+
+.ou-deck-btn5 {
+  height: 48px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  margin-top: 2px;
+}
+
+.ou-deck-abs8 {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 122px;
+  z-index: 6;
+  display: flex;
+  gap: 10px;
+}
+
+.ou-deck-btn6 {
+  flex: 1;
+  height: 50px;
+  border-radius: 15px;
+  background: rgba(38,29,18,.68);
+  border: 1px solid rgba(246,241,231,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-deck-btn7 {
+  flex: 1;
+  height: 50px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ou-deck-text4 {
+  font: 400 20px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ou-deck-text5 {
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-deck-abs9 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  height: 96px;
+  background: #F6F1E7;
+  border-top: 1px solid rgba(87,70,47,.12);
+  display: flex;
+  padding: 12px 0 0;
+}
+
+/* ===== Kollázs nézet (has-collage) ===== */
+.ou-has-collage-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 56%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  padding: 96px 0 0;
+}
+
+.ou-has-collage-box1 {
+  position: relative;
+  overflow: hidden;
+  background: #DCD8CE;
+}
+
+.ou-has-collage-abs2 {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ou-has-collage-box2 {
+  position: relative;
+  overflow: hidden;
+  background: #D4D0C6;
+}
+
+.ou-has-collage-box3 {
+  position: relative;
+  overflow: hidden;
+  background: #D8D4CA;
+}
+
+.ou-has-collage-box4 {
+  position: relative;
+  overflow: hidden;
+  background: #CDC9BF;
+}
+
+/* ===== Nagy (hero) fotó (has-hero) ===== */
+.ou-has-hero-abs1 {
+  position: absolute;
+  inset: 0;
+  background: #D2CEC4;
+  overflow: hidden;
+}
+
+.ou-has-hero-abs2 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(160deg,rgba(87,70,47,.1) 0 10px,transparent 10px 20px);
+}
+
+.ou-has-hero-abs3 {
+  position: absolute;
+  left: 20px;
+  top: 96px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+/* ===== Lapozópontok (dots) ===== */
+.ou-dots-el1 {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* ===== Törölt outfit üzenet (show-deleted) ===== */
+.ou-show-deleted-abs1 {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 110px;
+  z-index: 9;
+  height: 50px;
+  border-radius: 14px;
+  background: #2C2219;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: 0 10px 26px rgba(38,29,18,.35);
+}
+
+.ou-show-deleted-text1 {
+  font: 500 13.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-show-deleted-btn1 {
+  margin-left: auto;
+  font: 600 13.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ===== Outfit menü (átnevezés / törlés) (outfit-menu) ===== */
+.ou-outfit-menu-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.5);
+  z-index: 12;
+}
+
+.ou-outfit-menu-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 13;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 20px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.3);
+}
+
+.ou-outfit-menu-box1 {
+  width: 44px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(87,70,47,.25);
+  align-self: center;
+  margin-bottom: 6px;
+}
+
+.ou-outfit-menu-btn1 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  font: 500 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-outfit-menu-btn2 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  font: 500 14.5px 'Instrument Sans',sans-serif;
+  color: #9A3412;
+}
+
+.ou-outfit-menu-btn3 {
+  height: 50px;
+  border-radius: 14px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Átnevezés párbeszédablak (renaming) ===== */
+.ou-renaming-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.5);
+  z-index: 14;
+}
+
+.ou-renaming-abs2 {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 36%;
+  z-index: 15;
+  background: #EBE2D2;
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 50px rgba(38,29,18,.35);
+}
+
+.ou-renaming-text1 {
+  font: 600 20px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-renaming-text2 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1.5px solid #57462F;
+  padding: 0 15px;
+  font: 400 15px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ou-renaming-row1 {
+  display: flex;
+  gap: 9px;
+}
+
+.ou-renaming-btn1 {
+  flex: 1;
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-renaming-btn2 {
+  flex: 1;
+  height: 50px;
+  border-radius: 14px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Törlés megerősítése (outfit-confirm) ===== */
+.ou-outfit-confirm-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.55);
+  z-index: 14;
+}
+
+.ou-outfit-confirm-abs2 {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  background: #EBE2D2;
+  border-radius: 22px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 50px rgba(38,29,18,.4);
+}
+
+.ou-outfit-confirm-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ou-outfit-confirm-text1 {
+  font: 400 13.5px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ou-outfit-confirm-btn1 {
+  height: 50px;
+  border-radius: 14px;
+  background: #9A3412;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-outfit-confirm-btn2 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Viselés lap (alulról felcsúszó) (worn-sheet) ===== */
+.ou-worn-sheet-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 13;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 20px 22px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.3);
+}
+
+.ou-worn-sheet-box1 {
+  width: 44px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(87,70,47,.25);
+  align-self: center;
+}
+
+.ou-worn-sheet-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ou-worn-sheet-text1 {
+  font: 600 21px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-worn-sheet-btn1 {
+  height: 52px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.ou-worn-sheet-btn2 {
+  height: 50px;
+  border-radius: 15px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Új fotó készítése (new-shot) ===== */
+.ou-new-shot-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 54px 18px 40px;
+}
+
+.ou-new-shot-row1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ou-new-shot-col2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.ou-new-shot-text1 {
+  font: 600 17px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-new-shot-row2 {
+  flex: 1;
+  border-radius: 22px;
+  background: #2C2219;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ou-new-shot-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px);
+}
+
+.ou-new-shot-line1 {
+  width: 52%;
+  height: 74%;
+  border: 1.5px dashed rgba(246,241,231,.5);
+  border-radius: 16px;
+}
+
+.ou-new-shot-abs2 {
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: 400 13px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ou-new-shot-abs3 {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: rgba(246,241,231,.6);
+}
+
+.ou-new-shot-row3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 12px 0;
+}
+
+.ou-new-shot-btn1 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  cursor: pointer;
+}
+
+.ou-new-shot-btn2 {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #57462F;
+  border: 4px solid #F6F1E7;
+  box-shadow: 0 0 0 2px #57462F;
+  cursor: pointer;
+}
+
+.ou-new-shot-text2 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Viselés – elmentve (wear-saved) ===== */
+.ou-wear-saved-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 54px 30px 44px;
+  gap: 22px;
+}
+
+.ou-wear-saved-box1 {
+  width: 176px;
+  height: 250px;
+  border-radius: 18px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(87,70,47,.18);
+}
+
+.ou-wear-saved-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.09) 0 7px,transparent 7px 14px);
+}
+
+.ou-wear-saved-abs2 {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ou-wear-saved-col2 {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ou-wear-saved-text1 {
+  font: 600 23px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-wear-saved-text2 {
+  font: 400 14px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ou-wear-saved-row1 {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.ou-wear-saved-btn1 {
+  flex: 1;
+  height: 52px;
+  border-radius: 16px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ou-wear-saved-btn2 {
+  flex: 1;
+  height: 52px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Kézi outfit-összeállító (builder) ===== */
+.ou-builder-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 54px 18px 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-builder-row1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ou-builder-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.ou-builder-text1 {
+  font: 500 11px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.ou-builder-text2 {
+  height: 48px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  padding: 0 15px;
+  font: 400 15px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ou-builder-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ou-builder-col3 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.ou-builder-row2 {
+  display: flex;
+  gap: 8px;
+}
+
+.ou-builder-col4 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ou-builder-col5 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.ou-builder-btn1 {
+  margin-top: auto;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ou-builder-text3 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Összeállító – ruha-helyek (slots) ===== */
+.ou-slots-btn1 {
+  height: 132px;
+  border-radius: 16px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+}
+
+/* ===== Alkalmak (occasions) ===== */
+.ou-occasions-btn1 {
+  height: 34px;
+  border-radius: 11px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font: 500 13px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Új fotó – még üres (new-shot-empty) ===== */
+.ou-new-shot-empty-btn1 {
+  height: 54px;
+  border-radius: 15px;
+  background: #F6F1E7;
+  border: 1px dashed rgba(87,70,47,.35);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.ou-new-shot-empty-text1 {
+  font: 400 20px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  line-height: 1;
+}
+
+.ou-new-shot-empty-text2 {
+  margin-left: auto;
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Új fotó – elkészült (new-shot-taken) ===== */
+.ou-new-shot-taken-row1 {
+  height: 54px;
+  border-radius: 15px;
+  background: #DCD8CE;
+  border: 1.5px solid #57462F;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 12px;
+}
+
+.ou-new-shot-taken-box1 {
+  width: 32px;
+  height: 40px;
+  border-radius: 6px;
+  background: #CFCBC1;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-new-shot-taken-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.12) 0 5px,transparent 5px 10px);
+}
+
+.ou-new-shot-taken-btn1 {
+  margin-left: auto;
+  font: 500 12.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  cursor: pointer;
+}
+
+/* ===== Ruhaválasztó nyitva (picker-open) ===== */
+.ou-picker-open-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(38,29,18,.45);
+  z-index: 10;
+}
+
+.ou-picker-open-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 18px 40px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 70%;
+}
+
+.ou-picker-open-row1 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.ou-picker-open-text1 {
+  font: 600 19px 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ou-picker-open-btn1 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  cursor: pointer;
+}
+
+.ou-picker-open-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 9px;
+  overflow: auto;
+}
+
+/* ===== Ruhaválasztó elemei (picker-items) ===== */
+.ou-picker-items-btn1 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ou-picker-items-box1 {
+  height: 98px;
+  border-radius: 12px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ou-picker-items-abs1 {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ou-picker-items-text1 {
+  font: 500 11.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+

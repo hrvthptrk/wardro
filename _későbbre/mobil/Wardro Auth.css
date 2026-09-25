@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Wardro Auth.css
+   A(z) "Wardro Auth.dc.html" sablon stílusai.
+   Osztálynév-séma: au-<szekció>-<szerep><sorszám>
+     szerep: btn = kattintható elem, abs = abszolút pozíciójú, grid = rács elrendezés,
+             row / col = flex sor / oszlop, text = szöveg, box = háttéres elem,
+             line = szegély / elválasztó, el = egyéb
+   A {{ ... }} értékű (dinamikus) stílusok a sablonban inline maradtak.
+   ========================================================================== */
+
+/* ===== Alap (globális) szabályok ===== */
+body {
+  margin: 0;
+  background: #f0eee9;
+  font-family: 'Instrument Sans',system-ui,sans-serif;
+}
+
+a {
+  color: #57462F;
+}
+
+a:hover {
+  color: #8a7250;
+}
+
+/* ===== Bejelentkezés képernyő (login) ===== */
+.au-login-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 80px 26px 44px;
+}
+
+.au-login-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 38px;
+}
+
+.au-login-text1 {
+  font: 600 42px/1 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.au-login-text2 {
+  font: 400 15px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.au-login-col3 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.au-login-col4 {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.au-login-text3 {
+  font: 500 11.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.au-login-row1 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.16);
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.au-login-text4 {
+  font: 400 15px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.au-login-row2 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1.5px solid #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.au-login-text5 {
+  font: 400 17px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  letter-spacing: .2em;
+}
+
+.au-login-text6 {
+  font: 500 12.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.au-login-text7 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  align-self: flex-start;
+}
+
+.au-login-btn1 {
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 26px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+.au-login-text8 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.au-login-row3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 26px 0;
+}
+
+.au-login-box1 {
+  flex: 1;
+  height: 1px;
+  background: rgba(87,70,47,.18);
+}
+
+.au-login-text9 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.au-login-btn2 {
+  height: 52px;
+  border-radius: 16px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.au-login-text10 {
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.au-login-btn3 {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.au-login-text11 {
+  font: 400 14px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.au-login-text12 {
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Regisztráció képernyő (signup) ===== */
+.au-signup-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 66px 26px 44px;
+}
+
+.au-signup-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.au-signup-text1 {
+  font: 600 30px/1 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.au-signup-text2 {
+  font: 400 14px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.au-signup-col3 {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.au-signup-col4 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.au-signup-row1 {
+  height: 48px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.16);
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.au-signup-col5 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.au-signup-row2 {
+  display: flex;
+  gap: 10px;
+}
+
+.au-signup-text3 {
+  font: 400 12px/1.45 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.au-signup-btn1 {
+  margin-top: auto;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.au-signup-text4 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+}
+
+.au-signup-btn2 {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* ===== Nem választó csempék (Férfi / Női) (genders) ===== */
+.au-genders-btn1 {
+  flex: 1;
+  height: 88px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.au-genders-text1 {
+  font: 600 17px 'Instrument Sans',sans-serif;
+}
+
+.au-genders-text2 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+}
+

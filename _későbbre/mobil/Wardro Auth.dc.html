@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./Wardro%20Auth.css">
+<script src="./support.js"></script>
+<script src="./Wardro%20Auth.logic.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></helmet>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+
+<!-- --- Ha látszik: Bejelentkezés képernyő --- -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div class="au-login-col1">
+  <div class="au-login-col2">
+    <span class="au-login-text1">Wardro</span>
+    <span class="au-login-text2">Everything you own, photographed and sorted.</span>
+  </div>
+  <div class="au-login-col3">
+    <div class="au-login-col4">
+      <span class="au-login-text3">Email</span>
+      <div class="au-login-row1"><span class="au-login-text4">you@email.com</span></div>
+    </div>
+    <div class="au-login-col4">
+      <span class="au-login-text3">Password</span>
+      <div class="au-login-row2">
+        <span class="au-login-text5">••••••••</span>
+        <span class="au-login-text6">Show</span>
+      </div>
+    </div>
+    <span class="au-login-text7">Forgot password?</span>
+  </div>
+  <div class="au-login-btn1">
+    <span class="au-login-text8">Log in</span>
+  </div>
+  <div class="au-login-row3">
+    <div class="au-login-box1"></div>
+    <span class="au-login-text9">or</span>
+    <div class="au-login-box1"></div>
+  </div>
+  <div class="au-login-btn2">
+    <span class="au-login-text10">Continue with Apple</span>
+  </div>
+  <div class="au-login-btn3" onClick="{{ toSignup }}">
+    <span class="au-login-text11">No account yet?</span>
+    <span class="au-login-text12">Create one</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Regisztráció képernyő --- -->
+<sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
+<div class="au-signup-col1">
+  <div class="au-signup-col2">
+    <span class="au-signup-text1">Create account</span>
+    <span class="au-signup-text2">Two minutes, then start photographing.</span>
+  </div>
+  <div class="au-signup-col3">
+    <div class="au-signup-col4">
+      <span class="au-login-text3">Name</span>
+      <div class="au-signup-row1"><span class="au-login-text4">Your name</span></div>
+    </div>
+    <div class="au-signup-col4">
+      <span class="au-login-text3">Email</span>
+      <div class="au-signup-row1"><span class="au-login-text4">you@email.com</span></div>
+    </div>
+    <div class="au-signup-col4">
+      <span class="au-login-text3">Password</span>
+      <div class="au-signup-row1"><span class="au-login-text4">At least 8 characters</span></div>
+    </div>
+  </div>
+  <div class="au-signup-col5">
+    <span class="au-login-text3">I shop for</span>
+    <div class="au-signup-row2">
+      <!-- · Lista: Nem választó csempék (Férfi / Női) · -->
+      <sc-for list="{{ genders }}" as="g" hint-placeholder-count="2">
+        <div class="au-genders-btn1" onClick="{{ g.on }}" sc-camel-style="background:{{ g.bg }};border:{{ g.border }}">
+          <span class="au-genders-text1" sc-camel-style="color:{{ g.fg }}">{{ g.label }}</span>
+          <span class="au-genders-text2" sc-camel-style="color:{{ g.sub }}">{{ g.hint }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <span class="au-signup-text3">Sets the default category names. You can change them later.</span>
+  </div>
+  <div class="au-signup-btn1" onClick="{{ create }}" sc-camel-style="background:{{ ctaBg }};box-shadow:{{ ctaShadow }}">
+    <span class="au-signup-text4" sc-camel-style="color:{{ ctaFg }}">{{ ctaLabel }}</span>
+  </div>
+  <div class="au-signup-btn2" onClick="{{ toLogin }}">
+    <span class="au-login-text11">Already have an account?</span>
+    <span class="au-login-text12">Log in</span>
+  </div>
+</div>
+</sc-if>
+
+</x-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:402,&quot;height&quot;:874},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;signup&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;'login' | 'signup'&quot;},&quot;onCreated&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(gender: 'Male' | 'Female') =&gt; void&quot;}}">
+const Component = window.__dcLogic["Wardro Auth"](DCLogic, StreamableLogic, React);
+</script>
+</body>
+</html>

@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./Wardro%20Home.css">
+<link rel="stylesheet" href="./Wardro%20Web.css">
+<link rel="stylesheet" href="./Wardro%20Outfits.css">
+<link rel="stylesheet" href="./Wardro%20Auth.css">
+<script src="./support.js"></script>
+<script src="./Wardro%20Home.logic.js"></script>
+<script src="./Wardro%20Web.logic.js"></script>
+<script src="./Wardro%20Outfits.logic.js"></script>
+<script src="./Wardro%20Auth.logic.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></helmet>
+
+<!-- ===== SZEKCIÓ: Webes változat bemutatása (laptop / asztali gép) ===== -->
+<section class="dv-turn" id="t5">
+<div class="dv-thd"><a class="dv-tid" href="#t5">5</a><span class="dv-tname">Wardro on the web — laptop and desktop</span></div>
+<p class="dv-note">Sidebar, a wide working area and a right-hand rail, full-bleed. The rail does double duty: pick a piece in the grid and it becomes that piece's detail (last worn, wear count, outfits it belongs to, remove); with nothing selected it shows wardrobe stats and the untouched prompt. Everything here works: sidebar nav and category list, live search, the three filters, wear logging, remove, <b>Edit details</b> (rename, recategorise, retag in the rail), the outfit builder (click a slot, pick from the rail), favourite and delete on outfits, editable account fields, renameable categories, reminder toggles, a staged export, and <b>Add photos</b> — click the dropzone, sort each photo into a category, save. Reset this session in Settings puts it all back.</p>
+<div class="dv-opts">
+<div class="dv-opt" id="5a">
+<div class="dv-olabel"><a class="dv-oid" href="#5a">5a</a>Desktop web app — sidebar, grid, detail rail</div>
+<div class="dv-card"><dc-import name="Wardro Web" start="app" hint-size="1440px,900px"></dc-import></div>
+</div>
+<div class="dv-opt" id="5b">
+<div class="dv-olabel"><a class="dv-oid" href="#5b">5b</a>Log in and create account — sign up picks Male / Female, then lands in the app</div>
+<div class="dv-card"><dc-import name="Wardro Web" start="login" hint-size="1440px,900px"></dc-import></div>
+</div>
+</div>
+<p class="dv-next">Try next: "add the outfit builder to the web version" · "show the logged-in-elsewhere sync state" · "make a narrow-window layout for tablets"</p>
+</section>
+
+<!-- ===== SZEKCIÓ: Outfitek bemutatása (húzós pakli és kézi összeállító) ===== -->
+<section class="dv-turn" id="t4">
+<div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">Outfits — swipe deck and manual builder</span></div>
+<p class="dv-note">Both are live. On <a class="dv-oid" href="#4a">4a</a> tap the left or right half of the collage to move through saved outfits; the <b>+</b> opens the builder. <b>Wear today</b> logs it for the date and offers to photograph the outfit on you; the photo joins that outfit's history, shown as thumbnails on the card. On <a class="dv-oid" href="#4b">4b</a> tap a slot to open the picker, choose a piece, tag occasion and season — Save stays inactive until a top, bottom and shoes are set. The photo of you in it is optional: take one and it becomes the saved outfit's card, skip it and the card shows the four pieces instead. Saved outfits appear first in the deck. Outfits now live inside the main prototype too — the Outfits tab in <a class="dv-oid" href="#2a">2a</a> opens the real card deck, browse list and builder, and <b>Sign-up</b> above the phone starts at create-account so the Male / Female choice lands you on your own empty wardrobe. Starring an outfit narrows the card deck to favourites only — the badge top-left says which you're seeing — and <b>Browse all</b> (<a class="dv-oid" href="#4d">4d</a>) lists every outfit as a shelf row, like the clothes, with a star on each. A bar above the tab bar carries Browse all and New outfit. The tab bar carries Wardrobe / Outfits / You, matching the one on the wardrobe screens in <a class="dv-oid" href="#2a">2a</a>.</p>
+<div class="dv-opts">
+<div class="dv-opt" id="4a">
+<div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>Outfits — full-bleed cards, one per screen</div>
+<div class="dv-card"><dc-import name="Wardro Outfits" start="deck" hint-size="402px,874px"></dc-import></div>
+</div>
+<div class="dv-opt" id="4d">
+<div class="dv-olabel"><a class="dv-oid" href="#4d">4d</a>Browse all outfits — star the ones you reach for</div>
+<div class="dv-card"><dc-import name="Wardro Outfits" start="browse" hint-size="402px,874px"></dc-import></div>
+</div>
+<div class="dv-opt" id="4c">
+<div class="dv-olabel"><a class="dv-oid" href="#4c">4c</a>First launch — no outfits yet</div>
+<div class="dv-card"><dc-import name="Wardro Outfits" start="empty" hint-size="402px,874px"></dc-import></div>
+</div>
+<div class="dv-opt" id="4b">
+<div class="dv-olabel"><a class="dv-oid" href="#4b">4b</a>Builder — four slots, picked from your own items</div>
+<div class="dv-card"><dc-import name="Wardro Outfits" start="builder" hint-size="402px,874px"></dc-import></div>
+</div>
+</div>
+<p class="dv-next">Try next: "add the tab bar to the home screen too" · "let outfits suggest a piece for an empty slot" · "add a worn-history view per outfit"</p>
+</section>
+
+<!-- ===== SZEKCIÓ: Bejelentkezés és regisztráció bemutatása ===== -->
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Log in and create account</span></div>
+<p class="dv-note">Both screens are live: the links at the bottom swap between them, and on <a class="dv-oid" href="#3b">3b</a> the Male / Female tiles are selectable — the button stays inactive until one is picked. The choice is framed as what it actually changes: default category names and sizing.</p>
+<div class="dv-opts">
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Log in</div>
+<div class="dv-card"><dc-import name="Wardro Auth" start="login" hint-size="402px,874px"></dc-import></div>
+</div>
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Create account — with the Male / Female choice</div>
+<div class="dv-card"><dc-import name="Wardro Auth" start="signup" hint-size="402px,874px"></dc-import></div>
+</div>
+</div>
+<p class="dv-next">Try next: "add a welcome screen before log in" · "let people skip the account and try it first" · "add email verification"</p>
+</section>
+
+<!-- ===== SZEKCIÓ: Kattintható végigvezetés (teljes mobilos folyamat) ===== -->
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Clickable flow — <a class="dv-oid" href="#1b">1b</a> as home, <a class="dv-oid" href="#1c">1c</a> as Browse all</span></div>
+<p class="dv-note">Tap the tiles, the search field, <b>Browse all</b>, and the <b>+</b> button. Home is the mosaic; Browse all is the shelf layout with every category; the category grid flags pieces you haven't worn. The add flow is camera → pick a category → saved, and lands you in that category. The <b>···</b> on an item removes it from the wardrobe, with a confirmation that says what else it affects and an undo bar afterwards; outfits have the same on <a class="dv-oid" href="#4a">4a</a>, where deleting the combination keeps the pieces. Home closes with today's weather and three outfits from your own wardrobe that suit it. The tab bar works across all five wardrobe screens plus the outfit card and its browse list, tapping any item in a category opens its detail — last worn, wear count, the outfits it belongs to, and a <b>Worn today</b> log — and <b>First launch</b> above the phone shows the empty wardrobe a new account lands on. The profile is set at sign-up, so it's no longer in the app header — the <b>Male / Female</b> switch above the phone is just a preview control: same layout, different section names — Male gets T-shirts, Jackets, Trousers; Female gets Tops, Dresses, Bottoms — and Browse all, the category grids, search and the add flow follow it.</p>
+<div class="dv-opts">
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Five screens, tappable
+<span class="ho-flow-row1">
+<!-- · Lista: Ki használja – fülek (Férfi / Női) · -->
+<sc-for list="{{ whoTabs }}" as="w" hint-placeholder-count="2">
+<span class="ho-who-tabs-btn1" onClick="{{ w.on }}" sc-camel-style="background:{{ w.bg }};color:{{ w.fg }}">{{ w.label }}</span>
+</sc-for>
+</span>
+<span class="ho-flow-btn1" onClick="{{ showEmpty }}">First launch</span>
+<span class="ho-flow-btn1" onClick="{{ showAuth }}">Sign-up</span></div>
+<div class="dv-card">
+<div sc-camel-style="display:{{ authDisplay }}"><dc-import name="Wardro Auth" start="signup" on-created="{{ onAccountCreated }}" hint-size="402px,874px"></dc-import></div>
+<div sc-camel-style="display:{{ phoneDisplay }}">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+
+<!-- --- Ha látszik: Kezdőlap (mobil) --- -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div class="ho-home-col1">
+  <div class="ho-home-row1">
+    <div class="ho-home-row2"><span class="ho-home-text1">Wardro</span></div>
+    <div class="ho-home-btn1" onClick="{{ go.add }}" style-active="opacity:.8"><span class="ho-home-text2">+</span></div>
+  </div>
+  <div class="ho-home-btn2" onClick="{{ go.search }}">
+    <div class="ho-home-line1"></div>
+    <span class="ho-home-text3">Search your wardrobe</span>
+  </div>
+  <div class="ho-home-row3">
+    <span class="ho-home-text4">{{ totalLine }}</span>
+    <span class="ho-home-btn3" onClick="{{ go.browse }}">Browse all →</span>
+  </div>
+  <div class="ho-home-grid1">
+    <div class="ho-home-btn4" onClick="{{ t1.on }}">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t1.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4"><div class="ho-home-text5">{{ t1.name }}</div><div class="ho-home-text6">{{ t1.count }}</div></div>
+    </div>
+    <div class="ho-home-btn5" onClick="{{ t2.on }}">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t2.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4"><div class="ho-home-text7">{{ t2.name }}</div><div class="ho-home-text6">{{ t2.count }}</div></div>
+    </div>
+    <div class="ho-home-btn6" onClick="{{ t3.on }}">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t3.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4"><div class="ho-home-text7">{{ t3.name }}</div><div class="ho-home-text6">{{ t3.count }}</div></div>
+    </div>
+    <div class="ho-home-btn7" onClick="{{ t4.on }}">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t4.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4"><div class="ho-home-text8">{{ t4.name }}</div><div class="ho-home-text6">{{ t4.count }}</div></div>
+    </div>
+    <div class="ho-home-btn8" onClick="{{ t5.on }}">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t5.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4"><div class="ho-home-text7">{{ t5.name }}</div><div class="ho-home-text6">{{ t5.count }}</div></div>
+    </div>
+  </div>
+  <div class="ho-home-col2">
+    <div class="ho-home-row1">
+      <span class="ho-home-text9">{{ weatherTemp }}</span>
+      <span class="ho-home-text10">{{ weatherLine }}</span>
+      <span class="ho-home-btn9" onClick="{{ tab.outfits }}">All outfits →</span>
+    </div>
+    <div class="ho-home-row4">
+      <!-- · Lista: Javaslatok (mit vegyél fel) · -->
+      <sc-for list="{{ suggestions }}" as="sg" hint-placeholder-count="3">
+        <div class="ho-suggestions-btn1" onClick="{{ tab.outfits }}">
+          <div class="ho-suggestions-box1"><div class="ho-suggestions-abs1"></div></div>
+          <span class="ho-suggestions-text1">{{ sg.name }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ho-home-abs5">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-home-box1"></div>
+      <span class="ho-home-text11">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-home-box2"></div>
+      <span class="ho-home-text12">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-home-box3"></div>
+      <span class="ho-home-text12">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Böngészés – kategóriák áttekintése --- -->
+<sc-if value="{{ isBrowse }}" hint-placeholder-val="{{ true }}">
+<div class="ho-browse-col1">
+  <div class="ho-browse-col2">
+    <div class="ho-browse-row1">
+      <div class="ho-browse-btn1" onClick="{{ go.home }}">←</div>
+      <span class="ho-browse-text1">Browse all</span>
+      <span class="ho-browse-text2">{{ totalCount }}</span>
+    </div>
+  </div>
+  <div class="ho-browse-col3">
+    <!-- · Lista: Polcok (kategória-csoportok) · -->
+    <sc-for list="{{ shelves }}" as="s" hint-placeholder-count="5">
+      <div class="ho-shelves-btn1" onClick="{{ s.on }}">
+        <div class="ho-shelves-row1">
+          <span class="ho-shelves-text1">{{ s.name }}</span>
+          <span class="ho-shelves-text2">{{ s.count }}</span>
+        </div>
+        <div class="ho-home-row4">
+          <sc-for list="{{ s.preview }}" as="p" hint-placeholder-count="3">
+            <div class="ho-shelves-box1">
+              <div class="ho-shelves-abs1"></div>
+              <span class="ho-shelves-abs2">{{ p }}</span>
+            </div>
+          </sc-for>
+          <div class="ho-shelves-row2">{{ s.more }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+  <!-- --- Ha látszik: Kategória – még nincs ruha --- -->
+  <sc-if value="{{ catNoItems }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-cat-no-items-col1">
+    <span class="ho-cat-no-items-text1">Nothing to show</span>
+    <span class="ho-cat-no-items-text2">{{ catEmptyLine }}</span>
+  </div>
+  </sc-if>
+  <div class="ho-flow-abs1"></div>
+  <div class="ho-flow-btn2" onClick="{{ go.add }}">
+    <span class="ho-flow-text1">+</span>
+    <span class="ho-flow-text2">Add a photo</span>
+  </div>
+  <div class="ho-home-abs5">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-home-box1"></div>
+      <span class="ho-home-text11">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-home-box2"></div>
+      <span class="ho-home-text12">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-home-box3"></div>
+      <span class="ho-home-text12">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Egy kategória tartalma --- -->
+<sc-if value="{{ isCat }}" hint-placeholder-val="{{ true }}">
+<div class="ho-browse-col1">
+  <div class="ho-cat-col1">
+    <div class="ho-browse-row1">
+      <div class="ho-browse-btn1" onClick="{{ go.home }}">←</div>
+      <div class="ho-cat-col2">
+        <span class="ho-cat-text1">{{ catName }}</span>
+        <span class="ho-cat-text2">{{ catCount }}</span>
+      </div>
+    </div>
+    <div class="ho-home-row4">
+      <!-- · Lista: Szűrők · -->
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+        <div class="ho-filters-btn1" onClick="{{ f.on }}" sc-camel-style="background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <!-- --- Ha látszik: Kategória – van benne ruha --- -->
+  <sc-if value="{{ catHasItems }}" hint-placeholder-val="{{ true }}">
+  <div class="ho-cat-has-items-grid1">
+    <!-- · Lista: Kategória ruhadarabjai · -->
+    <sc-for list="{{ catItems }}" as="it" hint-placeholder-count="6">
+      <div class="ho-cat-items-btn1" onClick="{{ it.on }}">
+        <div class="ho-cat-items-box1">
+          <div class="ho-shelves-abs1"></div>
+          <span class="ho-cat-items-abs1">cut-out</span>
+        </div>
+        <div class="ho-cat-items-col1">
+          <span class="ho-cat-items-text1">{{ it.label }}</span>
+          <sc-if value="{{ it.note }}" hint-placeholder-val="{{ true }}"><span class="ho-cat-items-text2" sc-camel-style="color:{{ it.noteFg }}">{{ it.note }}</span></sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+  <!-- --- Ha látszik: Kategória – még nincs ruha --- -->
+  <sc-if value="{{ catNoItems }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-cat-no-items-col1">
+    <span class="ho-cat-no-items-text1">Nothing to show</span>
+    <span class="ho-cat-no-items-text2">{{ catEmptyLine }}</span>
+  </div>
+  </sc-if>
+  <div class="ho-flow-abs1"></div>
+  <div class="ho-flow-btn2" onClick="{{ go.add }}">
+    <span class="ho-flow-text1">+</span>
+    <span class="ho-flow-text2">Add to {{ catName }}</span>
+  </div>
+  <!-- --- Ha látszik: Eltávolított elemek jelzése --- -->
+  <sc-if value="{{ showRemoved }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-show-removed-abs1">
+    <span class="ho-show-removed-text1">{{ removedName }} removed</span>
+    <span class="ho-show-removed-btn1" onClick="{{ undoRemove }}">Undo</span>
+  </div>
+  </sc-if>
+  <div class="ho-home-abs5">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-home-box1"></div>
+      <span class="ho-home-text11">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-home-box2"></div>
+      <span class="ho-home-text12">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-home-box3"></div>
+      <span class="ho-home-text12">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Keresés képernyő --- -->
+<sc-if value="{{ isSearch }}" hint-placeholder-val="{{ true }}">
+<div class="ho-browse-col1">
+  <div class="ho-search-col1">
+    <div class="ho-home-row1">
+      <div class="ho-search-row1">
+        <div class="ho-search-line1"></div>
+        <span class="ho-search-text1">white</span>
+        <div class="ho-search-box1"></div>
+      </div>
+      <span class="ho-search-btn1" onClick="{{ go.home }}">Cancel</span>
+    </div>
+    <div class="ho-search-row2">
+      <!-- · Lista: Szűrők · -->
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+        <div class="ho-filters-btn1" onClick="{{ f.on }}" sc-camel-style="background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</div>
+      </sc-for>
+    </div>
+    <span class="ho-shelves-text2">{{ searchSummary }}</span>
+  </div>
+  <div class="ho-search-grid1">
+    <!-- · Lista: Keresési találatok · -->
+    <sc-for list="{{ searchResults }}" as="r" hint-placeholder-count="4">
+      <div class="ho-cat-items-btn1" onClick="{{ r.on }}">
+        <div class="ho-cat-items-box1"><div class="ho-shelves-abs1"></div><span class="ho-cat-items-abs1">cut-out</span></div>
+        <div class="ho-search-results-el1"><div class="ho-cat-items-text1">{{ r.label }}</div><div class="ho-search-results-text1">{{ r.cat }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Profil – kategóriák szerkesztése --- -->
+<sc-if value="{{ isYouCategories }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-you-categories-row1">
+    <div class="ho-browse-btn1" onClick="{{ backToYou }}">←</div>
+    <div class="ho-you-categories-col2">
+      <span class="ho-you-categories-text1">Categories</span>
+      <span class="ho-you-categories-text2">Drag to reorder · tap to rename</span>
+    </div>
+  </div>
+  <div class="ho-you-categories-col3">
+    <!-- · Lista: Kategória sorok · -->
+    <sc-for list="{{ catRows }}" as="c" hint-placeholder-count="5">
+      <div class="ho-cat-rows-btn1">
+        <div class="ho-cat-rows-col1">
+          <div class="ho-cat-rows-box1"></div>
+          <div class="ho-cat-rows-box1"></div>
+          <div class="ho-cat-rows-box1"></div>
+        </div>
+        <div class="ho-you-categories-col2">
+          <span class="ho-cat-rows-text1">{{ c.name }}</span>
+          <span class="ho-you-categories-text2">{{ c.count }}</span>
+        </div>
+        <span class="ho-cat-rows-text2">Rename</span>
+      </div>
+    </sc-for>
+    <span class="ho-you-categories-text3">Removing a category keeps its pieces — they move to Unsorted.</span>
+  </div>
+  <div class="ho-you-categories-btn1">
+    <span class="ho-you-categories-text4">+</span>
+    <span class="ho-you-categories-text5">New category</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Profil – emlékeztetők --- -->
+<sc-if value="{{ isYouReminders }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-you-categories-row1">
+    <div class="ho-browse-btn1" onClick="{{ backToYou }}">←</div>
+    <div class="ho-you-categories-col2">
+      <span class="ho-you-categories-text1">Reminders</span>
+      <span class="ho-you-categories-text2">Notifications on this phone</span>
+    </div>
+  </div>
+  <div class="ho-you-reminders-col1">
+    <!-- · Lista: Emlékeztető kapcsolók · -->
+    <sc-for list="{{ reminderToggles }}" as="t" hint-placeholder-count="4">
+      <div class="ho-reminder-toggles-row1">
+        <div class="ho-reminder-toggles-col1">
+          <span class="ho-reminder-toggles-text1">{{ t.label }}</span>
+          <span class="ho-reminder-toggles-text2">{{ t.hint }}</span>
+        </div>
+        <div class="ho-reminder-toggles-btn1" onClick="{{ t.toggle }}" sc-camel-style="background:{{ t.bg }};justify-content:{{ t.knob }}">
+          <div class="ho-reminder-toggles-box1"></div>
+        </div>
+      </div>
+    </sc-for>
+    <span class="ho-you-categories-text3">Reminders are the only notifications Wardro sends.</span>
+  </div>
+
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Profil – eltávolított ruhák --- -->
+<sc-if value="{{ isYouRemoved }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-you-categories-row1">
+    <div class="ho-browse-btn1" onClick="{{ backToYou }}">←</div>
+    <div class="ho-you-categories-col2">
+      <span class="ho-you-categories-text1">Removed items</span>
+      <span class="ho-you-categories-text2">Kept for 30 days, then deleted</span>
+    </div>
+  </div>
+  <div class="ho-you-categories-col3">
+    <!-- · Lista: Eltávolított ruhák · -->
+    <sc-for list="{{ removedItems }}" as="r" hint-placeholder-count="2">
+      <div class="ho-removed-items-row1">
+        <div class="ho-removed-items-box1"><div class="ho-removed-items-abs1"></div></div>
+        <div class="ho-reminder-toggles-col1">
+          <span class="ho-reminder-toggles-text1">{{ r.label }}</span>
+          <span class="ho-you-categories-text2">{{ r.hint }}</span>
+        </div>
+        <div class="ho-removed-items-btn1" onClick="{{ r.restore }}">Restore</div>
+      </div>
+    </sc-for>
+    <!-- --- Ha látszik: Nincs eltávolított ruha --- -->
+    <sc-if value="{{ removedEmpty }}" hint-placeholder-val="{{ false }}">
+    <div class="ho-removed-empty-col1">
+      <span class="ho-removed-empty-text1">Nothing removed</span>
+      <span class="ho-cat-no-items-text2">Pieces you remove wait here for 30 days before they are deleted.</span>
+    </div>
+    </sc-if>
+    <span class="ho-you-categories-text3">Restoring puts a piece back in its category with its wear history intact.</span>
+  </div>
+  <div class="ho-you-removed-btn1">Delete all now</div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Profil – exportálás --- -->
+<sc-if value="{{ isYouExport }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-you-categories-row1">
+    <div class="ho-browse-btn1" onClick="{{ backToYou }}">←</div>
+    <div class="ho-you-categories-col2">
+      <span class="ho-you-categories-text1">Export wardrobe</span>
+      <span class="ho-you-categories-text2">A copy of everything you have added</span>
+    </div>
+  </div>
+  <div class="ho-you-categories-col3">
+    <!-- · Lista: Export sorok · -->
+    <sc-for list="{{ exportRows }}" as="e" hint-placeholder-count="3">
+      <div class="ho-export-rows-btn1">
+        <div class="ho-reminder-toggles-col1">
+          <span class="ho-reminder-toggles-text1">{{ e.label }}</span>
+          <span class="ho-reminder-toggles-text2">{{ e.hint }}</span>
+        </div>
+        <div class="ho-export-rows-box1"></div>
+      </div>
+    </sc-for>
+    <div class="ho-you-export-col1">
+      <span class="ho-you-categories-text5">Everything selected · {{ exportSize }}</span>
+      <span class="ho-you-export-text1">The export is prepared on this phone and saved to Files. Nothing is uploaded.</span>
+    </div>
+  </div>
+  <div class="ho-you-export-btn1">Export {{ exportSize }}</div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Profil (Te) képernyő --- -->
+<sc-if value="{{ isYou }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-you-row1">
+    <div class="ho-you-box1"><div class="ho-removed-items-abs1"></div><span class="ho-you-abs1">photo</span></div>
+    <div class="ho-you-col1">
+      <span class="ho-you-text1">Your wardrobe</span>
+      <span class="ho-home-text4">{{ youProfile }} · since March</span>
+    </div>
+    <div class="ho-you-btn1">Edit</div>
+  </div>
+  <div class="ho-you-col2">
+    <div class="ho-you-row2">
+      <!-- · Lista: Profil – statisztikák · -->
+      <sc-for list="{{ youStats }}" as="st" hint-placeholder-count="3">
+        <div class="ho-you-stats-col1">
+          <span class="ho-you-stats-text1">{{ st.value }}</span>
+          <span class="ho-you-stats-text2">{{ st.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div class="ho-you-col3">
+      <span class="ho-you-text2">Most worn</span>
+      <!-- · Lista: Profil – legtöbbet viselt · -->
+      <sc-for list="{{ youMost }}" as="m" hint-placeholder-count="3">
+        <div class="ho-you-most-row1">
+          <div class="ho-you-most-box1"><div class="ho-removed-items-abs1"></div></div>
+          <span class="ho-you-most-text1">{{ m.label }}</span>
+          <span class="ho-you-most-text2">{{ m.n }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div class="ho-you-col3">
+      <span class="ho-you-text2">Untouched longest</span>
+      <!-- · Lista: Profil – legkevésbé viselt · -->
+      <sc-for list="{{ youIdle }}" as="m" hint-placeholder-count="3">
+        <div class="ho-you-most-row1">
+          <div class="ho-you-most-box1"><div class="ho-removed-items-abs1"></div></div>
+          <span class="ho-you-most-text1">{{ m.label }}</span>
+          <span class="ho-you-most-text2">{{ m.n }} ago</span>
+        </div>
+      </sc-for>
+    </div>
+    <div class="ho-you-col4">
+      <span class="ho-flow-text2">{{ idleHeadline }}</span>
+      <span class="ho-you-export-text1">{{ idleBody }}</span>
+      <div class="ho-you-btn2" onClick="{{ toReview }}">Review them</div>
+    </div>
+    <div class="ho-you-col5">
+      <!-- · Lista: Profil – menüsorok · -->
+      <sc-for list="{{ youRows }}" as="r" hint-placeholder-count="4">
+        <div class="ho-you-rows-btn1" onClick="{{ r.on }}">
+          <div class="ho-you-rows-col1">
+            <span class="ho-reminder-toggles-text1">{{ r.label }}</span>
+            <span class="ho-you-categories-text2">{{ r.hint }}</span>
+          </div>
+          <span class="ho-you-rows-text1">›</span>
+        </div>
+      </sc-for>
+      <div class="ho-you-btn3">Log out</div>
+    </div>
+  </div>
+  <div class="ho-you-abs2">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-you-line1"></div>
+      <span class="ho-home-text12">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-you-line1"></div>
+      <span class="ho-home-text12">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-you-box2"></div>
+      <span class="ho-home-text11">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Outfitek fül (húzós pakli) --- -->
+<sc-if value="{{ isOutfitsTab }}" hint-placeholder-val="{{ false }}">
+<div class="ho-outfits-tab-col1">
+  <div class="ho-outfits-tab-abs1"></div>
+  <div class="ho-outfits-tab-abs2">
+    <div class="ho-outfits-tab-box1"><span class="ho-outfits-tab-abs3">{{ outfit.top }}</span></div>
+    <div class="ho-outfits-tab-box2"><span class="ho-outfits-tab-abs3">{{ outfit.bottom }}</span></div>
+    <div class="ho-outfits-tab-box3"><span class="ho-outfits-tab-abs3">{{ outfit.shoes }}</span></div>
+    <div class="ho-outfits-tab-box4"><span class="ho-outfits-tab-abs3">{{ outfit.extra }}</span></div>
+  </div>
+  <div class="ho-outfits-tab-abs4">
+    <!-- · Lista: Lapozópontok a paklin · -->
+    <sc-for list="{{ oDots }}" as="d" hint-placeholder-count="3">
+      <div class="ho-o-dots-el1" sc-camel-style="background:{{ d.bg }}"></div>
+    </sc-for>
+  </div>
+  <div class="ho-outfits-tab-abs5">
+    <div class="ho-outfits-tab-row1">{{ oDeckLabel }}</div>
+    <div class="ho-outfits-tab-btn1" onClick="{{ oToggleFav }}" sc-camel-style="background:{{ oFavBg }};color:{{ oFavFg }}">{{ oFavMark }}</div>
+  </div>
+  <div class="ho-outfits-tab-abs6"></div>
+  <div class="ho-outfits-tab-btn2" onClick="{{ oPrev }}"></div>
+  <div class="ho-outfits-tab-btn3" onClick="{{ oNext }}"></div>
+  <div class="ho-outfits-tab-abs7">
+    <div class="ho-outfits-tab-row2">
+      <div class="ho-outfits-tab-row3">{{ outfit.occasion }}</div>
+      <div class="ho-outfits-tab-row3">{{ outfit.season }}</div>
+    </div>
+    <div class="ho-outfits-tab-col2">
+      <span class="ho-outfits-tab-text1">{{ outfit.name }}</span>
+      <span class="ho-outfits-tab-text2">{{ outfit.pieces }}</span>
+      <span class="ho-outfits-tab-text3">{{ outfit.worn }}</span>
+    </div>
+    <div class="ho-outfits-tab-btn4">Wear today</div>
+  </div>
+  <div class="ho-outfits-tab-abs8">
+    <div class="ho-outfits-tab-btn5" onClick="{{ toOutfitsBrowse }}">Browse all</div>
+    <div class="ho-outfits-tab-btn6" onClick="{{ toOutfitBuilder }}">
+      <span class="ho-outfits-tab-text4">+</span>
+      <span class="ho-outfits-tab-text5">New outfit</span>
+    </div>
+  </div>
+  <div class="ho-you-abs2">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-home-box2"></div>
+      <span class="ho-home-text12">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-home-box1"></div>
+      <span class="ho-home-text11">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-home-box3"></div>
+      <span class="ho-home-text12">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Outfitek böngészése --- -->
+<sc-if value="{{ isOutfitsBrowse }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-outfits-browse-col1">
+    <div class="ho-browse-row1">
+      <div class="ho-browse-btn1" onClick="{{ backToOutfits }}">←</div>
+      <span class="ho-browse-text1">All outfits</span>
+      <span class="ho-browse-text2">{{ oBrowseCount }}</span>
+    </div>
+    <span class="ho-outfits-browse-text1">{{ oBrowseHint }}</span>
+  </div>
+  <div class="ho-outfits-browse-col2">
+    <!-- · Lista: Outfit lista (böngészés) · -->
+    <sc-for list="{{ oBrowseList }}" as="b" hint-placeholder-count="3">
+      <div class="ho-o-browse-list-col1">
+        <div class="ho-home-row1">
+          <div class="ho-o-browse-list-btn1" onClick="{{ b.on }}">
+            <span class="ho-shelves-text1">{{ b.name }}</span>
+            <span class="ho-o-browse-list-text1">{{ b.occasion }} · {{ b.season }}</span>
+          </div>
+          <div class="ho-o-browse-list-btn2" onClick="{{ b.star }}" sc-camel-style="background:{{ b.markBg }};color:{{ b.markFg }}">{{ b.mark }}</div>
+        </div>
+        <div class="ho-o-browse-list-btn3" onClick="{{ b.on }}">
+          <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div></div>
+          <div class="ho-o-browse-list-box1"><div class="ho-shelves-abs1"></div></div>
+          <div class="ho-o-browse-list-box2"><div class="ho-shelves-abs1"></div></div>
+          <div class="ho-o-browse-list-box3"><div class="ho-shelves-abs1"></div></div>
+        </div>
+        <span class="ho-o-browse-list-text2">{{ b.pieces }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div class="ho-outfits-browse-abs1"></div>
+  <div class="ho-outfits-browse-btn1" onClick="{{ toOutfitBuilder }}">
+    <span class="ho-you-categories-text4">+</span>
+    <span class="ho-you-categories-text5">New outfit</span>
+  </div>
+  <div class="ho-you-abs2">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-home-box2"></div>
+      <span class="ho-home-text12">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-home-box1"></div>
+      <span class="ho-home-text11">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-home-box3"></div>
+      <span class="ho-home-text12">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Outfit-összeállító --- -->
+<sc-if value="{{ isOutfitBuilder }}" hint-placeholder-val="{{ false }}">
+<div class="ho-outfit-builder-col1">
+  <div class="ho-outfit-builder-row1">
+    <div class="ho-browse-btn1" onClick="{{ cancelBuilder }}">✕</div>
+    <span class="ho-outfit-builder-text1">New outfit</span>
+  </div>
+  <div class="ho-outfit-builder-col2">
+    <span class="ho-outfit-builder-text2">Name</span>
+    <input class="ho-outfit-builder-text3" value="{{ oNameVal }}" onChange="{{ onOName }}" placeholder="{{ oNamePlaceholder }}" />
+  </div>
+  <div class="ho-outfit-builder-grid1">
+    <!-- · Lista: Összeállító – ruha-helyek · -->
+    <sc-for list="{{ oBuilderSlots }}" as="sl" hint-placeholder-count="4">
+      <div class="ho-o-builder-slots-btn1" onClick="{{ sl.on }}" sc-camel-style="background:{{ sl.bg }};border:{{ sl.border }}">
+        <span class="ho-o-builder-slots-abs1">{{ sl.role }}</span>
+        <span class="ho-o-builder-slots-text1">{{ sl.label }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div class="ho-outfit-builder-col3">
+    <span class="ho-outfit-builder-text2">Occasion</span>
+    <div class="ho-home-row4">
+      <!-- · Lista: Összeállító – alkalmak · -->
+      <sc-for list="{{ oOccasions }}" as="oc" hint-placeholder-count="3">
+        <div class="ho-o-occasions-btn1" onClick="{{ oc.on }}" sc-camel-style="background:{{ oc.bg }};color:{{ oc.fg }}">{{ oc.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ho-outfit-builder-col4">
+    <span class="ho-outfit-builder-text2">Season</span>
+    <div class="ho-home-row4">
+      <!-- · Lista: Összeállító – évszakok · -->
+      <sc-for list="{{ oSeasons }}" as="se" hint-placeholder-count="3">
+        <div class="ho-o-occasions-btn1" onClick="{{ se.on }}" sc-camel-style="background:{{ se.bg }};color:{{ se.fg }}">{{ se.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ho-outfit-builder-col3">
+    <span class="ho-outfit-builder-text2">Photo of you in it · optional</span>
+    <!-- --- Ha látszik: Fotó még nincs (kamera felület) --- -->
+    <sc-if value="{{ oShotEmpty }}" hint-placeholder-val="{{ true }}">
+    <div class="ho-o-shot-empty-btn1" onClick="{{ oTakeShot }}">
+      <span class="ho-o-shot-empty-text1">+</span>
+      <span class="ho-o-builder-slots-text1">Take a photo of it on you</span>
+    </div>
+    </sc-if>
+    <!-- --- Ha látszik: Fotó elkészült --- -->
+    <sc-if value="{{ oShotTaken }}" hint-placeholder-val="{{ false }}">
+    <div class="ho-o-shot-taken-row1">
+      <div class="ho-o-shot-taken-box1"><div class="ho-o-shot-taken-abs1"></div></div>
+      <span class="ho-o-builder-slots-text1">Photo added</span>
+      <span class="ho-o-shot-taken-btn1" onClick="{{ oClearShot }}">Remove</span>
+    </div>
+    </sc-if>
+  </div>
+  <div class="ho-outfit-builder-btn1" onClick="{{ oSaveOutfit }}" sc-camel-style="background:{{ oCtaBg }}">
+    <span class="ho-outfit-builder-text4" sc-camel-style="color:{{ oCtaFg }}">{{ oCtaLabel }}</span>
+  </div>
+
+  <!-- --- Ha látszik: Ruhaválasztó nyitva --- -->
+  <sc-if value="{{ oPickerOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-o-picker-open-abs1" onClick="{{ oClosePicker }}"></div>
+  <div class="ho-o-picker-open-abs2">
+    <div class="ho-o-picker-open-box1"></div>
+    <div class="ho-shelves-row1">
+      <span class="ho-o-picker-open-text1">{{ oPickerTitle }}</span>
+      <span class="ho-o-picker-open-btn1" onClick="{{ oClosePicker }}">Close</span>
+    </div>
+    <div class="ho-o-picker-open-grid1">
+      <!-- · Lista: Ruhaválasztó elemei · -->
+      <sc-for list="{{ oPickerItems }}" as="pi" hint-placeholder-count="6">
+        <div class="ho-o-picker-items-btn1" onClick="{{ pi.on }}">
+          <div class="ho-o-picker-items-box1">
+            <div class="ho-shelves-abs1"></div>
+          </div>
+          <span class="ho-o-picker-items-text1">{{ pi.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Átnézés (új ruhák jóváhagyása) --- -->
+<sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-you-categories-row1">
+    <div class="ho-browse-btn1" onClick="{{ backToYou }}">←</div>
+    <div class="ho-you-categories-col2">
+      <span class="ho-you-categories-text1">Untouched pieces</span>
+      <span class="ho-you-categories-text2">Wear it, or let it go</span>
+    </div>
+  </div>
+  <div class="ho-review-col1">
+    <!-- · Lista: Átnézendő ruhák · -->
+    <sc-for list="{{ reviewItems }}" as="rv" hint-placeholder-count="4">
+      <div class="ho-review-items-col1">
+        <div class="ho-review-items-btn1" onClick="{{ rv.open }}">
+          <div class="ho-review-items-box1"><div class="ho-removed-items-abs1"></div></div>
+          <div class="ho-you-col1">
+            <span class="ho-cat-rows-text1">{{ rv.label }}</span>
+            <span class="ho-you-categories-text2">{{ rv.cat }} · {{ rv.note }}</span>
+          </div>
+          <span class="ho-you-rows-text1">›</span>
+        </div>
+        <div class="ho-home-row4">
+          <div class="ho-review-items-btn2" onClick="{{ rv.open }}">Wear it this week</div>
+          <div class="ho-review-items-btn3" onClick="{{ rv.remove }}">Let go</div>
+        </div>
+      </div>
+    </sc-for>
+    <!-- --- Ha látszik: Nincs átnézendő ruha --- -->
+    <sc-if value="{{ reviewEmpty }}" hint-placeholder-val="{{ false }}">
+    <div class="ho-review-empty-col1">
+      <span class="ho-removed-empty-text1">Nothing sitting untouched</span>
+      <span class="ho-cat-no-items-text2">Everything in your wardrobe has been worn recently.</span>
+    </div>
+    </sc-if>
+    <span class="ho-you-categories-text3">Letting go moves a piece to Removed items for 30 days.</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Ruhadarab részletei --- -->
+<sc-if value="{{ isItem }}" hint-placeholder-val="{{ false }}">
+<div class="ho-you-categories-col1">
+  <div class="ho-item-box1">
+    <div class="ho-outfits-tab-abs1"></div>
+    <span class="ho-item-abs1">cut-out, full size</span>
+    <div class="ho-item-btn1" onClick="{{ backToCat }}">←</div>
+    <div class="ho-item-btn2" onClick="{{ openMenu }}">···</div>
+  </div>
+  <div class="ho-item-col1">
+    <div class="ho-outfits-tab-col2">
+      <span class="ho-outfit-builder-text2">{{ item.cat }}</span>
+      <span class="ho-item-text1">{{ item.label }}</span>
+      <span class="ho-item-text2">{{ itemWorn }}</span>
+    </div>
+    <div class="ho-search-row2">
+      <!-- · Lista: Címkék · -->
+      <sc-for list="{{ itemTagList }}" as="tg" hint-placeholder-count="3">
+        <div class="ho-item-tag-list-row1">{{ tg.label }}</div>
+      </sc-for>
+    </div>
+    <div class="ho-item-col2">
+      <span class="ho-outfit-builder-text2">In these outfits</span>
+      <!-- · Lista: Outfitek, amikben szerepel · -->
+      <sc-for list="{{ itemOutfits }}" as="o" hint-placeholder-count="2">
+        <div class="ho-item-outfits-btn1">
+          <div class="ho-item-outfits-box1"><div class="ho-removed-items-abs1"></div></div>
+          <div class="ho-you-col1">
+            <span class="ho-item-outfits-text1">{{ o.name }}</span>
+            <span class="ho-o-browse-list-text2">{{ o.pieces }}</span>
+          </div>
+          <span class="ho-you-rows-text1">›</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ho-flow-abs1"></div>
+  <div class="ho-item-btn3" onClick="{{ logWear }}" sc-camel-style="background:{{ wearBtnBg }}">
+    <span class="ho-outfit-builder-text4" sc-camel-style="color:{{ wearBtnFg }}">{{ wearBtnLabel }}</span>
+  </div>
+  <div class="ho-home-abs5">
+    <div class="ho-home-btn10" onClick="{{ tab.wardrobe }}">
+      <div class="ho-home-box1"></div>
+      <span class="ho-home-text11">Wardrobe</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.outfits }}">
+      <div class="ho-you-line1"></div>
+      <span class="ho-home-text12">Outfits</span>
+    </div>
+    <div class="ho-home-btn10" onClick="{{ tab.you }}">
+      <div class="ho-item-line1"></div>
+      <span class="ho-home-text12">You</span>
+    </div>
+  </div>
+
+  <!-- --- Ha látszik: Áthelyezés visszajelzés --- -->
+  <sc-if value="{{ showMoved }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-show-moved-abs1">
+    <span class="ho-show-removed-text1">{{ movedLine }}</span>
+    <span class="ho-show-removed-btn1" onClick="{{ dismissMoved }}">Undo</span>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Ruha szerkesztése --- -->
+  <sc-if value="{{ itemEdit }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-item-edit-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ho-item-edit-abs2">
+    <div class="ho-o-picker-open-box1"></div>
+    <span class="ho-outfit-builder-text1">Edit details</span>
+    <div class="ho-item-edit-col1">
+      <span class="ho-outfit-builder-text2">Name</span>
+      <input class="ho-item-edit-text1" value="{{ editName }}" onChange="{{ onEditName }}" />
+    </div>
+    <div class="ho-item-edit-col2">
+      <span class="ho-outfit-builder-text2">Tags</span>
+      <div class="ho-item-edit-row1">
+        <!-- · Lista: Címke-opciók · -->
+        <sc-for list="{{ tagOptions }}" as="tp" hint-placeholder-count="8">
+          <div class="ho-tag-options-btn1" onClick="{{ tp.on }}" sc-camel-style="background:{{ tp.bg }};color:{{ tp.fg }}">{{ tp.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+    <div class="ho-you-row2">
+      <div class="ho-item-edit-btn1" onClick="{{ closeMenu }}">Cancel</div>
+      <div class="ho-item-edit-btn2" onClick="{{ saveEdit }}">Save</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Ruha áthelyezése másik kategóriába --- -->
+  <sc-if value="{{ itemMove }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-item-edit-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ho-item-move-abs1">
+    <div class="ho-o-picker-open-box1"></div>
+    <div class="ho-item-move-col1">
+      <span class="ho-outfit-builder-text1">Move {{ item.label }}</span>
+      <span class="ho-home-text4">Currently in {{ item.cat }}</span>
+    </div>
+    <div class="ho-item-move-col2">
+      <!-- · Lista: Áthelyezés – kategóriák · -->
+      <sc-for list="{{ moveCats }}" as="mc" hint-placeholder-count="4">
+        <div class="ho-move-cats-btn1" onClick="{{ mc.on }}">
+          <div class="ho-you-categories-col2">
+            <span class="ho-reminder-toggles-text1">{{ mc.name }}</span>
+            <span class="ho-you-categories-text2">{{ mc.count }}</span>
+          </div>
+          <span class="ho-you-rows-text1">›</span>
+        </div>
+      </sc-for>
+    </div>
+    <div class="ho-item-move-btn1" onClick="{{ closeMenu }}">Cancel</div>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Ruha menü --- -->
+  <sc-if value="{{ itemMenu }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-item-menu-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ho-item-menu-abs2">
+    <div class="ho-item-menu-box1"></div>
+    <div class="ho-item-menu-btn1" onClick="{{ openEdit }}">Edit details</div>
+    <div class="ho-item-menu-btn1" onClick="{{ openMove }}">Move to another category</div>
+    <div class="ho-item-menu-btn2" onClick="{{ askRemove }}">Remove from wardrobe</div>
+    <div class="ho-item-move-btn1" onClick="{{ closeMenu }}">Cancel</div>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Törlés / eltávolítás megerősítése --- -->
+  <sc-if value="{{ itemConfirm }}" hint-placeholder-val="{{ false }}">
+  <div class="ho-item-confirm-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ho-item-confirm-abs2">
+    <div class="ho-item-edit-col1">
+      <span class="ho-outfit-builder-text1">Remove {{ item.label }}?</span>
+      <span class="ho-item-confirm-text1">It leaves your wardrobe and any outfits using it. Its wear history is kept for a month in case you change your mind.</span>
+    </div>
+    <div class="ho-item-edit-col2">
+      <div class="ho-item-confirm-btn1" onClick="{{ confirmRemove }}">Remove it</div>
+      <div class="ho-item-confirm-btn2" onClick="{{ closeMenu }}">Keep it</div>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Üres állapot – még nincs ruha --- -->
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div class="ho-empty-col1">
+  <div class="ho-empty-col2">
+    <span class="ho-empty-text1">Your wardrobe is empty</span>
+    <span class="ho-empty-text2">Start with one category. Ten minutes of photographing is usually enough to see what you actually own.</span>
+  </div>
+  <div class="ho-item-move-col2">
+    <!-- · Lista: Üres kategóriák · -->
+    <sc-for list="{{ emptyCats }}" as="c" hint-placeholder-count="5">
+      <div class="ho-empty-cats-btn1" onClick="{{ go.add }}">
+        <div class="ho-empty-cats-row1">+</div>
+        <div class="ho-you-categories-col2">
+          <span class="ho-reminder-toggles-text1">{{ c.name }}</span>
+          <span class="ho-o-browse-list-text2">Nothing here yet</span>
+        </div>
+        <span class="ho-cat-rows-text2">Add</span>
+      </div>
+    </sc-for>
+  </div>
+  <div class="ho-empty-btn1" onClick="{{ go.add }}">
+    <span class="ho-flow-text1">+</span>
+    <span class="ho-flow-text2">Photograph your first piece</span>
+  </div>
+  <span class="ho-empty-btn2" onClick="{{ tab.wardrobe }}">Do it later</span>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Hozzáadás – fényképezés --- -->
+<sc-if value="{{ addShoot }}" hint-placeholder-val="{{ true }}">
+<div class="ho-add-shoot-col1">
+  <div class="ho-add-shoot-row1">
+    <div class="ho-browse-btn1" onClick="{{ go.home }}">✕</div>
+    <span class="ho-removed-empty-text1">New piece</span>
+    <span class="ho-add-shoot-text1">Step 1 of 2</span>
+  </div>
+  <div class="ho-add-shoot-row2">
+    <div class="ho-add-shoot-abs1"></div>
+    <div class="ho-add-shoot-line1"></div>
+    <span class="ho-add-shoot-abs2">Lay the piece flat, fill the frame</span>
+    <span class="ho-add-shoot-abs3">live camera view</span>
+  </div>
+  <div class="ho-add-shoot-row3">
+    <span class="ho-add-shoot-text2">Library</span>
+    <div class="ho-add-shoot-btn1" onClick="{{ shoot }}"></div>
+    <span class="ho-add-shoot-text2">Flash</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Hozzáadás – kategóriába sorolás --- -->
+<sc-if value="{{ addSort }}" hint-placeholder-val="{{ true }}">
+<div class="ho-add-shoot-col1">
+  <div class="ho-outfit-builder-row1">
+    <div class="ho-browse-btn1" onClick="{{ go.home }}">✕</div>
+    <span class="ho-removed-empty-text1">Where does it go?</span>
+    <span class="ho-add-shoot-text1">Step 2 of 2</span>
+  </div>
+  <div class="ho-add-sort-box1">
+    <div class="ho-home-abs1"></div>
+    <span class="ho-home-abs2">background removed, cut-out</span>
+    <span class="ho-add-sort-abs1">Retake</span>
+  </div>
+  <span class="ho-add-sort-text1">Category</span>
+  <div class="ho-item-edit-row1">
+    <!-- · Lista: Kategória-választó · -->
+    <sc-for list="{{ addCats }}" as="c" hint-placeholder-count="5">
+      <div class="ho-add-cats-btn1" onClick="{{ c.on }}" sc-camel-style="background:{{ c.bg }};color:{{ c.fg }}">{{ c.name }}</div>
+    </sc-for>
+  </div>
+  <div class="ho-add-sort-btn1" onClick="{{ save }}">
+    <span class="ho-flow-text2">Save to {{ addCatName }}</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Hozzáadás – kész --- -->
+<sc-if value="{{ addDone }}" hint-placeholder-val="{{ true }}">
+<div class="ho-add-done-col1">
+  <div class="ho-add-done-box1">
+    <div class="ho-home-abs1"></div>
+    <span class="ho-add-done-abs1">cut-out</span>
+  </div>
+  <div class="ho-add-done-col2">
+    <span class="ho-add-done-text1">Saved to {{ addCatName }}</span>
+    <span class="ho-add-done-text2">68 pieces in your wardrobe</span>
+  </div>
+  <div class="ho-add-done-row1">
+    <div class="ho-add-done-btn1" onClick="{{ go.add }}">Add another</div>
+    <div class="ho-add-done-btn2" onClick="{{ finish }}">See it</div>
+  </div>
+</div>
+</sc-if>
+
+</x-import>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-next">Try next: "connect the Outfits tab to the main prototype" · "make Not worn lately a real view" · "add wear stats to the You tab"</p>
+</section>
+
+<!-- ===== SZEKCIÓ: Kezdőképernyő – három elrendezés ===== -->
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Wardro — home screen, three layout structures</span></div>
+<p class="dv-note">Same palette as your references (cream <b>#EBE2D2</b>, dark brown <b>#57462F</b>, stone tiles), English labels, cut-out garments on flat tiles. Photos are striped placeholders with a note on what drops in. Each layout keeps the search field and the add-photo action, and differs in how the five categories are arranged.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Columns — closest to your first ref: swipe sideways through category strips</div>
+<div class="dv-card">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div class="ho-layouts-col1">
+  <div class="ho-layouts-col2">
+    <div class="ho-layouts-row1"><span class="ho-layouts-text1">Wardro</span></div>
+    <div class="ho-layouts-row2">
+      <div class="ho-layouts-line1"></div>
+      <span class="ho-layouts-text2">Search 67 items</span>
+    </div>
+  </div>
+  <div class="ho-layouts-row3">
+    <div class="ho-layouts-box1">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-add-done-abs1">t-shirt cut-out</div>
+      <div class="ho-layouts-abs1">
+        <div class="ho-layouts-text3">T-shirts</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-layouts-text4">24 pieces</div></sc-if>
+      </div>
+    </div>
+    <div class="ho-layouts-box2">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-add-done-abs1">{{ t3.hint }}</div>
+      <div class="ho-layouts-abs1">
+        <div class="ho-layouts-text3">Jackets</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-layouts-text4">7 pieces</div></sc-if>
+      </div>
+    </div>
+    <div class="ho-layouts-box3">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-add-done-abs1">trousers cut-out</div>
+      <div class="ho-layouts-abs1">
+        <div class="ho-layouts-text3">Trousers</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-layouts-text4">11 pieces</div></sc-if>
+      </div>
+    </div>
+  </div>
+  <div class="ho-layouts-abs2"></div>
+  <div class="ho-layouts-abs3">
+    <div class="ho-layouts-row4">
+      <span class="ho-flow-text1">+</span>
+      <span class="ho-flow-text2">Add a photo</span>
+    </div>
+    <div class="ho-layouts-row5">
+      <div class="ho-layouts-line2"></div>
+    </div>
+  </div>
+</div>
+</x-import>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Mosaic — your second ref, rebuilt: one screen, all five categories, no scroll</div>
+<div class="dv-card">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div class="ho-layouts-col3">
+  <div class="ho-home-row1">
+    <div class="ho-home-row2"><span class="ho-home-text1">Wardro</span></div>
+    <div class="ho-layouts-row6"><span class="ho-home-text2">+</span></div>
+  </div>
+  <div class="ho-layouts-row7">
+    <div class="ho-home-line1"></div>
+    <span class="ho-home-text3">Search your wardrobe</span>
+  </div>
+  <div class="ho-home-grid1">
+    <div class="ho-layouts-box4">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t1.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4">
+        <div class="ho-home-text5">T-shirts</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-home-text6">24</div></sc-if>
+      </div>
+    </div>
+    <div class="ho-layouts-box5">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t2.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4">
+        <div class="ho-home-text7">Shoes</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-home-text6">9</div></sc-if>
+      </div>
+    </div>
+    <div class="ho-layouts-box6">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t3.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4">
+        <div class="ho-home-text7">Jackets</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-home-text6">7</div></sc-if>
+      </div>
+    </div>
+    <div class="ho-layouts-box7">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t4.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4">
+        <div class="ho-home-text8">Accessories</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-home-text6">16</div></sc-if>
+      </div>
+    </div>
+    <div class="ho-layouts-box8">
+      <div class="ho-home-abs1"></div>
+      <div class="ho-home-abs2">{{ t5.hint }}</div>
+      <div class="ho-home-abs3"></div>
+      <div class="ho-home-abs4">
+        <div class="ho-home-text7">Trousers</div>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><div class="ho-home-text6">11</div></sc-if>
+      </div>
+    </div>
+  </div>
+</div>
+</x-import>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Shelves — rows that show what's inside, so you see the clothes, not just the label</div>
+<div class="dv-card">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+<div class="ho-layouts-col1">
+  <div class="ho-layouts-col4">
+    <div class="ho-shelves-row1">
+      <span class="ho-layouts-text5">Wardro</span>
+      <span class="ho-layouts-text6">67 pieces</span>
+    </div>
+    <div class="ho-layouts-row7">
+      <div class="ho-home-line1"></div>
+      <span class="ho-home-text3">Search your wardrobe</span>
+    </div>
+  </div>
+  <div class="ho-layouts-col5">
+
+    <div class="ho-o-browse-list-col1">
+      <div class="ho-shelves-row1">
+        <span class="ho-shelves-text1">T-shirts</span>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><span class="ho-shelves-text2">24</span></sc-if>
+      </div>
+      <div class="ho-home-row4">
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">grey tee</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">white tee</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">navy tee</span></div>
+        <div class="ho-shelves-row2">+21</div>
+      </div>
+    </div>
+
+    <div class="ho-o-browse-list-col1">
+      <div class="ho-shelves-row1">
+        <span class="ho-shelves-text1">Jackets</span>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><span class="ho-shelves-text2">7</span></sc-if>
+      </div>
+      <div class="ho-home-row4">
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">olive bomber</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">denim jacket</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">wool coat</span></div>
+        <div class="ho-shelves-row2">+4</div>
+      </div>
+    </div>
+
+    <div class="ho-o-browse-list-col1">
+      <div class="ho-shelves-row1">
+        <span class="ho-shelves-text1">Trousers</span>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><span class="ho-shelves-text2">11</span></sc-if>
+      </div>
+      <div class="ho-home-row4">
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">blue jeans</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">grey joggers</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">chinos</span></div>
+        <div class="ho-shelves-row2">+8</div>
+      </div>
+    </div>
+
+    <div class="ho-o-browse-list-col1">
+      <div class="ho-shelves-row1">
+        <span class="ho-shelves-text1">Shoes</span>
+        <sc-if value="{{ showCounts }}" hint-placeholder-val="{{ true }}"><span class="ho-shelves-text2">9</span></sc-if>
+      </div>
+      <div class="ho-home-row4">
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">white sneakers</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">suede boots</span></div>
+        <div class="ho-shelves-box1"><div class="ho-shelves-abs1"></div><span class="ho-shelves-abs2">runners</span></div>
+        <div class="ho-shelves-row2">+6</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="ho-layouts-abs4"></div>
+  <div class="ho-layouts-abs5">
+    <span class="ho-flow-text1">+</span>
+    <span class="ho-flow-text2">Add a photo</span>
+  </div>
+</div>
+</x-import>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build out <a class="dv-oid" href="#1c">1c</a> with a category screen and the add-photo flow" · "make <a class="dv-oid" href="#1a">1a</a> scroll vertically instead" · "show me a version with outfit suggestions"</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showCounts&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+const Component = window.__dcLogic["Wardro Home"](DCLogic, StreamableLogic, React);
+</script>
+</body>
+</html>
