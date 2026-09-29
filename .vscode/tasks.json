@@ -5,7 +5,7 @@
             "label": "Helyi szerver indítása (8080)",
             "type": "shell",
             "command": "node",
-            "args": ["${workspaceFolder}/.vscode/serve.js"],
+            "args": ["${workspaceFolder}/server/index.js"],
             "isBackground": true,
             "presentation": {
                 "reveal": "silent",

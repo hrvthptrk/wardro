@@ -16,67 +16,195 @@ window.__dcLogic["Wardro Web"] = function (DCLogic, StreamableLogic, React) {
 // Férfi kategóriák: kategórianév -> { items: a kategória ruhái,
 //   notes: { ruha indexe: "utoljára viselve" megjegyzés } }
 const MALE = {
-  'T-shirts': { items: ['grey tee', 'white tee', 'navy tee', 'striped tee', 'black tee', 'linen tee', 'olive tee', 'rust tee'], notes: { 3: 'not worn in 7 months', 6: 'not worn in 4 months' } },
-  'Shoes': { items: ['white sneakers', 'suede boots', 'runners', 'loafers', 'sandals', 'chelsea boots'], notes: { 3: 'not worn in 6 months' } },
-  'Jackets': { items: ['olive bomber', 'denim jacket', 'wool coat', 'rain shell', 'blazer', 'gilet'], notes: { 4: 'not worn in 1 year' } },
-  'Accessories': { items: ['leather watch', 'brown belt', 'sunglasses', 'wallet', 'beanie', 'tote bag'], notes: {} },
-  'Trousers': { items: ['blue jeans', 'grey joggers', 'chinos', 'black jeans', 'cords', 'shorts'], notes: { 4: 'not worn in 9 months' } },
+  'Pólók': { items: ['szürke póló', 'fehér póló', 'sötétkék póló', 'csíkos póló', 'fekete póló', 'vászon póló', 'olívzöld póló', 'rozsdaszín póló'], notes: { 3: '7 hónapja nem viselted', 6: '4 hónapja nem viselted' } },
+  'Cipők': { items: ['fehér sneaker', 'velúrbakancs', 'futócipő', 'mokaszin', 'szandál', 'chelsea csizma'], notes: { 3: '6 hónapja nem viselted' } },
+  'Kabátok': { items: ['olívzöld bomberdzseki', 'farmerdzseki', 'gyapjúkabát', 'esőkabát', 'blézer', 'mellény'], notes: { 4: '1 éve nem viselted' } },
+  'Kiegészítők': { items: ['bőr karóra', 'barna öv', 'napszemüveg', 'pénztárca', 'sapka', 'füles táska'], notes: {} },
+  'Nadrágok': { items: ['kék farmer', 'szürke jogging', 'chino nadrág', 'fekete farmer', 'kordbársony nadrág', 'rövidnadrág'], notes: { 4: '9 hónapja nem viselted' } },
 };
 
 // Női kategóriák (ugyanaz a szerkezet, mint a férfiaknál)
 const FEMALE = {
-  'Tops': { items: ['white blouse', 'silk cami', 'striped tee', 'knit jumper', 'cropped tee', 'linen shirt', 'black turtleneck', 'cardigan'], notes: { 3: 'not worn in 7 months', 6: 'not worn in 4 months' } },
-  'Shoes': { items: ['white trainers', 'ankle boots', 'ballet flats', 'block heels', 'sandals', 'loafers'], notes: { 3: 'not worn in 6 months' } },
-  'Dresses': { items: ['black slip dress', 'floral midi', 'linen sundress', 'knit dress', 'wrap dress', 'shirt dress'], notes: { 4: 'not worn in 1 year' } },
-  'Accessories': { items: ['gold hoops', 'silk scarf', 'tote bag', 'leather belt', 'sunglasses', 'beret'], notes: {} },
-  'Bottoms': { items: ['blue jeans', 'pleated skirt', 'wide trousers', 'denim skirt', 'leggings', 'tailored shorts'], notes: { 4: 'not worn in 9 months' } },
+  'Felsők': { items: ['fehér blúz', 'selyem top', 'csíkos póló', 'kötött pulóver', 'rövidített póló', 'vászoning', 'fekete garbó', 'kardigán'], notes: { 3: '7 hónapja nem viselted', 6: '4 hónapja nem viselted' } },
+  'Cipők': { items: ['fehér sportcipő', 'bokacsizma', 'balerinacipő', 'blokksarkú cipő', 'szandál', 'mokaszin'], notes: { 3: '6 hónapja nem viselted' } },
+  'Ruhák': { items: ['fekete kombiné ruha', 'virágos midi ruha', 'vászon nyári ruha', 'kötött ruha', 'csavart ruha', 'ingruha'], notes: { 4: '1 éve nem viselted' } },
+  'Kiegészítők': { items: ['arany karika fülbevaló', 'selyemsál', 'füles táska', 'bőröv', 'napszemüveg', 'barett sapka'], notes: {} },
+  'Aljak': { items: ['kék farmer', 'pliszírozott szoknya', 'széles szárú nadrág', 'farmerszoknya', 'leggings', 'szabott rövidnadrág'], notes: { 4: '9 hónapja nem viselted' } },
 };
 
 // Előre elkészített outfitek nemenként (alkalom, évszak, ruhadarabok, viselési infó)
 const OUTFITS = {
   Male: [
-    { name: 'Monday office', occasion: 'Work', season: 'Cold', top: 'linen shirt', bottom: 'chinos', shoes: 'loafers', extra: 'brown belt', pieces: 'Linen shirt · Chinos · Loafers · Brown belt', worn: 'worn 6×, last Monday' },
-    { name: 'Saturday walk', occasion: 'Weekend', season: 'Mild', top: 'grey tee', bottom: 'blue jeans', shoes: 'white sneakers', extra: 'leather watch', pieces: 'Grey tee · Blue jeans · White sneakers · Watch', worn: 'worn 11×, last Saturday' },
-    { name: 'Dinner out', occasion: 'Going out', season: 'Cold', top: 'black tee', bottom: 'black jeans', shoes: 'chelsea boots', extra: 'wool coat', pieces: 'Black tee · Black jeans · Chelsea boots · Coat', worn: 'worn twice, last month' },
+    { name: 'Hétfői irodai', occasion: 'Munka', season: 'Hideg', top: 'vászoning', bottom: 'chino nadrág', shoes: 'mokaszin', extra: 'barna öv', pieces: 'Vászoning · Chino nadrág · Mokaszin · Barna öv', worn: 'viselve 6×, legutóbb hétfőn' },
+    { name: 'Szombati séta', occasion: 'Hétvége', season: 'Enyhe', top: 'szürke póló', bottom: 'kék farmer', shoes: 'fehér sneaker', extra: 'bőr karóra', pieces: 'Szürke póló · Kék farmer · Fehér sneaker · Karóra', worn: 'viselve 11×, legutóbb szombaton' },
+    { name: 'Vacsora étteremben', occasion: 'Program', season: 'Hideg', top: 'fekete póló', bottom: 'fekete farmer', shoes: 'chelsea csizma', extra: 'gyapjúkabát', pieces: 'Fekete póló · Fekete farmer · Chelsea csizma · Kabát', worn: 'kétszer viselve, legutóbb múlt hónapban' },
   ],
   Female: [
-    { name: 'Monday office', occasion: 'Work', season: 'Cold', top: 'white blouse', bottom: 'wide trousers', shoes: 'loafers', extra: 'leather belt', pieces: 'White blouse · Wide trousers · Loafers · Belt', worn: 'worn 6×, last Monday' },
-    { name: 'Saturday walk', occasion: 'Weekend', season: 'Mild', top: 'striped tee', bottom: 'denim skirt', shoes: 'white trainers', extra: 'tote bag', pieces: 'Striped tee · Denim skirt · Trainers · Tote', worn: 'worn 11×, last Saturday' },
-    { name: 'Dinner out', occasion: 'Going out', season: 'Cold', top: 'black turtleneck', bottom: 'pleated skirt', shoes: 'ankle boots', extra: 'gold hoops', pieces: 'Turtleneck · Pleated skirt · Ankle boots · Hoops', worn: 'worn twice, last month' },
+    { name: 'Hétfői irodai', occasion: 'Munka', season: 'Hideg', top: 'fehér blúz', bottom: 'széles szárú nadrág', shoes: 'mokaszin', extra: 'bőröv', pieces: 'Fehér blúz · Széles szárú nadrág · Mokaszin · Öv', worn: 'viselve 6×, legutóbb hétfőn' },
+    { name: 'Szombati séta', occasion: 'Hétvége', season: 'Enyhe', top: 'csíkos póló', bottom: 'farmerszoknya', shoes: 'fehér sportcipő', extra: 'füles táska', pieces: 'Csíkos póló · Farmerszoknya · Sportcipő · Táska', worn: 'viselve 11×, legutóbb szombaton' },
+    { name: 'Vacsora étteremben', occasion: 'Program', season: 'Hideg', top: 'fekete garbó', bottom: 'pliszírozott szoknya', shoes: 'bokacsizma', extra: 'arany karika fülbevaló', pieces: 'Garbó · Pliszírozott szoknya · Bokacsizma · Fülbevaló', worn: 'kétszer viselve, legutóbb múlt hónapban' },
   ],
 };
 
 // Minta fotófájlok a "Hozzáadás" képernyő beejtés-szimulációjához
+// (kamerák így nevezik el a fájlokat, ezért maradnak angol/technikai formátumúak)
 const DROP_FILES = ['IMG_4192.HEIC', 'IMG_4193.HEIC', 'IMG_4194.HEIC', 'IMG_4195.HEIC', 'IMG_4196.HEIC', 'IMG_4197.HEIC'];
 
 // Ruhához választható címkék (anyag, szín, évszak)
-const TAG_OPTIONS = ['Cotton', 'Wool', 'Linen', 'Neutral', 'Bright', 'Cold months', 'Warm months', 'All year'];
+const TAG_OPTIONS = ['Pamut', 'Gyapjú', 'Vászon', 'Semleges', 'Élénk', 'Hideg hónapok', 'Meleg hónapok', 'Egész évben'];
+// Alapértelmezett címkék (új ruháknál / ha még nincs beállítva)
+const DEFAULT_TAGS = ['Pamut', 'Semleges', 'Egész évben'];
 
 // Alapállapot: ezt állítja vissza a bejelentkezés / "Reset all".
 // (nézet, kijelölés, kategória, szűrő, keresés, outfit-összeállító mezői, eltávolítottak stb.)
-const BASE = { view: 'wardrobe', cat: 'All', sel: null, worn: {}, hidden: [], favs: [], oi: 0, filter: 'All', q: '', drops: [], dropCats: {}, made: [], deleted: [], names: {}, tags: {}, moved: {}, catNames: {}, editOpen: false, editName: '', editTags: [], editCat: '', added: [], fresh: false, bName: '', bOcc: '', bSeason: '', bPicks: {}, bSlot: '', exportState: 'idle', savedCount: 0, addedCats: [], newCat: '', lastGone: '', pairOpen: false, paired: false, phoneCount: 0, purged: [] };
+const BASE = { view: 'wardrobe', cat: 'All', sel: null, worn: {}, hidden: [], favs: [], oi: 0, filter: 'Összes', q: '', drops: [], dropCats: {}, made: [], deleted: [], names: {}, tags: {}, moved: {}, catNames: {}, editOpen: false, editName: '', editTags: [], editCat: '', added: [], fresh: false, bName: '', bOcc: '', bSeason: '', bPicks: {}, bSlot: '', exportState: 'idle', savedCount: 0, addedCats: [], newCat: '', lastGone: '', pairOpen: false, paired: false, phoneCount: 0, purged: [],
+  // Telefonos párosítás (QR-kódos fotóküldés) – a backend session állapota tükröződik ide
+  pairToken: '', qrSvgUrl: '', pairPhoneUrl: '', pairExpiresAt: 0, pairError: '', phonePhotos: {} };
 
 // ==========================================================================
 // FŐ KOMPONENS
 // ==========================================================================
 class Component extends DCLogic {
   // Állapot: a BASE + belépési űrlapok (login / regisztráció), profil és emlékeztető-kapcsolók
-  state = { ...BASE, view: 'home', who: null, auth: null, lEmail: '', lPw: '', lShow: false, lErr: '', resetSent: '', suName: '', suEmail: '', suPw: '', suShow: false, suGender: '', suErr: '', sName: 'Your name', sEmail: 'you@email.com', rWeekly: true, rDaily: false, rIdle: true };
+  state = { ...BASE, view: 'home', who: null, auth: null, lEmail: '', lPw: '', lShow: false, lErr: '', resetSent: '', suName: '', suEmail: '', suPw: '', suShow: false, suGender: '', suErr: '', sName: 'A neved', sEmail: 'te@email.com', rWeekly: true, rDaily: false, rIdle: true,
+    // Valódi időjárás (server/index.js /api/weather); amíg nem érkezik meg, null
+    weather: null };
 
-  // "not worn in 7 months" szövegből hónapok száma (a rendezéshez)
+  // "7 hónapja nem viselted" szövegből hónapok száma (a rendezéshez)
   monthsOf = (note) => {
-    const m = /(\d+)\s*(month|year)/.exec(note || '');
-    return m ? parseInt(m[1], 10) * (m[2] === 'year' ? 12 : 1) : 0;
+    const m = /(\d+)\s*(hónap|év)/.exec(note || '');
+    return m ? parseInt(m[1], 10) * (m[2] === 'év' ? 12 : 1) : 0;
   };
 
   // Ruhadarab kijelölése a szekrény nézetben (a jobb oldali panel ezt mutatja)
   select = (label, cat, note) => () => this.setState({ view: 'wardrobe', editOpen: false, sel: { label, cat, note: note || '' } });
 
+  // ==========================================================================
+  // TELEFONOS PÁROSÍTÁS (QR-kódos fotóküldés)
+  // ==========================================================================
+  // A tényleges munkamenetet és a fotókat a helyi backend (server/index.js)
+  // kezeli; itt csak a kapcsolatot tartjuk és a beérkező fotókat vesszük át
+  // a meglévő "drops" paklibe, amit az Add képernyő már úgyis feldolgoz.
+
+  // Élő WebSocket-kapcsolat a backendhez – NEM állapot, mert nem szerializálható,
+  // és nem szabad, hogy egy renderVals()-hívás újra létrehozza.
+  _ws = null;
+
+  componentDidMount() {
+    this.fetchWeather();
+  }
+
+  componentWillUnmount() {
+    this.closeWs();
+    if (this._pairTick) clearInterval(this._pairTick);
+  }
+
+  // ==========================================================================
+  // IDŐJÁRÁS (a "Mára ajánlott" outfit-javaslathoz)
+  // ==========================================================================
+  // Megpróbáljuk a böngésző helymeghatározását (röviden, ha nem válaszol vagy
+  // nincs rá engedély, egyszerűen továbblépünk); a tényleges lekérdezést és a
+  // WMO-kód -> szöveg fordítást a backend végzi (server/index.js /api/weather),
+  // Budapestre esve vissza, ha nincs koordinátánk.
+  fetchWeather = async () => {
+    const getPosition = () => new Promise((resolve) => {
+      if (!navigator.geolocation) { resolve(null); return; }
+      const timer = setTimeout(() => resolve(null), 4000);
+      navigator.geolocation.getCurrentPosition(
+        (pos) => { clearTimeout(timer); resolve(pos.coords); },
+        () => { clearTimeout(timer); resolve(null); },
+        { timeout: 4000, maximumAge: 10 * 60 * 1000 },
+      );
+    });
+    const coords = await getPosition();
+    const qs = coords ? ('?lat=' + coords.latitude + '&lon=' + coords.longitude) : '';
+    try {
+      const r = await fetch('/api/weather' + qs);
+      if (!r.ok) return;
+      const data = await r.json();
+      if (data.ok) this.setState({ weather: data });
+    } catch { /* nincs internet vagy nem fut a backend – a felület enélkül is működik */ }
+  };
+
+  closeWs = () => {
+    if (this._ws) {
+      try { this._ws.onmessage = null; this._ws.onclose = null; this._ws.close(); } catch { /* mindegy, úgyis eldobjuk */ }
+      this._ws = null;
+    }
+  };
+
+  // Új párosítási munkamenet indítása a backenden: token + QR-kép + élő kapcsolat.
+  startPair = async () => {
+    this.setState({ pairOpen: true, pairToken: '', qrSvgUrl: '', pairError: '' });
+    let data;
+    try {
+      const r = await fetch('/api/pair/start', { method: 'POST' });
+      if (!r.ok) throw new Error('http ' + r.status);
+      data = await r.json();
+    } catch {
+      this.setState({ pairError: 'Nem sikerült elérni a szervert. Ellenőrizd, hogy fut-e a helyi backend.' });
+      return;
+    }
+    this.setState({
+      pairToken: data.token,
+      pairPhoneUrl: data.phoneUrl,
+      pairExpiresAt: data.expiresAt,
+      qrSvgUrl: '/api/pair/' + data.token + '/qr.svg',
+    });
+    this.connectWs(data.token);
+    // A visszaszámláló szöveget percenként frissítjük, hogy ne fagyjon be a kijelzett érték.
+    if (!this._pairTick) this._pairTick = setInterval(() => this.forceUpdate(), 15000);
+  };
+
+  connectWs = (token) => {
+    this.closeWs();
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    const ws = new WebSocket(proto + '://' + location.host + '/api/pair/' + token + '/socket');
+    ws.onmessage = (ev) => {
+      let msg;
+      try { msg = JSON.parse(ev.data); } catch { return; }
+      if (msg.type === 'hello') {
+        this.setState({ pairExpiresAt: msg.expiresAt });
+        (msg.photos || []).forEach((p) => this.receivePhonePhoto(p));
+      } else if (msg.type === 'photo') {
+        this.receivePhonePhoto(msg);
+      } else if (msg.type === 'expired') {
+        this.setState({ pairError: 'Ez a kód lejárt.', qrSvgUrl: '' });
+      }
+    };
+    ws.onclose = () => { if (this._ws === ws) this._ws = null; };
+    this._ws = ws;
+  };
+
+  // Egy telefonról beérkezett fotó betolása a meglévő "drops" paklibe.
+  receivePhonePhoto = (p) => {
+    const s = this.state;
+    const file = 'phone-' + p.id;
+    if (s.drops.includes(file)) return; // pl. a "hello" újraküldené, amit már láttunk
+    this.setState({
+      drops: [...s.drops, file],
+      phonePhotos: { ...s.phonePhotos, [file]: p.url },
+      paired: true,
+      phoneCount: (s.phoneCount || 0) + 1,
+    });
+  };
+
+  disconnectPhone = () => {
+    if (this.state.pairToken) fetch('/api/pair/' + this.state.pairToken + '/end', { method: 'POST' }).catch(() => {});
+    this.closeWs();
+    if (this._pairTick) { clearInterval(this._pairTick); this._pairTick = null; }
+    this.setState({ paired: false, pairToken: '', qrSvgUrl: '', pairPhoneUrl: '', pairError: '', phoneCount: 0 });
+  };
+
   // A sablon (.dc.html) összes változóját itt állítjuk elő az állapotból
   renderVals() {
     const s = this.state;
     // --- Profil és kategória-készlet (Férfi / Női) ---
+    // A "Male"/"Female" belső azonosító marad angol (ez köti össze az adatokat
+    // és a design-eszköz beállításait); a felületen mindig a lefordított
+    // "Férfi"/"Nő" felirat látszik (ld. whoLabel, genderTile, profileTabs).
     const who = s.who || this.props.profile || 'Male';
+    const whoLabel = who === 'Female' ? 'Nő' : 'Férfi';
     const W = who === 'Female' ? FEMALE : MALE;
     const rawNames = Object.keys(W);
     // Átnevezett kategórianév (ha a felhasználó átírta), különben az eredeti
@@ -106,25 +234,33 @@ class Component extends DCLogic {
       .filter((x) => x.note && !s.worn[x.label])
       .sort((a, b) => this.monthsOf(b.note) - this.monthsOf(a.note));
 
-    // --- Szekrény lista: keresés és szűrők ("Not worn lately" / "Worn recently") ---
+    // --- Szekrény lista: keresés és szűrők ("Rég nem viselt" / "Nemrég viselt") ---
     const query = s.q.trim().toLowerCase();
     let pieces = (s.cat === 'All' ? allItems : inCat(s.cat)).map((x) => {
       const isWorn = !!s.worn[x.label];
       return {
         label: nameOf(x.label), cat: x.cat, note: x.note, key: x.label,
-        sub: isWorn ? 'Worn today' : (flags && x.note ? x.note : label(x.cat)),
+        sub: isWorn ? 'Ma viselve' : (flags && x.note ? x.note : label(x.cat)),
         noteFg: isWorn ? '#6B5940' : (flags && x.note ? '#8A5A22' : '#6B5940'),
         border: s.sel && s.sel.label === x.label ? '2px solid #57462F' : '2px solid transparent',
         on: this.select(x.label, x.cat, x.note),
       };
     });
-    if (s.filter === 'Not worn lately') pieces = pieces.filter((p) => p.note && !s.worn[p.key]);
-    if (s.filter === 'Worn recently') pieces = pieces.filter((p) => s.worn[p.key]);
+    if (s.filter === 'Rég nem viselt') pieces = pieces.filter((p) => p.note && !s.worn[p.key]);
+    if (s.filter === 'Nemrég viselt') pieces = pieces.filter((p) => s.worn[p.key]);
     if (query) pieces = pieces.filter((p) => p.label.toLowerCase().indexOf(query) > -1);
 
     // --- Outfitek: saját + előre elkészített, a törölt nélkül; cur = a kiválasztott ---
     const list = [...s.made, ...(fresh ? [] : OUTFITS[who])].filter((o) => !s.deleted.includes(o.name));
     const cur = list[Math.min(s.oi, list.length - 1)] || OUTFITS[who][0];
+    // "Mára ajánlott": az aktuális időjárás évszak-kategóriájához illő outfitek előrébb kerülnek
+    // (pontos találat < "Bármilyen évszak" < nem illő), a sorrend stabil marad, ha nincs még időjárás-adat.
+    const weatherSeason = s.weather ? s.weather.season : null;
+    const seasonMatchScore = (o) => (!weatherSeason ? 0 : o.season === weatherSeason ? 0 : (o.season === 'Bármilyen évszak' ? 1 : 2));
+    const suggestionPicks = list
+      .map((o, i) => ({ o, i }))
+      .sort((a, b) => seasonMatchScore(a.o) - seasonMatchScore(b.o))
+      .slice(0, 3);
     // Kijelölt ruha adatai a jobb oldali panelhez
     const selKey = s.sel ? s.sel.label : '';
     const selIsWorn = !!s.worn[selKey];
@@ -133,11 +269,11 @@ class Component extends DCLogic {
 
     // --- Outfit-összeállító helyek: felső, alsó, cipő, extra (+ tetszőleges további extrák) ---
     const bSlots = [
-      { key: 'top', role: 'Top', cat: rawNames[0], empty: 'Pick a top' },
-      { key: 'bottom', role: 'Bottom', cat: who === 'Female' ? 'Bottoms' : 'Trousers', empty: 'Pick a bottom' },
-      { key: 'shoes', role: 'Shoes', cat: 'Shoes', empty: 'Pick shoes' },
-      { key: 'extra', role: 'Extra', cat: 'Accessories', empty: 'Optional' },
-    ].concat((s.bMore || []).map((k, i) => ({ key: k, role: 'Extra ' + (i + 2), cat: '*', empty: 'Pick any piece', removable: true })));
+      { key: 'top', role: 'Felső', cat: rawNames[0], empty: 'Válassz felsőt' },
+      { key: 'bottom', role: 'Alsó', cat: who === 'Female' ? 'Aljak' : 'Nadrágok', empty: 'Válassz alsót' },
+      { key: 'shoes', role: 'Cipő', cat: 'Cipők', empty: 'Válassz cipőt' },
+      { key: 'extra', role: 'Extra', cat: 'Kiegészítők', empty: 'Opcionális' },
+    ].concat((s.bMore || []).map((k, i) => ({ key: k, role: 'Extra ' + (i + 2), cat: '*', empty: 'Válassz bármilyen darabot', removable: true })));
     const slotItems = (sl) => (sl.cat === '*' ? allItems : inCat(sl.cat));
     const slot = bSlots.find((x) => x.key === s.bSlot);
     const bReady = s.bPicks.top && s.bPicks.bottom && s.bPicks.shoes;
@@ -154,7 +290,7 @@ class Component extends DCLogic {
       bg: s.cat === key && s.view === 'wardrobe' ? '#6E5B41' : 'transparent',
       fg: s.cat === key && s.view === 'wardrobe' ? '#F6F1E7' : '#D8C9AE',
       countFg: s.cat === key && s.view === 'wardrobe' ? '#E4D9C6' : '#C9B99E',
-      on: () => this.setState({ view: 'wardrobe', cat: key, filter: 'All', editOpen: false }),
+      on: () => this.setState({ view: 'wardrobe', cat: key, filter: 'Összes', editOpen: false }),
     });
     const chipOf = (text, key, active) => ({
       label: text,
@@ -171,11 +307,13 @@ class Component extends DCLogic {
     const assignedQ = s.drops.filter((f) => s.dropCats[f]).length;
     // Egyszerű e-mail ellenőrzés
     const validEmail = (v) => /.+@.+\..+/.test(v.trim());
-    // Nem választó csempe a regisztrációnál (Male / Female)
-    const genderTile = (g, hint) => {
+    // Nem választó csempe a regisztrációnál. A `g` a belső azonosító (Male/Female,
+    // ez megy a state-be és ez választja ki a MALE/FEMALE adatkészletet),
+    // a `displayLabel` a ténylegesen megjelenő magyar felirat.
+    const genderTile = (g, displayLabel, hint) => {
       const on = s.suGender === g;
       return {
-        label: g, hint,
+        label: displayLabel, hint,
         bg: on ? '#57462F' : '#F6F1E7',
         border: on ? '1.5px solid #57462F' : '1px solid rgba(87,70,47,.18)',
         fg: on ? '#F6F1E7' : '#57462F',
@@ -183,6 +321,13 @@ class Component extends DCLogic {
         on: () => this.setState({ suGender: g, suErr: '' }),
       };
     };
+
+    // --- Telefonos párosítás: visszaszámláló szöveg és állapotjelző szín ---
+    const qrReady = !!s.qrSvgUrl && !s.pairError;
+    const pairMinutesLeft = s.pairExpiresAt ? Math.max(0, Math.ceil((s.pairExpiresAt - Date.now()) / 60000)) : 0;
+    const pairStatusLine = s.pairError
+      ? s.pairError
+      : (qrReady ? 'Várakozás a telefonodra · a kód ' + pairMinutesLeft + ' perc múlva lejár' : 'A kód elkészítése…');
 
     // ======================================================================
     // A sablonnak visszaadott értékek, témakörönként
@@ -199,17 +344,17 @@ class Component extends DCLogic {
       onLEmail: (e) => this.setState({ lEmail: e.target.value, lErr: '' }),
       onLPw: (e) => this.setState({ lPw: e.target.value, lErr: '' }),
       lPwType: s.lShow ? 'text' : 'password',
-      lShowLabel: s.lShow ? 'Hide' : 'Show',
+      lShowLabel: s.lShow ? 'Elrejtés' : 'Mutat',
       toggleLShow: () => this.setState({ lShow: !s.lShow }),
       lErr: s.lErr,
-      resetLine: s.resetSent ? 'Reset link sent to ' + s.resetSent + '. Check your inbox.' : '',
+      resetLine: s.resetSent ? 'Visszaállító linket küldtünk ide: ' + s.resetSent + '. Nézd meg a postaládád.' : '',
       forgot: () => {
-        if (!validEmail(s.lEmail)) return this.setState({ lErr: 'Enter your email first, then tap Forgot password.', resetSent: '' });
+        if (!validEmail(s.lEmail)) return this.setState({ lErr: 'Először add meg az e-mail címed, majd koppints az Elfelejtett jelszóra.', resetSent: '' });
         this.setState({ resetSent: s.lEmail.trim(), lErr: '' });
       },
       doLogin: () => {
-        if (!validEmail(s.lEmail)) return this.setState({ lErr: 'Enter the email you signed up with.', resetSent: '' });
-        if (!s.lPw) return this.setState({ lErr: 'Enter your password.', resetSent: '' });
+        if (!validEmail(s.lEmail)) return this.setState({ lErr: 'Add meg a regisztrációkor használt e-mail címet.', resetSent: '' });
+        if (!s.lPw) return this.setState({ lErr: 'Add meg a jelszavad.', resetSent: '' });
         this.setState({ ...BASE, auth: 'app', view: 'home', fresh: true, sEmail: s.lEmail.trim(), lPw: '', lErr: '', resetSent: '' });
       },
       appleLogin: () => this.setState({ ...BASE, auth: 'app', view: 'home', fresh: true, lErr: '', resetSent: '' }),
@@ -220,18 +365,18 @@ class Component extends DCLogic {
       onSuEmail: (e) => this.setState({ suEmail: e.target.value, suErr: '' }),
       onSuPw: (e) => this.setState({ suPw: e.target.value, suErr: '' }),
       suPwType: s.suShow ? 'text' : 'password',
-      suShowLabel: s.suShow ? 'Hide' : 'Show',
+      suShowLabel: s.suShow ? 'Elrejtés' : 'Mutat',
       toggleSuShow: () => this.setState({ suShow: !s.suShow }),
-      genders: [genderTile('Male', "Men's cuts and sizes"), genderTile('Female', "Women's cuts and sizes")],
+      genders: [genderTile('Male', 'Férfi', 'Férfi szabás és méretek'), genderTile('Female', 'Nő', 'Női szabás és méretek')],
       suErr: s.suErr,
-      suCtaLabel: s.suGender ? 'Create account' : 'Pick one to continue',
+      suCtaLabel: s.suGender ? 'Fiók létrehozása' : 'Válassz egyet a folytatáshoz',
       suCtaBg: s.suGender ? '#57462F' : '#D8D1C1',
       suCtaFg: s.suGender ? '#F6F1E7' : '#6B5940',
       doSignup: () => {
-        if (!s.suName.trim()) return this.setState({ suErr: 'Add your name.' });
-        if (!validEmail(s.suEmail)) return this.setState({ suErr: "That email doesn't look right." });
-        if (s.suPw.length < 8) return this.setState({ suErr: 'Password needs at least 8 characters.' });
-        if (!s.suGender) return this.setState({ suErr: 'Pick Male or Female to continue.' });
+        if (!s.suName.trim()) return this.setState({ suErr: 'Add meg a neved.' });
+        if (!validEmail(s.suEmail)) return this.setState({ suErr: 'Ez az e-mail cím nem tűnik helyesnek.' });
+        if (s.suPw.length < 8) return this.setState({ suErr: 'A jelszónak legalább 8 karakteresnek kell lennie.' });
+        if (!s.suGender) return this.setState({ suErr: 'Válaszd a Férfit vagy a Nőt a folytatáshoz.' });
         this.setState({
           ...BASE, view: 'home', auth: 'app', fresh: true,
           who: s.suGender, sName: s.suName.trim(), sEmail: s.suEmail.trim(),
@@ -245,102 +390,116 @@ class Component extends DCLogic {
       isOutfits: s.view === 'outfits',
       isOutfitsFilled: s.view === 'outfits' && list.length > 0,
       outfitsEmpty: s.view === 'outfits' && list.length === 0,
-      outfitsEmptyLine: total ? 'Pick a top, a bottom and shoes from the pieces you have added, then give it a name.' : 'Add a few pieces to your wardrobe first. Then you can put your first outfit together here.',
-      outfitsEmptyCta: total ? 'Build your first outfit' : 'Add photos',
+      outfitsEmptyLine: total ? 'Válassz egy felsőt, egy alsót és cipőt a hozzáadott ruháid közül, majd nevezd el.' : 'Először adj hozzá pár darabot a szekrényedhez. Utána itt tudod összeállítani az első outfitedet.',
+      outfitsEmptyCta: total ? 'Első outfit összeállítása' : 'Fotók hozzáadása',
       outfitsEmptyGo: total
         ? () => this.setState({ view: 'builder', sel: null, bName: '', bOcc: '', bSeason: '', bPicks: {}, bMore: [], bSlot: 'top' })
         : () => this.setState({ view: 'add', sel: null, editOpen: false }),
       homeEmpty: total === 0,
       homeFilled: total > 0,
-      firstName: (s.sName && s.sName !== 'Your name' ? s.sName : '').split(' ')[0] || 'there',
+      firstName: (s.sName && s.sName !== 'A neved' ? s.sName : '').split(' ')[0] || 'Barátom',
       firstSteps: [
-        { n: '01', title: 'Photograph', line: 'One piece per photo, laid flat or on a hanger.' },
-        { n: '02', title: 'Sort', line: 'Drop each photo into a category like ' + label(rawNames[0]) + ' or Shoes.' },
-        { n: '03', title: 'Build', line: 'Put pieces together into outfits and log what you wear.' },
+        { n: '01', title: 'Fotózd le', line: 'Egy darab, egy fotó, kiterítve vagy vállfán.' },
+        { n: '02', title: 'Rendszerezd', line: 'Tedd minden fotót egy kategóriába, például ' + label(rawNames[0]) + ' vagy Cipők közé.' },
+        { n: '03', title: 'Állíts össze', line: 'Rakj össze outfiteket a ruháidból, és jegyezd fel, mit viseltél.' },
       ],
       noSuggestions: list.length === 0,
       isBuilder: s.view === 'builder',
       isUntouched: s.view === 'untouched',
       isSettings: s.view === 'settings',
       isAdd: s.view === 'add',
-      navItems: [nav('Outfits', 'outfits'), nav('Untouched', 'untouched'), nav('Removed', 'removed'), nav('Settings', 'settings')],
+      navItems: [nav('Outfitek', 'outfits'), nav('Kihasználatlan', 'untouched'), nav('Eltávolított', 'removed'), nav('Beállítások', 'settings')],
       // ===== Eltávolított ruhák (30 napig várnak a végleges törlésig) =====
       isRemoved: s.view === 'removed',
       toRemoved: () => this.setState({ view: 'removed', sel: null, editOpen: false }),
       removedLine: gone.length
-        ? gone.length + ' waiting · deleted after 30 days'
-        : 'Nothing removed yet',
+        ? gone.length + ' darab vár · 30 nap után törlődik'
+        : 'Még nincs eltávolított darab',
       removedEmpty: gone.length === 0,
       removedList: gone.map((label2) => ({
         label: nameOf(label2),
-        hint: 'Removed today · 30 days left',
+        hint: 'Ma távolítva el · 30 nap van hátra',
         restore: () => this.setState({ hidden: gone.filter((x) => x !== label2) }),
       })),
       purgeAll: () => this.setState({ hidden: [] }),
       // ===== Telefon párosítása =====
       pairOpen: !!s.pairOpen,
-      openPair: () => this.setState({ pairOpen: true }),
+      // Ha már fut egy párosítás, csak újra megnyitjuk a panelt (nem kérünk új kódot);
+      // különben most indítjuk el a backenden a munkamenetet.
+      openPair: () => (s.pairToken && !s.pairError ? this.setState({ pairOpen: true }) : this.startPair()),
       closePair: () => this.setState({ pairOpen: false }),
+      qrSvgUrl: s.qrSvgUrl,
+      qrReady,
+      qrFallbackDisplay: qrReady ? 'none' : 'flex',
+      qrImgDisplay: qrReady ? 'block' : 'none',
+      pairStatusLine,
+      pairDotColor: s.pairError ? '#B8433A' : (qrReady ? '#7A9A52' : '#B8A78A'),
+      pairPhoneUrl: s.pairPhoneUrl,
+      pairUrlDisplay: s.pairPhoneUrl && !s.pairError ? 'block' : 'none',
+      retryPair: () => this.startPair(),
+      pairErrorDisplay: s.pairError ? 'block' : 'none',
       // ===== Kezdőlap: javaslatok és kategória-csempék =====
       isHome: s.view === 'home',
-      homeTotal: total + ' pieces across ' + rawAll.length + ' categories',
-      viewAll: () => this.setState({ view: 'wardrobe', cat: 'All', filter: 'All', q: '', sel: null, editOpen: false }),
-      weatherTemp: '14°',
-      weatherLine: 'Light rain later · 9° tonight',
-      suggestions: list.slice(0, 3).map((o, n) => ({
+      homeTotal: total + ' darab, ' + rawAll.length + ' kategóriában',
+      viewAll: () => this.setState({ view: 'wardrobe', cat: 'All', filter: 'Összes', q: '', sel: null, editOpen: false }),
+      weatherTemp: s.weather ? Math.round(s.weather.tempC) + '°' : '—°',
+      weatherLine: s.weather
+        ? s.weather.description + ' · ' + Math.round(s.weather.eveningC) + '° este'
+        : 'Időjárás betöltése…',
+      suggestions: suggestionPicks.map(({ o, i }) => ({
         name: o.name,
         sub: o.pieces,
-        on: () => this.setState({ view: 'outfits', oi: n, sel: null, editOpen: false }),
+        on: () => this.setState({ view: 'outfits', oi: i, sel: null, editOpen: false }),
       })),
       homeTiles: rawAll.map((n, i) => {
         const items = inCat(n);
         const idle = items.filter((x) => x.note && !s.worn[x.label]).length;
         return {
           name: label(n),
-          count: items.length + ' pieces',
-          idle: fresh ? (items.length ? 'just added' : 'empty') : (idle ? idle + ' untouched' : 'all worn recently'),
+          count: items.length + ' darab',
+          idle: fresh ? (items.length ? 'most hozzáadva' : 'üres') : (idle ? idle + ' kihasználatlan' : 'mind viselve nemrég'),
           bg: ['#CFCBC1', '#C6C2B8', '#D2CEC4', '#CBC7BD', '#D6D2C8'][i % 5],
           span: i === 0 ? 'span 2' : 'span 1',
-          on: () => this.setState({ view: 'wardrobe', cat: n, filter: 'All', q: '', sel: null, editOpen: false }),
+          on: () => this.setState({ view: 'wardrobe', cat: n, filter: 'Összes', q: '', sel: null, editOpen: false }),
         };
       }),
       // Oldalsáv: kategóriák listája darabszámmal
-      catNav: [catRow('All', 'All', total)].concat(rawAll.map((n) => catRow(label(n), n, inCat(n).length))),
-      accountName: s.sName || 'Your wardrobe',
-      profileLine: who + ' · ' + total + ' pieces',
-      toHome: () => this.setState({ view: 'home', cat: 'All', filter: 'All', q: '', sel: null, editOpen: false }),
+      catNav: [catRow('Összes', 'All', total)].concat(rawAll.map((n) => catRow(label(n), n, inCat(n).length))),
+      accountName: s.sName || 'A szekrényed',
+      profileLine: whoLabel + ' · ' + total + ' darab',
+      toHome: () => this.setState({ view: 'home', cat: 'All', filter: 'Összes', q: '', sel: null, editOpen: false }),
       toAdd: () => this.setState({ view: 'add', sel: null, editOpen: false }),
       toSettings: () => this.setState({ view: 'settings', sel: null, editOpen: false }),
       toUntouched: () => this.setState({ view: 'untouched', sel: null, editOpen: false }),
 
       // ===== Szekrény: fejléc, keresés, szűrők, ruha-rács =====
-      headTitle: s.cat === 'All' ? 'Everything' : label(s.cat),
-      headCount: pieces.length === total ? total + ' pieces' : pieces.length + ' of ' + total + ' pieces shown',
+      headTitle: s.cat === 'All' ? 'Mindegyik' : label(s.cat),
+      headCount: pieces.length === total ? total + ' darab' : pieces.length + ' / ' + total + ' darab látható',
       q: s.q,
       hasQuery: s.q.length > 0,
       onQuery: (e) => this.setState({ q: e.target.value }),
       clearQuery: () => this.setState({ q: '' }),
       filters: [
-        chipOf('All', 'filter', s.filter === 'All'),
-        chipOf('Not worn lately', 'filter', s.filter === 'Not worn lately'),
-        chipOf('Worn recently', 'filter', s.filter === 'Worn recently'),
+        chipOf('Összes', 'filter', s.filter === 'Összes'),
+        chipOf('Rég nem viselt', 'filter', s.filter === 'Rég nem viselt'),
+        chipOf('Nemrég viselt', 'filter', s.filter === 'Nemrég viselt'),
       ],
       pieces,
       noPieces: pieces.length === 0,
       emptyLine: query
-        ? 'Nothing matches "' + s.q.trim() + '".'
-        : (s.filter === 'Worn recently' ? 'Nothing logged as worn yet.' : 'Everything here has been worn recently.'),
+        ? 'Nincs találat erre: "' + s.q.trim() + '".'
+        : (s.filter === 'Nemrég viselt' ? 'Még nincs naplózva viselés.' : 'Minden darabot nemrég viseltél.'),
       cardMin: compact ? '132px' : '176px',
       cardH: compact ? '160px' : '212px',
 
       // ===== Outfitek: kiválasztott outfit, kedvencek, viselés =====
       outfit: cur,
-      outfitTiles: (cur.items || [cur.top, cur.bottom, cur.shoes, cur.extra]).filter((x) => x && x !== 'no extra').map((x, i) => ({ label: x, bg: ['#DCD8CE', '#D4D0C6', '#D8D4CA', '#CDC9BF'][i % 4] })),
+      outfitTiles: (cur.items || [cur.top, cur.bottom, cur.shoes, cur.extra]).filter((x) => x && x !== 'nincs extra').map((x, i) => ({ label: x, bg: ['#DCD8CE', '#D4D0C6', '#D8D4CA', '#CDC9BF'][i % 4] })),
       outfitCols: (cur.items || []).length > 4 ? 3 : 2,
       outfitMeta: cur.occasion + ' · ' + cur.season + ' · ' + cur.worn,
-      outfitCount: list.length + ' saved',
+      outfitCount: list.length + ' mentve',
       favMark: s.favs.includes(cur.name) ? '★' : '☆',
-      favLabel: s.favs.includes(cur.name) ? 'Favourite' : 'Add to favourites',
+      favLabel: s.favs.includes(cur.name) ? 'Kedvenc' : 'Hozzáadás a kedvencekhez',
       favBg: s.favs.includes(cur.name) ? '#DCD8CE' : '#F6F1E7',
       toggleFav: () => {
         const on = s.favs.includes(cur.name);
@@ -352,7 +511,7 @@ class Component extends DCLogic {
         favs: s.favs.filter((k) => k !== cur.name),
         oi: 0,
       }),
-      outfitWearLabel: s.worn[cur.name] ? 'Logged for today' : 'Wear today',
+      outfitWearLabel: s.worn[cur.name] ? 'Mára naplózva' : 'Viselem ma',
       outfitWearBg: s.worn[cur.name] ? '#DCD8CE' : '#57462F',
       outfitWearFg: s.worn[cur.name] ? '#57462F' : '#F6F1E7',
       wearOutfit: () => this.setState({ worn: { ...s.worn, [cur.name]: true } }),
@@ -375,7 +534,7 @@ class Component extends DCLogic {
       cancelBuilder: () => this.setState({ view: 'outfits', bSlot: '' }),
       bName: s.bName,
       onBName: (e) => this.setState({ bName: e.target.value }),
-      bNamePlaceholder: (s.bOcc || 'New') + ' outfit',
+      bNamePlaceholder: (s.bOcc || 'Új') + ' outfit',
       bSlots: bSlots.map((x) => ({
         role: x.role,
         label: s.bPicks[x.key] ? nameOf(s.bPicks[x.key]) : x.empty,
@@ -393,9 +552,9 @@ class Component extends DCLogic {
         const k = 'more' + Date.now();
         this.setState({ bMore: [...(s.bMore || []), k], bSlot: k });
       },
-      bOccasions: ['Work', 'Weekend', 'Going out'].map((o) => chipOf(o, 'bOcc', s.bOcc === o)),
-      bSeasons: ['Warm', 'Mild', 'Cold'].map((x) => chipOf(x, 'bSeason', s.bSeason === x)),
-      bCtaLabel: bReady ? 'Save outfit' : 'Pick a top, bottom and shoes',
+      bOccasions: ['Munka', 'Hétvége', 'Program'].map((o) => chipOf(o, 'bOcc', s.bOcc === o)),
+      bSeasons: ['Meleg', 'Enyhe', 'Hideg'].map((x) => chipOf(x, 'bSeason', s.bSeason === x)),
+      bCtaLabel: bReady ? 'Outfit mentése' : 'Válassz felsőt, alsót és cipőt',
       bCtaBg: bReady ? '#57462F' : '#D8D1C1',
       bCtaFg: bReady ? '#F6F1E7' : '#6B5940',
       saveOutfit: () => {
@@ -404,13 +563,13 @@ class Component extends DCLogic {
         const parts = bSlots.map((x) => p[x.key]).filter(Boolean).map(nameOf);
         this.setState({
           made: [{
-            name: s.bName.trim() || (s.bOcc || 'New') + ' outfit',
-            occasion: s.bOcc || 'Any occasion',
-            season: s.bSeason || 'Any season',
-            top: nameOf(p.top), bottom: nameOf(p.bottom), shoes: nameOf(p.shoes), extra: p.extra ? nameOf(p.extra) : 'no extra',
+            name: s.bName.trim() || (s.bOcc || 'Új') + ' outfit',
+            occasion: s.bOcc || 'Bármilyen alkalom',
+            season: s.bSeason || 'Bármilyen évszak',
+            top: nameOf(p.top), bottom: nameOf(p.bottom), shoes: nameOf(p.shoes), extra: p.extra ? nameOf(p.extra) : 'nincs extra',
             pieces: parts.join(' · '),
             items: parts,
-            worn: 'new, not worn yet',
+            worn: 'új, még nem viselt',
           }, ...s.made],
           view: 'outfits', oi: 0, bSlot: '', bPicks: {}, bMore: [], bName: '', bOcc: '', bSeason: '',
         });
@@ -418,8 +577,8 @@ class Component extends DCLogic {
       // Jobb panel: ruhaválasztó az összeállítóhoz
       railPicker: s.view === 'builder',
       pickerIdle: !slot,
-      pickerTitle: slot ? (slot.cat === '*' ? 'Any piece' : label(slot.cat)) : 'Pieces',
-      pickerCount: slot ? slotItems(slot).length + ' owned' : '',
+      pickerTitle: slot ? (slot.cat === '*' ? 'Bármilyen darab' : label(slot.cat)) : 'Darabok',
+      pickerCount: slot ? slotItems(slot).length + ' db' : '',
       pickerItems: slot
         ? slotItems(slot).map((x) => ({
             label: nameOf(x.label),
@@ -429,7 +588,7 @@ class Component extends DCLogic {
         : [],
 
       // ===== Kihasználatlan ruhák ("Untouched") =====
-      idleLine: idleAll.length ? idleAll.length + ' pieces, longest first' : 'Nothing sitting untouched',
+      idleLine: idleAll.length ? idleAll.length + ' darab, a legrégebbi elöl' : 'Nincs kihasználatlan darab',
       idleEmpty: idleAll.length === 0,
       idleItems: idleAll.map((x) => ({
         label: nameOf(x.label), cat: label(x.cat), note: x.note,
@@ -438,7 +597,7 @@ class Component extends DCLogic {
         remove: () => this.setState({ hidden: [...gone, x.label], sel: null, lastGone: x.label }),
       })),
       undoVisible: !!s.lastGone && gone.indexOf(s.lastGone) > -1,
-      undoLine: nameOf(s.lastGone || '') + ' moved to Removed',
+      undoLine: nameOf(s.lastGone || '') + ' áthelyezve az Eltávolítottak közé',
       undoGone: () => this.setState({ hidden: gone.filter((x) => x !== s.lastGone), lastGone: '' }),
       dismissUndo: () => this.setState({ lastGone: '' }),
 
@@ -447,8 +606,9 @@ class Component extends DCLogic {
       sEmail: s.sEmail,
       onSName: (e) => this.setState({ sName: e.target.value }),
       onSEmail: (e) => this.setState({ sEmail: e.target.value }),
-      profileTabs: ['Male', 'Female'].map((p) => ({
-        label: p,
+      // A belső "who" state Male/Female marad, csak a felirat magyar (Férfi/Nő).
+      profileTabs: [['Male', 'Férfi'], ['Female', 'Nő']].map(([p, disp]) => ({
+        label: disp,
         bg: who === p ? '#57462F' : '#EBE2D2',
         fg: who === p ? '#F6F1E7' : '#57462F',
         on: () => this.setState({ who: p, cat: 'All', sel: null, oi: 0, favs: [], made: [], deleted: [], bPicks: {} }),
@@ -456,14 +616,14 @@ class Component extends DCLogic {
       // Kategóriák átnevezése / új kategória felvétele / törlése
       catEditRows: rawAll.map((n) => ({
         value: label(n),
-        count: inCat(n).length + ' pieces',
+        count: inCat(n).length + ' darab',
         onChange: (e) => this.setState({ catNames: { ...s.catNames, [n]: e.target.value } }),
         removable: (s.addedCats || []).indexOf(n) > -1,
         remove: () => this.setState({ addedCats: (s.addedCats || []).filter((x) => x !== n), cat: s.cat === n ? 'All' : s.cat }),
       })),
       newCat: s.newCat || '',
       onNewCat: (e) => this.setState({ newCat: e.target.value }),
-      addCatLabel: (s.newCat || '').trim() ? 'Add category' : 'Name it first',
+      addCatLabel: (s.newCat || '').trim() ? 'Kategória hozzáadása' : 'Először nevezd el',
       addCatBg: (s.newCat || '').trim() ? '#57462F' : '#D8D1C1',
       addCatFg: (s.newCat || '').trim() ? '#F6F1E7' : '#6B5940',
       addCategory: () => {
@@ -473,17 +633,17 @@ class Component extends DCLogic {
       },
       // Emlékeztető-kapcsolók
       reminders: [
-        { label: 'Weekly review', hint: 'Sunday, 19:00', bg: s.rWeekly ? '#57462F' : '#D8D1C1', knob: s.rWeekly ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rWeekly: !s.rWeekly }) },
-        { label: 'Log what you wore', hint: 'Daily, 21:00', bg: s.rDaily ? '#57462F' : '#D8D1C1', knob: s.rDaily ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rDaily: !s.rDaily }) },
-        { label: 'Untouched pieces', hint: 'When something passes 6 months', bg: s.rIdle ? '#57462F' : '#D8D1C1', knob: s.rIdle ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rIdle: !s.rIdle }) },
+        { label: 'Heti áttekintés', hint: 'Vasárnap, 19:00', bg: s.rWeekly ? '#57462F' : '#D8D1C1', knob: s.rWeekly ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rWeekly: !s.rWeekly }) },
+        { label: 'Naplózd, mit viseltél', hint: 'Naponta, 21:00', bg: s.rDaily ? '#57462F' : '#D8D1C1', knob: s.rDaily ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rDaily: !s.rDaily }) },
+        { label: 'Kihasználatlan darabok', hint: 'Ha valami elér 6 hónapot', bg: s.rIdle ? '#57462F' : '#D8D1C1', knob: s.rIdle ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rIdle: !s.rIdle }) },
       ],
       // Adatok exportálása (letöltés-szimuláció)
-      exportLabel: s.exportState === 'working' ? 'Preparing…' : (s.exportState === 'done' ? 'Download again' : 'Download'),
+      exportLabel: s.exportState === 'working' ? 'Előkészítés…' : (s.exportState === 'done' ? 'Újra letöltöm' : 'Letöltés'),
       exportBg: s.exportState === 'working' ? '#D8D1C1' : '#57462F',
       exportFg: s.exportState === 'working' ? '#6B5940' : '#F6F1E7',
       exportHint: s.exportState === 'done'
-        ? 'Saved to your downloads · 148 MB'
-        : 'Item list, photos and outfits · 148 MB',
+        ? 'Elmentve a letöltések közé · 148 MB'
+        : 'Ruhalista, fotók és outfitek · 148 MB',
       startExport: () => {
         if (s.exportState === 'working') return;
         this.setState({ exportState: 'working' });
@@ -492,13 +652,18 @@ class Component extends DCLogic {
       resetAll: () => this.setState({ ...BASE }),
 
       // ===== Ruha hozzáadása: fotók feldolgozása és kategóriába sorolás =====
-      addLine: s.drops.length ? assigned + ' of ' + s.drops.length + ' sorted' : 'Backgrounds come off automatically, then you sort',
+      addLine: s.drops.length ? assigned + ' / ' + s.drops.length + ' besorolva' : 'A hátteret automatikusan eltávolítjuk, utána te sorolod be',
       noDrops: s.drops.length === 0,
       hasDrops: s.drops.length > 0,
       simulateDrop: () => this.setState({ drops: DROP_FILES.slice(), dropCats: {} }),
       drops: s.drops.map((file) => ({
         file,
         drop: () => this.setState({ drops: s.drops.filter((f) => f !== file) }),
+        // Ha ez a telefonról érkezett valódi fotó, itt a bélyegkép URL-je; a sablon
+        // ilyenkor a nyers kép-URL-t mutatja a helyőrző csíkozott minta helyett.
+        photoUrl: s.phonePhotos[file] || '',
+        imgDisplay: s.phonePhotos[file] ? 'block' : 'none',
+        placeholderDisplay: s.phonePhotos[file] ? 'none' : 'block',
         name: (s.dropNames || {})[file] || '',
         onName: (e) => this.setState({ dropNames: { ...(s.dropNames || {}), [file]: e.target.value } }),
         options: rawAll.map((n) => ({
@@ -508,13 +673,13 @@ class Component extends DCLogic {
           on: () => this.setState({ dropCats: { ...s.dropCats, [file]: n } }),
         })),
       })),
-      saveLabel: dropsReady ? 'Save ' + s.drops.length + ' pieces' : 'Give each photo a category',
+      saveLabel: dropsReady ? 'Mentés (' + s.drops.length + ' darab)' : 'Adj kategóriát minden fotóhoz',
       saveBg: dropsReady ? '#57462F' : '#D8D1C1',
       saveFg: dropsReady ? '#F6F1E7' : '#6B5940',
       saveDrops: () => {
         if (!dropsReady) return;
         const base = (s.added || []).length;
-        const added = s.drops.map((f, i) => ({ label: ((s.dropNames || {})[f] || '').trim() || 'piece ' + (base + i + 1), cat: s.dropCats[f] }));
+        const added = s.drops.map((f, i) => ({ label: ((s.dropNames || {})[f] || '').trim() || 'darab ' + (base + i + 1), cat: s.dropCats[f] }));
         this.setState({ dropNames: {}, view: 'home', added: [...(s.added || []), ...added], savedCount: s.savedCount + s.drops.length, drops: [], dropCats: {} });
       },
       clearDrops: () => this.setState({ drops: [], dropCats: {}, dropNames: {} }),
@@ -530,7 +695,7 @@ class Component extends DCLogic {
       railRemoved: s.view === 'removed',
       railDisplay: s.view === 'settings' ? 'none' : 'flex',
       gridCols: s.view === 'settings' ? '216px minmax(0,1fr)' : '216px minmax(0,1fr) 336px',
-      dealtLine: dealt + ' of ' + idleBase.length + ' dealt with',
+      dealtLine: dealt + ' / ' + idleBase.length + ' elintézve',
       dealtPct: (idleBase.length ? Math.round((dealt / idleBase.length) * 100) : 100) + '%',
       hasOldest: idleAll.length > 0,
       oldestLabel: idleAll[0] ? nameOf(idleAll[0].label) : '',
@@ -538,40 +703,45 @@ class Component extends DCLogic {
       openOldest: () => { if (idleAll[0]) this.select(idleAll[0].label, idleAll[0].cat, idleAll[0].note)(); },
       // Telefon állapota és a feldolgozandó fotók sora
       phoneDot: s.paired ? '#7A9A52' : '#B8A78A',
-      phoneLine: s.paired ? 'iPhone connected' : 'No phone connected',
-      phoneSub: s.paired ? s.phoneCount + ' photos received this session' : 'Scan a code to send photos from your phone',
-      phoneBtnLabel: s.paired ? 'Disconnect' : 'Connect phone',
+      phoneLine: s.paired ? 'Telefon csatlakoztatva' : 'Nincs telefon csatlakoztatva',
+      phoneSub: s.paired ? s.phoneCount + ' fotó érkezett ebben a munkamenetben' : 'Olvass be egy kódot, hogy fotókat küldhess a telefonodról',
+      phoneBtnLabel: s.paired ? 'Lecsatlakozás' : 'Telefon csatlakoztatása',
       phoneBtnBg: s.paired ? '#EBE2D2' : '#57462F',
       phoneBtnFg: s.paired ? '#57462F' : '#F6F1E7',
-      phoneAction: () => (s.paired ? this.setState({ paired: false }) : this.setState({ pairOpen: true })),
-      finishPair: () => this.setState({
-        pairOpen: false, paired: true, view: 'add',
-        phoneCount: (s.phoneCount || 0) + 2,
-        drops: [...s.drops, 'iPhone_0921.HEIC', 'iPhone_0922.HEIC'],
-      }),
-      queueLine: s.drops.length ? assignedQ + ' of ' + s.drops.length + ' sorted' : 'Empty',
+      // Ha már párosítva van, lekapcsol; ha csak nyitva van a párosítás panelje, azt hozza vissza;
+      // különben új kódot kér a backendtől.
+      phoneAction: () => {
+        if (s.paired) return this.disconnectPhone();
+        if (s.pairToken && !s.pairError) return this.setState({ pairOpen: true });
+        return this.startPair();
+      },
+      // A fotók automatikusan, a telefonos feltöltéssel egy időben érkeznek –
+      // ez a gomb csak bezárja a panelt, és átvált az Add képernyőre.
+      finishPair: () => this.setState({ pairOpen: false, view: 'add' }),
+      queueLine: s.drops.length ? assignedQ + ' / ' + s.drops.length + ' besorolva' : 'Üres',
       queueEmpty: s.drops.length === 0,
       queueRows: s.drops.map((f) => ({
         file: f,
-        status: s.dropCats[f] ? 'Sorted into ' + label(s.dropCats[f]) : 'Needs a category',
+        status: s.dropCats[f] ? 'Besorolva ide: ' + label(s.dropCats[f]) : 'Kategóriát vár',
         fg: s.dropCats[f] ? '#6B5940' : '#8A5A22',
       })),
-      removedCount: gone.length === 1 ? '1 piece waiting' : gone.length + ' pieces waiting',
+      removedCount: gone.length === 1 ? '1 darab vár' : gone.length + ' darab vár',
       removedHas: gone.length > 0,
       deleteAllNow: () => this.setState({ purged: [...(s.purged || []), ...gone], hidden: [], lastGone: '' }),
       // Kijelölt ruhadarab adatai (név, kategória, viselési statisztika)
       selLabel: nameOf(selKey),
       selCat: label(s.sel ? (s.moved[selKey] || s.sel.cat) : ''),
       selWorn: selIsWorn
-        ? 'Worn today · ' + (baseWears + 1) + ' times in total'
+        ? 'Ma viselted · összesen ' + (baseWears + 1) + '-szer'
         : (selNote
-            ? 'Last worn ' + selNote.slice(12) + ' ago · ' + baseWears + ' times in total'
-            : 'Last worn 3 weeks ago · ' + baseWears + ' times in total'),
-      selWearLabel: selIsWorn ? 'Logged for today' : 'Worn today',
+            // selNote pl. "7 hónapja nem viselted" -> "Utoljára 7 hónapja viselted"
+            ? 'Utoljára ' + selNote.replace(/ nem viselted$/, '') + ' viselted · összesen ' + baseWears + '-szer'
+            : 'Utoljára 3 hete viselted · összesen ' + baseWears + '-szer'),
+      selWearLabel: selIsWorn ? 'Mára naplózva' : 'Viselem ma',
       selWearBg: selIsWorn ? '#DCD8CE' : '#57462F',
       selWearFg: selIsWorn ? '#57462F' : '#F6F1E7',
       wearSel: () => { if (selKey) this.setState({ worn: { ...s.worn, [selKey]: true } }); },
-      selTags: (s.tags[selKey] || ['Cotton', 'Neutral', 'All year']).map((t) => ({ label: t })),
+      selTags: (s.tags[selKey] || DEFAULT_TAGS).map((t) => ({ label: t })),
       selOutfits: list.slice(0, 2).map((o, n) => ({
         name: o.name, sub: o.occasion + ' · ' + o.season,
         on: () => this.setState({ view: 'outfits', oi: n, sel: null }),
@@ -583,7 +753,7 @@ class Component extends DCLogic {
       openEdit: () => this.setState({
         editOpen: true,
         editName: nameOf(selKey),
-        editTags: s.tags[selKey] || ['Cotton', 'Neutral', 'All year'],
+        editTags: s.tags[selKey] || DEFAULT_TAGS,
         editCat: s.moved[selKey] || (s.sel ? s.sel.cat : ''),
       }),
       cancelEdit: () => this.setState({ editOpen: false }),
@@ -616,20 +786,23 @@ class Component extends DCLogic {
       },
 
       // ===== Összegző panel: statisztikák és legtöbbet viselt ruhák =====
-      summaryTitle: s.view === 'settings' ? 'Your wardrobe' : 'This wardrobe',
+      summaryTitle: s.view === 'settings' ? 'A szekrényed' : 'Ez a szekrény',
       stats: [
-        { label: 'Pieces', value: String(total) },
-        { label: 'Outfits', value: String(list.length) },
-        { label: 'Worn this month', value: String(23 + Object.keys(s.worn).length) },
-        { label: 'Untouched', value: String(idleAll.length) },
+        { label: 'Darab', value: String(total) },
+        { label: 'Outfit', value: String(list.length) },
+        { label: 'Viselve e hónapban', value: String(23 + Object.keys(s.worn).length) },
+        { label: 'Kihasználatlan', value: String(idleAll.length) },
       ],
-      idleHeadline: idleAll.length ? idleAll.length + " pieces you haven't worn in months" : 'Everything has been worn recently',
+      idleHeadline: idleAll.length ? idleAll.length + ' darabot hónapok óta nem viseltél' : 'Mindent nemrég viseltél',
       idleBody: idleAll.length
-        ? 'Wear one this week, or let it go — removed pieces wait 30 days before deletion.'
-        : 'Nothing has been sitting untouched. Log what you wear and this stays honest.',
-      mostWorn: (who === 'Female'
-        ? [{ label: 'white trainers', cat: 'Shoes', n: '31 wears' }, { label: 'blue jeans', cat: 'Bottoms', n: '28 wears' }, { label: 'striped tee', cat: 'Tops', n: '22 wears' }]
-        : [{ label: 'white sneakers', cat: 'Shoes', n: '31 wears' }, { label: 'blue jeans', cat: 'Trousers', n: '28 wears' }, { label: 'grey tee', cat: 'T-shirts', n: '22 wears' }]
+        ? 'Viselj fel egyet ezen a héten, vagy engedd el — az eltávolított darabok 30 napig várnak törlés előtt.'
+        : 'Semmi sem hever kihasználatlanul. Naplózd, mit viselsz, és ez így is marad.',
+      // Csak akkor mutatunk mintaadatot, ha tényleg van a szekrényben ruha –
+      // korábban ez a 3 kitalált darab üres/friss szekrénynél is megjelent.
+      hasMostWorn: total > 0,
+      mostWorn: total === 0 ? [] : (who === 'Female'
+        ? [{ label: 'fehér sportcipő', cat: 'Cipők', n: '31 alkalom' }, { label: 'kék farmer', cat: 'Aljak', n: '28 alkalom' }, { label: 'csíkos póló', cat: 'Felsők', n: '22 alkalom' }]
+        : [{ label: 'fehér sneaker', cat: 'Cipők', n: '31 alkalom' }, { label: 'kék farmer', cat: 'Nadrágok', n: '28 alkalom' }, { label: 'szürke póló', cat: 'Pólók', n: '22 alkalom' }]
       ).map((m) => ({ label: nameOf(m.label), n: m.n, on: this.select(m.label, m.cat, '') })),
     };
   }

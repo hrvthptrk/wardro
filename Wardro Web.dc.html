@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="./Wardro%20Web.css">
 <script src="./support.js"></script>
 <script src="./Wardro%20Web.logic.js"></script>
+<script src="./preview-overrides.js"></script>
 </head>
 <body>
 <x-dc>
@@ -20,17 +21,17 @@
       <span class="we-auth-text1">Wardro</span>
       <div class="we-auth-grid1">
         <div class="we-auth-el1">
-          <image-slot id="auth-hero-1" shape="rounded" radius="18" placeholder="Drop a photo of someone wearing a great fit" src="https://images.unsplash.com/photo-1660486044177-45cd45bb5e99?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Photo by Ali Ghafouri on Unsplash" credit-href="https://unsplash.com/@ghafouripic"></image-slot>
+          <image-slot id="auth-hero-1" shape="rounded" radius="18" src="https://images.unsplash.com/photo-1660486044177-45cd45bb5e99?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Fotó: Ali Ghafouri (Unsplash)" credit-href="https://unsplash.com/@ghafouripic"></image-slot>
         </div>
         <div class="we-auth-el2">
-          <image-slot id="auth-hero-2" shape="rounded" radius="18" placeholder="Drop a detail shot: folded knit, shoes" src="https://images.unsplash.com/photo-1529720317453-c8da503f2051?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Photo by No Revisions on Unsplash" credit-href="https://unsplash.com/@norevisions"></image-slot>
+          <image-slot id="auth-hero-2" shape="rounded" radius="18"  src="https://images.unsplash.com/photo-1529720317453-c8da503f2051?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Fotó: No Revisions (Unsplash)" credit-href="https://unsplash.com/@norevisions"></image-slot>
         </div>
         <div class="we-auth-el2">
-          <image-slot id="auth-hero-3" shape="rounded" radius="18" placeholder="Drop a photo of clothes" src="https://images.unsplash.com/photo-1499971856191-1a420a42b498?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Photo by Tobias van Schneider on Unsplash" credit-href="https://unsplash.com/@vanschneider"></image-slot>
+          <image-slot id="auth-hero-3" shape="rounded" radius="18" src="https://images.unsplash.com/photo-1499971856191-1a420a42b498?fm=jpg&amp;q=70&amp;w=1400&amp;auto=format&amp;fit=crop" credit="Fotó: Tobias van Schneider (Unsplash)" credit-href="https://unsplash.com/@vanschneider"></image-slot>
         </div>
       </div>
-      <span class="we-auth-text2">You make your fit.</span>
-      <span class="we-auth-text3">Photograph every piece once and Wardro sorts it into your wardrobe. Build outfits from what you already own, log what you wear, and see which pieces have been sitting untouched for months. The clothes are yours; the fit is up to you.</span>
+      <span class="we-auth-text2">Te alakítod a stílusod.</span>
+      <span class="we-auth-text3">Fotózz le minden darabot egyszer, a Wardro pedig besorolja a szekrényedbe. Állíts össze outfiteket abból, ami már megvan, naplózd, mit viseltél, és lásd, mely darabok hevernek kihasználatlanul hónapok óta. A ruhák a tieid; a stílus rajtad múlik.</span>
     </div>
 
     <div class="we-auth-row1">
@@ -39,22 +40,22 @@
       <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
       <div class="we-login-col1">
         <div class="we-login-col2">
-          <span class="we-login-text1">Log in</span>
-          <span class="we-login-text2">Welcome back.</span>
+          <span class="we-login-text1">Bejelentkezés</span>
+          <span class="we-login-text2">Üdvözlünk újra.</span>
         </div>
         <div class="we-login-col3">
           <div class="we-login-col4">
-            <span class="we-login-text3">Email</span>
-            <input class="we-login-text4" value="{{ lEmail }}" onChange="{{ onLEmail }}" placeholder="you@email.com" />
+            <span class="we-login-text3">E-mail</span>
+            <input class="we-login-text4" value="{{ lEmail }}" onChange="{{ onLEmail }}" placeholder="te@email.com" />
           </div>
           <div class="we-login-col4">
-            <span class="we-login-text3">Password</span>
+            <span class="we-login-text3">Jelszó</span>
             <div class="we-login-row1">
-              <input class="we-login-text5" type="{{ lPwType }}" value="{{ lPw }}" onChange="{{ onLPw }}" placeholder="Your password" />
+              <input class="we-login-text5" type="{{ lPwType }}" value="{{ lPw }}" onChange="{{ onLPw }}" placeholder="A jelszavad" />
               <span class="we-login-btn1" onClick="{{ toggleLShow }}">{{ lShowLabel }}</span>
             </div>
           </div>
-          <span class="we-login-btn2" onClick="{{ forgot }}">Forgot password?</span>
+          <span class="we-login-btn2" onClick="{{ forgot }}">Elfelejtett jelszó?</span>
         </div>
         <!-- --- Ha látszik: Bejelentkezési hibaüzenet --- -->
         <sc-if value="{{ lErr }}" hint-placeholder-val="{{ false }}">
@@ -65,19 +66,11 @@
         <span class="we-reset-line-text1">{{ resetLine }}</span>
         </sc-if>
         <div class="we-login-btn3" onClick="{{ doLogin }}">
-          <span class="we-login-text6">Log in</span>
-        </div>
-        <div class="we-login-row2">
-          <div class="we-login-box1"></div>
-          <span class="we-login-text7">or</span>
-          <div class="we-login-box1"></div>
-        </div>
-        <div class="we-login-btn4" onClick="{{ appleLogin }}">
-          <span class="we-login-text8">Continue with Apple</span>
+          <span class="we-login-text6">Bejelentkezés</span>
         </div>
         <div class="we-login-btn5" onClick="{{ toSignup }}">
-          <span class="we-login-text9">No account yet?</span>
-          <span class="we-login-text10">Create one</span>
+          <span class="we-login-text9">Még nincs fiókod?</span>
+          <span class="we-login-text10">Hozz létre egyet</span>
         </div>
       </div>
       </sc-if>
@@ -86,28 +79,27 @@
       <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ false }}">
       <div class="we-signup-col1">
         <div class="we-login-col2">
-          <span class="we-login-text1">Create account</span>
-          <span class="we-login-text2">Two minutes, then start photographing.</span>
+          <span class="we-login-text1">Fiók létrehozása</span>
+          <span class="we-login-text2">Két perc, aztán jöhet a fotózás.</span>
         </div>
         <div class="we-signup-col2">
           <div class="we-login-col4">
-            <span class="we-login-text3">Name</span>
-            <input class="we-signup-text1" value="{{ suName }}" onChange="{{ onSuName }}" placeholder="Your name" />
+            <span class="we-login-text3">Név</span>
+            <input class="we-signup-text1" value="{{ suName }}" onChange="{{ onSuName }}" placeholder="A neved" />
           </div>
           <div class="we-login-col4">
-            <span class="we-login-text3">Email</span>
-            <input class="we-signup-text1" value="{{ suEmail }}" onChange="{{ onSuEmail }}" placeholder="you@email.com" />
+            <span class="we-login-text3">E-mail</span>
+            <input class="we-signup-text1" value="{{ suEmail }}" onChange="{{ onSuEmail }}" placeholder="te@email.com" />
           </div>
           <div class="we-login-col4">
-            <span class="we-login-text3">Password</span>
+            <span class="we-login-text3">Jelszó</span>
             <div class="we-signup-row1">
-              <input class="we-login-text5" type="{{ suPwType }}" value="{{ suPw }}" onChange="{{ onSuPw }}" placeholder="At least 8 characters" />
+              <input class="we-login-text5" type="{{ suPwType }}" value="{{ suPw }}" onChange="{{ onSuPw }}" placeholder="Legalább 8 karakter" />
               <span class="we-login-btn1" onClick="{{ toggleSuShow }}">{{ suShowLabel }}</span>
             </div>
           </div>
         </div>
         <div class="we-signup-col3">
-          <span class="we-login-text3">I shop for</span>
           <div class="we-signup-row2">
             <!-- · Lista: Nem választó csempék (Férfi / Női) · -->
             <sc-for list="{{ genders }}" as="g" hint-placeholder-count="2">
@@ -117,7 +109,7 @@
               </div>
             </sc-for>
           </div>
-          <span class="we-signup-text2">Sets the default category names. You can change them later.</span>
+          <span class="we-signup-text2">Ez állítja be az alap kategórianeveket. Később bármikor módosíthatod.</span>
         </div>
         <!-- --- Ha látszik: Regisztrációs hibaüzenet --- -->
         <sc-if value="{{ suErr }}" hint-placeholder-val="{{ false }}">
@@ -127,8 +119,8 @@
           <span class="we-signup-text3" sc-camel-style="color:{{ suCtaFg }}">{{ suCtaLabel }}</span>
         </div>
         <div class="we-signup-btn2" onClick="{{ toLogin }}">
-          <span class="we-login-text9">Already have an account?</span>
-          <span class="we-login-text10">Log in</span>
+          <span class="we-login-text9">Már van fiókod?</span>
+          <span class="we-login-text10">Bejelentkezés</span>
         </div>
       </div>
       </sc-if>
@@ -148,7 +140,7 @@
         </div>
       </sc-for>
     </div>
-    <span class="we-keret-text1">Categories</span>
+    <span class="we-keret-text1">Kategóriák</span>
     <div class="we-keret-col3">
       <!-- · Lista: Kategóriák az oldalsávban · -->
       <sc-for list="{{ catNav }}" as="c" hint-placeholder-count="6">
@@ -160,7 +152,7 @@
     </div>
     <div class="we-keret-btn2" onClick="{{ toAdd }}">
       <span class="we-keret-text2">+</span>
-      <span class="we-keret-text3">Add photos</span>
+      <span class="we-keret-text3">Fotók hozzáadása</span>
     </div>
     <div class="we-keret-btn3" onClick="{{ toSettings }}">
       <div class="we-keret-box1"></div>
@@ -177,18 +169,18 @@
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <div class="we-home-row1">
       <div class="we-home-col1">
-        <span class="we-home-text1">Your wardrobe</span>
+        <span class="we-home-text1">A szekrényed</span>
         <span class="we-home-text2">{{ homeTotal }}</span>
       </div>
-      <div class="we-home-btn1" onClick="{{ viewAll }}">See every piece</div>
+      <div class="we-home-btn1" onClick="{{ viewAll }}">Az összes darab megtekintése</div>
     </div>
     <div class="we-home-col2">
       <!-- --- Ha látszik: Kezdőlap – üres állapot (még nincs ruha) --- -->
       <sc-if value="{{ homeEmpty }}" hint-placeholder-val="{{ false }}">
       <div class="we-home-empty-col1">
         <div class="we-home-empty-col2">
-          <span class="we-home-empty-text1">Welcome, {{ firstName }}</span>
-          <span class="we-home-empty-text2">Your wardrobe is empty. Start with the clothes you wear most, a few at a time. You can add the rest whenever you like.</span>
+          <span class="we-home-empty-text1">Üdvözlünk, {{ firstName }}</span>
+          <span class="we-home-empty-text2">A szekrényed üres. Kezdd a ruhákkal, amiket a legtöbbet hordasz, néhányat egyszerre. A többit bármikor hozzáadhatod.</span>
         </div>
         <div class="we-home-empty-grid1">
           <!-- · Lista: Első lépések lista · -->
@@ -202,7 +194,7 @@
         </div>
         <div class="we-home-empty-btn1" onClick="{{ toAdd }}">
           <span class="we-home-empty-text3">+</span>
-          <span class="we-home-empty-text4">Add your first photos</span>
+          <span class="we-home-empty-text4">Add hozzá az első fotóidat</span>
         </div>
       </div>
       </sc-if>
@@ -236,7 +228,7 @@
         <div class="we-wardrobe-row2">
           <div class="we-wardrobe-row3">
             <div class="we-wardrobe-line1"></div>
-            <input class="we-wardrobe-text1" value="{{ q }}" onChange="{{ onQuery }}" placeholder="Search your wardrobe" />
+            <input class="we-wardrobe-text1" value="{{ q }}" onChange="{{ onQuery }}" placeholder="Keresés a szekrényedben" />
             <!-- --- Ha látszik: Keresési találatok fejléc --- -->
             <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
             <span class="we-has-query-btn1" onClick="{{ clearQuery }}">✕</span>
@@ -258,7 +250,7 @@
           <div class="we-pieces-btn1" onClick="{{ p.on }}">
             <div class="we-pieces-box1" sc-camel-style="height:{{ cardH }};border:{{ p.border }}">
               <div class="we-pieces-abs1"></div>
-              <span class="we-pieces-abs2">cut-out</span>
+              <span class="we-pieces-abs2">kivágás</span>
             </div>
             <div class="we-pieces-col1">
               <span class="we-pieces-text1">{{ p.label }}</span>
@@ -270,7 +262,7 @@
       <!-- --- Ha látszik: Nincs találat / üres kategória --- -->
       <sc-if value="{{ noPieces }}" hint-placeholder-val="{{ false }}">
       <div class="we-no-pieces-col1">
-        <span class="we-no-pieces-text1">Nothing to show</span>
+        <span class="we-no-pieces-text1">Nincs mit mutatni</span>
         <span class="we-no-pieces-text2">{{ emptyLine }}</span>
       </div>
       </sc-if>
@@ -280,7 +272,7 @@
     <!-- --- Ha látszik: Outfitek – üres állapot --- -->
     <sc-if value="{{ outfitsEmpty }}" hint-placeholder-val="{{ false }}">
     <div class="we-outfits-empty-col1">
-      <span class="we-home-text1">Outfits</span>
+      <span class="we-home-text1">Outfitek</span>
       <div class="we-outfits-empty-col2">
         <div class="we-outfits-empty-grid1">
           <div class="we-outfits-empty-line1"></div>
@@ -288,7 +280,7 @@
           <div class="we-outfits-empty-line1"></div>
           <div class="we-outfits-empty-line1"></div>
         </div>
-        <span class="we-outfits-empty-text1">No outfits yet</span>
+        <span class="we-outfits-empty-text1">Még nincs outfit</span>
         <span class="we-outfits-empty-text2">{{ outfitsEmptyLine }}</span>
         <div class="we-outfits-empty-btn1" onClick="{{ outfitsEmptyGo }}">
           <span class="we-outfits-empty-text3">{{ outfitsEmptyCta }}</span>
@@ -309,7 +301,7 @@
           <span class="we-outfits-filled-text1">{{ favMark }}</span>
           <span class="we-outfits-filled-text2">{{ favLabel }}</span>
         </div>
-        <div class="we-outfits-filled-btn2" onClick="{{ deleteOutfit }}">Delete</div>
+        <div class="we-outfits-filled-btn2" onClick="{{ deleteOutfit }}">Törlés</div>
       </div>
       <div sc-camel-style="flex:1;min-height:0;display:grid;grid-template-columns:repeat({{ outfitCols }},minmax(0,1fr));grid-auto-rows:minmax(140px,1fr);gap:14px">
         <!-- · Lista: Outfit csempék · -->
@@ -331,10 +323,10 @@
     <div class="we-builder-col1">
       <div class="we-builder-row1">
         <div class="we-outfits-filled-col1">
-          <span class="we-home-text1">New outfit</span>
-          <span class="we-home-text2">Click a slot, then pick a piece from the rail</span>
+          <span class="we-home-text1">Új outfit</span>
+          <span class="we-home-text2">Kattints egy helyre, majd válassz egy darabot a jobb oldali sávból</span>
         </div>
-        <div class="we-home-btn1" onClick="{{ cancelBuilder }}">Cancel</div>
+        <div class="we-home-btn1" onClick="{{ cancelBuilder }}">Mégse</div>
       </div>
       <input class="we-builder-text1" value="{{ bName }}" onChange="{{ onBName }}" placeholder="{{ bNamePlaceholder }}" />
       <div class="we-builder-grid1">
@@ -350,13 +342,13 @@
         </sc-for>
         <div class="we-builder-btn1" onClick="{{ addSlot }}">
           <span class="we-builder-text2">+</span>
-          <span class="we-builder-text3">Add another piece</span>
-          <span class="we-login-text7">Jacket, bag, watch…</span>
+          <span class="we-builder-text3">Még egy darab hozzáadása</span>
+          <span class="we-login-text7">Kabát, táska, óra…</span>
         </div>
       </div>
       <div class="we-builder-row2">
         <div class="we-signup-col3">
-          <span class="we-builder-text4">Occasion</span>
+          <span class="we-builder-text4">Alkalom</span>
           <div class="we-builder-row3">
             <!-- · Lista: Összeállító – alkalmak · -->
             <sc-for list="{{ bOccasions }}" as="oc" hint-placeholder-count="3">
@@ -365,7 +357,7 @@
           </div>
         </div>
         <div class="we-signup-col3">
-          <span class="we-builder-text4">Season</span>
+          <span class="we-builder-text4">Évszak</span>
           <div class="we-builder-row3">
             <!-- · Lista: Összeállító – évszakok · -->
             <sc-for list="{{ bSeasons }}" as="se" hint-placeholder-count="3">
@@ -383,7 +375,7 @@
     <!-- --- Ha látszik: Kihasználatlan ruhák --- -->
     <sc-if value="{{ isUntouched }}" hint-placeholder-val="{{ false }}">
     <div class="we-untouched-col1">
-      <span class="we-home-text1">Untouched</span>
+      <span class="we-home-text1">Kihasználatlan</span>
       <span class="we-home-text2">{{ idleLine }}</span>
     </div>
     <div class="we-untouched-col2">
@@ -396,16 +388,16 @@
             <span class="we-idle-items-text2">{{ d.cat }} · {{ d.note }}</span>
           </div>
           <div class="we-idle-items-row2">
-            <div class="we-idle-items-btn3" onClick="{{ d.wear }}">Wear it this week</div>
-            <div class="we-idle-items-btn4" onClick="{{ d.remove }}">Let go</div>
+            <div class="we-idle-items-btn3" onClick="{{ d.wear }}">Viseld ezen a héten</div>
+            <div class="we-idle-items-btn4" onClick="{{ d.remove }}">Engedd el</div>
           </div>
         </div>
       </sc-for>
       <!-- --- Ha látszik: Nincs kihasználatlan ruha --- -->
       <sc-if value="{{ idleEmpty }}" hint-placeholder-val="{{ false }}">
       <div class="we-idle-empty-col1">
-        <span class="we-no-pieces-text1">Nothing sitting untouched</span>
-        <span class="we-no-pieces-text2">Everything has been worn recently.</span>
+        <span class="we-no-pieces-text1">Nincs kihasználatlan darab</span>
+        <span class="we-no-pieces-text2">Mindent nemrég viseltél.</span>
       </div>
       </sc-if>
     </div>
@@ -414,7 +406,7 @@
     <!-- --- Ha látszik: Eltávolított ruhák --- -->
     <sc-if value="{{ isRemoved }}" hint-placeholder-val="{{ false }}">
     <div class="we-untouched-col1">
-      <span class="we-home-text1">Removed</span>
+      <span class="we-home-text1">Eltávolítva</span>
       <span class="we-home-text2">{{ removedLine }}</span>
     </div>
     <div class="we-untouched-col2">
@@ -426,41 +418,41 @@
             <span class="we-idle-items-text1">{{ rm.label }}</span>
             <span class="we-idle-items-text2">{{ rm.hint }}</span>
           </div>
-          <div class="we-removed-list-btn1" onClick="{{ rm.restore }}">Restore</div>
+          <div class="we-removed-list-btn1" onClick="{{ rm.restore }}">Visszaállítás</div>
         </div>
       </sc-for>
       <!-- --- Ha látszik: Nincs eltávolított ruha --- -->
       <sc-if value="{{ removedEmpty }}" hint-placeholder-val="{{ true }}">
       <div class="we-idle-empty-col1">
-        <span class="we-no-pieces-text1">Nothing removed</span>
-        <span class="we-no-pieces-text2">Pieces you let go wait here for 30 days before they are deleted.</span>
+        <span class="we-no-pieces-text1">Nincs eltávolítva semmi</span>
+        <span class="we-no-pieces-text2">Az elengedett darabok 30 napig várnak itt, mielőtt törlődnének.</span>
       </div>
       </sc-if>
-      <div class="we-removed-btn1" onClick="{{ purgeAll }}">Restore everything</div>
+      <div class="we-removed-btn1" onClick="{{ purgeAll }}">Összes visszaállítása</div>
     </div>
     </sc-if>
 
     <!-- --- Ha látszik: Beállítások --- -->
     <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
     <div class="we-untouched-col1">
-      <span class="we-home-text1">Settings</span>
-      <span class="we-home-text2">Signed in on this computer</span>
+      <span class="we-home-text1">Beállítások</span>
+      <span class="we-home-text2">Bejelentkezve ezen a gépen</span>
     </div>
     <div class="we-settings-col1">
       <div class="we-settings-col2">
-        <span class="we-builder-text4">Account</span>
+        <span class="we-builder-text4">Fiók</span>
         <div class="we-settings-grid1">
           <div class="we-settings-col3">
-            <span class="we-settings-text1">Name</span>
+            <span class="we-settings-text1">Név</span>
             <input class="we-settings-text2" value="{{ sName }}" onChange="{{ onSName }}" />
           </div>
           <div class="we-settings-col3">
-            <span class="we-settings-text1">Email</span>
+            <span class="we-settings-text1">E-mail</span>
             <input class="we-settings-text2" value="{{ sEmail }}" onChange="{{ onSEmail }}" />
           </div>
         </div>
         <div class="we-login-col2">
-          <span class="we-settings-text1">I shop for</span>
+          <span class="we-settings-text1">Kinek vásárolsz</span>
           <div class="we-settings-row1">
             <!-- · Lista: Profil fülek · -->
             <sc-for list="{{ profileTabs }}" as="pt" hint-placeholder-count="2">
@@ -470,26 +462,26 @@
         </div>
       </div>
       <div class="we-settings-col4">
-        <span class="we-builder-text4">Categories</span>
+        <span class="we-builder-text4">Kategóriák</span>
         <!-- · Lista: Kategóriák szerkesztése (sorok) · -->
         <sc-for list="{{ catEditRows }}" as="ce" hint-placeholder-count="5">
           <div class="we-cat-edit-rows-row1">
             <input class="we-cat-edit-rows-text1" value="{{ ce.value }}" onChange="{{ ce.onChange }}" />
             <span class="we-cat-edit-rows-text2">{{ ce.count }}</span>
             <sc-if value="{{ ce.removable }}" hint-placeholder-val="{{ false }}">
-            <span class="we-cat-edit-rows-btn1" onClick="{{ ce.remove }}">Remove</span>
+            <span class="we-cat-edit-rows-btn1" onClick="{{ ce.remove }}">Eltávolítás</span>
             </sc-if>
           </div>
         </sc-for>
         <div class="we-settings-row2">
-          <input class="we-settings-text3" value="{{ newCat }}" onChange="{{ onNewCat }}" placeholder="New category name" />
+          <input class="we-settings-text3" value="{{ newCat }}" onChange="{{ onNewCat }}" placeholder="Új kategória neve" />
           <div class="we-settings-btn1" onClick="{{ addCategory }}" sc-camel-style="background:{{ addCatBg }}">
             <span class="we-settings-text4" sc-camel-style="color:{{ addCatFg }}">{{ addCatLabel }}</span>
           </div>
         </div>
       </div>
       <div class="we-settings-col4">
-        <span class="we-builder-text4">Reminders</span>
+        <span class="we-builder-text4">Emlékeztetők</span>
         <!-- · Lista: Emlékeztetők · -->
         <sc-for list="{{ reminders }}" as="r" hint-placeholder-count="3">
           <div class="we-reminders-row1">
@@ -505,7 +497,7 @@
       </div>
       <div class="we-settings-row3">
         <div class="we-removed-list-col1">
-          <span class="we-login-text8">Export wardrobe</span>
+          <span class="we-login-text8">Szekrény exportálása</span>
           <span class="we-idle-items-text2">{{ exportHint }}</span>
         </div>
         <div class="we-settings-btn2" onClick="{{ startExport }}" sc-camel-style="background:{{ exportBg }}">
@@ -513,8 +505,8 @@
         </div>
       </div>
       <div class="we-signup-row2">
-        <div class="we-settings-btn3" onClick="{{ logOut }}">Log out</div>
-        <div class="we-settings-btn4" onClick="{{ resetAll }}">Reset this session</div>
+        <div class="we-settings-btn3" onClick="{{ logOut }}">Kijelentkezés</div>
+        <div class="we-settings-btn4" onClick="{{ resetAll }}">Munkamenet visszaállítása</div>
       </div>
     </div>
     </sc-if>
@@ -522,7 +514,7 @@
     <!-- --- Ha látszik: Ruha hozzáadása --- -->
     <sc-if value="{{ isAdd }}" hint-placeholder-val="{{ false }}">
     <div class="we-untouched-col1">
-      <span class="we-home-text1">Add photos</span>
+      <span class="we-home-text1">Fotók hozzáadása</span>
       <span class="we-home-text2">{{ addLine }}</span>
     </div>
     <div class="we-add-col1">
@@ -530,15 +522,15 @@
       <sc-if value="{{ noDrops }}" hint-placeholder-val="{{ true }}">
       <div class="we-no-drops-btn1" onClick="{{ simulateDrop }}">
         <div class="we-no-drops-row1">+</div>
-        <span class="we-no-drops-text1">Drop photos here</span>
-        <span class="we-no-drops-text2">Drag a batch straight off your desktop. Backgrounds are removed for you, then you sort them into categories below.</span>
+        <span class="we-no-drops-text1">Ejtsd ide a fotókat</span>
+        <span class="we-no-drops-text2">Húzz ide egy köteget egyenesen az asztalodról. A hátteret automatikusan eltávolítjuk, utána te sorolod be kategóriákba.</span>
       </div>
       <div class="we-no-drops-row2">
         <div class="we-removed-list-col1">
-          <span class="we-signup-text3">No photos on this computer?</span>
-          <span class="we-no-drops-text3">Shoot them on your phone and they appear here as you go.</span>
+          <span class="we-signup-text3">Nincs fotó ezen a gépen?</span>
+          <span class="we-no-drops-text3">Készítsd el őket a telefonoddal, és ahogy küldöd, itt megjelennek.</span>
         </div>
-        <div class="we-no-drops-btn2" onClick="{{ openPair }}">Send from my phone</div>
+        <div class="we-no-drops-btn2" onClick="{{ openPair }}">Küldés a telefonomról</div>
       </div>
       </sc-if>
       <!-- --- Ha látszik: Beejtett fotók feldolgozása --- -->
@@ -548,11 +540,14 @@
         <sc-for list="{{ drops }}" as="d" hint-placeholder-count="6">
           <div class="we-drops-col1">
             <div class="we-drops-box1">
-              <div class="we-pieces-abs1"></div>
+              <!-- Telefonról érkezett valódi fotó bélyegképe -->
+              <img class="we-drops-img1" src="{{ d.photoUrl }}" sc-camel-style="display:{{ d.imgDisplay }}" alt="" />
+              <!-- Szimulált (kamu) fotóknál marad a helyőrző csíkozott minta -->
+              <div class="we-pieces-abs1" sc-camel-style="display:{{ d.placeholderDisplay }}"></div>
               <span class="we-pieces-abs2">{{ d.file }}</span>
               <span class="we-drops-btn1" onClick="{{ d.drop }}">✕</span>
             </div>
-            <input class="we-drops-text1" value="{{ d.name }}" onChange="{{ d.onName }}" placeholder="Name it, e.g. grey hoodie" />
+            <input class="we-drops-text1" value="{{ d.name }}" onChange="{{ d.onName }}" placeholder="Nevezd el, pl. szürke pulóver" />
             <div class="we-drops-row1">
               <sc-for list="{{ d.options }}" as="o" hint-placeholder-count="5">
                 <div class="we-drops-btn2" onClick="{{ o.on }}" sc-camel-style="background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</div>
@@ -565,7 +560,7 @@
         <div class="we-has-drops-btn1" onClick="{{ saveDrops }}" sc-camel-style="background:{{ saveBg }}">
           <span class="we-login-text10" sc-camel-style="color:{{ saveFg }}">{{ saveLabel }}</span>
         </div>
-        <span class="we-has-drops-btn2" onClick="{{ clearDrops }}">Discard all</span>
+        <span class="we-has-drops-btn2" onClick="{{ clearDrops }}">Összes elvetése</span>
       </div>
       </sc-if>
     </div>
@@ -577,7 +572,7 @@
   <sc-if value="{{ undoVisible }}" hint-placeholder-val="{{ false }}">
   <div class="we-undo-visible-abs1">
     <span class="we-undo-visible-text1">{{ undoLine }}</span>
-    <span class="we-undo-visible-btn1" onClick="{{ undoGone }}">Undo</span>
+    <span class="we-undo-visible-btn1" onClick="{{ undoGone }}">Visszavonás</span>
     <span class="we-undo-visible-btn2" onClick="{{ dismissUndo }}">✕</span>
   </div>
   </sc-if>
@@ -588,20 +583,27 @@
   <div class="we-pair-open-abs2">
     <div class="we-pair-open-row1">
       <div class="we-pair-open-col1">
-        <span class="we-pair-open-text1">Send from your phone</span>
-        <span class="we-pair-open-text2">Scan this with the Wardro app. Photos you take land in this window, ready to sort.</span>
+        <span class="we-pair-open-text1">Küldés a telefonodról</span>
+        <span class="we-pair-open-text2">Olvasd be a telefonod kamerájával. A lefotózott képek itt jelennek meg, készen a rendszerezésre.</span>
       </div>
       <span class="we-pair-open-btn1" onClick="{{ closePair }}">✕</span>
     </div>
     <div class="we-pair-open-box1">
-      <div class="we-pair-open-abs3"></div>
-      <div class="we-pair-open-abs4">W</div>
+      <!-- Amíg a kód még nem érkezett meg a backendtől, ezt a kamu-mintát látni -->
+      <div class="we-pair-open-abs3" sc-camel-style="display:{{ qrFallbackDisplay }}"></div>
+      <div class="we-pair-open-abs4" sc-camel-style="display:{{ qrFallbackDisplay }}">W</div>
+      <!-- Valódi, a backend által rajzolt QR-kód -->
+      <img class="we-pair-open-img1" src="{{ qrSvgUrl }}" sc-camel-style="display:{{ qrImgDisplay }}" alt="QR kód" />
     </div>
     <div class="we-pair-open-row2">
-      <div class="we-pair-open-box2"></div>
-      <span class="we-idle-items-text2">Waiting for your phone · code expires in 5 minutes</span>
+      <div class="we-pair-open-box2" sc-camel-style="background:{{ pairDotColor }}"></div>
+      <span class="we-idle-items-text2">{{ pairStatusLine }}</span>
     </div>
-    <div class="we-pair-open-btn2" onClick="{{ finishPair }}">I've scanned it</div>
+    <!-- Ha a kamera nem tudja beolvasni a kódot, ide a nyers link is kiírva -->
+    <span class="we-pair-open-text3" sc-camel-style="display:{{ pairUrlDisplay }}">{{ pairPhoneUrl }}</span>
+    <!-- Ha a párosítás indítása elhasalt (pl. nem fut a backend) -->
+    <div class="we-pair-open-err1" sc-camel-style="display:{{ pairErrorDisplay }}" onClick="{{ retryPair }}">Koppints az újrapróbálkozáshoz</div>
+    <div class="we-pair-open-btn2" onClick="{{ finishPair }}">Beolvastam</div>
   </div>
   </sc-if>
 
@@ -612,7 +614,7 @@
     <div class="we-rail-item-col1">
       <div class="we-rail-item-box1">
         <div class="we-home-tiles-abs1"></div>
-        <span class="we-rail-item-abs1">cut-out, full size</span>
+        <span class="we-rail-item-abs1">kivágás, teljes méret</span>
         <div class="we-rail-item-btn1" onClick="{{ clearSel }}">✕</div>
       </div>
       <div class="we-rail-item-col2">
@@ -631,7 +633,7 @@
           </sc-for>
         </div>
         <div class="we-rail-item-col3">
-          <span class="we-builder-text4">In these outfits</span>
+          <span class="we-builder-text4">Ezekben az outfitekben</span>
           <!-- · Lista: Kijelölt ruha outfitjei · -->
           <sc-for list="{{ selOutfits }}" as="o" hint-placeholder-count="2">
             <div class="we-sel-outfits-btn1" onClick="{{ o.on }}">
@@ -644,8 +646,8 @@
           </sc-for>
         </div>
         <div class="we-settings-row1">
-          <div class="we-rail-item-btn3" onClick="{{ openEdit }}">Edit details</div>
-          <div class="we-rail-item-btn4" onClick="{{ removeSel }}">Remove</div>
+          <div class="we-rail-item-btn3" onClick="{{ openEdit }}">Részletek szerkesztése</div>
+          <div class="we-rail-item-btn4" onClick="{{ removeSel }}">Eltávolítás</div>
         </div>
       </div>
     </div>
@@ -655,15 +657,15 @@
     <sc-if value="{{ railEdit }}" hint-placeholder-val="{{ false }}">
     <div class="we-rail-edit-col1">
       <div class="we-rail-edit-row1">
-        <span class="we-genders-text1">Edit details</span>
+        <span class="we-genders-text1">Részletek szerkesztése</span>
         <span class="we-rail-edit-btn1" onClick="{{ cancelEdit }}">✕</span>
       </div>
       <div class="we-login-col4">
-        <span class="we-builder-text4">Name</span>
+        <span class="we-builder-text4">Név</span>
         <input class="we-rail-edit-text1" value="{{ editName }}" onChange="{{ onEditName }}" />
       </div>
       <div class="we-signup-col3">
-        <span class="we-builder-text4">Category</span>
+        <span class="we-builder-text4">Kategória</span>
         <div class="we-rail-edit-row2">
           <!-- · Lista: Szerkesztés – kategóriák · -->
           <sc-for list="{{ editCats }}" as="ec" hint-placeholder-count="5">
@@ -672,7 +674,7 @@
         </div>
       </div>
       <div class="we-signup-col3">
-        <span class="we-builder-text4">Tags</span>
+        <span class="we-builder-text4">Címkék</span>
         <div class="we-rail-edit-row2">
           <!-- · Lista: Szerkesztés – címke-opciók · -->
           <sc-for list="{{ editTagOptions }}" as="tg" hint-placeholder-count="8">
@@ -681,8 +683,8 @@
         </div>
       </div>
       <div class="we-settings-row1">
-        <div class="we-rail-edit-btn2" onClick="{{ cancelEdit }}">Cancel</div>
-        <div class="we-rail-edit-btn3" onClick="{{ saveEdit }}">Save</div>
+        <div class="we-rail-edit-btn2" onClick="{{ cancelEdit }}">Mégse</div>
+        <div class="we-rail-edit-btn3" onClick="{{ saveEdit }}">Mentés</div>
       </div>
     </div>
     </sc-if>
@@ -691,7 +693,7 @@
     <sc-if value="{{ railOutfits }}" hint-placeholder-val="{{ false }}">
     <div class="we-rail-outfits-col1">
       <div class="we-rail-outfits-row1">
-        <span class="we-signup-text3">All outfits</span>
+        <span class="we-signup-text3">Összes outfit</span>
         <span class="we-rail-outfits-text1">{{ outfitCount }}</span>
       </div>
       <!-- · Lista: Outfit lista · -->
@@ -714,7 +716,7 @@
       </sc-for>
       <div class="we-rail-outfits-btn1" onClick="{{ toBuilder }}">
         <span class="we-home-empty-text3">+</span>
-        <span class="we-rail-outfits-text2">New outfit</span>
+        <span class="we-rail-outfits-text2">Új outfit</span>
       </div>
     </div>
     </sc-if>
@@ -728,7 +730,7 @@
       </div>
       <!-- --- Ha látszik: Ruhaválasztó – üresjárat --- -->
       <sc-if value="{{ pickerIdle }}" hint-placeholder-val="{{ true }}">
-      <span class="we-picker-idle-text1">Click one of the four slots on the left and the pieces you own in that category appear here.</span>
+      <span class="we-picker-idle-text1">Kattints a bal oldali négy hely egyikére, és megjelennek az adott kategóriába tartozó darabjaid.</span>
       </sc-if>
       <div class="we-rail-picker-grid1">
         <!-- · Lista: Ruhaválasztó elemei · -->
@@ -748,16 +750,16 @@
     <sc-if value="{{ railHome }}" hint-placeholder-val="{{ false }}">
     <div class="we-rail-home-col1">
       <div class="we-rail-home-col2">
-        <span class="we-rail-home-text1">Today</span>
+        <span class="we-rail-home-text1">Ma</span>
         <div class="we-rail-home-row1">
           <span class="we-rail-home-text2">{{ weatherTemp }}</span>
           <span class="we-rail-home-text3">{{ weatherLine }}</span>
         </div>
       </div>
-      <span class="we-signup-text3">Good for today</span>
+      <span class="we-signup-text3">Mára ajánlott</span>
       <!-- --- Ha látszik: Nincs javaslat üzenet --- -->
       <sc-if value="{{ noSuggestions }}" hint-placeholder-val="{{ false }}">
-      <span class="we-no-drops-text3">Save a few outfits and Wardro will pick ones that suit the weather.</span>
+      <span class="we-no-drops-text3">Ments el pár outfitet, és a Wardro az időjáráshoz illőt fog javasolni.</span>
       </sc-if>
       <!-- · Lista: Javaslatok (mit vegyél fel) · -->
       <sc-for list="{{ suggestions }}" as="sg" hint-placeholder-count="3">
@@ -771,7 +773,7 @@
       </sc-for>
       <div class="we-rail-home-col3">
         <span class="we-login-text10">{{ idleHeadline }}</span>
-        <div class="we-rail-home-btn1" onClick="{{ toUntouched }}">Review them</div>
+        <div class="we-rail-home-btn1" onClick="{{ toUntouched }}">Nézd át őket</div>
       </div>
     </div>
     </sc-if>
@@ -779,17 +781,17 @@
     <!-- --- Ha látszik: Jobb panel – kihasználatlan ruhák --- -->
     <sc-if value="{{ railUntouched }}" hint-placeholder-val="{{ false }}">
     <div class="we-rail-home-col1">
-      <span class="we-signup-text3">Your progress</span>
+      <span class="we-signup-text3">A haladásod</span>
       <div class="we-rail-untouched-col1">
         <span class="we-rail-untouched-text1">{{ dealtLine }}</span>
         <div class="we-rail-untouched-box1">
           <div class="we-rail-untouched-box2" sc-camel-style="width:{{ dealtPct }}"></div>
         </div>
-        <span class="we-no-drops-text3">Wearing a piece or letting it go both count.</span>
+        <span class="we-no-drops-text3">Az is számít, ha felveszed, és az is, ha elengeded.</span>
       </div>
       <!-- --- Ha látszik: Legrégebben nem viselt darab --- -->
       <sc-if value="{{ hasOldest }}" hint-placeholder-val="{{ true }}">
-      <span class="we-builder-text4">Longest untouched</span>
+      <span class="we-builder-text4">Legrégebben kihasználatlan</span>
       <div class="we-has-oldest-btn1" onClick="{{ openOldest }}">
         <div class="we-has-oldest-box1"><div class="we-home-tiles-abs1"></div></div>
         <div class="we-has-oldest-col1">
@@ -804,7 +806,7 @@
     <!-- --- Ha látszik: Jobb panel – hozzáadás --- -->
     <sc-if value="{{ railAdd }}" hint-placeholder-val="{{ false }}">
     <div class="we-rail-outfits-col1">
-      <span class="we-signup-text3">Phone</span>
+      <span class="we-signup-text3">Telefon</span>
       <div class="we-rail-add-row1">
         <div class="we-rail-add-el1" sc-camel-style="background:{{ phoneDot }}"></div>
         <div class="we-pieces-col1">
@@ -816,7 +818,7 @@
         <span class="we-settings-text4" sc-camel-style="color:{{ phoneBtnFg }}">{{ phoneBtnLabel }}</span>
       </div>
       <div class="we-rail-add-row2">
-        <span class="we-signup-text3">Upload queue</span>
+        <span class="we-signup-text3">Feltöltési sor</span>
         <span class="we-rail-outfits-text1">{{ queueLine }}</span>
       </div>
       <!-- · Lista: Feldolgozási sor · -->
@@ -831,7 +833,7 @@
       </sc-for>
       <!-- --- Ha látszik: Üres feldolgozási sor --- -->
       <sc-if value="{{ queueEmpty }}" hint-placeholder-val="{{ true }}">
-      <span class="we-queue-empty-text1">Photos you drop in or send from your phone show up here while you sort them.</span>
+      <span class="we-queue-empty-text1">Az ide ejtett vagy a telefonodról küldött fotók itt jelennek meg, amíg rendszerezed őket.</span>
       </sc-if>
     </div>
     </sc-if>
@@ -839,15 +841,15 @@
     <!-- --- Ha látszik: Jobb panel – eltávolítottak --- -->
     <sc-if value="{{ railRemoved }}" hint-placeholder-val="{{ false }}">
     <div class="we-rail-home-col1">
-      <span class="we-signup-text3">What happens next</span>
+      <span class="we-signup-text3">Mi történik ezután</span>
       <div class="we-rail-removed-col1">
         <span class="we-rail-untouched-text1">{{ removedCount }}</span>
-        <span class="we-pair-open-text2">Removed pieces stay here for 30 days. Restore one and it goes back to its category with its wear history. After that they're deleted for good, photos included.</span>
+        <span class="we-pair-open-text2">Az eltávolított darabok 30 napig maradnak itt. Ha visszaállítasz egyet, visszakerül a kategóriájába a viselési előzményével együtt. Utána véglegesen törlődnek, a fotókkal együtt.</span>
       </div>
       <!-- --- Ha látszik: Van eltávolított ruha --- -->
       <sc-if value="{{ removedHas }}" hint-placeholder-val="{{ false }}">
-      <div class="we-removed-has-btn1" onClick="{{ deleteAllNow }}">Delete all now</div>
-      <span class="we-removed-has-text1">This can't be undone.</span>
+      <div class="we-removed-has-btn1" onClick="{{ deleteAllNow }}">Összes törlése most</div>
+      <span class="we-removed-has-text1">Ez nem vonható vissza.</span>
       </sc-if>
     </div>
     </sc-if>
@@ -868,10 +870,12 @@
       <div class="we-rail-summary-col1">
         <span class="we-home-empty-text4">{{ idleHeadline }}</span>
         <span class="we-rail-summary-text1">{{ idleBody }}</span>
-        <div class="we-rail-summary-btn1" onClick="{{ toUntouched }}">Review them</div>
+        <div class="we-rail-summary-btn1" onClick="{{ toUntouched }}">Nézd át őket</div>
       </div>
+      <!-- --- Ha látszik: Van legalább egy ruha (a "Legtöbbet viselt" üres szekrénynél nem jelenik meg) --- -->
+      <sc-if value="{{ hasMostWorn }}" hint-placeholder-val="{{ true }}">
       <div class="we-rail-item-col3">
-        <span class="we-builder-text4">Most worn</span>
+        <span class="we-builder-text4">Legtöbbet viselt</span>
         <!-- · Lista: Legtöbbet viselt darabok · -->
         <sc-for list="{{ mostWorn }}" as="m" hint-placeholder-count="3">
           <div class="we-most-worn-btn1" onClick="{{ m.on }}">
@@ -881,9 +885,10 @@
           </div>
         </sc-for>
       </div>
+      </sc-if>
       <div class="we-rail-summary-btn2" onClick="{{ toAdd }}">
         <span class="we-rail-summary-text2">+</span>
-        <span class="we-settings-text4">Add photos</span>
+        <span class="we-settings-text4">Fotók hozzáadása</span>
       </div>
     </div>
     </sc-if>
