@@ -1,0 +1,5 @@
+# A backend telepített csomagjai – npm install újratelepíti (server/package.json alapján)
+server/node_modules/
+
+# Feltöltött ruhafotók – ezek felhasználói adatok, nem forráskód
+server/uploads/
