@@ -1,0 +1,3010 @@
+/* ==========================================================================
+   Wardro Home.css
+   A(z) "Wardro Home.dc.html" sablon stílusai.
+   Osztálynév-séma: ho-<szekció>-<szerep><sorszám>
+     szerep: btn = kattintható elem, abs = abszolút pozíciójú, grid = rács elrendezés,
+             row / col = flex sor / oszlop, text = szöveg, box = háttéres elem,
+             line = szegély / elválasztó, el = egyéb
+   A {{ ... }} értékű (dinamikus) stílusok a sablonban inline maradtak.
+   ========================================================================== */
+
+/* ===== Alap (globális) szabályok ===== */
+/* A design-canvas mód a runtime-ban (support.js) egy html,body{background} szabályt
+   injektál; ez a nagyobb specificitású `html body` biztosítja, hogy a mi háttérszínünk nyerjen. */
+html body {
+  margin: 0;
+  background: #f0eee9;
+  font-family: 'Instrument Sans',system-ui,sans-serif;
+}
+
+a {
+  color: #5A4A34;
+}
+
+a:hover {
+  color: #8a7250;
+}
+
+.dv-turn {
+  padding: 40px 44px 32px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  scroll-margin-top: 16px;
+}
+
+.dv-thd {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.dv-tid {
+  font: 600 10px ui-monospace,Menlo,monospace;
+  padding: 3px 7px;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.dv-tname {
+  font: 600 13px/1.2 system-ui,sans-serif;
+  color: #1a1a1a;
+}
+
+.dv-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.dv-opt {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  scroll-margin-top: 16px;
+}
+
+.dv-oid {
+  font: 600 10.5px ui-monospace,Menlo,monospace;
+  padding: 3px 7px;
+  background: rgba(0,0,0,.08);
+  color: #1a1a1a;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.dv-olabel {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font: 400 11px/1.3 system-ui,sans-serif;
+  color: rgba(0,0,0,.55);
+}
+
+.dv-opt:target .dv-oid {
+  background: #5A4A34;
+  color: #fff;
+}
+
+.dv-next {
+  margin: 22px 0 0;
+  font: 12px/1.5 system-ui,sans-serif;
+  color: rgba(0,0,0,.5);
+}
+
+.dv-note {
+  max-width: 760px;
+  font: 13px/1.6 'Instrument Sans',system-ui,sans-serif;
+  color: rgba(0,0,0,.62);
+  margin: 0 0 26px;
+}
+
+.dv-note b {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* ===== Kattintható végigvezetés (teljes mobilos folyamat) (flow) ===== */
+.ho-flow-row1 {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 6px;
+  background: rgba(87,70,47,.1);
+  border-radius: 9px;
+  padding: 3px;
+}
+
+.ho-flow-btn1 {
+  margin-left: 4px;
+  border-radius: 7px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font: 600 11px 'Instrument Sans',sans-serif;
+  background: rgba(87,70,47,.1);
+  color: #57462F;
+}
+
+.ho-flow-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 88px;
+  height: 110px;
+  background: linear-gradient(transparent,#EBE2D2 44%);
+  pointer-events: none;
+}
+
+.ho-flow-btn2 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 106px;
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: 0 8px 20px rgba(87,70,47,.28);
+  cursor: pointer;
+}
+
+.ho-flow-text1 {
+  font: 400 22px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ho-flow-text2 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Ki használja – fülek (Férfi / Női) (who-tabs) ===== */
+.ho-who-tabs-btn1 {
+  border-radius: 7px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font: 600 11px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Kezdőlap (mobil) (home) ===== */
+.ho-home-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 18px 100px;
+  box-sizing: border-box;
+  gap: 12px;
+  position: relative;
+}
+
+.ho-home-row1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ho-home-row2 {
+  flex: 1;
+  background: #57462F;
+  border-radius: 15px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.ho-home-text1 {
+  font: 600 18px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ho-home-btn1 {
+  width: 44px;
+  height: 44px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ho-home-text2 {
+  font: 400 24px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ho-home-btn2 {
+  background: #F6F1E7;
+  border-radius: 13px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+.ho-home-line1 {
+  width: 12px;
+  height: 12px;
+  border: 1.8px solid #6E5B41;
+  border-radius: 50%;
+  flex: none;
+}
+
+.ho-home-text3 {
+  font: 400 13.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-home-row3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.ho-home-text4 {
+  font: 400 12.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-home-btn3 {
+  font: 600 12.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  cursor: pointer;
+}
+
+.ho-home-grid1 {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  grid-template-rows: 1.5fr 1fr 1.2fr;
+  gap: 10px;
+  min-height: 0;
+}
+
+.ho-home-btn4 {
+  grid-row: span 2;
+  background: #CFCBC1;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ho-home-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.09) 0 7px,transparent 7px 14px);
+}
+
+.ho-home-abs2 {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-home-abs3 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52%;
+  background: linear-gradient(transparent,rgba(44,34,21,.72));
+}
+
+.ho-home-abs4 {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+}
+
+.ho-home-text5 {
+  font: 600 30px/1 'Oswald',sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.ho-home-text6 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.ho-home-btn5 {
+  background: #C6C2B8;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ho-home-text7 {
+  font: 600 24px/1 'Oswald',sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.ho-home-btn6 {
+  background: #D2CEC4;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ho-home-btn7 {
+  background: #CBC7BD;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ho-home-text8 {
+  font: 600 22px/1 'Oswald',sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.ho-home-btn8 {
+  background: #D6D2C8;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ho-home-col2 {
+  background: #F6F1E7;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.ho-home-text9 {
+  font: 600 26px/1 'Oswald',sans-serif;
+  color: #57462F;
+}
+
+.ho-home-text10 {
+  font: 400 12.5px/1.35 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-home-btn9 {
+  margin-left: auto;
+  font: 600 12px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  cursor: pointer;
+}
+
+.ho-home-row4 {
+  display: flex;
+  gap: 8px;
+}
+
+.ho-home-abs5 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 88px;
+  background: #F6F1E7;
+  border-top: 1px solid rgba(87,70,47,.12);
+  display: flex;
+  padding: 12px 0 0;
+  z-index: 8;
+}
+
+.ho-home-btn10 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ho-home-box1 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #57462F;
+  border-radius: 5px;
+  background: #57462F;
+}
+
+.ho-home-text11 {
+  font: 600 11px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-home-box2 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #6B5940;
+  border-radius: 5px;
+  background: transparent;
+}
+
+.ho-home-text12 {
+  font: 500 11px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-home-box3 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #6B5940;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* ===== Javaslatok (mit vegyél fel) (suggestions) ===== */
+.ho-suggestions-btn1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ho-suggestions-box1 {
+  height: 56px;
+  border-radius: 10px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-suggestions-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.1) 0 6px,transparent 6px 12px);
+}
+
+.ho-suggestions-text1 {
+  font: 500 11px/1.25 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Böngészés – kategóriák áttekintése (browse) ===== */
+.ho-browse-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.ho-browse-col2 {
+  padding: 54px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ho-browse-row1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ho-browse-btn1 {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-browse-text1 {
+  font: 600 22px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  letter-spacing: -.01em;
+}
+
+.ho-browse-text2 {
+  margin-left: auto;
+  font: 400 12.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-browse-col3 {
+  flex: 1;
+  overflow: auto;
+  padding: 0 18px 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== Polcok (kategória-csoportok) (shelves) ===== */
+.ho-shelves-btn1 {
+  background: #F6F1E7;
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ho-shelves-row1 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.ho-shelves-text1 {
+  font: 600 20px 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ho-shelves-text2 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-shelves-box1 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-shelves-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.09) 0 6px,transparent 6px 12px);
+}
+
+.ho-shelves-abs2 {
+  position: absolute;
+  left: 8px;
+  bottom: 7px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-shelves-row2 {
+  width: 44px;
+  height: 72px;
+  border-radius: 11px;
+  background: #EBE2D2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 500 12px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Kategória – még nincs ruha (cat-no-items) ===== */
+.ho-cat-no-items-col1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 40px 140px;
+  text-align: center;
+}
+
+.ho-cat-no-items-text1 {
+  font: 600 17px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-cat-no-items-text2 {
+  font: 400 13px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Egy kategória tartalma (cat) ===== */
+.ho-cat-col1 {
+  padding: 54px 18px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ho-cat-col2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.ho-cat-text1 {
+  font: 600 26px/1.1 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ho-cat-text2 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  margin-top: 2px;
+}
+
+/* ===== Szűrők (filters) ===== */
+.ho-filters-btn1 {
+  height: 32px;
+  border-radius: 10px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font: 500 12.5px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Kategória – van benne ruha (cat-has-items) ===== */
+.ho-cat-has-items-grid1 {
+  flex: 1;
+  overflow: auto;
+  padding: 6px 18px 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-content: start;
+}
+
+/* ===== Kategória ruhadarabjai (cat-items) ===== */
+.ho-cat-items-btn1 {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.ho-cat-items-box1 {
+  height: 150px;
+  border-radius: 14px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-cat-items-abs1 {
+  position: absolute;
+  left: 9px;
+  top: 9px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-cat-items-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 2px;
+}
+
+.ho-cat-items-text1 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-cat-items-text2 {
+  font: 400 11px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Eltávolított elemek jelzése (show-removed) ===== */
+.ho-show-removed-abs1 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 172px;
+  z-index: 9;
+  height: 50px;
+  border-radius: 14px;
+  background: #2C2219;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: 0 10px 26px rgba(38,29,18,.3);
+}
+
+.ho-show-removed-text1 {
+  font: 500 13.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ho-show-removed-btn1 {
+  margin-left: auto;
+  font: 600 13.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ===== Keresés képernyő (search) ===== */
+.ho-search-col1 {
+  padding: 54px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ho-search-row1 {
+  flex: 1;
+  background: #F6F1E7;
+  border-radius: 13px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1.5px solid #57462F;
+}
+
+.ho-search-line1 {
+  width: 12px;
+  height: 12px;
+  border: 1.8px solid #57462F;
+  border-radius: 50%;
+  flex: none;
+}
+
+.ho-search-text1 {
+  font: 400 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-search-box1 {
+  width: 1.5px;
+  height: 18px;
+  background: #57462F;
+}
+
+.ho-search-btn1 {
+  font: 500 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  cursor: pointer;
+}
+
+.ho-search-row2 {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ho-search-grid1 {
+  flex: 1;
+  overflow: auto;
+  padding: 0 18px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-content: start;
+}
+
+/* ===== Keresési találatok (search-results) ===== */
+.ho-search-results-el1 {
+  padding: 0 2px;
+}
+
+.ho-search-results-text1 {
+  font: 400 11px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+/* ===== Profil – kategóriák szerkesztése (you-categories) ===== */
+.ho-you-categories-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-you-categories-row1 {
+  padding: 54px 18px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ho-you-categories-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ho-you-categories-text1 {
+  font: 600 21px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  letter-spacing: -.01em;
+}
+
+.ho-you-categories-text2 {
+  font: 400 11.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-you-categories-col3 {
+  flex: 1;
+  overflow: auto;
+  padding: 0 18px 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ho-you-categories-text3 {
+  font: 400 12px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  padding: 4px 4px 0;
+}
+
+.ho-you-categories-btn1 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 44px;
+  height: 52px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+.ho-you-categories-text4 {
+  font: 400 21px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ho-you-categories-text5 {
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Kategória sorok (cat-rows) ===== */
+.ho-cat-rows-btn1 {
+  background: #F6F1E7;
+  border-radius: 15px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ho-cat-rows-col1 {
+  width: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: none;
+}
+
+.ho-cat-rows-box1 {
+  height: 1.5px;
+  background: rgba(87,70,47,.35);
+}
+
+.ho-cat-rows-text1 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-cat-rows-text2 {
+  margin-left: auto;
+  font: 500 12.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+/* ===== Profil – emlékeztetők (you-reminders) ===== */
+.ho-you-reminders-col1 {
+  flex: 1;
+  overflow: auto;
+  padding: 0 18px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* ===== Emlékeztető kapcsolók (reminder-toggles) ===== */
+.ho-reminder-toggles-row1 {
+  background: #F6F1E7;
+  border-radius: 15px;
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  gap: 14px;
+}
+
+.ho-reminder-toggles-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.ho-reminder-toggles-text1 {
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-reminder-toggles-text2 {
+  font: 400 11.5px/1.35 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-reminder-toggles-btn1 {
+  width: 48px;
+  height: 29px;
+  border-radius: 15px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.ho-reminder-toggles-box1 {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #F6F1E7;
+}
+
+/* ===== Profil – eltávolított ruhák (you-removed) ===== */
+.ho-you-removed-btn1 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 44px;
+  height: 52px;
+  border-radius: 15px;
+  background: transparent;
+  border: 1px solid rgba(154,52,18,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #9A3412;
+}
+
+/* ===== Eltávolított ruhák (removed-items) ===== */
+.ho-removed-items-row1 {
+  background: #F6F1E7;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.ho-removed-items-box1 {
+  width: 46px;
+  height: 56px;
+  border-radius: 10px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  flex: none;
+  opacity: .65;
+}
+
+.ho-removed-items-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.11) 0 6px,transparent 6px 12px);
+}
+
+.ho-removed-items-btn1 {
+  height: 34px;
+  border-radius: 11px;
+  background: #EBE2D2;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  cursor: pointer;
+  font: 600 12.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  flex: none;
+}
+
+/* ===== Nincs eltávolított ruha (removed-empty) ===== */
+.ho-removed-empty-col1 {
+  padding: 56px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  text-align: center;
+}
+
+.ho-removed-empty-text1 {
+  font: 600 18px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Profil – exportálás (you-export) ===== */
+.ho-you-export-col1 {
+  background: #57462F;
+  border-radius: 16px;
+  padding: 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.ho-you-export-text1 {
+  font: 400 12.5px/1.5 'Instrument Sans',sans-serif;
+  color: #E4D9C6;
+}
+
+.ho-you-export-btn1 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 44px;
+  height: 52px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+/* ===== Export sorok (export-rows) ===== */
+.ho-export-rows-btn1 {
+  background: #F6F1E7;
+  border-radius: 15px;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ho-export-rows-box1 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #57462F;
+  border-radius: 5px;
+  background: #57462F;
+  flex: none;
+}
+
+/* ===== Profil (Te) képernyő (you) ===== */
+.ho-you-row1 {
+  padding: 54px 18px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ho-you-box1 {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  flex: none;
+}
+
+.ho-you-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  text-align: center;
+  font: 500 8px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-you-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ho-you-text1 {
+  font: 600 23px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  letter-spacing: -.01em;
+}
+
+.ho-you-btn1 {
+  margin-left: auto;
+  height: 34px;
+  border-radius: 11px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  cursor: pointer;
+  font: 600 12.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-you-col2 {
+  flex: 1;
+  overflow: auto;
+  padding: 0 18px 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ho-you-row2 {
+  display: flex;
+  gap: 9px;
+}
+
+.ho-you-col3 {
+  background: #F6F1E7;
+  border-radius: 18px;
+  padding: 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ho-you-text2 {
+  font: 600 11px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.ho-you-col4 {
+  background: #57462F;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.ho-you-btn2 {
+  height: 44px;
+  border-radius: 13px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 13.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-you-col5 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.ho-you-btn3 {
+  height: 52px;
+  border-radius: 15px;
+  background: transparent;
+  border: 1px solid rgba(87,70,47,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-you-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 88px;
+  background: #F6F1E7;
+  border-top: 1px solid rgba(87,70,47,.12);
+  display: flex;
+  padding: 12px 0 0;
+  z-index: 9;
+}
+
+.ho-you-line1 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #6B5940;
+  border-radius: 5px;
+}
+
+.ho-you-box2 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #57462F;
+  border-radius: 50%;
+  background: #57462F;
+}
+
+/* ===== Profil – statisztikák (you-stats) ===== */
+.ho-you-stats-col1 {
+  flex: 1;
+  background: #F6F1E7;
+  border-radius: 15px;
+  padding: 13px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ho-you-stats-text1 {
+  font: 600 25px/1 'Oswald',sans-serif;
+  color: #57462F;
+}
+
+.ho-you-stats-text2 {
+  font: 400 11px/1.3 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Profil – legtöbbet viselt (you-most) ===== */
+.ho-you-most-row1 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.ho-you-most-box1 {
+  width: 38px;
+  height: 46px;
+  border-radius: 9px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  flex: none;
+}
+
+.ho-you-most-text1 {
+  font: 500 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-you-most-text2 {
+  margin-left: auto;
+  font: 400 12.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Profil – menüsorok (you-rows) ===== */
+.ho-you-rows-btn1 {
+  background: #F6F1E7;
+  border-radius: 15px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ho-you-rows-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.ho-you-rows-text1 {
+  margin-left: auto;
+  font: 400 16px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Outfitek fül (húzós pakli) (outfits-tab) ===== */
+.ho-outfits-tab-col1 {
+  height: 100%;
+  background: #CFCBC1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-outfits-tab-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.09) 0 8px,transparent 8px 16px);
+}
+
+.ho-outfits-tab-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 56%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  padding: 112px 0 0;
+}
+
+.ho-outfits-tab-box1 {
+  position: relative;
+  overflow: hidden;
+  background: #DCD8CE;
+}
+
+.ho-outfits-tab-abs3 {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-outfits-tab-box2 {
+  position: relative;
+  overflow: hidden;
+  background: #D4D0C6;
+}
+
+.ho-outfits-tab-box3 {
+  position: relative;
+  overflow: hidden;
+  background: #D8D4CA;
+}
+
+.ho-outfits-tab-box4 {
+  position: relative;
+  overflow: hidden;
+  background: #CDC9BF;
+}
+
+.ho-outfits-tab-abs4 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 56px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.ho-outfits-tab-abs5 {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 74px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  z-index: 7;
+}
+
+.ho-outfits-tab-row1 {
+  height: 30px;
+  border-radius: 10px;
+  background: rgba(38,29,18,.5);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font: 500 12px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ho-outfits-tab-btn1 {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+}
+
+.ho-outfits-tab-abs6 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 44%;
+  background: linear-gradient(transparent,rgba(38,29,18,.9) 42%);
+  z-index: 2;
+}
+
+.ho-outfits-tab-btn2 {
+  position: absolute;
+  left: 0;
+  top: 112px;
+  bottom: 260px;
+  width: 34%;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.ho-outfits-tab-btn3 {
+  position: absolute;
+  right: 0;
+  top: 112px;
+  bottom: 260px;
+  width: 34%;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.ho-outfits-tab-abs7 {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 186px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.ho-outfits-tab-row2 {
+  display: flex;
+  gap: 7px;
+}
+
+.ho-outfits-tab-row3 {
+  height: 28px;
+  border-radius: 9px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  font: 500 12px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-outfits-tab-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ho-outfits-tab-text1 {
+  font: 600 34px/1 'Oswald',sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ho-outfits-tab-text2 {
+  font: 400 13px 'Instrument Sans',sans-serif;
+  color: #fff;
+}
+
+.ho-outfits-tab-text3 {
+  font: 400 12.5px 'Instrument Sans',sans-serif;
+  color: #fff;
+}
+
+.ho-outfits-tab-btn4 {
+  height: 48px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-outfits-tab-abs8 {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 122px;
+  z-index: 6;
+  display: flex;
+  gap: 10px;
+}
+
+.ho-outfits-tab-btn5 {
+  flex: 1;
+  height: 50px;
+  border-radius: 15px;
+  background: rgba(38,29,18,.68);
+  border: 1px solid rgba(246,241,231,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ho-outfits-tab-btn6 {
+  flex: 1;
+  height: 50px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ho-outfits-tab-text4 {
+  font: 400 20px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  line-height: 1;
+}
+
+.ho-outfits-tab-text5 {
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Lapozópontok a paklin (o-dots) ===== */
+.ho-o-dots-el1 {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* ===== Outfitek böngészése (outfits-browse) ===== */
+.ho-outfits-browse-col1 {
+  padding: 54px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ho-outfits-browse-text1 {
+  font: 400 12.5px/1.45 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-outfits-browse-col2 {
+  flex: 1;
+  overflow: auto;
+  padding: 4px 18px 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ho-outfits-browse-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 88px;
+  height: 104px;
+  background: linear-gradient(transparent,#EBE2D2 44%);
+  pointer-events: none;
+}
+
+.ho-outfits-browse-btn1 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 106px;
+  height: 52px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+/* ===== Outfit lista (böngészés) (o-browse-list) ===== */
+.ho-o-browse-list-col1 {
+  background: #F6F1E7;
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ho-o-browse-list-btn1 {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.ho-o-browse-list-text1 {
+  font: 400 11.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-o-browse-list-btn2 {
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+}
+
+.ho-o-browse-list-btn3 {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ho-o-browse-list-box1 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #D6D2C8;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-o-browse-list-box2 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #D2CEC4;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-o-browse-list-box3 {
+  flex: 1;
+  height: 72px;
+  border-radius: 11px;
+  background: #CDC9BF;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-o-browse-list-text2 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+/* ===== Outfit-összeállító (outfit-builder) ===== */
+.ho-outfit-builder-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 54px 18px 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-outfit-builder-row1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ho-outfit-builder-text1 {
+  font: 600 20px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-outfit-builder-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.ho-outfit-builder-text2 {
+  font: 500 11px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.ho-outfit-builder-text3 {
+  height: 46px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  padding: 0 15px;
+  font: 400 15px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ho-outfit-builder-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ho-outfit-builder-col3 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ho-outfit-builder-col4 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ho-outfit-builder-btn1 {
+  margin-top: auto;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ho-outfit-builder-text4 {
+  font: 600 15px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Összeállító – ruha-helyek (o-builder-slots) ===== */
+.ho-o-builder-slots-btn1 {
+  height: 112px;
+  border-radius: 16px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+}
+
+.ho-o-builder-slots-abs1 {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  font: 500 10.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.ho-o-builder-slots-text1 {
+  font: 500 13.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Összeállító – alkalmak (o-occasions) ===== */
+.ho-o-occasions-btn1 {
+  height: 34px;
+  border-radius: 11px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font: 500 13px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Fotó még nincs (kamera felület) (o-shot-empty) ===== */
+.ho-o-shot-empty-btn1 {
+  height: 52px;
+  border-radius: 15px;
+  background: #F6F1E7;
+  border: 1px dashed rgba(87,70,47,.35);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.ho-o-shot-empty-text1 {
+  font: 400 20px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  line-height: 1;
+}
+
+/* ===== Fotó elkészült (o-shot-taken) ===== */
+.ho-o-shot-taken-row1 {
+  height: 52px;
+  border-radius: 15px;
+  background: #DCD8CE;
+  border: 1.5px solid #57462F;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 12px;
+}
+
+.ho-o-shot-taken-box1 {
+  width: 30px;
+  height: 38px;
+  border-radius: 6px;
+  background: #CFCBC1;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-o-shot-taken-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(87,70,47,.12) 0 5px,transparent 5px 10px);
+}
+
+.ho-o-shot-taken-btn1 {
+  margin-left: auto;
+  font: 500 12.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  cursor: pointer;
+}
+
+/* ===== Ruhaválasztó nyitva (o-picker-open) ===== */
+.ho-o-picker-open-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.45);
+  z-index: 10;
+}
+
+.ho-o-picker-open-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 18px 40px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 70%;
+}
+
+.ho-o-picker-open-box1 {
+  width: 44px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(87,70,47,.25);
+  align-self: center;
+}
+
+.ho-o-picker-open-text1 {
+  font: 600 19px 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ho-o-picker-open-btn1 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  cursor: pointer;
+}
+
+.ho-o-picker-open-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 9px;
+  overflow: auto;
+}
+
+/* ===== Ruhaválasztó elemei (o-picker-items) ===== */
+.ho-o-picker-items-btn1 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ho-o-picker-items-box1 {
+  height: 92px;
+  border-radius: 12px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-o-picker-items-text1 {
+  font: 500 11.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Átnézés (új ruhák jóváhagyása) (review) ===== */
+.ho-review-col1 {
+  flex: 1;
+  overflow: auto;
+  padding: 0 18px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== Átnézendő ruhák (review-items) ===== */
+.ho-review-items-col1 {
+  background: #F6F1E7;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ho-review-items-btn1 {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  cursor: pointer;
+}
+
+.ho-review-items-box1 {
+  width: 50px;
+  height: 60px;
+  border-radius: 10px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  flex: none;
+}
+
+.ho-review-items-btn2 {
+  flex: 1;
+  height: 42px;
+  border-radius: 12px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 13px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ho-review-items-btn3 {
+  height: 42px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid rgba(154,52,18,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  cursor: pointer;
+  font: 600 13px 'Instrument Sans',sans-serif;
+  color: #9A3412;
+}
+
+/* ===== Nincs átnézendő ruha (review-empty) ===== */
+.ho-review-empty-col1 {
+  padding: 60px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  text-align: center;
+}
+
+/* ===== Ruhadarab részletei (item) ===== */
+.ho-item-box1 {
+  height: 330px;
+  background: #D2CEC4;
+  position: relative;
+  flex: none;
+}
+
+.ho-item-abs1 {
+  position: absolute;
+  left: 20px;
+  bottom: 16px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-item-btn1 {
+  position: absolute;
+  left: 18px;
+  top: 54px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 400 17px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-item-btn2 {
+  position: absolute;
+  right: 18px;
+  top: 54px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 500 15px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-item-col1 {
+  flex: 1;
+  overflow: auto;
+  padding: 20px 20px 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ho-item-text1 {
+  font: 600 30px/1.05 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ho-item-text2 {
+  font: 400 13.5px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-item-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ho-item-btn3 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 106px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ho-item-line1 {
+  width: 20px;
+  height: 20px;
+  border: 1.8px solid #6B5940;
+  border-radius: 50%;
+}
+
+/* ===== Címkék (item-tag-list) ===== */
+.ho-item-tag-list-row1 {
+  height: 30px;
+  border-radius: 10px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font: 500 12.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Outfitek, amikben szerepel (item-outfits) ===== */
+.ho-item-outfits-btn1 {
+  background: #F6F1E7;
+  border-radius: 15px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ho-item-outfits-box1 {
+  width: 44px;
+  height: 52px;
+  border-radius: 9px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  flex: none;
+}
+
+.ho-item-outfits-text1 {
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Áthelyezés visszajelzés (show-moved) ===== */
+.ho-show-moved-abs1 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 172px;
+  z-index: 10;
+  height: 50px;
+  border-radius: 14px;
+  background: #2C2219;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: 0 10px 26px rgba(38,29,18,.3);
+}
+
+/* ===== Ruha szerkesztése (item-edit) ===== */
+.ho-item-edit-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.5);
+  z-index: 12;
+}
+
+.ho-item-edit-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 13;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.3);
+}
+
+.ho-item-edit-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ho-item-edit-text1 {
+  height: 48px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1.5px solid #57462F;
+  padding: 0 15px;
+  font: 400 15px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ho-item-edit-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ho-item-edit-row1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ho-item-edit-btn1 {
+  flex: 1;
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-item-edit-btn2 {
+  flex: 1;
+  height: 50px;
+  border-radius: 14px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Címke-opciók (tag-options) ===== */
+.ho-tag-options-btn1 {
+  height: 34px;
+  border-radius: 11px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font: 500 13px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Ruha áthelyezése másik kategóriába (item-move) ===== */
+.ho-item-move-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 13;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.3);
+}
+
+.ho-item-move-col1 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ho-item-move-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ho-item-move-btn1 {
+  height: 50px;
+  border-radius: 14px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Áthelyezés – kategóriák (move-cats) ===== */
+.ho-move-cats-btn1 {
+  height: 56px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  cursor: pointer;
+}
+
+/* ===== Ruha menü (item-menu) ===== */
+.ho-item-menu-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.45);
+  z-index: 12;
+}
+
+.ho-item-menu-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 13;
+  background: #EBE2D2;
+  border-radius: 24px 24px 0 0;
+  padding: 18px 20px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  box-shadow: 0 -12px 40px rgba(38,29,18,.28);
+}
+
+.ho-item-menu-box1 {
+  width: 44px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(87,70,47,.25);
+  align-self: center;
+  margin-bottom: 6px;
+}
+
+.ho-item-menu-btn1 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  font: 500 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-item-menu-btn2 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  font: 500 14.5px 'Instrument Sans',sans-serif;
+  color: #9A3412;
+}
+
+/* ===== Törlés / eltávolítás megerősítése (item-confirm) ===== */
+.ho-item-confirm-abs1 {
+  position: absolute;
+  inset: 0;
+  background: rgba(38,29,18,.5);
+  z-index: 14;
+}
+
+.ho-item-confirm-abs2 {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  background: #EBE2D2;
+  border-radius: 22px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 50px rgba(38,29,18,.35);
+}
+
+.ho-item-confirm-text1 {
+  font: 400 13.5px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-item-confirm-btn1 {
+  height: 50px;
+  border-radius: 14px;
+  background: #9A3412;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+.ho-item-confirm-btn2 {
+  height: 50px;
+  border-radius: 14px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14.5px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+/* ===== Üres állapot – még nincs ruha (empty) ===== */
+.ho-empty-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 70px 22px 44px;
+  position: relative;
+}
+
+.ho-empty-col2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 26px;
+}
+
+.ho-empty-text1 {
+  font: 600 32px/1.05 'Oswald',sans-serif;
+  color: #57462F;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ho-empty-text2 {
+  font: 400 14.5px/1.55 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-empty-btn1 {
+  margin-top: auto;
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.26);
+}
+
+.ho-empty-btn2 {
+  margin-top: 16px;
+  text-align: center;
+  font: 500 13.5px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+  cursor: pointer;
+}
+
+/* ===== Üres kategóriák (empty-cats) ===== */
+.ho-empty-cats-btn1 {
+  background: #F6F1E7;
+  border-radius: 15px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+.ho-empty-cats-row1 {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: #DCD8CE;
+  border: 1px dashed rgba(87,70,47,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 18px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  flex: none;
+}
+
+/* ===== Hozzáadás – fényképezés (add-shoot) ===== */
+.ho-add-shoot-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 54px 18px 40px;
+}
+
+.ho-add-shoot-row1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ho-add-shoot-text1 {
+  margin-left: auto;
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-add-shoot-row2 {
+  flex: 1;
+  border-radius: 22px;
+  background: #2C2219;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ho-add-shoot-abs1 {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px);
+}
+
+.ho-add-shoot-line1 {
+  width: 66%;
+  height: 52%;
+  border: 1.5px dashed rgba(246,241,231,.5);
+  border-radius: 16px;
+}
+
+.ho-add-shoot-abs2 {
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: 400 13px 'Instrument Sans',sans-serif;
+  color: rgba(246,241,231,.85);
+}
+
+.ho-add-shoot-abs3 {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: rgba(246,241,231,.5);
+}
+
+.ho-add-shoot-row3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 12px 0;
+}
+
+.ho-add-shoot-text2 {
+  font: 500 13px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-add-shoot-btn1 {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #57462F;
+  border: 4px solid #F6F1E7;
+  box-shadow: 0 0 0 2px #57462F;
+  cursor: pointer;
+}
+
+/* ===== Hozzáadás – kategóriába sorolás (add-sort) ===== */
+.ho-add-sort-box1 {
+  height: 250px;
+  border-radius: 20px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.ho-add-sort-abs1 {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  font: 500 11px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-add-sort-text1 {
+  font: 500 12px 'Instrument Sans',sans-serif;
+  color: #6B5940;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.ho-add-sort-btn1 {
+  margin-top: auto;
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(87,70,47,.28);
+}
+
+/* ===== Kategória-választó (add-cats) ===== */
+.ho-add-cats-btn1 {
+  height: 40px;
+  border-radius: 12px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font: 500 14px 'Instrument Sans',sans-serif;
+}
+
+/* ===== Hozzáadás – kész (add-done) ===== */
+.ho-add-done-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 54px 30px 40px;
+  gap: 22px;
+}
+
+.ho-add-done-box1 {
+  width: 150px;
+  height: 190px;
+  border-radius: 18px;
+  background: #DCD8CE;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-add-done-abs1 {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font: 500 9.5px ui-monospace,Menlo,monospace;
+  color: #6E5B41;
+}
+
+.ho-add-done-col2 {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ho-add-done-text1 {
+  font: 600 24px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-add-done-text2 {
+  font: 400 14px/1.5 'Instrument Sans',sans-serif;
+  color: #6B5940;
+}
+
+.ho-add-done-row1 {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.ho-add-done-btn1 {
+  flex: 1;
+  height: 52px;
+  border-radius: 16px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #57462F;
+}
+
+.ho-add-done-btn2 {
+  flex: 1;
+  height: 52px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 600 14px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+}
+
+/* ===== Kezdőképernyő – három elrendezés (layouts) ===== */
+.ho-layouts-col1 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.ho-layouts-col2 {
+  padding: 56px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ho-layouts-row1 {
+  background: #57462F;
+  border-radius: 16px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ho-layouts-text1 {
+  font: 600 19px 'Instrument Sans',sans-serif;
+  color: #F6F1E7;
+  letter-spacing: .01em;
+}
+
+.ho-layouts-row2 {
+  background: #F6F1E7;
+  border-radius: 13px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+.ho-layouts-line1 {
+  width: 13px;
+  height: 13px;
+  border: 1.8px solid #6E5B41;
+  border-radius: 50%;
+  flex: none;
+}
+
+.ho-layouts-text2 {
+  font: 400 14px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-layouts-row3 {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+  padding: 16px 0 136px 20px;
+  overflow: hidden;
+}
+
+.ho-layouts-box1 {
+  flex: none;
+  width: 116px;
+  background: #CFCBC1;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-abs1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 12px;
+  background: linear-gradient(transparent,rgba(44,34,21,.74));
+}
+
+.ho-layouts-text3 {
+  font: 600 21px/1 'Oswald',sans-serif;
+  color: #fff;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+}
+
+.ho-layouts-text4 {
+  font: 400 12px 'Instrument Sans',sans-serif;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.ho-layouts-box2 {
+  flex: none;
+  width: 116px;
+  background: #C6C2B8;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-box3 {
+  flex: none;
+  width: 116px;
+  background: #D2CEC4;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-abs2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 132px;
+  background: linear-gradient(transparent,#EBE2D2 46%);
+}
+
+.ho-layouts-abs3 {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 46px;
+  display: flex;
+  gap: 10px;
+}
+
+.ho-layouts-row4 {
+  flex: 1;
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: 0 8px 20px rgba(87,70,47,.28);
+}
+
+.ho-layouts-row5 {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #F6F1E7;
+  border: 1px solid rgba(87,70,47,.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ho-layouts-line2 {
+  width: 16px;
+  height: 16px;
+  border: 1.8px solid #57462F;
+  border-radius: 3px;
+}
+
+.ho-layouts-col3 {
+  height: 100%;
+  background: #EBE2D2;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 18px 40px;
+  box-sizing: border-box;
+  gap: 12px;
+}
+
+.ho-layouts-row6 {
+  width: 44px;
+  height: 44px;
+  border-radius: 15px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ho-layouts-row7 {
+  background: #F6F1E7;
+  border-radius: 13px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+.ho-layouts-box4 {
+  grid-row: span 2;
+  background: #CFCBC1;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-box5 {
+  background: #C6C2B8;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-box6 {
+  background: #D2CEC4;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-box7 {
+  background: #CBC7BD;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-box8 {
+  background: #D6D2C8;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ho-layouts-col4 {
+  padding: 54px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #EBE2D2;
+}
+
+.ho-layouts-text5 {
+  font: 600 26px 'Instrument Sans',sans-serif;
+  color: #57462F;
+  letter-spacing: -.01em;
+}
+
+.ho-layouts-text6 {
+  font: 400 13px 'Instrument Sans',sans-serif;
+  color: #6E5B41;
+}
+
+.ho-layouts-col5 {
+  flex: 1;
+  overflow: hidden;
+  padding: 4px 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ho-layouts-abs4 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 118px;
+  background: linear-gradient(transparent,#EBE2D2 44%);
+}
+
+.ho-layouts-abs5 {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 106px;
+  height: 54px;
+  border-radius: 16px;
+  background: #57462F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: 0 8px 20px rgba(87,70,47,.28);
+}
+

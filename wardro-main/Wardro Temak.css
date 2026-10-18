@@ -1,0 +1,1429 @@
+/* ==========================================================================
+   Wardro Temak.css – színtémák (generálva: néhány alapszínből a teljes készlet)
+   Minden téma: háttér, felület, szöveg, kiemelő szín, színfoltok.
+   A világos témák lágy, tört fehérek (nem vakítanak), a sötétek nem tiszta
+   fehér szöveggel dolgoznak. A téma a <html data-theme="..."> értékéből jön.
+   ========================================================================== */
+
+/* --- Éjjel – Grafit sötét, lime kiemeléssel --- */
+:root[data-theme="ejjel"] {
+  color-scheme: dark;
+  --c-f6f1e7: #17171A;
+  --c-ebe2d2: #0F0F11;
+  --c-f1eadd: #202023;
+  --c-e4d9c6: #2E2E31;
+  --c-dcd8ce: #262629;
+  --c-d2cec4: #29292C;
+  --c-d8d1c1: #343437;
+  --c-d6d2c8: #2F2F32;
+  --c-cdc9bf: #333336;
+  --c-d8d4ca: #2C2C2E;
+  --c-d4d0c6: #28282B;
+  --c-cfcbc1: #303033;
+  --c-cbc7bd: #363639;
+  --c-c6c2b8: #3A3A3D;
+  --c-c9b99e: #5D5D60;
+  --c-b8a78a: #656568;
+  --c-d8c9ae: #404043;
+  --c-57462f: #E4E4E7;
+  --c-2c2219: #F4F4F5;
+  --c-6b5940: #ADADB0;
+  --c-6e5b41: #A4A4A7;
+  --c-8a7250: #BBBBBE;
+  --c-8a7a62: #848487;
+  --c-7a6749: #737376;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #331F22;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 228,228,231;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 23,23,26;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(23,23,26,.62);
+  --m-accent: #C8F169;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(124,92,255,.5);
+  --m-a2: rgba(255,122,89,.36);
+  --m-a3: rgba(45,212,191,.34);
+  --m-plot: #C8F169;
+}
+:root[data-theme="ejjel"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #17171A;
+  --c-ebe2d2: #0F0F11;
+  --c-f1eadd: #202023;
+  --c-e4d9c6: #2E2E31;
+  --c-dcd8ce: #262629;
+  --c-d2cec4: #29292C;
+  --c-d8d1c1: #343437;
+  --c-d6d2c8: #2F2F32;
+  --c-cdc9bf: #333336;
+  --c-d8d4ca: #2C2C2E;
+  --c-d4d0c6: #28282B;
+  --c-cfcbc1: #303033;
+  --c-cbc7bd: #363639;
+  --c-c6c2b8: #3A3A3D;
+  --c-c9b99e: #5D5D60;
+  --c-b8a78a: #656568;
+  --c-d8c9ae: #404043;
+  --c-57462f: #E4E4E7;
+  --c-2c2219: #F4F4F5;
+  --c-6b5940: #ADADB0;
+  --c-6e5b41: #A4A4A7;
+  --c-8a7250: #BBBBBE;
+  --c-8a7a62: #848487;
+  --c-7a6749: #737376;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #331F22;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 228,228,231;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 23,23,26;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(23,23,26,.62);
+  --m-accent: #C8F169;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(124,92,255,.5);
+  --m-a2: rgba(255,122,89,.36);
+  --m-a3: rgba(45,212,191,.34);
+  --m-plot: #C8F169;
+}
+:root[data-theme="ejjel"] body,
+:root[data-theme="ejjel"] .we-keret-grid1 { background: #0F0F11; }
+:root[data-theme="ejjel"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="ejjel"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Rubin – Mély bordó sötét, piros kiemeléssel --- */
+:root[data-theme="rubin"] {
+  color-scheme: dark;
+  --c-f6f1e7: #1F1215;
+  --c-ebe2d2: #140B0D;
+  --c-f1eadd: #281B1E;
+  --c-e4d9c6: #36292C;
+  --c-dcd8ce: #2F2225;
+  --c-d2cec4: #322528;
+  --c-d8d1c1: #3C2F32;
+  --c-d6d2c8: #372A2D;
+  --c-cdc9bf: #3B2E31;
+  --c-d8d4ca: #34272A;
+  --c-d4d0c6: #312427;
+  --c-cfcbc1: #382B2E;
+  --c-cbc7bd: #3E3134;
+  --c-c6c2b8: #423538;
+  --c-c9b99e: #66595B;
+  --c-b8a78a: #6E6164;
+  --c-d8c9ae: #493C3E;
+  --c-57462f: #EFE2E4;
+  --c-2c2219: #F8EEF0;
+  --c-6b5940: #B7AAAC;
+  --c-6e5b41: #AFA2A4;
+  --c-8a7250: #C5B8BB;
+  --c-8a7a62: #8D8083;
+  --c-7a6749: #7D7072;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #3A1B1D;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 239,226,228;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 31,18,21;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(31,18,21,.62);
+  --m-accent: #FF5468;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,64,96,.46);
+  --m-a2: rgba(255,146,92,.30);
+  --m-a3: rgba(176,48,120,.38);
+  --m-plot: #FF5468;
+}
+:root[data-theme="rubin"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #1F1215;
+  --c-ebe2d2: #140B0D;
+  --c-f1eadd: #281B1E;
+  --c-e4d9c6: #36292C;
+  --c-dcd8ce: #2F2225;
+  --c-d2cec4: #322528;
+  --c-d8d1c1: #3C2F32;
+  --c-d6d2c8: #372A2D;
+  --c-cdc9bf: #3B2E31;
+  --c-d8d4ca: #34272A;
+  --c-d4d0c6: #312427;
+  --c-cfcbc1: #382B2E;
+  --c-cbc7bd: #3E3134;
+  --c-c6c2b8: #423538;
+  --c-c9b99e: #66595B;
+  --c-b8a78a: #6E6164;
+  --c-d8c9ae: #493C3E;
+  --c-57462f: #EFE2E4;
+  --c-2c2219: #F8EEF0;
+  --c-6b5940: #B7AAAC;
+  --c-6e5b41: #AFA2A4;
+  --c-8a7250: #C5B8BB;
+  --c-8a7a62: #8D8083;
+  --c-7a6749: #7D7072;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #3A1B1D;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 239,226,228;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 31,18,21;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(31,18,21,.62);
+  --m-accent: #FF5468;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,64,96,.46);
+  --m-a2: rgba(255,146,92,.30);
+  --m-a3: rgba(176,48,120,.38);
+  --m-plot: #FF5468;
+}
+:root[data-theme="rubin"] body,
+:root[data-theme="rubin"] .we-keret-grid1 { background: #140B0D; }
+:root[data-theme="rubin"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="rubin"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Óceán – Éjkék sötét, türkiz kiemeléssel --- */
+:root[data-theme="ocean"] {
+  color-scheme: dark;
+  --c-f6f1e7: #111A26;
+  --c-ebe2d2: #0A1018;
+  --c-f1eadd: #1A232F;
+  --c-e4d9c6: #28313C;
+  --c-dcd8ce: #212935;
+  --c-d2cec4: #242D38;
+  --c-d8d1c1: #2E3742;
+  --c-d6d2c8: #29323D;
+  --c-cdc9bf: #2D3641;
+  --c-d8d4ca: #262F3A;
+  --c-d4d0c6: #232C37;
+  --c-cfcbc1: #2A333E;
+  --c-cbc7bd: #303944;
+  --c-c6c2b8: #343D48;
+  --c-c9b99e: #58606B;
+  --c-b8a78a: #606873;
+  --c-d8c9ae: #3B434E;
+  --c-57462f: #E1E8F0;
+  --c-2c2219: #F0F5FA;
+  --c-6b5940: #A9B0B9;
+  --c-6e5b41: #A1A8B1;
+  --c-8a7250: #B7BFC8;
+  --c-8a7a62: #7F8791;
+  --c-7a6749: #6F7781;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2E222C;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 225,232,240;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 17,26,38;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(17,26,38,.62);
+  --m-accent: #4CD3F5;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(56,120,255,.46);
+  --m-a2: rgba(32,210,200,.32);
+  --m-a3: rgba(130,90,255,.32);
+  --m-plot: #4CD3F5;
+}
+:root[data-theme="ocean"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #111A26;
+  --c-ebe2d2: #0A1018;
+  --c-f1eadd: #1A232F;
+  --c-e4d9c6: #28313C;
+  --c-dcd8ce: #212935;
+  --c-d2cec4: #242D38;
+  --c-d8d1c1: #2E3742;
+  --c-d6d2c8: #29323D;
+  --c-cdc9bf: #2D3641;
+  --c-d8d4ca: #262F3A;
+  --c-d4d0c6: #232C37;
+  --c-cfcbc1: #2A333E;
+  --c-cbc7bd: #303944;
+  --c-c6c2b8: #343D48;
+  --c-c9b99e: #58606B;
+  --c-b8a78a: #606873;
+  --c-d8c9ae: #3B434E;
+  --c-57462f: #E1E8F0;
+  --c-2c2219: #F0F5FA;
+  --c-6b5940: #A9B0B9;
+  --c-6e5b41: #A1A8B1;
+  --c-8a7250: #B7BFC8;
+  --c-8a7a62: #7F8791;
+  --c-7a6749: #6F7781;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2E222C;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 225,232,240;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 17,26,38;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(17,26,38,.62);
+  --m-accent: #4CD3F5;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(56,120,255,.46);
+  --m-a2: rgba(32,210,200,.32);
+  --m-a3: rgba(130,90,255,.32);
+  --m-plot: #4CD3F5;
+}
+:root[data-theme="ocean"] body,
+:root[data-theme="ocean"] .we-keret-grid1 { background: #0A1018; }
+:root[data-theme="ocean"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="ocean"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Erdő – Fenyőzöld sötét, friss zöld kiemeléssel --- */
+:root[data-theme="erdo"] {
+  color-scheme: dark;
+  --c-f6f1e7: #131C16;
+  --c-ebe2d2: #0B110D;
+  --c-f1eadd: #1C251F;
+  --c-e4d9c6: #2A332D;
+  --c-dcd8ce: #232B25;
+  --c-d2cec4: #262F28;
+  --c-d8d1c1: #303933;
+  --c-d6d2c8: #2B342E;
+  --c-cdc9bf: #2F3832;
+  --c-d8d4ca: #28312A;
+  --c-d4d0c6: #252E27;
+  --c-cfcbc1: #2C352F;
+  --c-cbc7bd: #323B35;
+  --c-c6c2b8: #363F39;
+  --c-c9b99e: #59625C;
+  --c-b8a78a: #626A64;
+  --c-d8c9ae: #3C453F;
+  --c-57462f: #E2EAE3;
+  --c-2c2219: #F0F5F1;
+  --c-6b5940: #AAB2AC;
+  --c-6e5b41: #A2AAA3;
+  --c-8a7250: #B9C1BA;
+  --c-8a7a62: #818983;
+  --c-7a6749: #707972;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2F231E;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 226,234,227;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 19,28,22;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(19,28,22,.62);
+  --m-accent: #7BDC8F;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(64,190,110,.40);
+  --m-a2: rgba(210,190,80,.26);
+  --m-a3: rgba(40,150,170,.32);
+  --m-plot: #7BDC8F;
+}
+:root[data-theme="erdo"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #131C16;
+  --c-ebe2d2: #0B110D;
+  --c-f1eadd: #1C251F;
+  --c-e4d9c6: #2A332D;
+  --c-dcd8ce: #232B25;
+  --c-d2cec4: #262F28;
+  --c-d8d1c1: #303933;
+  --c-d6d2c8: #2B342E;
+  --c-cdc9bf: #2F3832;
+  --c-d8d4ca: #28312A;
+  --c-d4d0c6: #252E27;
+  --c-cfcbc1: #2C352F;
+  --c-cbc7bd: #323B35;
+  --c-c6c2b8: #363F39;
+  --c-c9b99e: #59625C;
+  --c-b8a78a: #626A64;
+  --c-d8c9ae: #3C453F;
+  --c-57462f: #E2EAE3;
+  --c-2c2219: #F0F5F1;
+  --c-6b5940: #AAB2AC;
+  --c-6e5b41: #A2AAA3;
+  --c-8a7250: #B9C1BA;
+  --c-8a7a62: #818983;
+  --c-7a6749: #707972;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2F231E;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 226,234,227;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 19,28,22;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(19,28,22,.62);
+  --m-accent: #7BDC8F;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(64,190,110,.40);
+  --m-a2: rgba(210,190,80,.26);
+  --m-a3: rgba(40,150,170,.32);
+  --m-plot: #7BDC8F;
+}
+:root[data-theme="erdo"] body,
+:root[data-theme="erdo"] .we-keret-grid1 { background: #0B110D; }
+:root[data-theme="erdo"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="erdo"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Ametiszt – Sötét lila, levendula kiemeléssel --- */
+:root[data-theme="ametiszt"] {
+  color-scheme: dark;
+  --c-f6f1e7: #191322;
+  --c-ebe2d2: #100C17;
+  --c-f1eadd: #221C2B;
+  --c-e4d9c6: #302A39;
+  --c-dcd8ce: #292332;
+  --c-d2cec4: #2C2635;
+  --c-d8d1c1: #36303F;
+  --c-d6d2c8: #312B3A;
+  --c-cdc9bf: #352F3E;
+  --c-d8d4ca: #2E2837;
+  --c-d4d0c6: #2B2534;
+  --c-cfcbc1: #322C3B;
+  --c-cbc7bd: #383241;
+  --c-c6c2b8: #3C3645;
+  --c-c9b99e: #605A68;
+  --c-b8a78a: #686271;
+  --c-d8c9ae: #433D4B;
+  --c-57462f: #E9E3F1;
+  --c-2c2219: #F5F1FA;
+  --c-6b5940: #B1ABB9;
+  --c-6e5b41: #A9A3B1;
+  --c-8a7250: #BFB9C8;
+  --c-8a7a62: #878190;
+  --c-7a6749: #77717F;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #351C29;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 233,227,241;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 25,19,34;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(25,19,34,.62);
+  --m-accent: #BC94FF;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(150,90,255,.46);
+  --m-a2: rgba(255,110,180,.30);
+  --m-a3: rgba(80,130,255,.32);
+  --m-plot: #BC94FF;
+}
+:root[data-theme="ametiszt"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #191322;
+  --c-ebe2d2: #100C17;
+  --c-f1eadd: #221C2B;
+  --c-e4d9c6: #302A39;
+  --c-dcd8ce: #292332;
+  --c-d2cec4: #2C2635;
+  --c-d8d1c1: #36303F;
+  --c-d6d2c8: #312B3A;
+  --c-cdc9bf: #352F3E;
+  --c-d8d4ca: #2E2837;
+  --c-d4d0c6: #2B2534;
+  --c-cfcbc1: #322C3B;
+  --c-cbc7bd: #383241;
+  --c-c6c2b8: #3C3645;
+  --c-c9b99e: #605A68;
+  --c-b8a78a: #686271;
+  --c-d8c9ae: #433D4B;
+  --c-57462f: #E9E3F1;
+  --c-2c2219: #F5F1FA;
+  --c-6b5940: #B1ABB9;
+  --c-6e5b41: #A9A3B1;
+  --c-8a7250: #BFB9C8;
+  --c-8a7a62: #878190;
+  --c-7a6749: #77717F;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #351C29;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 233,227,241;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 25,19,34;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(25,19,34,.62);
+  --m-accent: #BC94FF;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(150,90,255,.46);
+  --m-a2: rgba(255,110,180,.30);
+  --m-a3: rgba(80,130,255,.32);
+  --m-plot: #BC94FF;
+}
+:root[data-theme="ametiszt"] body,
+:root[data-theme="ametiszt"] .we-keret-grid1 { background: #100C17; }
+:root[data-theme="ametiszt"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="ametiszt"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Homok – Lágy, meleg világos – nem vakít --- */
+:root[data-theme="homok"] {
+  color-scheme: light;
+  --c-f6f1e7: #F3F0EA;
+  --c-ebe2d2: #E9E5DE;
+  --c-f1eadd: #EAE7E1;
+  --c-e4d9c6: #DDDAD4;
+  --c-dcd8ce: #E4E1DB;
+  --c-d2cec4: #E1DED8;
+  --c-d8d1c1: #D7D4CE;
+  --c-d6d2c8: #DCD9D3;
+  --c-cdc9bf: #D8D5CF;
+  --c-d8d4ca: #DFDCD6;
+  --c-d4d0c6: #E2DFD9;
+  --c-cfcbc1: #DBD8D2;
+  --c-cbc7bd: #D5D2CC;
+  --c-c6c2b8: #D1CDC8;
+  --c-c9b99e: #AFABA5;
+  --c-b8a78a: #A7A39D;
+  --c-d8c9ae: #CBC7C2;
+  --c-57462f: #2A2520;
+  --c-2c2219: #1B1714;
+  --c-6b5940: #605C57;
+  --c-6e5b41: #68645F;
+  --c-8a7250: #524E48;
+  --c-8a7a62: #6C6863;
+  --c-7a6749: #7A7671;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F1E0D8;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 42,37,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 243,240,234;
+  --c-shadow-rgb: 48,44,40;
+  --m-line: rgba(48,44,40,.09);
+  --m-line-strong: rgba(48,44,40,.16);
+  --m-shadow: 0 1px 2px rgba(48,44,40,.05), 0 10px 28px -18px rgba(48,44,40,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(48,44,40,.32), 0 0 0 1px rgba(48,44,40,.09);
+  --m-glass: rgba(243,240,234,.66);
+  --m-accent: #D9531E;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,150,100,.42);
+  --m-a2: rgba(255,205,140,.50);
+  --m-a3: rgba(190,170,250,.40);
+  --m-plot: #1B1714;
+}
+:root[data-theme="homok"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #F3F0EA;
+  --c-ebe2d2: #E9E5DE;
+  --c-f1eadd: #EAE7E1;
+  --c-e4d9c6: #DDDAD4;
+  --c-dcd8ce: #E4E1DB;
+  --c-d2cec4: #E1DED8;
+  --c-d8d1c1: #D7D4CE;
+  --c-d6d2c8: #DCD9D3;
+  --c-cdc9bf: #D8D5CF;
+  --c-d8d4ca: #DFDCD6;
+  --c-d4d0c6: #E2DFD9;
+  --c-cfcbc1: #DBD8D2;
+  --c-cbc7bd: #D5D2CC;
+  --c-c6c2b8: #D1CDC8;
+  --c-c9b99e: #AFABA5;
+  --c-b8a78a: #A7A39D;
+  --c-d8c9ae: #CBC7C2;
+  --c-57462f: #2A2520;
+  --c-2c2219: #1B1714;
+  --c-6b5940: #605C57;
+  --c-6e5b41: #68645F;
+  --c-8a7250: #524E48;
+  --c-8a7a62: #6C6863;
+  --c-7a6749: #7A7671;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F1E0D8;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 42,37,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 243,240,234;
+  --c-shadow-rgb: 48,44,40;
+  --m-line: rgba(48,44,40,.09);
+  --m-line-strong: rgba(48,44,40,.16);
+  --m-shadow: 0 1px 2px rgba(48,44,40,.05), 0 10px 28px -18px rgba(48,44,40,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(48,44,40,.32), 0 0 0 1px rgba(48,44,40,.09);
+  --m-glass: rgba(243,240,234,.66);
+  --m-accent: #D9531E;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,150,100,.42);
+  --m-a2: rgba(255,205,140,.50);
+  --m-a3: rgba(190,170,250,.40);
+  --m-plot: #1B1714;
+}
+:root[data-theme="homok"] body,
+:root[data-theme="homok"] .we-keret-grid1 { background: #E9E5DE; }
+
+/* --- Rózsa – Púderes rózsaszín, piros kiemeléssel --- */
+:root[data-theme="rozsa"] {
+  color-scheme: light;
+  --c-f6f1e7: #F6EEEE;
+  --c-ebe2d2: #EEE3E3;
+  --c-f1eadd: #EDE5E5;
+  --c-e4d9c6: #E0D7D7;
+  --c-dcd8ce: #E7DEDF;
+  --c-d2cec4: #E4DBDB;
+  --c-d8d1c1: #DAD1D1;
+  --c-d6d2c8: #DFD6D6;
+  --c-cdc9bf: #DBD2D2;
+  --c-d8d4ca: #E2D9D9;
+  --c-d4d0c6: #E5DCDC;
+  --c-cfcbc1: #DED5D5;
+  --c-cbc7bd: #D8CFCF;
+  --c-c6c2b8: #D4CACB;
+  --c-c9b99e: #B2A7A8;
+  --c-b8a78a: #AA9FA0;
+  --c-d8c9ae: #CEC4C5;
+  --c-57462f: #2E1D20;
+  --c-2c2219: #1F1214;
+  --c-6b5940: #645558;
+  --c-6e5b41: #6C5E60;
+  --c-8a7250: #564749;
+  --c-8a7a62: #706264;
+  --c-7a6749: #7E7172;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F4DEDC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 46,29,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 246,238,238;
+  --c-shadow-rgb: 52,39,41;
+  --m-line: rgba(52,39,41,.09);
+  --m-line-strong: rgba(52,39,41,.16);
+  --m-shadow: 0 1px 2px rgba(52,39,41,.05), 0 10px 28px -18px rgba(52,39,41,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(52,39,41,.32), 0 0 0 1px rgba(52,39,41,.09);
+  --m-glass: rgba(246,238,238,.66);
+  --m-accent: #D2304C;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(240,90,120,.36);
+  --m-a2: rgba(255,170,140,.40);
+  --m-a3: rgba(200,140,230,.34);
+  --m-plot: #1F1214;
+}
+:root[data-theme="rozsa"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #F6EEEE;
+  --c-ebe2d2: #EEE3E3;
+  --c-f1eadd: #EDE5E5;
+  --c-e4d9c6: #E0D7D7;
+  --c-dcd8ce: #E7DEDF;
+  --c-d2cec4: #E4DBDB;
+  --c-d8d1c1: #DAD1D1;
+  --c-d6d2c8: #DFD6D6;
+  --c-cdc9bf: #DBD2D2;
+  --c-d8d4ca: #E2D9D9;
+  --c-d4d0c6: #E5DCDC;
+  --c-cfcbc1: #DED5D5;
+  --c-cbc7bd: #D8CFCF;
+  --c-c6c2b8: #D4CACB;
+  --c-c9b99e: #B2A7A8;
+  --c-b8a78a: #AA9FA0;
+  --c-d8c9ae: #CEC4C5;
+  --c-57462f: #2E1D20;
+  --c-2c2219: #1F1214;
+  --c-6b5940: #645558;
+  --c-6e5b41: #6C5E60;
+  --c-8a7250: #564749;
+  --c-8a7a62: #706264;
+  --c-7a6749: #7E7172;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F4DEDC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 46,29,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 246,238,238;
+  --c-shadow-rgb: 52,39,41;
+  --m-line: rgba(52,39,41,.09);
+  --m-line-strong: rgba(52,39,41,.16);
+  --m-shadow: 0 1px 2px rgba(52,39,41,.05), 0 10px 28px -18px rgba(52,39,41,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(52,39,41,.32), 0 0 0 1px rgba(52,39,41,.09);
+  --m-glass: rgba(246,238,238,.66);
+  --m-accent: #D2304C;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(240,90,120,.36);
+  --m-a2: rgba(255,170,140,.40);
+  --m-a3: rgba(200,140,230,.34);
+  --m-plot: #1F1214;
+}
+:root[data-theme="rozsa"] body,
+:root[data-theme="rozsa"] .we-keret-grid1 { background: #EEE3E3; }
+
+/* --- Zsálya – Nyugodt, halvány zöld világos --- */
+:root[data-theme="zsalya"] {
+  color-scheme: light;
+  --c-f6f1e7: #EFF3EE;
+  --c-ebe2d2: #E3E9E2;
+  --c-f1eadd: #E6EAE5;
+  --c-e4d9c6: #D8DDD8;
+  --c-dcd8ce: #DFE4DF;
+  --c-d2cec4: #DCE1DC;
+  --c-d8d1c1: #D2D7D1;
+  --c-d6d2c8: #D7DCD7;
+  --c-cdc9bf: #D3D8D2;
+  --c-d8d4ca: #DADFDA;
+  --c-d4d0c6: #DDE2DD;
+  --c-cfcbc1: #D6DBD6;
+  --c-cbc7bd: #D0D5CF;
+  --c-c6c2b8: #CCD1CB;
+  --c-c9b99e: #A8AFA9;
+  --c-b8a78a: #A0A7A0;
+  --c-d8c9ae: #C5CBC5;
+  --c-57462f: #1F2A22;
+  --c-2c2219: #131C16;
+  --c-6b5940: #576059;
+  --c-6e5b41: #5F6861;
+  --c-8a7250: #49524B;
+  --c-8a7a62: #646C65;
+  --c-7a6749: #727A74;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #EEE3DC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 31,42,34;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 239,243,238;
+  --c-shadow-rgb: 40,48,42;
+  --m-line: rgba(40,48,42,.09);
+  --m-line-strong: rgba(40,48,42,.16);
+  --m-shadow: 0 1px 2px rgba(40,48,42,.05), 0 10px 28px -18px rgba(40,48,42,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(40,48,42,.32), 0 0 0 1px rgba(40,48,42,.09);
+  --m-glass: rgba(239,243,238,.66);
+  --m-accent: #2E8A57;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(120,220,160,.44);
+  --m-a2: rgba(170,220,245,.48);
+  --m-a3: rgba(245,220,130,.40);
+  --m-plot: #131C16;
+}
+:root[data-theme="zsalya"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #EFF3EE;
+  --c-ebe2d2: #E3E9E2;
+  --c-f1eadd: #E6EAE5;
+  --c-e4d9c6: #D8DDD8;
+  --c-dcd8ce: #DFE4DF;
+  --c-d2cec4: #DCE1DC;
+  --c-d8d1c1: #D2D7D1;
+  --c-d6d2c8: #D7DCD7;
+  --c-cdc9bf: #D3D8D2;
+  --c-d8d4ca: #DADFDA;
+  --c-d4d0c6: #DDE2DD;
+  --c-cfcbc1: #D6DBD6;
+  --c-cbc7bd: #D0D5CF;
+  --c-c6c2b8: #CCD1CB;
+  --c-c9b99e: #A8AFA9;
+  --c-b8a78a: #A0A7A0;
+  --c-d8c9ae: #C5CBC5;
+  --c-57462f: #1F2A22;
+  --c-2c2219: #131C16;
+  --c-6b5940: #576059;
+  --c-6e5b41: #5F6861;
+  --c-8a7250: #49524B;
+  --c-8a7a62: #646C65;
+  --c-7a6749: #727A74;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #EEE3DC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 31,42,34;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 239,243,238;
+  --c-shadow-rgb: 40,48,42;
+  --m-line: rgba(40,48,42,.09);
+  --m-line-strong: rgba(40,48,42,.16);
+  --m-shadow: 0 1px 2px rgba(40,48,42,.05), 0 10px 28px -18px rgba(40,48,42,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(40,48,42,.32), 0 0 0 1px rgba(40,48,42,.09);
+  --m-glass: rgba(239,243,238,.66);
+  --m-accent: #2E8A57;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(120,220,160,.44);
+  --m-a2: rgba(170,220,245,.48);
+  --m-a3: rgba(245,220,130,.40);
+  --m-plot: #131C16;
+}
+:root[data-theme="zsalya"] body,
+:root[data-theme="zsalya"] .we-keret-grid1 { background: #E3E9E2; }
+
+/* --- Erős kontraszt – Fekete-fehér, a legjobban olvasható --- */
+:root[data-theme="kontraszt"] {
+  color-scheme: light;
+  --c-f6f1e7: #F7F7F7;
+  --c-ebe2d2: #E8E8E8;
+  --c-f1eadd: #EDEDED;
+  --c-e4d9c6: #DEDEDE;
+  --c-dcd8ce: #E6E6E6;
+  --c-d2cec4: #E3E3E3;
+  --c-d8d1c1: #D7D7D7;
+  --c-d6d2c8: #DDDDDD;
+  --c-cdc9bf: #D8D8D8;
+  --c-d8d4ca: #E0E0E0;
+  --c-d4d0c6: #E4E4E4;
+  --c-cfcbc1: #DCDCDC;
+  --c-cbc7bd: #D5D5D5;
+  --c-c6c2b8: #D0D0D0;
+  --c-c9b99e: #AAAAAA;
+  --c-b8a78a: #A1A1A1;
+  --c-d8c9ae: #CACACA;
+  --c-57462f: #141414;
+  --c-2c2219: #000000;
+  --c-6b5940: #515151;
+  --c-6e5b41: #5A5A5A;
+  --c-8a7250: #414141;
+  --c-8a7a62: #5F5F5F;
+  --c-7a6749: #6F6F6F;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F5E6E4;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 20,20,20;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 247,247,247;
+  --c-shadow-rgb: 23,23,23;
+  --m-line: rgba(23,23,23,.09);
+  --m-line-strong: rgba(23,23,23,.16);
+  --m-shadow: 0 1px 2px rgba(23,23,23,.05), 0 10px 28px -18px rgba(23,23,23,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(23,23,23,.32), 0 0 0 1px rgba(23,23,23,.09);
+  --m-glass: rgba(247,247,247,.66);
+  --m-accent: #1F45FF;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(31,69,255,.24);
+  --m-a2: rgba(255,0,110,.16);
+  --m-a3: rgba(0,200,255,.20);
+  --m-plot: #000000;
+}
+:root[data-theme="kontraszt"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #F7F7F7;
+  --c-ebe2d2: #E8E8E8;
+  --c-f1eadd: #EDEDED;
+  --c-e4d9c6: #DEDEDE;
+  --c-dcd8ce: #E6E6E6;
+  --c-d2cec4: #E3E3E3;
+  --c-d8d1c1: #D7D7D7;
+  --c-d6d2c8: #DDDDDD;
+  --c-cdc9bf: #D8D8D8;
+  --c-d8d4ca: #E0E0E0;
+  --c-d4d0c6: #E4E4E4;
+  --c-cfcbc1: #DCDCDC;
+  --c-cbc7bd: #D5D5D5;
+  --c-c6c2b8: #D0D0D0;
+  --c-c9b99e: #AAAAAA;
+  --c-b8a78a: #A1A1A1;
+  --c-d8c9ae: #CACACA;
+  --c-57462f: #141414;
+  --c-2c2219: #000000;
+  --c-6b5940: #515151;
+  --c-6e5b41: #5A5A5A;
+  --c-8a7250: #414141;
+  --c-8a7a62: #5F5F5F;
+  --c-7a6749: #6F6F6F;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F5E6E4;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 20,20,20;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 247,247,247;
+  --c-shadow-rgb: 23,23,23;
+  --m-line: rgba(23,23,23,.09);
+  --m-line-strong: rgba(23,23,23,.16);
+  --m-shadow: 0 1px 2px rgba(23,23,23,.05), 0 10px 28px -18px rgba(23,23,23,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(23,23,23,.32), 0 0 0 1px rgba(23,23,23,.09);
+  --m-glass: rgba(247,247,247,.66);
+  --m-accent: #1F45FF;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(31,69,255,.24);
+  --m-a2: rgba(255,0,110,.16);
+  --m-a3: rgba(0,200,255,.20);
+  --m-plot: #000000;
+}
+:root[data-theme="kontraszt"] body,
+:root[data-theme="kontraszt"] .we-keret-grid1 { background: #E8E8E8; }
+
+:root:not([data-theme]) :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #17171A;
+  --c-ebe2d2: #0F0F11;
+  --c-f1eadd: #202023;
+  --c-e4d9c6: #2E2E31;
+  --c-dcd8ce: #262629;
+  --c-d2cec4: #29292C;
+  --c-d8d1c1: #343437;
+  --c-d6d2c8: #2F2F32;
+  --c-cdc9bf: #333336;
+  --c-d8d4ca: #2C2C2E;
+  --c-d4d0c6: #28282B;
+  --c-cfcbc1: #303033;
+  --c-cbc7bd: #363639;
+  --c-c6c2b8: #3A3A3D;
+  --c-c9b99e: #5D5D60;
+  --c-b8a78a: #656568;
+  --c-d8c9ae: #404043;
+  --c-57462f: #E4E4E7;
+  --c-2c2219: #F4F4F5;
+  --c-6b5940: #ADADB0;
+  --c-6e5b41: #A4A4A7;
+  --c-8a7250: #BBBBBE;
+  --c-8a7a62: #848487;
+  --c-7a6749: #737376;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #331F22;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 228,228,231;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 23,23,26;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(23,23,26,.62);
+  --m-accent: #C8F169;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(124,92,255,.5);
+  --m-a2: rgba(255,122,89,.36);
+  --m-a3: rgba(45,212,191,.34);
+  --m-plot: #C8F169;
+}
+
+/* --- diagramvonal és pont a téma szerint --- */
+.we-keret-col5 .we-wx-line { stroke: var(--m-plot, var(--m-accent)); }
+.we-keret-col5 .we-wx-dot { background: var(--m-plot, var(--m-accent)); }
+
+/* --- a téma váltása finoman, áttűnéssel történjen --- */
+.we-keret-grid1,
+.we-keret-col1,
+.we-keret-box2,
+.we-auth-abs1 {
+  transition: background-color .35s ease, color .35s ease;
+}
+
+/* ==========================================================================
+   Beállítások – témaválasztó: kártyák kis előnézettel
+   ========================================================================== */
+.we-keret-col5 .we-theme-grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.we-keret-col5 .we-theme-options-btn1 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 12px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .25s ease;
+}
+
+.we-keret-col5 .we-theme-options-btn1:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--m-card-hover);
+}
+
+/* előnézet: a téma háttere, rajta egy felület-kártya és a kiemelő szín */
+.we-keret-col5 .we-theme-options-row1 {
+  position: relative;
+  height: 74px;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  overflow: hidden;
+  display: block;
+  background: var(--th-bg, #222);
+}
+
+.we-keret-col5 .we-theme-options-box1 {
+  position: absolute;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+}
+
+/* 1. minta: kiemelő szín (pötty) · 2.: háttér · 3.: felület (kártya) · 4.: szöveg (vonalak) */
+.we-keret-col5 .we-theme-options-box1:nth-child(2) { inset: 0; }
+.we-keret-col5 .we-theme-options-box1:nth-child(3) { left: 12px; right: 34%; top: 12px; bottom: 12px; border-radius: 10px; }
+.we-keret-col5 .we-theme-options-box1:nth-child(4) { left: 22px; top: 22px; width: 38%; height: 6px; border-radius: 3px; opacity: .9; }
+.we-keret-col5 .we-theme-options-box1:nth-child(1) { right: 14px; top: 50%; width: 26px; height: 26px; margin-top: -13px; border-radius: 50%; z-index: 1; box-shadow: 0 0 0 4px rgba(255,255,255,.08); }
+
+.we-keret-col5 .we-theme-options-text1 {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 700 12px 'Instrument Sans',system-ui,sans-serif;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+.we-keret-col5 .we-theme-options-text1:empty { display: none; }
+/* a sablonmotor egy belső span-be teszi az értéket, ezért ezt is figyeljük */
+.we-keret-col5 .we-theme-options-text1:has(> .sc-interp:empty) { display: none; }
+
+.we-keret-col5 .we-theme-options-btn1 .we-login-text10 {
+  font: 650 15px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.02em;
+  color: var(--c-2c2219);
+  text-decoration: none;
+}
+
+.we-keret-col5 .we-theme-options-btn1 .we-login-text7 {
+  font: 400 12px/1.4 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+@media (max-width: 760px) {
+  .we-keret-col5 .we-theme-grid1 { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
+
+/* ==========================================================================
+   8) PRÓBABABA – női sziluett, ha a fiók profilja "Nő"
+   (a .we-keret-grid1 kapja az is-female osztályt; a ruhahelyek ugyanott maradnak,
+   csak a felső és az alsó lesz kicsit keskenyebb, a női alakhoz igazítva)
+   ========================================================================== */
+.we-keret-grid1.is-female .we-baba {
+  --baba-maszk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 440'%3E%3Cpath d='M100 9C73 9 63 31 65 52c1 14-3 27 3 38h64c6-11 2-24 3-38 2-21-8-43-35-43Z'/%3E%3Ccircle cx='100' cy='38' r='21'/%3E%3Crect x='93' y='56' width='14' height='18' rx='5'/%3E%3Cpath d='M70 80Q100 70 130 80L148 92Q156 96 157 106L161 204Q161 212 154 212H148Q143 212 142 205L135 128H130Q125 150 127 170Q133 202 140 234H60Q67 202 73 170Q75 150 70 128H65L58 205Q57 212 52 212H46Q39 212 39 204L43 106Q44 96 52 92Z'/%3E%3Cpath d='M64 230H136L136 252L126 400Q125 407 118 407H108Q102 407 102 400L100 272L98 400Q98 407 92 407H82Q75 407 74 400L64 252Z'/%3E%3Cellipse cx='86' cy='419' rx='19' ry='8'/%3E%3Cellipse cx='114' cy='419' rx='19' ry='8'/%3E%3C/svg%3E");
+}
+
+.we-keret-grid1.is-female .we-baba-felso { left: 29%; width: 42%; }
+.we-keret-grid1.is-female .we-baba-also { left: 30%; width: 40%; }
+.we-keret-grid1.is-female .we-baba-kabat { left: 15%; width: 70%; }
+
+
+/* ==========================================================================
+   9) SZENNYES – színek szerint csoportosított mosnivaló
+   ========================================================================== */
+.we-ico-laundry { --ico: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='3' width='16' height='18' rx='3'/><path d='M4 7.5h16'/><circle cx='7.5' cy='5.3' r='.6' fill='black'/><circle cx='12' cy='14' r='4.2'/><path d='M8.8 14.6c1.1-.9 2.2-.9 3.2 0s2.1.9 3.2 0'/></svg>"); }
+
+.we-sz {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 clamp(16px, 3vw, 40px) 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-sizing: border-box;
+}
+
+.we-keret-col5 .we-sz > .we-page-hero {
+  margin: 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.we-keret-col5 .we-sz > .we-page-hero .we-home-text2 { max-width: 720px; }
+
+.we-sz-hero-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.we-sz-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 18px 0 6px;
+  border-radius: 999px;
+  background: var(--m-glass);
+  border: 1px solid var(--m-line-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font: 600 14px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+}
+
+.we-sz-count-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+.we-sz-count-ico .we-ico { width: 18px; height: 18px; }
+
+.we-sz-uzenet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font: 500 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-sz-uzenet .we-ico { width: 15px; height: 15px; color: var(--m-accent); }
+
+.we-sz-ures {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 36px 20px;
+  border-radius: 26px;
+  border: 1.5px dashed rgba(var(--c-57462f-rgb),.18);
+  text-align: center;
+}
+
+.we-sz-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.we-sz-csop {
+  border-radius: 26px;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .25s ease;
+  animation: we-start-up .5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-sz-csop:nth-child(2) { animation-delay: .06s; }
+.we-sz-csop:nth-child(3) { animation-delay: .12s; }
+
+.we-sz-csop:hover {
+  transform: translateY(-4px);
+  border-color: var(--m-line-strong);
+  box-shadow: var(--m-card-hover);
+}
+
+.we-sz-csop.is-ures { opacity: .7; }
+.we-sz-csop.is-ures:hover { transform: none; box-shadow: none; }
+
+.we-sz-csop-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* a csoport jele: sötét / fehér / színes kör */
+.we-sz-csop-ico {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--m-line-strong) inset, 0 6px 16px -8px rgba(var(--c-shadow-rgb),.6);
+}
+
+.we-sz-csop.is-sotet .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #4A4D55, #121316 70%); }
+.we-sz-csop.is-vilagos .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #FFFFFF, #E6E1D8 70%); }
+.we-sz-csop.is-szines .we-sz-csop-ico { background: conic-gradient(#FF5468, #FFC857, #7BDC8F, #4CD3F5, #BC94FF, #FF5468); }
+
+.we-sz-csop-tt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.we-sz-csop-tt > b {
+  font: 650 17px/1.2 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.025em;
+  color: var(--c-2c2219);
+}
+
+.we-sz-csop-tt > span {
+  font: 400 12px/1.35 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+.we-sz-csop-db {
+  flex: none;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(var(--c-57462f-rgb),.08);
+  font: 600 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  white-space: nowrap;
+}
+
+.we-sz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.we-sz-csop-ures {
+  padding: 14px 4px;
+  font: 400 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+.we-sz-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 16px;
+  background: var(--c-ebe2d2);
+  border: 1px solid var(--m-line);
+  user-select: none;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-sz-item:hover { transform: translateX(3px); border-color: var(--m-line-strong); }
+
+.we-sz-item-img {
+  position: relative;
+  width: 48px;
+  height: 56px;
+  flex: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg, rgba(var(--c-57462f-rgb),.07) 0 8px, transparent 8px 16px),
+    var(--c-dcd8ce);
+}
+
+.we-sz-item-img img { pointer-events: none; }
+
+.we-sz-item-t {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.we-sz-item-t > b {
+  font: 600 14px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-sz-item-t > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 400 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-sz-pont {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--m-line-strong);
+}
+
+.we-sz-pont.is-ures { background: conic-gradient(#FF5468, #FFC857, #7BDC8F, #4CD3F5, #BC94FF, #FF5468) !important; opacity: .7; }
+
+.we-sz-item-btn {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--m-line-strong);
+  color: var(--c-57462f);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .25s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
+}
+
+.we-sz-item-btn .we-ico { width: 15px; height: 15px; }
+
+.we-sz-item-btn:hover {
+  background: var(--m-accent);
+  border-color: transparent;
+  color: var(--m-accent-ink);
+  transform: scale(1.08);
+}
+
+.we-sz-csop-gomb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  font: 600 14px 'Instrument Sans',system-ui,sans-serif;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, filter .2s ease;
+}
+
+.we-sz-csop-gomb .we-ico { width: 16px; height: 16px; }
+.we-sz-csop-gomb:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -16px rgba(var(--c-shadow-rgb),.7); }
+.we-sz-csop-gomb:active { transform: translateY(0) scale(.98); }
+
+/* a gombok a csoport színét veszik fel */
+.we-sz-csop.is-sotet .we-sz-csop-gomb { background: #17181B; color: #F2F2F3; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset; }
+.we-sz-csop.is-vilagos .we-sz-csop-gomb { background: #F4F1EA; color: #1B1714; box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset; }
+.we-sz-csop.is-szines .we-sz-csop-gomb { background: linear-gradient(110deg, #FF5468, #FF9F43 45%, #4CD3F5); color: #FFFFFF; }
+
+@media (hover: none) {
+  .we-sz-csop:hover, .we-sz-item:hover { transform: none; box-shadow: none; }
+}
+
+@media (max-width: 1180px) {
+  .we-sz-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 760px) {
+  .we-sz { padding: 0 16px 32px; overflow: visible; flex: none; }
+  .we-keret-col5 .we-sz > .we-page-hero { margin: 16px 0 0; }
+  .we-sz-grid { grid-template-columns: 1fr; }
+  .we-sz-hero-row .we-start-btn { flex: 1 1 auto; justify-content: center; }
+}
+
+
+/* ==========================================================================
+   10) E-MAIL MEGERŐSÍTÉS – "Nézd meg a postafiókod" képernyő a belépő oldalon
+   ========================================================================== */
+.we-auth-abs1 .we-verify-ico {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+  box-shadow: 0 16px 34px -16px color-mix(in srgb, var(--m-accent) 70%, transparent);
+  animation: we-verify-lebeg 4s ease-in-out infinite;
+}
+
+.we-auth-abs1 .we-verify-ico .we-ico { width: 28px; height: 28px; }
+
+@keyframes we-verify-lebeg {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-5px) rotate(3deg); }
+}
+
+.we-auth-abs1 .we-verify .we-login-text2 { line-height: 1.55; }
+.we-auth-abs1 .we-verify .we-login-text2 b { color: var(--c-2c2219); font-weight: 600; }
+.we-auth-abs1 .we-verify .we-verify-email { overflow-wrap: anywhere; }
+
+.we-auth-abs1 .we-verify-msg {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--m-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m-accent) 40%, transparent);
+  font: 500 13px/1.5 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-auth-abs1 .we-verify-msg.is-hiba {
+  background: color-mix(in srgb, var(--c-b8433a) 12%, transparent);
+  border-color: color-mix(in srgb, var(--c-b8433a) 45%, transparent);
+}
+
+.we-auth-abs1 .we-verify-tips {
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 400 13px/1.5 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-auth-abs1 .we-verify-ico { animation: none; }
+}

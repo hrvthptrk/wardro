@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./Wardro%20Outfits.css">
+<script src="./support.js"></script>
+<script src="./Wardro%20Outfits.logic.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></helmet>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+
+<!-- --- Ha látszik: Üres állapot – még nincs outfit --- -->
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div class="ou-empty-col1">
+  <div class="ou-empty-col2">
+    <span class="ou-empty-text1">No outfits yet</span>
+    <span class="ou-empty-text2">An outfit is a top, a bottom and shoes you already own, saved together. Build one and it shows up here every time you need it.</span>
+  </div>
+  <div class="ou-empty-grid1">
+    <!-- · Lista: Üres állapot – helyőrzők · -->
+    <sc-for list="{{ emptySlots }}" as="e" hint-placeholder-count="4">
+      <div class="ou-empty-slots-btn1" onClick="{{ toBuilder }}">
+        <span class="ou-empty-slots-abs1">{{ e.role }}</span>
+        <span class="ou-empty-slots-text1">{{ e.hint }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div class="ou-empty-btn1" onClick="{{ toBuilder }}">
+    <span class="ou-empty-text3">+</span>
+    <span class="ou-empty-text4">Build your first outfit</span>
+  </div>
+  <span class="ou-empty-text5">Or photograph what you're wearing today and save it as one.</span>
+  <div class="ou-empty-abs1">
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-line1"></div>
+      <span class="ou-empty-text6">Wardrobe</span>
+    </div>
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-box1"></div>
+      <span class="ou-empty-text7">Outfits</span>
+    </div>
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-line2"></div>
+      <span class="ou-empty-text6">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Outfitek böngészése --- -->
+<sc-if value="{{ isBrowse }}" hint-placeholder-val="{{ false }}">
+<div class="ou-browse-col1">
+  <div class="ou-browse-col2">
+    <div class="ou-browse-row1">
+      <div class="ou-browse-btn1" onClick="{{ toDeck }}">←</div>
+      <span class="ou-browse-text1">All outfits</span>
+      <span class="ou-browse-text2">{{ browseCount }}</span>
+    </div>
+    <span class="ou-browse-text3">{{ browseHint }}</span>
+  </div>
+  <div class="ou-browse-col3">
+    <!-- · Lista: Outfit lista (böngészés) · -->
+    <sc-for list="{{ browseList }}" as="b" hint-placeholder-count="3">
+      <div class="ou-browse-list-col1">
+        <div class="ou-browse-list-row1">
+          <div class="ou-browse-list-btn1" onClick="{{ b.on }}">
+            <span class="ou-browse-list-text1">{{ b.name }}</span>
+            <span class="ou-browse-list-text2">{{ b.occasion }} · {{ b.season }}</span>
+          </div>
+          <div class="ou-browse-list-btn2" onClick="{{ b.star }}" sc-camel-style="background:{{ b.markBg }};color:{{ b.markFg }}">{{ b.mark }}</div>
+        </div>
+        <div class="ou-browse-list-btn3" onClick="{{ b.on }}">
+          <div class="ou-browse-list-box1"><div class="ou-browse-list-abs1"></div></div>
+          <div class="ou-browse-list-box2"><div class="ou-browse-list-abs1"></div></div>
+          <div class="ou-browse-list-box3"><div class="ou-browse-list-abs1"></div></div>
+          <div class="ou-browse-list-box4"><div class="ou-browse-list-abs1"></div></div>
+        </div>
+        <span class="ou-browse-list-text3">{{ b.pieces }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div class="ou-browse-abs1"></div>
+  <div class="ou-browse-btn2" onClick="{{ toBuilder }}">
+    <span class="ou-browse-text4">+</span>
+    <span class="ou-browse-text5">New outfit</span>
+  </div>
+  <div class="ou-empty-abs1">
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-line1"></div>
+      <span class="ou-empty-text6">Wardrobe</span>
+    </div>
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-box1"></div>
+      <span class="ou-empty-text7">Outfits</span>
+    </div>
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-line2"></div>
+      <span class="ou-empty-text6">You</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Húzós outfit-pakli --- -->
+<sc-if value="{{ isDeck }}" hint-placeholder-val="{{ true }}">
+<div class="ou-deck-col1">
+  <div class="ou-deck-abs1"></div>
+  <div class="ou-deck-abs2"></div>
+  <!-- --- Ha látszik: Kollázs nézet --- -->
+  <sc-if value="{{ hasCollage }}" hint-placeholder-val="{{ true }}">
+  <div class="ou-has-collage-abs1">
+    <div class="ou-has-collage-box1"><span class="ou-has-collage-abs2">{{ outfit.top }}</span></div>
+    <div class="ou-has-collage-box2"><span class="ou-has-collage-abs2">{{ outfit.bottom }}</span></div>
+    <div class="ou-has-collage-box3"><span class="ou-has-collage-abs2">{{ outfit.shoes }}</span></div>
+    <div class="ou-has-collage-box4"><span class="ou-has-collage-abs2">{{ outfit.extra }}</span></div>
+  </div>
+  </sc-if>
+  <!-- --- Ha látszik: Nagy (hero) fotó --- -->
+  <sc-if value="{{ hasHero }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-has-hero-abs1">
+    <div class="ou-has-hero-abs2"></div>
+    <span class="ou-has-hero-abs3">outfit photo, worn by you — full frame</span>
+  </div>
+  </sc-if>
+  <div class="ou-deck-abs3">
+    <!-- · Lista: Lapozópontok · -->
+    <sc-for list="{{ dots }}" as="d" hint-placeholder-count="3">
+      <div class="ou-dots-el1" sc-camel-style="background:{{ d.bg }}"></div>
+    </sc-for>
+  </div>
+  <div class="ou-deck-abs4">
+    <div class="ou-deck-row1">{{ deckLabel }}</div>
+    <div class="ou-deck-btn1" onClick="{{ toggleFav }}" sc-camel-style="background:{{ favBg }};color:{{ favFg }}">{{ favMark }}</div>
+    <div class="ou-deck-btn2" onClick="{{ openMenu }}">···</div>
+  </div>
+  <div class="ou-deck-abs5"></div>
+  <div class="ou-deck-btn3" onClick="{{ prev }}"></div>
+  <div class="ou-deck-btn4" onClick="{{ next }}"></div>
+  <div class="ou-deck-abs6">
+    <div class="ou-deck-row2">
+      <div class="ou-deck-row3">{{ outfit.occasion }}</div>
+      <div class="ou-deck-row3">{{ outfit.season }}</div>
+    </div>
+    <div class="ou-deck-col2">
+      <span class="ou-deck-text1">{{ outfit.name }}</span>
+      <span class="ou-deck-text2">{{ outfit.pieces }}</span>
+    </div>
+    <div class="ou-deck-row4">
+      <div class="ou-deck-row5">
+        <sc-for list="{{ outfit.shots }}" as="sh" hint-placeholder-count="3">
+          <div class="ou-deck-box1">
+            <div class="ou-deck-abs7"></div>
+          </div>
+        </sc-for>
+      </div>
+      <span class="ou-deck-text3">{{ outfit.worn }}</span>
+    </div>
+    <div class="ou-deck-btn5" onClick="{{ wear }}">Wear today</div>
+  </div>
+  <div class="ou-deck-abs8">
+    <div class="ou-deck-btn6" onClick="{{ toBrowse }}">Browse all</div>
+    <div class="ou-deck-btn7" onClick="{{ toBuilder }}">
+      <span class="ou-deck-text4">+</span>
+      <span class="ou-deck-text5">New outfit</span>
+    </div>
+  </div>
+  <div class="ou-deck-abs9">
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-line1"></div>
+      <span class="ou-empty-text6">Wardrobe</span>
+    </div>
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-box1"></div>
+      <span class="ou-empty-text7">Outfits</span>
+    </div>
+    <div class="ou-empty-btn2">
+      <div class="ou-empty-line2"></div>
+      <span class="ou-empty-text6">You</span>
+    </div>
+  </div>
+
+  <!-- --- Ha látszik: Törölt outfit üzenet --- -->
+  <sc-if value="{{ showDeleted }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-show-deleted-abs1">
+    <span class="ou-show-deleted-text1">{{ deletedName }} deleted</span>
+    <span class="ou-show-deleted-btn1" onClick="{{ undoDelete }}">Undo</span>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Outfit menü (átnevezés / törlés) --- -->
+  <sc-if value="{{ outfitMenu }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-outfit-menu-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ou-outfit-menu-abs2">
+    <div class="ou-outfit-menu-box1"></div>
+    <div class="ou-outfit-menu-btn1" onClick="{{ editPieces }}">Edit pieces</div>
+    <div class="ou-outfit-menu-btn1" onClick="{{ startRename }}">Rename</div>
+    <div class="ou-outfit-menu-btn2" onClick="{{ askDelete }}">Delete outfit</div>
+    <div class="ou-outfit-menu-btn3" onClick="{{ closeMenu }}">Cancel</div>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Átnevezés párbeszédablak --- -->
+  <sc-if value="{{ renaming }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-renaming-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ou-renaming-abs2">
+    <span class="ou-renaming-text1">Rename outfit</span>
+    <input class="ou-renaming-text2" value="{{ renameText }}" onChange="{{ onRenameInput }}" autoFocus="{{ true }}" />
+    <div class="ou-renaming-row1">
+      <div class="ou-renaming-btn1" onClick="{{ closeMenu }}">Cancel</div>
+      <div class="ou-renaming-btn2" onClick="{{ saveRename }}">Save</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Törlés megerősítése --- -->
+  <sc-if value="{{ outfitConfirm }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-outfit-confirm-abs1" onClick="{{ closeMenu }}"></div>
+  <div class="ou-outfit-confirm-abs2">
+    <div class="ou-outfit-confirm-col1">
+      <span class="ou-renaming-text1">Delete {{ outfit.name }}?</span>
+      <span class="ou-outfit-confirm-text1">Only the combination goes. Every piece stays in your wardrobe.</span>
+    </div>
+    <div class="ou-empty-col2">
+      <div class="ou-outfit-confirm-btn1" onClick="{{ confirmDelete }}">Delete it</div>
+      <div class="ou-outfit-confirm-btn2" onClick="{{ closeMenu }}">Keep it</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- --- Ha látszik: Viselés lap (alulról felcsúszó) --- -->
+  <sc-if value="{{ wornSheet }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-outfit-menu-abs1" onClick="{{ dismissSheet }}"></div>
+  <div class="ou-worn-sheet-abs1">
+    <div class="ou-worn-sheet-box1"></div>
+    <div class="ou-worn-sheet-col1">
+      <span class="ou-worn-sheet-text1">Worn today</span>
+      <span class="ou-outfit-confirm-text1">{{ outfit.name }} logged for Wednesday 9 September. Want a photo of it on you?</span>
+    </div>
+    <div class="ou-empty-col2">
+      <div class="ou-worn-sheet-btn1" onClick="{{ toWearShot }}">
+        <span class="ou-deck-text4">+</span>
+        <span class="ou-browse-text5">Take a photo of the outfit</span>
+      </div>
+      <div class="ou-worn-sheet-btn2" onClick="{{ dismissSheet }}">Just log it</div>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Új fotó készítése --- -->
+<sc-if value="{{ isNewShot }}" hint-placeholder-val="{{ false }}">
+<div class="ou-new-shot-col1">
+  <div class="ou-new-shot-row1">
+    <div class="ou-browse-btn1" onClick="{{ toBuilderBack }}">←</div>
+    <div class="ou-new-shot-col2">
+      <span class="ou-new-shot-text1">Photo of the outfit on you</span>
+      <span class="ou-browse-list-text3">Optional — it becomes the outfit card</span>
+    </div>
+  </div>
+  <div class="ou-new-shot-row2">
+    <div class="ou-new-shot-abs1"></div>
+    <div class="ou-new-shot-line1"></div>
+    <span class="ou-new-shot-abs2">Full length, mirror or timer</span>
+    <span class="ou-new-shot-abs3">live camera view</span>
+  </div>
+  <div class="ou-new-shot-row3">
+    <span class="ou-new-shot-btn1" onClick="{{ toBuilderBack }}">Skip</span>
+    <div class="ou-new-shot-btn2" onClick="{{ shootNew }}"></div>
+    <span class="ou-new-shot-text2">Timer 3s</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Viselés – fotó készítése --- -->
+<sc-if value="{{ isWearShot }}" hint-placeholder-val="{{ false }}">
+<div class="ou-new-shot-col1">
+  <div class="ou-new-shot-row1">
+    <div class="ou-browse-btn1" onClick="{{ toDeck }}">✕</div>
+    <div class="ou-new-shot-col2">
+      <span class="ou-new-shot-text1">Outfit photo</span>
+      <span class="ou-browse-list-text3">{{ outfit.name }} · today</span>
+    </div>
+  </div>
+  <div class="ou-new-shot-row2">
+    <div class="ou-new-shot-abs1"></div>
+    <div class="ou-new-shot-line1"></div>
+    <span class="ou-new-shot-abs2">Full length, mirror or timer</span>
+    <span class="ou-new-shot-abs3">live camera view</span>
+  </div>
+  <div class="ou-new-shot-row3">
+    <span class="ou-new-shot-text2">Timer 3s</span>
+    <div class="ou-new-shot-btn2" onClick="{{ shootWear }}"></div>
+    <span class="ou-new-shot-text2">Flip</span>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Viselés – elmentve --- -->
+<sc-if value="{{ isWearSaved }}" hint-placeholder-val="{{ false }}">
+<div class="ou-wear-saved-col1">
+  <div class="ou-wear-saved-box1">
+    <div class="ou-wear-saved-abs1"></div>
+    <span class="ou-wear-saved-abs2">outfit photo, worn</span>
+  </div>
+  <div class="ou-wear-saved-col2">
+    <span class="ou-wear-saved-text1">Added to {{ outfit.name }}</span>
+    <span class="ou-wear-saved-text2">{{ outfit.savedCount }} photos of this outfit. Worn today.</span>
+  </div>
+  <div class="ou-wear-saved-row1">
+    <div class="ou-wear-saved-btn1" onClick="{{ toWearShot }}">Retake</div>
+    <div class="ou-wear-saved-btn2" onClick="{{ toDeck }}">Done</div>
+  </div>
+</div>
+</sc-if>
+
+<!-- --- Ha látszik: Kézi outfit-összeállító --- -->
+<sc-if value="{{ isBuilder }}" hint-placeholder-val="{{ true }}">
+<div class="ou-builder-col1">
+  <div class="ou-builder-row1">
+    <div class="ou-browse-btn1" onClick="{{ toDeck }}">✕</div>
+    <span class="ou-renaming-text1">{{ builderTitle }}</span>
+  </div>
+  <div class="ou-builder-col2">
+    <span class="ou-builder-text1">Name</span>
+    <input class="ou-builder-text2" value="{{ builderName }}" onChange="{{ onBuilderName }}" placeholder="{{ namePlaceholder }}" />
+  </div>
+  <div class="ou-builder-grid1">
+    <!-- · Lista: Összeállító – ruha-helyek · -->
+    <sc-for list="{{ slots }}" as="s" hint-placeholder-count="4">
+      <div class="ou-slots-btn1" onClick="{{ s.on }}" sc-camel-style="background:{{ s.bg }};border:{{ s.border }}">
+        <span class="ou-empty-slots-abs1">{{ s.role }}</span>
+        <span class="ou-empty-slots-text1">{{ s.label }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div class="ou-builder-col3">
+    <span class="ou-builder-text1">Occasion</span>
+    <div class="ou-builder-row2">
+      <!-- · Lista: Alkalmak · -->
+      <sc-for list="{{ occasions }}" as="o" hint-placeholder-count="3">
+        <div class="ou-occasions-btn1" onClick="{{ o.on }}" sc-camel-style="background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ou-builder-col4">
+    <span class="ou-builder-text1">Season</span>
+    <div class="ou-builder-row2">
+      <!-- · Lista: Évszakok · -->
+      <sc-for list="{{ seasons }}" as="s2" hint-placeholder-count="3">
+        <div class="ou-occasions-btn1" onClick="{{ s2.on }}" sc-camel-style="background:{{ s2.bg }};color:{{ s2.fg }}">{{ s2.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ou-builder-col5">
+    <span class="ou-builder-text1">Photo of you in it · optional</span>
+    <!-- --- Ha látszik: Új fotó – még üres --- -->
+    <sc-if value="{{ newShotEmpty }}" hint-placeholder-val="{{ true }}">
+    <div class="ou-new-shot-empty-btn1" onClick="{{ toNewShot }}">
+      <span class="ou-new-shot-empty-text1">+</span>
+      <span class="ou-empty-slots-text1">Take a photo of it on you</span>
+      <span class="ou-new-shot-empty-text2">Skip and the pieces show instead</span>
+    </div>
+    </sc-if>
+    <!-- --- Ha látszik: Új fotó – elkészült --- -->
+    <sc-if value="{{ newShotTaken }}" hint-placeholder-val="{{ false }}">
+    <div class="ou-new-shot-taken-row1">
+      <div class="ou-new-shot-taken-box1"><div class="ou-new-shot-taken-abs1"></div></div>
+      <span class="ou-empty-slots-text1">Photo added — it becomes the card</span>
+      <span class="ou-new-shot-taken-btn1" onClick="{{ clearNewShot }}">Remove</span>
+    </div>
+    </sc-if>
+  </div>
+  <div class="ou-builder-btn1" onClick="{{ save }}" sc-camel-style="background:{{ ctaBg }};box-shadow:{{ ctaShadow }}">
+    <span class="ou-builder-text3" sc-camel-style="color:{{ ctaFg }}">{{ ctaLabel }}</span>
+  </div>
+
+  <!-- --- Ha látszik: Ruhaválasztó nyitva --- -->
+  <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="ou-picker-open-abs1" onClick="{{ closePicker }}"></div>
+  <div class="ou-picker-open-abs2">
+    <div class="ou-worn-sheet-box1"></div>
+    <div class="ou-picker-open-row1">
+      <span class="ou-picker-open-text1">{{ pickerTitle }}</span>
+      <span class="ou-picker-open-btn1" onClick="{{ closePicker }}">Close</span>
+    </div>
+    <div class="ou-picker-open-grid1">
+      <!-- · Lista: Ruhaválasztó elemei · -->
+      <sc-for list="{{ pickerItems }}" as="p" hint-placeholder-count="6">
+        <div class="ou-picker-items-btn1" onClick="{{ p.on }}">
+          <div class="ou-picker-items-box1">
+            <div class="ou-browse-list-abs1"></div>
+            <span class="ou-picker-items-abs1">cut-out</span>
+          </div>
+          <span class="ou-picker-items-text1">{{ p.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
+</x-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:402,&quot;height&quot;:874},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;deck&quot;,&quot;browse&quot;,&quot;builder&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;deck&quot;,&quot;tsType&quot;:&quot;'deck' | 'browse' | 'builder' | 'empty'&quot;}}">
+const Component = window.__dcLogic["Wardro Outfits"](DCLogic, StreamableLogic, React);
+</script>
+</body>
+</html>

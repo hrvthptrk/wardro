@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Helyi szerver indítása (8080)",
+            "type": "shell",
+            "command": "node",
+            "args": ["${workspaceFolder}/server/index.js"],
+            "isBackground": true,
+            // a mappa megnyitásakor magától elindul (a VS Code egyszer engedélyt kér hozzá)
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^(soha nem illeszkedő minta)$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^Kiszolgálás indul",
+                    "endsPattern": "^Kiszolgálás fut"
+                }
+            }
+        }
+    ]
+}

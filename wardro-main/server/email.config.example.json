@@ -1,0 +1,9 @@
+{
+  "host": "smtp.gmail.com",
+  "port": 465,
+  "secure": true,
+  "user": "sajat.cimed@gmail.com",
+  "pass": "ide jön a 16 karakteres Gmail alkalmazásjelszó",
+  "from": "Wardro <sajat.cimed@gmail.com>",
+  "appUrl": ""
+}
