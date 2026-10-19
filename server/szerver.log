@@ -1,0 +1,241 @@
+[2026. 10. 19. 15:59:59] [felügyelő] felügyelő indul
+[2026. 10. 19. 15:59:59] [felügyelő] szerver elindítva (pid 17572)
+Kiszolgálás indul...
+Kiszolgálás fut a http://localhost:8080 címen
+Telefonról elérhető cím: http://192.168.0.106:8080
+
+==================================================================
+ Nyilvános cím (bárhonnan elérhető, az internetről is):
+   https://tent-cookie-assuming-ten.trycloudflare.com
+ A megerősítő e-mailek linkjei ezt a címet kapják.
+==================================================================
+
+eBay: 19 katalógustermék képét töltöm le a háttérben…
+[2026. 10. 19. 16:00:20] [felügyelő] a szerver leállt (kód: 4294967295), újraindítás 6 mp múlva
+[2026. 10. 19. 16:00:26] [felügyelő] szerver elindítva (pid 29308)
+Kiszolgálás indul...
+Kiszolgálás fut a http://localhost:8080 címen
+Telefonról elérhető cím: http://192.168.0.106:8080
+[2026. 10. 19. 16:00:30] [felügyelő] felügyelő indul
+[2026. 10. 19. 16:00:30] [felügyelő] szerver elindítva (pid 37768)
+Kiszolgálás indul...
+A 8080-as port foglalt. Állítsd le az azt használó szervert, majd próbáld újra.
+[2026. 10. 19. 16:00:31] [felügyelő] a szerver leállt (kód: 1), újraindítás 6 mp múlva
+
+==================================================================
+ Nyilvános cím (bárhonnan elérhető, az internetről is):
+   https://tank-perl-bath-fabrics.trycloudflare.com
+ A megerősítő e-mailek linkjei ezt a címet kapják.
+==================================================================
+
+[2026. 10. 19. 16:00:37] [felügyelő] szerver elindítva (pid 34296)
+Kiszolgálás indul...
+A 8080-as port foglalt. Állítsd le az azt használó szervert, majd próbáld újra.
+[2026. 10. 19. 16:00:37] [felügyelő] a szerver leállt (kód: 1), újraindítás 12 mp múlva
+eBay: 19 katalógustermék képét töltöm le a háttérben…
+[2026. 10. 19. 16:00:49] [felügyelő] szerver elindítva (pid 20536)
+Kiszolgálás indul...
+A 8080-as port foglalt. Állítsd le az azt használó szervert, majd próbáld újra.
+[2026. 10. 19. 16:00:49] [felügyelő] a szerver leállt (kód: 1), újraindítás 24 mp múlva
+eBay: előtöltés kész – 0 / 19 termékhez van kép.
+[2026. 10. 19. 16:01:20] [felügyelő] felügyelő indul
+[2026. 10. 19. 16:01:20] [felügyelő] szerver elindítva (pid 3804)
+Kiszolgálás indul...
+Kiszolgálás fut a http://localhost:8080 címen
+Telefonról elérhető cím: http://192.168.0.106:8080
+
+==================================================================
+ Nyilvános cím (bárhonnan elérhető, az internetről is):
+   https://tmp-ref-developer-rolled.trycloudflare.com
+ A megerősítő e-mailek linkjei ezt a címet kapják.
+==================================================================
+
+[2026. 10. 19. 16:01:30] [felügyelő] felügyelő indul
+[2026. 10. 19. 16:01:30] [felügyelő] szerver elindítva (pid 37976)
+Kiszolgálás indul...
+A 8080-as port foglalt – valószínűleg már fut a Wardro a háttérben (http://localhost:8080). Ez a példány kilép.
+[2026. 10. 19. 16:01:30] [felügyelő] már fut egy szerver – a felügyelő kilép
+eBay: 19 katalógustermék képét töltöm le a háttérben…
+eBay: előtöltés kész – 0 / 19 termékhez van kép.
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}
+Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at Object.findUserById (C:\Users\Dani\Desktop\wardro-main\server\store.js:139:27)
+    at requireUser (C:\Users\Dani\Desktop\wardro-main\server\index.js:323:19)
+    at Server.<anonymous> (C:\Users\Dani\Desktop\wardro-main\server\index.js:1296:17)
+    at Server.emit (node:events:514:28)
+    at parserOnIncoming (node:_http_server:1293:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  errno: -4078,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 3306,
+  fatal: true
+}

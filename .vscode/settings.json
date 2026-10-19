@@ -1,0 +1,12 @@
+{
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.host": "localhost",
+  "liveServer.settings.useLocalIp": false,
+  // a Wardro valójában a saját szerverén fut (http://localhost:8080); a Live Server
+  // ("Go Live") mindent onnan vesz, így ott is a valódi, működő oldal jelenik meg
+  "liveServer.settings.proxy": {
+    "enable": true,
+    "baseUri": "/",
+    "proxyUri": "http://localhost:8080"
+  }
+}

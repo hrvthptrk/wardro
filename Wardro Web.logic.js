@@ -18,11 +18,16 @@ const MALE = {
 
 // Női kategóriák (ugyanaz a szerkezet, mint a férfiaknál)
 const FEMALE = {
-  'Felsők': { items: ['fehér blúz', 'selyem top', 'csíkos póló', 'kötött pulóver', 'rövidített póló', 'vászoning', 'fekete garbó', 'kardigán'], notes: { 3: '7 hónapja nem viselted', 6: '4 hónapja nem viselted' } },
-  'Nadrágok és szoknyák': { items: ['kék farmer', 'pliszírozott szoknya', 'széles szárú nadrág', 'farmerszoknya', 'leggings', 'szabott rövidnadrág'], notes: { 4: '9 hónapja nem viselted' } },
+  'Felsők': { items: ['fehér blúz', 'csíkos póló', 'vászoning', 'fekete garbó', 'selyem ingblúz'], notes: { 3: '4 hónapja nem viselted' } },
+  'Topok': { items: ['selyem top', 'rövidített póló', 'fekete body', 'bordázott crop top', 'szatén pántos top'], notes: { 4: '5 hónapja nem viselted' } },
+  'Pulóverek és kardigánok': { items: ['kötött pulóver', 'kardigán', 'kasmír garbó', 'oversize kardigán'], notes: { 0: '7 hónapja nem viselted' } },
+  'Nadrágok': { items: ['kék farmer', 'széles szárú nadrág', 'leggings', 'szabott rövidnadrág'], notes: {} },
+  'Szoknyák': { items: ['pliszírozott szoknya', 'farmerszoknya', 'bézs midi szoknya', 'fekete bőrhatású miniszoknya', 'szatén slip szoknya'], notes: { 3: '9 hónapja nem viselted' } },
   'Ruhák': { items: ['fekete kombiné ruha', 'virágos midi ruha', 'vászon nyári ruha', 'kötött ruha', 'csavart ruha', 'ingruha'], notes: { 4: '1 éve nem viselted' } },
   'Cipők': { items: ['fehér sportcipő', 'bokacsizma', 'balerinacipő', 'blokksarkú cipő', 'szandál', 'mokaszin'], notes: { 3: '6 hónapja nem viselted' } },
-  'Kiegészítők': { items: ['arany karika fülbevaló', 'selyemsál', 'füles táska', 'bőröv', 'napszemüveg', 'barett sapka'], notes: {} },
+  'Sálak és kendők': { items: ['selyemsál', 'kockás gyapjúsál', 'selyem hajkendő'], notes: {} },
+  'Ékszerek': { items: ['arany karika fülbevaló', 'gyöngy nyaklánc', 'vékony ezüst karkötő'], notes: {} },
+  'Kiegészítők': { items: ['füles táska', 'bőröv', 'napszemüveg', 'barett sapka'], notes: {} },
 };
 
 // Előre elkészített outfitek nemenként (alkalom, évszak, ruhadarabok, viselési infó)
@@ -55,19 +60,636 @@ const MONTH_NAMES = ['január', 'február', 'március', 'április', 'május', 'j
 const WEEKDAY_NAMES = ['vasárnap', 'hétfő', 'kedd', 'szerda', 'csütörtök', 'péntek', 'szombat'];
 const WEEKDAY_SHORT = ['H', 'K', 'Sze', 'Cs', 'P', 'Szo', 'V'];
 
-// Színtémák (a színeket a Wardro Web.css :root[data-theme] blokkjai adják).
+// Színtémák (a színeket a Wardro Temak.css :root[data-theme] blokkjai adják).
 // A minták itt szándékosan fix színkódok: a választóban mindig a saját
 // témájuk színeit kell mutatniuk, bármelyik téma is aktív éppen.
+// minták sorrendje: kiemelő szín, háttér, felület, szöveg (a választó előnézete ebből rajzol)
 const THEMES = [
-  { key: 'homok', label: 'Homok', hint: 'Az eredeti, meleg barna', swatches: ['#57462F', '#EBE2D2', '#F6F1E7', '#DCD8CE'] },
-  { key: 'zsalya', label: 'Zsálya', hint: 'Nyugodt, zöldes árnyalatok', swatches: ['#34463A', '#E2E8DD', '#F3F5EF', '#D3DCCF'] },
-  { key: 'kontraszt', label: 'Erős kontraszt', hint: 'Fekete-fehér, a legjobban olvasható', swatches: ['#1A1A1A', '#EDEDED', '#FFFFFF', '#D9D9D9'] },
+  { key: 'ejjel', label: 'Éjjel', hint: 'Grafit sötét, lime kiemeléssel', dark: true, swatches: ['#C8F169', '#0F0F11', '#17171A', '#E4E4E7'] },
+  { key: 'rubin', label: 'Rubin', hint: 'Mély bordó sötét, piros kiemeléssel', dark: true, swatches: ['#FF5468', '#140B0D', '#1F1215', '#EFE2E4'] },
+  { key: 'ocean', label: 'Óceán', hint: 'Éjkék sötét, türkiz kiemeléssel', dark: true, swatches: ['#4CD3F5', '#0A1018', '#111A26', '#E1E8F0'] },
+  { key: 'erdo', label: 'Erdő', hint: 'Fenyőzöld sötét, friss zöld kiemeléssel', dark: true, swatches: ['#7BDC8F', '#0B110D', '#131C16', '#E2EAE3'] },
+  { key: 'ametiszt', label: 'Ametiszt', hint: 'Sötét lila, levendula kiemeléssel', dark: true, swatches: ['#BC94FF', '#100C17', '#191322', '#E9E3F1'] },
+  { key: 'homok', label: 'Homok', hint: 'Lágy, meleg világos – nem vakít', dark: false, swatches: ['#D9531E', '#E9E5DE', '#F3F0EA', '#2A2520'] },
+  { key: 'rozsa', label: 'Rózsa', hint: 'Púderes rózsaszín, piros kiemeléssel', dark: false, swatches: ['#D2304C', '#EEE3E3', '#F6EEEE', '#2E1D20'] },
+  { key: 'zsalya', label: 'Zsálya', hint: 'Nyugodt, halvány zöld világos', dark: false, swatches: ['#2E8A57', '#E3E9E2', '#EFF3EE', '#1F2A22'] },
+  { key: 'kontraszt', label: 'Erős kontraszt', hint: 'Fekete-fehér, a legjobban olvasható', dark: false, swatches: ['#1F45FF', '#E8E8E8', '#F7F7F7', '#141414'] },
 ];
-const THEME_STORE_KEY = 'wardro-theme';
+// --- Termékkatalógus (katalogus.js) ---
+// A "Keresés márkák között" fül adatai: márka + terméknév + típus.
+const KATALOGUS = (window.WARDRO_KATALOGUS || []).flatMap((b) =>
+  b.termekek.map(([nev, tipus, sajatBg, sajatFg], i) => ({
+    key: b.marka + '|' + i, marka: b.marka, nev, tipus, bg: sajatBg || b.bg, fg: sajatFg || b.fg, generikus: !!b.generikus,
+  })));
+const KAT_MARKAK = (window.WARDRO_KATALOGUS || []).map((b) => b.marka);
+// egy márka színei a címkéhez (a katalógusból; ismeretlen márkánál semleges, sötét címke)
+const markaSzin = (marka) => {
+  const m = String(marka || '').trim().toLowerCase();
+  const b = m && (window.WARDRO_KATALOGUS || []).find((x) => !x.generikus && x.marka.toLowerCase() === m);
+  return b ? { bg: b.bg, fg: b.fg } : { bg: 'rgba(15,15,18,.72)', fg: '#FFFFFF' };
+};
+// szűrő-chipek: a részletes típusokat pár nagy csoportba soroljuk
+const KAT_CSOPORT = {
+  'Cipő': 'Cipő', 'Póló': 'Felső', 'Ing': 'Felső', 'Felső': 'Felső', 'Pulóver': 'Pulóver', 'Kabát': 'Kabát',
+  'Nadrág': 'Nadrág', 'Rövidnadrág': 'Nadrág', 'Szoknya': 'Szoknya', 'Ruha': 'Ruha', 'Táska': 'Táska',
+  'Sapka': 'Kiegészítő', 'Öv': 'Kiegészítő', 'Óra': 'Kiegészítő', 'Napszemüveg': 'Kiegészítő', 'Sál': 'Sál és kendő',
+  'Pénztárca': 'Kiegészítő', 'Kiegészítő': 'Kiegészítő',
+  // női típusok
+  'Top': 'Top', 'Body': 'Top', 'Blúz': 'Felső', 'Overál': 'Ruha', 'Kardigán': 'Pulóver', 'Leggings': 'Nadrág',
+  'Kendő': 'Sál és kendő', 'Ékszer': 'Ékszer', 'Női cipő': 'Cipő',
+};
+// egy eBay-találat típusa a címéből (német / angol / magyar kulcsszavak) – a KAT_CSOPORT kulcsai közül
+const EBAY_TIPUS = [
+  ['Cipő', /sneaker|schuh|shoe|boot|stiefel|trainer|loafer|sandal|slipper|pumps|cipő|csizma/i],
+  ['Rövidnadrág', /shorts|bermuda|rövidnadr/i],
+  ['Nadrág', /jeans|hose\b|pants|trousers|chino|jogger|nadrág|farmer/i],
+  ['Szoknya', /skirt|\brock\b|szoknya/i],
+  ['Ruha', /dress|kleid|\bruha\b/i],
+  ['Kabát', /jacke|jacket|coat|mantel|parka|blazer|weste|vest|kabát|dzseki/i],
+  ['Pulóver', /hoodie|sweat|pullover|sweater|strick|cardigan|pulóver/i],
+  ['Ing', /hemd|\bshirt\b(?!.*t-shirt)|button.?down|\bing\b/i],
+  ['Póló', /t-?shirt|\btee\b|polo|póló/i],
+  ['Táska', /tasche|bag\b|rucksack|backpack|handbag|táska/i],
+  ['Sapka', /mütze|cap\b|beanie|\bhat\b|sapka/i],
+  ['Óra', /\buhr\b|watch|óra/i],
+  ['Napszemüveg', /sonnenbrille|sunglasses|napszemüveg/i],
+  ['Öv', /gürtel|belt|\böv\b/i],
+  ['Sál', /schal|scarf|\bsál\b/i],
+];
+const ebayTipus = (cim) => (EBAY_TIPUS.find(([, re]) => re.test(cim)) || ['Felső'])[0];
+// női ruhatípusok: férfi fióknál ezek (és a márka nélküli női alapdarabok) nem látszanak a katalógusban
+const KAT_NOI_TIPUSOK = new Set(['Szoknya', 'Ruha', 'Top', 'Body', 'Blúz', 'Overál', 'Leggings', 'Kendő', 'Ékszer', 'Női cipő']);
+const KAT_CSOPORTOK = ['Cipő', 'Felső', 'Top', 'Pulóver', 'Kabát', 'Nadrág', 'Szoknya', 'Ruha', 'Táska', 'Sál és kendő', 'Ékszer', 'Kiegészítő'];
+// a termék típusából kitaláljuk, melyik saját kategóriába illik (a kategóriák
+// nevét a felhasználó szabadon adja meg, ezért kulcsszavakkal keresünk)
+const KAT_KATEGORIA_MINTA = {
+  'Cipő': /cip|sneaker|láb|csizm|bakancs|shoe|boot/i,
+  'Felső': /pól|felső|ing\b|ingek|top|shirt/i,
+  'Pulóver': /pul[cóo]|felső|hoodie|sweat/i,
+  'Kabát': /kab[áa]t|dzsek|jacket|coat|felső/i,
+  'Nadrág': /nadr|farmer|jean|pant|alsó|short/i,
+  'Ruha': /ruh[áa]|szokny|dress|skirt|alsó/i,
+  'Top': /top|body|felső|pól/i,
+  'Szoknya': /szokny|skirt|alsó/i,
+  'Sál és kendő': /sál|kendő|kieg/i,
+  'Ékszer': /ékszer|bizsu|kieg/i,
+  'Táska': /tásk|bag|kieg/i,
+  'Kiegészítő': /kieg|accessor|sapk|öv|óra|szemüveg/i,
+};
+const katNormal = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const katKategoria = (tipus, kategoriak) => {
+  const minta = KAT_KATEGORIA_MINTA[KAT_CSOPORT[tipus] || 'Kiegészítő'];
+  return kategoriak.find((n) => minta && minta.test(n)) || '';
+};
+// a ruhára kerülő "fotó": márkaszínű kártya a névvel (PNG, a fotókkal azonos úton mentjük)
+const katKartya = (t) => new Promise((resolve) => {
+  const c = document.createElement('canvas');
+  c.width = 600; c.height = 800;
+  const g = c.getContext('2d');
+  g.fillStyle = t.bg; g.fillRect(0, 0, 600, 800);
+  const fenyes = g.createRadialGradient(470, 120, 20, 470, 120, 520);
+  fenyes.addColorStop(0, 'rgba(255,255,255,.14)'); fenyes.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = fenyes; g.fillRect(0, 0, 600, 800);
+  g.fillStyle = t.fg;
+  g.globalAlpha = .7; g.font = '600 26px "Instrument Sans", sans-serif';
+  g.fillText(t.tipus.toUpperCase(), 48, 80);
+  g.globalAlpha = 1; g.font = '700 76px Oswald, "Instrument Sans", sans-serif';
+  // a hosszú márkanevet és terméknevet sorokra tördeljük
+  const tord = (szoveg, max) => {
+    const sorok = []; let sor = '';
+    szoveg.split(' ').forEach((sz) => {
+      const proba = sor ? sor + ' ' + sz : sz;
+      if (g.measureText(proba).width > max && sor) { sorok.push(sor); sor = sz; } else { sor = proba; }
+    });
+    if (sor) sorok.push(sor);
+    return sorok;
+  };
+  const markaSorok = tord(t.marka.toUpperCase(), 504);
+  let y = 800 - 60;
+  g.font = '500 36px "Instrument Sans", sans-serif';
+  const nevSorok = tord(t.nev, 504).slice(0, 3);
+  for (let i = nevSorok.length - 1; i >= 0; i--) { g.fillText(nevSorok[i], 48, y); y -= 48; }
+  y -= 18;
+  g.font = '700 76px Oswald, "Instrument Sans", sans-serif';
+  for (let i = markaSorok.length - 1; i >= 0; i--) { g.fillText(markaSorok[i], 48, y); y -= 80; }
+  c.toBlob((blob) => resolve(blob ? URL.createObjectURL(blob) : ''), 'image/png');
+});
+
+// --- Háttér-eltávolítás ---
+// Teljesen a böngészőben fut (kulcs és regisztráció nélkül). Első használatkor
+// letölti a modellt (kb. 40 MB), utána a böngésző gyorsítótárából jön.
+let hatterModul = null;
+const hatterEltavolit = async (blob) => {
+  if (!hatterModul) hatterModul = import('https://esm.sh/@imgly/background-removal@1.4.5');
+  const mod = await hatterModul.catch((e) => { hatterModul = null; throw e; });
+  return mod.removeBackground(blob, { output: { format: 'image/webp', quality: 0.9 } });
+};
+
+// --- Próbababa: melyik ruha hová kerül ---
+// A kategóriák nevét a felhasználó adja meg, ezért kulcsszavakkal döntünk.
+const BABA_HELYEK = ['kabat', 'felso', 'also', 'cipo', 'kieg'];
+const BABA_HELY_NEV = { kabat: 'Kabát', felso: 'Felső', also: 'Alsó', cipo: 'Cipő', kieg: 'Kiegészítő' };
+const HELY_MINTA = [
+  ['cipo', /cip|sneaker|láb|csizm|bakancs|papucs|shoe|boot|balerin|szandál|loafer|espadrille|mokaszin/i],
+  ['kabat', /kab[áa]t|dzsek|jacket|coat|parka|mellény/i],
+  ['also', /nadr|farmer|jean|pant|alsó|short|szokny|skirt|leggings/i],
+  ['felso', /pól|felső|ing\b|ingek|top|shirt|pul[cóo]|hoodie|sweat|blúz|ruh[aá]|body|kardig|overál|jumpsuit|garbó/i],
+  ['kieg', /kieg|tásk|accessor|sapk|öv|óra|szemüveg|bag|ékszer|sál|kendő|fülbeval|nyaklánc|karkötő|karperec|gyűrű|hajcsat|bross|bizsu/i],
+];
+const helyOf = (kat) => (HELY_MINTA.find(([, re]) => re.test(kat || '')) || ['kieg'])[0];
+// egy darab helye: elsősorban a kategóriája alapján, ha abból nem derül ki, a neve alapján
+const helyDarab = (d) => {
+  const kat = HELY_MINTA.find(([, re]) => re.test(d.cat || ''));
+  if (kat) return kat[0];
+  const nev = HELY_MINTA.find(([, re]) => re.test(d.label || ''));
+  return nev ? nev[0] : 'kieg';
+};
+// Outfit-összeállító: melyik helyre milyen darabok valók (a próbababa felismerése alapján)
+const SLOT_HELY = { top: ['felso'], bottom: ['also'], shoes: ['cipo'], extra: ['kieg', 'kabat'] };
+const SLOT_CIM = { top: 'Felsők', bottom: 'Alsók', shoes: 'Cipők', extra: 'Kabátok és kiegészítők' };
+// a hely darabjai; ha egy sem illik (pl. szokatlan kategórianevek), minden darab választható marad
+const slotSzur = (slotKey, darabok) => {
+  const helyek = SLOT_HELY[slotKey];
+  if (!helyek) return { darabok, mind: true };
+  const x = darabok.filter((d) => helyek.includes(helyDarab(d)));
+  return x.length ? { darabok: x, mind: false } : { darabok, mind: true };
+};
+// a próbababa kis címkéi (a "Kiegészítő" nem fér el)
+const BABA_CIMKE = { kabat: 'Kabát', felso: 'Felső', also: 'Alsó', cipo: 'Cipő', kieg: 'Extra' };
+// darabok: [{ label, cat, photoUrl, kivagott }] -> helyenként egy darab a próbababára
+// --- Próbababa: hol van a ruha a fotón? ---
+// Minden fotón egyszer megmérjük a ruha befoglaló téglalapját (kivágott fotón az
+// átlátszóság, sima fotón a háttértől – a kép szélének színétől – eltérő pixelek
+// alapján). Ezzel a ruhát pontosan a baba megfelelő részére lehet illeszteni:
+// a póló válla a vállra, a nadrág szárai a lábakra kerülnek.
+const KEP_KERET = new Map(); // src -> { x, y, w, h } (0..1 arányok) | null, amíg mérjük
+let kepKeretFrissit = null; // a komponens állítja be: mérés után újrarajzol
+const keretSzamol = (img) => {
+  const N = 160;
+  const arany = img.naturalWidth / img.naturalHeight || 1;
+  const cw = arany >= 1 ? N : Math.max(8, Math.round(N * arany));
+  const ch = arany >= 1 ? Math.max(8, Math.round(N / arany)) : N;
+  const c = document.createElement('canvas');
+  c.width = cw; c.height = ch;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.drawImage(img, 0, 0, cw, ch);
+  const px = g.getImageData(0, 0, cw, ch).data;
+  let atlatszo = 0;
+  for (let i = 3; i < px.length; i += 4) if (px[i] < 20) atlatszo++;
+  const alfa = atlatszo > cw * ch * 0.03;
+  // sima fotó: a háttér színe a kép szélének mediánja
+  let hr = 0, hg = 0, hb = 0;
+  if (!alfa) {
+    const r = [], gg = [], b = [];
+    for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++) {
+      if (x > 1 && x < cw - 2 && y > 1 && y < ch - 2) continue;
+      const i = (y * cw + x) * 4; r.push(px[i]); gg.push(px[i + 1]); b.push(px[i + 2]);
+    }
+    const med = (t) => t.sort((p, q) => p - q)[t.length >> 1];
+    hr = med(r); hg = med(gg); hb = med(b);
+  }
+  const ruha = (i) => (alfa ? px[i + 3] > 40 : Math.abs(px[i] - hr) + Math.abs(px[i + 1] - hg) + Math.abs(px[i + 2] - hb) > 54);
+  const oszlop = new Array(cw).fill(0), sor = new Array(ch).fill(0);
+  for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++) {
+    if (ruha((y * cw + x) * 4)) { oszlop[x]++; sor[y]++; }
+  }
+  // a zajt (egy-egy elszórt pixel) és a vékony kiálló részeket (vállfa kampója,
+  // címke, árnyék) kihagyjuk: a széleken csak a kellően széles sorok / oszlopok számítanak
+  const maxSor = Math.max(...sor), maxOszlop = Math.max(...oszlop);
+  const xs = oszlop.map((n, i) => (n > Math.max(ch * 0.03, maxOszlop * 0.12) ? i : -1)).filter((i) => i >= 0);
+  const ys = sor.map((n, i) => (n > Math.max(cw * 0.03, maxSor * 0.22) ? i : -1)).filter((i) => i >= 0);
+  if (!xs.length || !ys.length) return { x: 0, y: 0, w: 1, h: 1, alfa, biztos: false };
+  // ar: a kép szélesség / magasság aránya (a talált folt valódi arányához, pl. oldalnézeti cipő)
+  const k = { x: xs[0] / cw, y: ys[0] / ch, w: (xs[xs.length - 1] - xs[0] + 1) / cw, h: (ys[ys.length - 1] - ys[0] + 1) / ch, alfa, ar: cw / ch };
+  // mennyire tömör a talált folt: ha a téglalap nagy része háttér, vagy majdnem az egész
+  // kép, akkor sima fotón nem bízunk a felismerésben (pl. mintás padló, fal)
+  let benne = 0;
+  for (let y = ys[0]; y <= ys[ys.length - 1]; y++) for (let x = xs[0]; x <= xs[xs.length - 1]; x++) if (ruha((y * cw + x) * 4)) benne++;
+  const tomor = benne / ((xs[xs.length - 1] - xs[0] + 1) * (ys[ys.length - 1] - ys[0] + 1));
+  k.biztos = alfa || (tomor > 0.45 && k.w * k.h < 0.85 && k.w * k.h > 0.08);
+  return k;
+};
+const kepKeret = (src) => {
+  if (!src) return null;
+  if (KEP_KERET.has(src)) return KEP_KERET.get(src);
+  KEP_KERET.set(src, null);
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    try { KEP_KERET.set(src, keretSzamol(img)); } catch (e) { KEP_KERET.set(src, { x: 0, y: 0, w: 1, h: 1 }); }
+    if (kepKeretFrissit) kepKeretFrissit();
+  };
+  img.src = src;
+  return null;
+};
+// hová kerüljön a ruha a helyén belül (a hely téglalapjának arányaiban): a nyak, a csukló
+// és a boka miatt nem a teljes téglalap, hanem a ruha tényleges része
+// Hová kerül a kivágott ruha a helyén belül (a hely arányaiban). A magasság rögzített: a felső a
+// vállától épp a nadrág derékpántjáig ér (kicsit takarja), a nadrág a derékig ér fel és a bokáig le.
+// A szélesség a ruha saját arányaiból jön (wMin..wMax között), és középre kerül – így nem nyúlik el.
+// zr: a hely szélessége / magassága a baba egységeiben (lásd Wardro Temak.css 14.)
+const BABA_CEL = {
+  felso: { y: 0.05, h: 0.9, wMin: 0.7, wMax: 0.97, zr: 140 / 176 },
+  ruha: { y: 0.04, h: 0.94, wMin: 0.55, wMax: 0.9, zr: 160 / 290 },
+  kabat: { y: 0.03, h: 0.93, wMin: 0.7, wMax: 0.97, zr: 152 / 232 },
+  also: { y: 0.01, h: 0.94, wMin: 0.62, wMax: 0.8, zr: 100 / 182 },
+  short: { y: 0.01, h: 0.42, wMin: 0.62, wMax: 0.8, zr: 100 / 182 },
+  szoknya: { y: 0.01, h: 0.56, wMin: 0.62, wMax: 0.94, zr: 100 / 182 },
+};
+// a fotó mérete és helye: a ruha (k = a körvonala a fotón) a célterületre kerül, arányosan
+const babaIllesztes = (k, t) => {
+  const ga = (k.w * (k.ar || 1)) / k.h; // a ruha szélesség / magasság aránya a fotón
+  const w = Math.max(t.wMin, Math.min(t.wMax, t.h * ga / t.zr));
+  const x = (1 - w) / 2;
+  const iw = w / k.w, ih = t.h / k.h;
+  return {
+    iw: (iw * 100).toFixed(2) + '%',
+    ih: (ih * 100).toFixed(2) + '%',
+    il: ((x - k.x * iw) * 100).toFixed(2) + '%',
+    it: ((t.y - k.y * ih) * 100).toFixed(2) + '%',
+  };
+};
+
+// a darab formája a babán (a ruhaforma-maszkot választja, lásd Wardro Temak.css 14.)
+const babaForma = (h, d) => {
+  const x = ((d.label || '') + ' ' + (d.cat || '')).toLowerCase();
+  if (h === 'felso') {
+    if (/\bruha|ruhák|dress|overál|jumpsuit/.test(x)) return 'is-v-ruha';
+    if (/\btop\b|topok|trikó|atléta|\bbody|crop|ujjatlan|tank/.test(x)) return 'is-v-ujjatlan';
+    if (/pul[cóo]|hoodie|kapucnis|sweat|ing\b|ingek|kardig|garbó|blúz|hosszú ujj|longsleeve|kötött|melegítő/.test(x)) return 'is-v-hosszu';
+    return 'is-v-polo';
+  }
+  if (h === 'also') {
+    if (/szokny|skirt/.test(x)) return 'is-v-szoknya';
+    if (/rövidnadr|short|bermuda/.test(x)) return 'is-v-short';
+    return 'is-v-nadrag';
+  }
+  return '';
+};
+const babaAdat = (darabok) => {
+  const b = {};
+  BABA_HELYEK.forEach((h) => { b[h] = { src: '', nev: '', cls: 'is-ures', cim: BABA_CIMKE[h], szin: '', iw: '', ih: '', il: '', it: '', bg: '' }; });
+  darabok.forEach((d) => {
+    const h = helyDarab(d);
+    if (b[h].nev) return; // helyenként az első darab
+    const sz = styDarabSzin(d);
+    const forma = babaForma(h, d);
+    // a fotón mért ruha a baba megfelelő részére illesztve (a kiegészítő egészben marad)
+    const mert = d.photoUrl && h !== 'kieg' ? kepKeret(d.photoUrl) : null;
+    // csak a háttér nélküli (átlátszó) fotóknál bízunk a körvonalban: sima fotón a fal, a
+    // padló könnyen a ruhához számít – ott marad a szabásminta közepére nagyított kép
+    const k = mert && mert.biztos && mert.alfa && h !== 'cipo' ? mert : null;
+    // a kivágott, illesztett ruha is a szabásmintába kerül: a mintán kívüli részeket a
+    // ruha színe tölti ki, így a forma mindig egységes, rajta a ruha valódi mintájával
+    const mintaba = !!k;
+    // cipő: fotóként (párban) csak akkor, ha a kivágott kép tisztán egy oldalnézeti cipő (széles folt);
+    // ha a fotón doboz, láb vagy több cipő is van, cipőformát kap a saját színében, a fotó csak mintaként
+    const cipoPar = h === 'cipo' && d.kivagott && !!mert && mert.alfa && (mert.w * (mert.ar || 1)) / mert.h >= 1.35;
+    const cipoMinta = h === 'cipo' && !!d.photoUrl && !cipoPar;
+    const celKulcs = forma === 'is-v-ruha' ? 'ruha' : forma === 'is-v-short' ? 'short' : forma === 'is-v-szoknya' ? 'szoknya' : h;
+    const ill = k && BABA_CEL[celKulcs] ? babaIllesztes(k, BABA_CEL[celKulcs]) : { iw: '', ih: '', il: '', it: '' };
+    b[h] = { src: d.photoUrl || '', nev: d.label, cim: BABA_CIMKE[h],
+      // fotó nélkül a darab a saját színében jelenik meg
+      szin: d.szinHex || SZIN_LISTA[sz] || '',
+      ...ill,
+      // kivágott cipő: a fotó kétszer látszik (bal és jobb cipő), az egyik a háttérképből
+      bg: cipoPar ? 'url("' + d.photoUrl + '")' : '',
+      cls: [d.photoUrl ? '' : 'is-nincsfoto', d.kivagott && !mintaba && !cipoMinta ? 'is-kivagott' : '', mintaba ? 'is-alfa' : '', forma, k ? 'is-illesztett' : '',
+        cipoPar ? 'is-par' : '', cipoMinta ? 'is-cipo-minta' : ''].filter(Boolean).join(' ') };
+  });
+  return b;
+};
+
+// --- "Mit vegyek fel ma?" ---
+// egyszerű, ismételhető véletlenszám-generátor (ugyanazzal a maggal ugyanazt adja)
+const prng = (mag) => () => {
+  mag = (mag + 0x6D2B79F5) | 0;
+  let t = Math.imul(mag ^ (mag >>> 15), 1 | mag);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+// Darabonként pontozunk: minél régebben viselted, annál előrébb kerül (a rég
+// nem hordott ruhák így újra előkerülnek), egy kis véletlennel, hogy a
+// "Másikat" gomb tényleg mást adjon. Hűvös időben kabát is kerül rá.
+const napiOutfit = (darabok, idojaras, mag) => {
+  const rnd = prng(mag * 7919 + 17);
+  const most = Date.now();
+  const pont = (d) => {
+    const nap = d.lastWornAt ? (most - d.lastWornAt) / 864e5 : 45;
+    return Math.min(nap, 120) + rnd() * 40 - (d.wornToday ? 60 : 0);
+  };
+  const valasztas = [];
+  // színharmónia: ha már van egy élénk szín, egy másik élénk szín kevesebb pontot kap
+  const szinPotlek = (d) => {
+    if (!d.szin || SEMLEGES_SZIN.has(d.szin)) return 0;
+    const elenk = valasztas.map((x) => x.szin).filter((x) => x && !SEMLEGES_SZIN.has(x));
+    return elenk.length && !elenk.includes(d.szin) ? -45 : 0;
+  };
+  const legjobb = (h) => darabok.filter((d) => helyDarab(d) === h)
+    .map((d) => ({ d, p: pont(d) + szinPotlek(d) })).sort((a, b) => b.p - a.p)[0];
+  const fok = idojaras && typeof idojaras.tempC === 'number' ? idojaras.tempC : null;
+  const helyek = ['felso', 'also', 'cipo'];
+  if (fok !== null && fok < 16) helyek.unshift('kabat');
+  helyek.forEach((h) => { const x = legjobb(h); if (x) valasztas.push(x.d); });
+  const kieg = legjobb('kieg');
+  if (kieg && rnd() < 0.5) valasztas.push(kieg.d);
+  return { darabok: valasztas, fok };
+};
+// --- Színfelismerés ---
+// A fotót 64×64-esre kicsinyítjük, és megkeressük a leggyakoribb színt.
+// Kivágott (átlátszó hátterű) fotónál csak a ruha pixeleit nézzük; sima
+// fotónál a kép közepét, és kihagyjuk a háttérhez (a szélekhez) hasonló pixeleket.
+const SZIN_LISTA = {
+  'fekete': '#1c1c1c', 'sötétszürke': '#4a4a4a', 'szürke': '#8c8c8c', 'világosszürke': '#c8c8c8', 'fehér': '#f4f4f2',
+  'bézs': '#d8c3a5', 'barna': '#7a5230', 'khaki': '#8f8a5e', 'olíva': '#6b6b2a', 'sötétzöld': '#2f4f3a', 'zöld': '#3f9a4f',
+  'türkiz': '#2bb5b0', 'farmerkék': '#4a6a92', 'világoskék': '#9cc4e8', 'kék': '#2f6fd0', 'sötétkék': '#1f2a4a',
+  'lila': '#7a4fb0', 'rózsaszín': '#f2a7c0', 'piros': '#d0302f', 'bordó': '#6e1e2a', 'narancs': '#e87a2a', 'sárga': '#e8c52a',
+};
+// ezek a "semleges" színek: bármivel jól mennek
+const SEMLEGES_SZIN = new Set(['fekete', 'sötétszürke', 'szürke', 'világosszürke', 'fehér', 'bézs', 'barna', 'khaki', 'farmerkék', 'sötétkék', 'olíva']);
+const szinNevRgb = (r, g, b) => {
+  const R = r / 255, G = g / 255, B = b / 255;
+  const max = Math.max(R, G, B), min = Math.min(R, G, B), l = (max + min) / 2, d = max - min;
+  const s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+  let h = 0;
+  if (d) h = max === R ? 60 * (((G - B) / d) % 6) : (max === G ? 60 * ((B - R) / d + 2) : 60 * ((R - G) / d + 4));
+  if (h < 0) h += 360;
+  if (l < 0.13) return 'fekete';
+  if (l > 0.88 && s < 0.3) return 'fehér';
+  if (s < 0.12) return l > 0.7 ? 'világosszürke' : (l < 0.32 ? 'sötétszürke' : 'szürke');
+  if (h < 12 || h >= 345) return l < 0.3 ? 'bordó' : (l > 0.72 ? 'rózsaszín' : 'piros');
+  if (h < 40) return l < 0.38 ? 'barna' : (s < 0.5 && l > 0.55 ? 'bézs' : 'narancs');
+  if (h < 68) return s < 0.35 ? (l > 0.6 ? 'bézs' : 'khaki') : (l < 0.38 ? 'olíva' : 'sárga');
+  if (h < 165) return s < 0.25 ? (l > 0.35 ? 'khaki' : 'sötétzöld') : (l < 0.3 ? 'sötétzöld' : (h < 95 && l < 0.45 ? 'olíva' : 'zöld'));
+  if (h < 195) return 'türkiz';
+  if (h < 255) {
+    if (h >= 200 && h < 235 && s < 0.45 && l > 0.25 && l < 0.62) return 'farmerkék';
+    return l < 0.3 ? 'sötétkék' : (l > 0.68 ? 'világoskék' : 'kék');
+  }
+  if (h < 290) return 'lila';
+  return l > 0.55 ? 'rózsaszín' : 'lila';
+};
+const szinFelismer = async (url) => {
+  const img = await new Promise((ok, hiba) => {
+    const i = new Image(); i.crossOrigin = 'anonymous';
+    i.onload = () => ok(i); i.onerror = () => hiba(new Error('kép nem tölthető be')); i.src = url;
+  });
+  const N = 64, c = document.createElement('canvas'); c.width = N; c.height = N;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.drawImage(img, 0, 0, N, N);
+  const px = g.getImageData(0, 0, N, N).data;
+  let atlatszo = 0;
+  for (let i = 3; i < px.length; i += 4) if (px[i] < 20) atlatszo++;
+  const kivagott = atlatszo > N * N * 0.05;
+  // háttérszín becslése a kép szélei alapján (sima fotónál)
+  let hr = 0, hg = 0, hb = 0, hn = 0;
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    if (x > 2 && x < N - 3 && y > 2 && y < N - 3) continue;
+    const i = (y * N + x) * 4; hr += px[i]; hg += px[i + 1]; hb += px[i + 2]; hn++;
+  }
+  hr /= hn; hg /= hn; hb /= hn;
+  const vodrok = {};
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const i = (y * N + x) * 4, r = px[i], gg = px[i + 1], b = px[i + 2];
+    if (px[i + 3] < 128) continue;
+    if (!kivagott) {
+      if (x < N * 0.2 || x > N * 0.8 || y < N * 0.15 || y > N * 0.85) continue;
+      if (Math.abs(r - hr) + Math.abs(gg - hg) + Math.abs(b - hb) < 60) continue; // háttér
+    }
+    const k = (r >> 5) + ',' + (gg >> 5) + ',' + (b >> 5);
+    const v = vodrok[k] || (vodrok[k] = { n: 0, r: 0, g: 0, b: 0 });
+    v.n++; v.r += r; v.g += gg; v.b += b;
+  }
+  const legjobb = Object.values(vodrok).sort((a, b) => b.n - a.n)[0];
+  if (!legjobb) return null;
+  const r = Math.round(legjobb.r / legjobb.n), gg = Math.round(legjobb.g / legjobb.n), b = Math.round(legjobb.b / legjobb.n);
+  const hex = '#' + [r, gg, b].map((x) => x.toString(16).padStart(2, '0')).join('');
+  return { nev: szinNevRgb(r, gg, b), hex };
+};
+// Színharmónia egy outfitre: hány "élénk" (nem semleges) szín van benne, és ütik-e egymást
+const UTKOZO_SZINEK = [['piros', 'rózsaszín'], ['piros', 'narancs'], ['narancs', 'rózsaszín'], ['piros', 'zöld'], ['lila', 'narancs'], ['sárga', 'rózsaszín'], ['bordó', 'narancs']];
+const szinHarmonia = (darabok) => {
+  const szinek = darabok.map((d) => d.szin).filter(Boolean);
+  if (!szinek.length) return { szoveg: '', cls: '' };
+  const elenk = [...new Set(szinek.filter((x) => !SEMLEGES_SZIN.has(x)))];
+  if (!elenk.length) return { szoveg: 'Semleges, letisztult színek: ez mindig működik.', cls: 'is-jo' };
+  if (elenk.length === 1) return { szoveg: 'Egy kiemelt szín (' + elenk[0] + ') semleges alapon: jó választás.', cls: 'is-jo' };
+  if (elenk.length === 2) {
+    const utkozik = UTKOZO_SZINEK.some(([a, b]) => elenk.includes(a) && elenk.includes(b));
+    return utkozik
+      ? { szoveg: 'A ' + elenk[0] + ' és a ' + elenk[1] + ' ütheti egymást. Az egyiket érdemes semlegesre cserélni.', cls: 'is-figyelj' }
+      : { szoveg: 'Két szín (' + elenk.join(', ') + '): merész, de működhet.', cls: 'is-jo' };
+  }
+  return { szoveg: 'Sok élénk szín (' + elenk.join(', ') + '). Érdemes egyet-kettőt semlegesre cserélni.', cls: 'is-figyelj' };
+};
+const szinPont = (nev, hex) => hex || SZIN_LISTA[nev] || '';
+
+const ftForma = (n) => Math.round(n).toLocaleString('hu-HU') + ' Ft';
+// új jelszó erőssége: { cls, label, w } a kis csíkhoz az űrlap alatt
+const jelszoErosseg = (pw) => {
+  if (!pw) return { cls: 'is-ures', label: 'Legalább 8 karakter', w: '0%' };
+  let p = 0;
+  if (pw.length >= 8) p++;
+  if (pw.length >= 12) p++;
+  if (/[a-záéíóöőúüű]/.test(pw) && /[A-ZÁÉÍÓÖŐÚÜŰ]/.test(pw)) p++;
+  if (/\d/.test(pw)) p++;
+  if (/[^A-Za-z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/.test(pw)) p++;
+  if (pw.length < 8) return { cls: 'is-gyenge', label: 'Túl rövid – még ' + (8 - pw.length) + ' karakter', w: '15%' };
+  if (p <= 2) return { cls: 'is-gyenge', label: 'Gyenge jelszó', w: '35%' };
+  if (p === 3) return { cls: 'is-kozepes', label: 'Közepes jelszó', w: '65%' };
+  return { cls: 'is-eros', label: 'Erős jelszó', w: '100%' };
+};
+// másodperc -> "15 perc" / "1 óra 30 perc" (a zárolás hátralévő idejéhez)
+const percSzoveg = (mp) => {
+  const p = Math.max(1, Math.ceil((Number(mp) || 60) / 60));
+  if (p < 60) return p + ' perc';
+  return Math.floor(p / 60) + ' óra' + (p % 60 ? ' ' + (p % 60) + ' perc' : '');
+};
+const maiMag = () => { const d = new Date(); return d.getFullYear() * 400 + d.getMonth() * 32 + d.getDate(); };
+
+// ==========================================================================
+// MOSÁSI CÍMKE
+// Darabonként: mosási hőfok, szárítógép, vasalás, fehérítő, vegytisztítás és
+// anyag. A címkét le lehet fotózni: a szövegét (pl. „30°”, „do not tumble
+// dry”, „100% cotton”) szövegfelismeréssel (Tesseract.js) kiolvassuk, és ezzel
+// előtöltjük az űrlapot – a jeleket (szimbólumokat) koppintással lehet javítani.
+// Ha nincs címke megadva, a darab típusa, anyaga és színe alapján becsülünk.
+// ==========================================================================
+const CARE_SOROK = [
+  { k: 'mosas', cim: 'Mosás', opts: [['30', '30°'], ['40', '40°'], ['60', '60°'], ['90', '90°'], ['kezi', 'Kézi'], ['tilos', 'Nem mosható']] },
+  { k: 'szarito', cim: 'Szárítógép', opts: [['igen', 'Mehet'], ['alacsony', 'Kímélő'], ['tilos', 'Tilos']] },
+  { k: 'vasalas', cim: 'Vasalás', opts: [['1', '• alacsony'], ['2', '•• közepes'], ['3', '••• magas'], ['tilos', 'Tilos']] },
+  { k: 'feherito', cim: 'Fehérítő', opts: [['igen', 'Mehet'], ['tilos', 'Tilos']] },
+  { k: 'vegyi', cim: 'Vegytisztítás', opts: [['igen', 'Mehet'], ['tilos', 'Tilos']] },
+];
+const CARE_MOSAS_NEV = { 30: '30°', 40: '40°', 60: '60°', 90: '90°', kezi: 'Kézi mosás', tilos: 'Nem mosható' };
+// a címke rövid összefoglalója chipekben
+const careChipek = (c) => {
+  if (!c) return [];
+  const out = [];
+  if (c.mosas) out.push({ label: c.mosas === 'tilos' ? 'Nem mosható' : (c.mosas === 'kezi' ? 'Kézi mosás' : c.mosas + '°-on mosható'), cls: 'is-fo' });
+  if (c.szarito) out.push({ label: c.szarito === 'tilos' ? 'Szárítógép: tilos' : (c.szarito === 'alacsony' ? 'Szárítógép: kímélő' : 'Szárítógép: mehet'), cls: c.szarito === 'tilos' ? 'is-tilos' : '' });
+  if (c.vasalas) out.push({ label: c.vasalas === 'tilos' ? 'Vasalás: tilos' : 'Vasalás: ' + '•'.repeat(Number(c.vasalas)), cls: c.vasalas === 'tilos' ? 'is-tilos' : '' });
+  if (c.feherito) out.push({ label: c.feherito === 'tilos' ? 'Fehérítő: tilos' : 'Fehérítő: mehet', cls: c.feherito === 'tilos' ? 'is-tilos' : '' });
+  if (c.vegyi) out.push({ label: c.vegyi === 'tilos' ? 'Vegytisztítás: tilos' : 'Vegytisztítható', cls: c.vegyi === 'tilos' ? 'is-tilos' : '' });
+  if (c.anyag) out.push({ label: c.anyag, cls: 'is-anyag' });
+  return out;
+};
+// becslés, ha nincs megadott címke: a darab neve, címkéi, anyaga és színe alapján
+const careBecsles = (d) => {
+  const sz = styNorm((d.label || '') + ' ' + (d.cat || '') + ' ' + (d.tags || []).join(' '));
+  const h = helyDarab(d);
+  if (h === 'cipo' || h === 'kieg') return null;
+  if (/selyem|gyapju|kasmir|merino|alpaka|angora|csipke|silk|wool|cashmere/.test(sz)) return { mosas: 'kezi', szarito: 'tilos' };
+  if (h === 'kabat') return { mosas: '30', szarito: 'tilos' };
+  if (/farmer|jean|denim/.test(sz)) return { mosas: '30', szarito: 'alacsony' };
+  if (/sport|edzo|futo|leggings|melegito|fitness|dry ?fit/.test(sz)) return { mosas: '30', szarito: 'tilos' };
+  if (/viszkoz|viscose|szatén|szaten|blúz|bluz|ruha|kotott|kardigan|pulover|pulcsi/.test(sz)) return { mosas: '30', szarito: 'tilos' };
+  const szin = styDarabSzin(d);
+  if ((szin === 'fehér') && /pamut|polo|ing|cotton|zokni|alsone|torolkoz/.test(sz)) return { mosas: '60', szarito: 'igen' };
+  return { mosas: '40', szarito: 'alacsony' };
+};
+// a darab tényleges (megadott vagy becsült) mosási adatai
+const careDarab = (d, sajat) => {
+  const c = sajat || d.care || null;
+  if (c && c.mosas) return { ...c, becsult: false };
+  const b = careBecsles(d);
+  return b ? { ...(c || {}), ...b, becsult: true } : (c ? { ...c, becsult: false } : null);
+};
+// a felismert címkeszövegből: { care, talalt: [...] }
+const CARE_ANYAGOK = [
+  [/(cotton|baumwolle|coton|algodon|cotone|pamut|bavlna|bawelna)/, 'pamut'], [/(polyester|poliester|poliészter|poliiszter|polyest)/, 'poliészter'],
+  [/(elastan|elasthan|spandex|lycra|elasztan)/, 'elasztán'], [/(wool|wolle|laine|lana|gyapju|vlna|welna)/, 'gyapjú'],
+  [/(viscose|viskose|viscosa|viszkoz|viskoza|wiskoza)/, 'viszkóz'], [/(linen|leinen|\blin\b|lino|\blen\b|lan)/, 'len'],
+  [/(silk|seide|soie|seta|selyem|hedvab|jedwab)/, 'selyem'], [/(polyamid|polyamide|nylon|poliamid)/, 'poliamid'],
+  [/(acryl|acrylic|akril|acrilic)/, 'akril'], [/(cashmere|kaschmir|kasmir)/, 'kasmír'], [/(modal)/, 'modal'], [/(lyocell|tencel)/, 'liocell'],
+];
+const careOcrErtelmez = (nyers) => {
+  const t = ' ' + String(nyers || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[º˚]/g, '°').replace(/\s+/g, ' ') + ' ';
+  const c = {};
+  const talalt = [];
+  // hőfok: „30°”, „30 °c”, „max 40”, „40c”; a 95-öt 90-nek vesszük
+  const fokok = [];
+  const fokRe = /(?:max\.?\s*)?\b(30|40|50|60|90|95)\s*(?:°|o\b|c\b|grad|fok)/g;
+  let m;
+  while ((m = fokRe.exec(t))) fokok.push(Number(m[1]));
+  const maxRe = /max\.?\s*(30|40|60|90|95)\b/g;
+  while ((m = maxRe.exec(t))) fokok.push(Number(m[1]));
+  if (/(hand ?wash|kezi mos|handwasch|lavage a la main|lavar a mano|lavare a mano|pranie reczne|prat v ruce)/.test(t)) c.mosas = 'kezi';
+  else if (/(do not wash|ne moss|nicht waschen|ne pas laver|no lavar|non lavare)/.test(t)) c.mosas = 'tilos';
+  else if (fokok.length) {
+    const f = Math.min(...fokok.map((x) => (x >= 90 ? 90 : x === 50 ? 40 : x)));
+    c.mosas = String(f);
+  }
+  if (/(do not tumble|no tumble|ne szaritsa|ne szaritogep|nicht im trockner|nicht trocknergeeignet|ne pas secher en tambour|no usar secadora|non asciugare)/.test(t)) c.szarito = 'tilos';
+  else if (/(tumble dry low|low heat|kimelo szarit|schonend trocknen)/.test(t)) c.szarito = 'alacsony';
+  else if (/(tumble dry|szaritogepben szarithato|trocknergeeignet)/.test(t)) c.szarito = 'igen';
+  if (/(do not iron|ne vasald|ne vasalja|nicht bugeln|ne pas repasser|no planchar|non stirare)/.test(t)) c.vasalas = 'tilos';
+  else if (/(iron low|cool iron|low iron|alacsony hofokon vasal)/.test(t)) c.vasalas = '1';
+  else if (/(iron medium|warm iron|medium iron)/.test(t)) c.vasalas = '2';
+  else if (/(iron high|hot iron|high iron)/.test(t)) c.vasalas = '3';
+  if (/(do not bleach|no bleach|ne feheritsd|ne feheritse|nicht bleichen|ne pas blanchir|no usar lejia|non candeggiare)/.test(t)) c.feherito = 'tilos';
+  if (/(do not dry ?clean|ne vegytisztitsd|ne vegytisztitsa|nicht chemisch|ne pas nettoyer a sec|no limpiar en seco)/.test(t)) c.vegyi = 'tilos';
+  else if (/(dry ?clean only|csak vegytisztit|nur chemisch|nettoyage a sec uniquement)/.test(t)) { c.vegyi = 'igen'; if (!c.mosas) c.mosas = 'tilos'; }
+  // anyagösszetétel: „60% cotton 40% polyester”, „cotton 100%”
+  // a „60% cotton” és a „cotton 60%” alak közül azt fogadjuk el, amelyikből több anyag jön ki
+  const anyagKeres = (re, szamI, szoI) => {
+    const lista = [];
+    let x;
+    while ((x = re.exec(t))) {
+      const p = Number(x[szamI]);
+      const a = CARE_ANYAGOK.find(([r]) => r.test(x[szoI]));
+      if (a && p > 0 && p <= 100 && !lista.some((y) => y[1] === a[1])) lista.push([p, a[1]]);
+    }
+    return lista;
+  };
+  const elol = anyagKeres(/(\d{1,3})\s*%\s*([a-z]+)/g, 1, 2);
+  const hatul = anyagKeres(/([a-z]+)\s*(\d{1,3})\s*%/g, 2, 1);
+  const anyagok = hatul.length > elol.length ? hatul : elol;
+  if (anyagok.length) c.anyag = anyagok.sort((a, b) => b[0] - a[0]).map(([p, n]) => p + '% ' + n).join(', ');
+  // ha a hőfok nem olvasható, az anyagból becsülünk (ezt nem soroljuk a "felismert" közé)
+  if (c.mosas) talalt.push(CARE_MOSAS_NEV[c.mosas]);
+  if (c.szarito) talalt.push(c.szarito === 'tilos' ? 'szárítógép tilos' : 'szárítógép ' + (c.szarito === 'alacsony' ? 'kímélő' : 'mehet'));
+  if (c.vasalas) talalt.push(c.vasalas === 'tilos' ? 'vasalás tilos' : 'vasalás ' + '•'.repeat(Number(c.vasalas)));
+  if (c.feherito) talalt.push('fehérítő tilos');
+  if (c.vegyi) talalt.push(c.vegyi === 'tilos' ? 'vegytisztítás tilos' : 'csak vegytisztítás');
+  if (c.anyag) talalt.push(c.anyag);
+  if (!c.mosas && anyagok.length) {
+    const fo = anyagok[0][1];
+    if (/gyapjú|selyem|kasmír/.test(fo)) c.mosas = 'kezi';
+    else if (/viszkóz|poliamid|elasztán|akril|modal|liocell/.test(fo)) c.mosas = '30';
+    else c.mosas = '40';
+  }
+  return { care: c, talalt };
+};
+// Tesseract.js betöltése csak akkor, amikor tényleg kell (a CDN-ről, egyszer)
+let tesseractIgeret = null;
+const tesseractBetolt = () => tesseractIgeret || (tesseractIgeret = new Promise((ok, hiba) => {
+  if (window.Tesseract) return ok(window.Tesseract);
+  const sc = document.createElement('script');
+  sc.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+  sc.async = true;
+  sc.onload = () => (window.Tesseract ? ok(window.Tesseract) : hiba(new Error('nincs Tesseract')));
+  sc.onerror = () => { tesseractIgeret = null; hiba(new Error('a szövegfelismerő nem tölthető be')); };
+  document.head.appendChild(sc);
+}));
+// a fotó kicsinyítése (és a szövegfelismeréshez szürkeárnyalat + kontraszt)
+const kepCanvas = async (file, max, szurke) => {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((ok, hiba) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => hiba(new Error('a kép nem nyitható meg')); i.src = url; });
+    const arany = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(img.naturalWidth * arany));
+    c.height = Math.max(1, Math.round(img.naturalHeight * arany));
+    const g = c.getContext('2d', { willReadFrequently: !!szurke });
+    if (szurke) g.filter = 'grayscale(1) contrast(1.6)';
+    g.drawImage(img, 0, 0, c.width, c.height);
+    return c;
+  } finally { URL.revokeObjectURL(url); }
+};
+const fajlValaszt = (kamera) => new Promise((ok) => {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'image/*';
+  if (kamera) inp.setAttribute('capture', 'environment');
+  inp.onchange = () => ok(inp.files && inp.files[0] ? inp.files[0] : null);
+  inp.click();
+});
+
+// ==========================================================================
+// "MEGVEGYEM?" – VÁSÁRLÁSI SEGÉD
+// A boltban lefotózod a ruhát; megnézzük, hány meglévő darabodhoz illik
+// (színharmónia + kiegészítő helyek), van-e már hasonló, és mennyibe kerülne
+// egy viselése a saját viselési szokásaid alapján. Ebből lesz az ítélet.
+// ==========================================================================
+const VS_HELYEK = [['felso', 'Felső'], ['also', 'Alsó'], ['cipo', 'Cipő'], ['kabat', 'Kabát'], ['kieg', 'Kiegészítő']];
+// melyik helyekkel alkot outfitet az új darab
+const VS_PAROK = { felso: ['also', 'cipo', 'kabat'], also: ['felso', 'cipo', 'kabat'], cipo: ['felso', 'also'], kabat: ['felso', 'also'], kieg: ['felso', 'also', 'cipo'] };
+// egy év alatt átlagosan ennyiszer hordunk egy darabot (ha a saját adataidból még nem tudjuk)
+const VS_ALAP_VISELES = { felso: 26, also: 40, cipo: 70, kabat: 45, kieg: 35 };
+// két szín mennyire megy együtt: 1 = jól, 0.5 = merész, 0 = üti egymást
+const vsSzinIllik = (a, b) => {
+  if (!a || !b) return 0.7;
+  if (SEMLEGES_SZIN.has(a) || SEMLEGES_SZIN.has(b) || a === b) return 1;
+  if (UTKOZO_SZINEK.some(([x, y]) => (x === a && y === b) || (x === b && y === a))) return 0;
+  return 0.5;
+};
+const hexTav = (a, b) => {
+  if (!a || !b || a.length < 7 || b.length < 7) return 999;
+  const p = (h, i) => parseInt(h.slice(i, i + 2), 16);
+  return Math.abs(p(a, 1) - p(b, 1)) + Math.abs(p(a, 3) - p(b, 3)) + Math.abs(p(a, 5) - p(b, 5));
+};
+
+// v2: az alapértelmezett téma "ejjel" lett; a régi kulcson tárolt érték
+// többnyire csak a korábbi alapértelmezés volt, ezért azt nem vesszük át
+const THEME_STORE_KEY = 'wardro-theme-v2';
+const DEFAULT_THEME = 'ejjel';
 // beállítja az oldalon a témát, és megjegyzi ezen a gépen (így a
 // bejelentkező képernyő is ezzel jelenik meg legközelebb)
 const applyTheme = (key) => {
-  const theme = THEMES.some((t) => t.key === key) ? key : 'homok';
+  const theme = THEMES.some((t) => t.key === key) ? key : DEFAULT_THEME;
   document.documentElement.setAttribute('data-theme', theme);
   try { localStorage.setItem(THEME_STORE_KEY, theme); } catch (e) { /* privát mód stb. - nem baj */ }
 };
@@ -81,12 +703,270 @@ const BASE = { view: 'wardrobe', cat: 'All', sel: null, worn: {}, hidden: [], fa
   // Telefonos párosítás (QR-kódos fotóküldés) – a backend session állapota tükröződik ide
   pairToken: '', qrSvgUrl: '', pairPhoneUrl: '', pairExpiresAt: 0, pairError: '', phonePhotos: {} };
 
+// ==========================================================================
+// STYLIST – SZÖVEGÉRTÉS
+// Saját írású, összetett mondatokat is értelmez (pl. „esős időben megyek egy
+// drága étterembe, de ne legyen fekete”). Lépések:
+//  1. normalizálás: kisbetű, ékezetek nélkül, írásjelek nélkül
+//  2. szavakra bontás; a magyar ragok miatt szótő-előtaggal egyeztetünk
+//     („étterembe” → „etterem”), hosszabb szavaknál 1 elírást is elnézünk
+//  3. kulcsszó-szótár: minden találat súlyozott jelzést ad (alkalom, stílus,
+//     elegancia-szint, időjárás, kényelem, árnyalat, különleges esemény…)
+//  4. tagadás: „ne / nem / nincs / se / utálom / kerüld … X” és „X nélkül”
+//  5. színek, ruhadarabok és ezek párosai („kék ing”), hőfok számmal
+// ==========================================================================
+const styNorm = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/[^a-z0-9°\-\s]/g, ' ').replace(/\s+/g, ' ').trim();
+
+// két szó távolsága (hány betűt kell cserélni / törölni / beszúrni)
+const styTav = (a, b) => {
+  if (a === b) return 0;
+  const m = a.length, n = b.length;
+  let elo = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) cur[j] = Math.min(elo[j] + 1, cur[j - 1] + 1, elo[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    elo = cur;
+  }
+  return elo[n];
+};
+
+// szó illesztése egy szótőre: előtag-egyezés, vagy hosszú szónál 1 elírás
+const styIllik = (szo, to) => {
+  if (to.endsWith('$')) return szo === to.slice(0, -1); // pontos egyezés kell (rövid, kétértelmű szavak)
+  if (szo.startsWith(to)) return true;
+  // elírás-tűrés csak hosszabb szavaknál, és az első két betűnek egyeznie kell (különben túl sok a téves találat)
+  return to.length >= 7 && szo.length >= to.length - 1 && szo[0] === to[0] && szo[1] === to[1] && styTav(szo.slice(0, to.length), to) <= 1;
+};
+
+const STY_TAGADO = new Set(['ne', 'nem', 'nincs', 'se', 'sem', 'soha', 'semmi', 'utalom', 'utalok', 'kerul', 'kerulj', 'kerulnem', 'kerulnek', 'kerulje', 'nelkul', 'tilos', 'felejtsd', 'hagyd']);
+const STY_HATAR = new Set(['de', 'es', 'hanem', 'viszont', 'csak', 'meg', 'inkabb', 'vagy']);
+
+// Szótár: [szótövek, hatás]. A szótövek ékezet nélkül; a „$” végű csak pontos szóra illik,
+// a szóközt tartalmazó kifejezés a teljes szövegben keresendő.
+// Hatások: a = alkalom, st = stílus-szavazat, f = elegancia (+ formálisabb / − lazább),
+// ido = időjárás, k = kényelem, arny = sötét / világos, ev = különleges esemény, c = címke a visszajelzéshez
+const STY_SZOTAR = [
+  // --- munka ---
+  [['iroda', 'irodai', 'munkaba', 'munkahely', 'munkam', 'melo', 'dolgoz', 'kolleg', 'cegnel', 'ceges'], { a: 'munka', f: 1, c: 'munka' }],
+  [['meeting', 'megbeszel', 'targyal', 'ugyfel', 'prezent', 'konferenc', 'tanacskoz', 'ertekezlet', 'workshop'], { a: 'munka', f: 1.5, c: 'fontos megbeszélés' }],
+  [['allasinterj', 'interju', 'felveteli'], { a: 'munka', f: 3, ev: 'interju', c: 'állásinterjú' }],
+  [['home office', 'otthonrol dolgoz', 'tavmunk'], { a: 'laza', f: -1.5, k: 1, c: 'home office' }],
+  // --- elegáns programok ---
+  [['etterem', 'ettermi', 'vacsor', 'bisztro', 'vendeglo'], { a: 'program', f: 1, c: 'étterem / vacsora' }],
+  [['randi', 'randev', 'randiz'], { a: 'program', f: 1.2, c: 'randi' }],
+  [['elso randi'], { f: 1, c: 'első randi' }],
+  [['szinhaz', 'opera', 'balett', 'filharmon', 'hangverseny', 'koncertterem'], { a: 'program', f: 2.5, c: 'színház / opera' }],
+  [['gala', 'estely', 'bal$', 'balra$', 'fogadas', 'premier', 'dij atad', 'dijatado'], { a: 'program', f: 3.5, c: 'gála / estély' }],
+  [['eskuvo', 'eskuvoi', 'lagzi', 'lakodalom'], { a: 'program', f: 3, ev: 'eskuvo', c: 'esküvő' }],
+  [['temetes', 'gyasz', 'megemlekez'], { a: 'program', f: 3, ev: 'temetes', arny: 'sotet', c: 'temetés' }],
+  [['templom', 'mise', 'kereszt', 'bermal', 'elsoaldoz'], { a: 'program', f: 2, ev: 'templom', c: 'templom' }],
+  [['evfordulo', 'jubileum', 'ballagas', 'diplomaoszt', 'avatas'], { a: 'program', f: 2, c: 'ünnepi alkalom' }],
+  [['szulinap', 'szuletesnap', 'nevnap', 'unnepl', 'csaladi ebed', 'csaladi vacsor'], { a: 'program', f: 0.5, c: 'ünneplés' }],
+  [['koktel', 'borkostol', 'borbar', 'rooftop', 'tetobar'], { a: 'program', f: 1.5, c: 'koktélbár' }],
+  [['muzeum', 'kiallitas', 'galeria', 'tarlat'], { a: 'program', f: 0.8, k: 0.5, c: 'kiállítás' }],
+  // --- elegancia-szintet jelző szavak ---
+  [['draga', 'dragab'], { f: 2, c: 'drága hely' }],
+  [['luxus', 'elokelo', 'exkluziv', 'puccos', 'flancos', 'michelin', 'fine dining', 'csillagos', 'otcsillag', 'nivos'], { f: 2.5, c: 'előkelő hely' }],
+  [['elegans', 'elegansan', 'elegansab'], { st: { elegans: 3 }, f: 1.5, c: 'elegáns' }],
+  [['formal', 'oltony', 'nyakkendo', 'csokornyakkendo', 'dress code', 'dresszkod', 'kiolt'], { st: { elegans: 3 }, f: 2.5, c: 'formális' }],
+  [['smart casual', 'business casual', 'felelegans', 'felig elegans'], { st: { elegans: 1.5, laza: 1 }, f: 0.8, c: 'smart casual' }],
+  [['csinos', 'jol akarok kinez', 'jol nezzek ki', 'lenyugoz', 'benyomas', 'fontos nekem', 'fontos alkalom', 'fontos nap'], { f: 1, c: 'fontos, hogy jól nézz ki' }],
+  [['olcso', 'gyorsett', 'mekis', 'mcdonald', 'burger', 'kebab', 'gyros', 'bufe', 'menza', 'kifozde', 'street food', 'food truck'], { f: -1.5, c: 'laza hely' }],
+  [['pizzer', 'kocsma', 'sorozo', 'kricsmi', 'romkocsma', 'pub$'], { a: 'buli', f: -1, st: { laza: 1, street: 1 }, c: 'kocsma / pizzéria' }],
+  // --- buli, szórakozás ---
+  [['buli', 'parti', 'party', 'bulizn', 'klub', 'diszko', 'szorakoz', 'hazibuli', 'haziparti', 'afterparty', 'techno', 'rave'], { a: 'buli', c: 'buli' }],
+  [['bar$', 'barba', 'barban', 'barral'], { a: 'buli', f: 0.5, c: 'bár' }],
+  [['fesztival', 'sziget', 'volt fesztival', 'balaton sound', 'strand fesztival'], { a: 'buli', st: { street: 2, laza: 1 }, k: 1.5, ev: 'fesztival', c: 'fesztivál' }],
+  [['koncert', 'gig$', 'stadion'], { a: 'buli', st: { street: 2 }, k: 1, c: 'koncert' }],
+  // --- sport, mozgás ---
+  [['edzes', 'edzeni', 'edzore', 'kondi', 'gym', 'konditer', 'fitnesz', 'crossfit', 'sulyz'], { a: 'sport', st: { sportos: 3 }, k: 1, c: 'edzés' }],
+  [['futas', 'futni', 'futok', 'kocog', 'jogg', 'maraton'], { a: 'sport', st: { sportos: 3 }, k: 1, c: 'futás' }],
+  [['joga', 'pilates', 'tanc', 'zumba', 'spinning'], { a: 'sport', st: { sportos: 2.5 }, k: 1, c: 'jóga / tánc' }],
+  [['foci', 'kosar', 'tenisz', 'padel', 'squash', 'roplabda', 'uszas', 'uszni', 'bicikl', 'bringa', 'gorkori', 'korcsoly', 'sport$', 'sportol', 'sportra', 'sportpalya'], { a: 'sport', st: { sportos: 2.5 }, k: 1, c: 'sport' }],
+  [['tura', 'turaz', 'kirandul', 'hegy', 'erdo', 'termeszet', 'kemping', 'satoraz'], { a: 'laza', st: { sportos: 2 }, k: 2, ev: 'tura', c: 'túra / kirándulás' }],
+  // --- laza napok ---
+  [['hetvege', 'hetvegi', 'szabadnap', 'pihen', 'lazul', 'chill'], { a: 'laza', f: -1, c: 'laza nap' }],
+  [['seta', 'setal', 'csatangol', 'varosnez', 'belvaros'], { a: 'laza', k: 1, c: 'séta' }],
+  [['varos', 'varosban', 'belvaros', 'centrum', 'kozpontba'], { a: 'laza', k: 0.5, c: 'város' }],
+  [['kave', 'kavez', 'brunch', 'reggeliz', 'cukrasz'], { a: 'laza', f: 0.3, c: 'kávézás' }],
+  [['barat', 'haver', 'csajok', 'srac', 'tesoval', 'tesommal'], { a: 'laza', c: 'barátok' }],
+  [['mozi', 'bowling', 'biliard', 'escape', 'kartingoz'], { a: 'laza', f: -0.5, c: 'mozi / szórakozás' }],
+  [['bevasarl', 'shopping', 'pláza', 'plaza', 'piac', 'boltba', 'ugyintez', 'posta'], { a: 'laza', k: 1, f: -0.5, c: 'bevásárlás' }],
+  [['egyetem', 'egyetemre', 'suli', 'iskola', 'gimi', 'eloadas', 'vizsga', 'zh$'], { a: 'laza', f: 0, c: 'egyetem / suli' }],
+  [['otthon', 'itthon', 'kanape', 'netflix'], { a: 'laza', f: -2, k: 2, c: 'otthon' }],
+  [['csalad', 'nagyi', 'nagymam', 'szulok', 'szuleim', 'apos', 'anyos'], { a: 'program', f: 0.5, c: 'családi program' }],
+  [['strand', 'medence', 'vizpart', 'tengerpart', 'balaton', 'furdo', 'aquapark', 'napoz'], { a: 'laza', ido: 'meleg', f: -1.5, ev: 'strand', c: 'strand' }],
+  [['utaz', 'repulo', 'repter', 'vonat', 'buszoz', 'autoz', 'roadtrip'], { a: 'laza', k: 2, ev: 'utazas', c: 'utazás' }],
+  // --- napszak ---
+  [['este', 'esti', 'estere', 'ejszak', 'ejjel', 'ejfel'], { f: 0.5, arny: 'sotet', c: 'este' }],
+  [['reggel', 'delelott', 'napkozben', 'delutan'], { c: 'napközben' }],
+  // --- kényelem ---
+  [['kenyelmes', 'kenyelem', 'kenyelmeset'], { k: 2, st: { laza: 1.5 }, c: 'kényelmes' }],
+  [['sokat setal', 'sokat gyalogol', 'egesz nap', 'talpon', 'rohangal', 'futkos', 'sok lepcso'], { k: 2.5, c: 'egész nap talpon' }],
+  // --- stílusszavak ---
+  [['laza', 'lazan', 'lazab', 'casual', 'egyszeru', 'hetkoznapi', 'atlagos'], { st: { laza: 3 }, f: -1, c: 'laza' }],
+  [['sportos', 'sportosab', 'athleis', 'atleti'], { st: { sportos: 3 }, c: 'sportos' }],
+  [['utcai', 'street', 'streetwear', 'hip hop', 'hiphop', 'skate', 'gordeszk', 'oversize', 'baggy'], { st: { street: 3 }, c: 'utcai stílus' }],
+  [['meno', 'trendi', 'divatos', 'vagany', 'cool$', 'kul$', 'modern'], { st: { street: 1.5 }, f: 0.3, c: 'trendi' }],
+  [['klasszikus', 'idotallo', 'retro', 'vintage', 'old money'], { st: { elegans: 1.5 }, f: 0.8, c: 'klasszikus' }],
+  [['minimal', 'letisztult', 'egyszeru szin', 'basic'], { szin: 'semleges', c: 'letisztult' }],
+  [['visszafogott', 'diszkret', 'szolid', 'visszafogottab'], { szin: 'semleges', f: 0.5, c: 'visszafogott' }],
+  [['feltuno', 'extravagans', 'merész', 'meresz', 'vidam', 'elenk', 'szines', 'szinesebb', 'szinesen', 'kirivo'], { szin: 'szines', c: 'színes, feltűnő' }],
+  [['sotet', 'sotetebb', 'sotetet', 'all black', 'csupa fekete', 'feketeben'], { arny: 'sotet', c: 'sötét tónusok' }],
+  [['vilagos', 'vilagosabb', 'pasztell', 'nyari szin', 'feher szett', 'csupa feher'], { arny: 'vilagos', c: 'világos tónusok' }],
+  // --- időjárás ---
+  [['eso', 'esos', 'esik', 'eshet', 'zapor', 'zivatar', 'vihar', 'ernyo', 'esernyo', 'azas', 'azni', 'sar$', 'saros', 'pocsolya', 'szital'], { ido: 'eso', c: 'eső' }],
+  [['hideg', 'fagy$', 'fagyos', 'fagypont', 'fagyni', 'minusz', 'havaz', 'havas', 'ho$', 'hoesés', 'hoeses', 'telen', 'teli$', 'tel$', 'fazom', 'fazos', 'dermeszt', 'csipos', 'jeges', 'farkasordit', 'zimankos'], { ido: 'hideg', c: 'hideg' }],
+  [['huvos', 'szeles', 'szel$', 'szelben', 'osz$', 'oszi', 'osszel', 'tavasz', 'borult', 'felhos', 'friss$', 'csipos reggel'], { ido: 'huvos', c: 'hűvös' }],
+  [['meleg$', 'melegben', 'melegre', 'meleg van', 'meleg lesz', 'melegunk', 'nyar$', 'nyari', 'nyaron', 'kanikul', 'hoseg', 'forro', 'napos', 'napsut', 'tuz a nap', 'izzaszt', 'fulled', 'tikkaszt'], { ido: 'meleg', c: 'meleg' }],
+  [['enyhe', 'kellemes ido', 'langyos'], { ido: 'enyhe', c: 'enyhe idő' }],
+];
+
+// ruhadarabok: amit kérhetsz vagy kizárhatsz (a saját ruhák szövegében keressük)
+const STY_DARAB = [
+  [['ing$', 'inget', 'ingem', 'ingben', 'inggel', 'ingek'], 'ing', '\\bing|ingek'],
+  [['polo', 'polot', 'poloban', 'top$', 'trikot', 'trikob'], 'póló', 'polo|top\\b|triko'],
+  [['pulover', 'pulcsi', 'pulcsit', 'kardigan', 'szvetter'], 'pulóver', 'pulover|pulcsi|kardigan|szvetter'],
+  [['hoodie', 'kapucnis'], 'kapucnis pulóver', 'hoodie|kapucn'],
+  [['body$', 'bodyt', 'bodyban'], 'body', '\\bbody'],
+  [['overal', 'jumpsuit'], 'overál', 'overal|jumpsuit'],
+  [['kendo', 'kendot', 'hajkendo'], 'kendő', 'kendo'],
+  [['garbo'], 'garbó', 'garbo'],
+  [['bluz'], 'blúz', 'bluz'],
+  [['zako', 'blezer', 'blazer'], 'zakó / blézer', 'zako|blezer|blazer'],
+  [['oltony'], 'öltöny', 'oltony'],
+  [['kabat', 'dzseki', 'parka', 'bomber', 'ballon', 'mellenyt', 'mellenyben'], 'kabát', 'kabat|dzseki|parka|bomber|ballon|melleny|jacket|coat'],
+  [['farmer', 'jeans', 'farmert', 'farmerben'], 'farmer', 'farmer|jean'],
+  [['chino'], 'chino', 'chino'],
+  [['kord'], 'kordbársony', 'kord'],
+  [['nadrag', 'nadragot', 'nadragban'], 'nadrág', 'nadrag|farmer|chino|jogger|pant'],
+  [['rovidnadrag', 'short$', 'sortot', 'rovidnaci'], 'rövidnadrág', 'rovidnadr|short'],
+  [['szoknya', 'szoknyat', 'szoknyaban'], 'szoknya', 'szokny'],
+  [['melegito', 'jogger', 'szabadido'], 'melegítő', 'melegit|jogger|fleece'],
+  [['sneaker', 'tornacip', 'edzocip', 'sportcip', 'futocip'], 'sneaker', 'sneaker|tornacip|edzocip|sportcip|futocip|air max|dunk|samba'],
+  [['csizma', 'bakancs', 'chelsea', 'bokacsizm'], 'csizma / bakancs', 'csizm|bakancs|chelsea|boot'],
+  [['mokaszin', 'felcipo', 'oxford', 'loafer', 'bor cipo', 'borcipo'], 'elegáns cipő', 'mokaszin|felcip|oxford|loafer'],
+  [['szandal', 'papucs', 'strandpapucs'], 'szandál', 'szandal|papucs'],
+  [['taska', 'hatizsak', 'tatyo'], 'táska', 'taska|hatizsak|tatyo|bag'],
+  [['sapka', 'kalap', 'baseball'], 'sapka', 'sapka|kalap|baseball'],
+  [['ov$', 'ovet', 'ovvel'], 'öv', '\\bov\\b|bor ov|barna ov'],
+  [['karora', 'orat', 'oraval'], 'óra', 'ora\\b|karora|watch'],
+  [['sal$', 'salat', 'sallal'], 'sál', '\\bsal\\b'],
+  [['napszemuveg', 'szemuveg'], 'napszemüveg', 'szemuveg'],
+  [['ekszer', 'fulbeval', 'nyaklanc', 'karkoto', 'gyuru'], 'ékszer', 'ekszer|fulbeval|nyaklanc|karkoto|gyuru'],
+];
+
+// színek (ékezet nélküli tő → a SZIN_LISTA neve)
+const STY_SZINEK = [
+  ['sotetszurke', 'sötétszürke'], ['vilagosszurke', 'világosszürke'], ['sotetzold', 'sötétzöld'], ['vilagoskek', 'világoskék'],
+  ['sotetkek', 'sötétkék'], ['tengereszkek', 'sötétkék'], ['navy', 'sötétkék'], ['farmerkek', 'farmerkék'], ['rozsaszin', 'rózsaszín'], ['pink', 'rózsaszín'],
+  ['fekete', 'fekete'], ['feher', 'fehér'], ['szurke', 'szürke'], ['bezs', 'bézs'], ['drapp', 'bézs'], ['krem', 'bézs'], ['barna', 'barna'],
+  ['khaki', 'khaki'], ['oliv', 'olíva'], ['zold', 'zöld'], ['turkiz', 'türkiz'], ['menta', 'türkiz'], ['kek', 'kék'], ['lila', 'lila'],
+  ['piros', 'piros'], ['voros', 'piros'], ['bordo', 'bordó'], ['narancs', 'narancs'], ['sarga', 'sárga'], ['mustar', 'sárga'],
+];
+const STY_SOTET = new Set(['fekete', 'sötétszürke', 'sötétkék', 'bordó', 'sötétzöld', 'barna', 'olíva']);
+const STY_VILAGOS = new Set(['fehér', 'bézs', 'világosszürke', 'világoskék', 'rózsaszín', 'sárga']);
+const styTo = (sz) => sz.length > 3 ? sz.slice(0, -1) : sz;
+const STY_SZIN_RE = STY_SZINEK.map(([to, nev]) => [to, nev]);
+// egy szó színe (ha színt jelöl)
+const stySzinSzo = (szo) => { const x = STY_SZIN_RE.find(([to]) => szo.startsWith(to)); return x ? x[1] : ''; };
+// egy ruhadarab színe: a felismert színe, vagy a nevéből („fekete póló” → fekete)
+const styDarabSzin = (d) => {
+  if (d.szin) return d.szin;
+  const sz = styNorm(d.label).split(' ').map(stySzinSzo).find(Boolean);
+  return sz || '';
+};
+const styDarabSzoveg = (d) => styNorm(d.label + ' ' + (d.cat || '') + ' ' + (d.marka || '') + ' ' + (d.tags || []).join(' ') + ' ' + (d.szin || ''));
+
+// A teljes értelmezés: egy üzenetből kinyert kívánságok
+const styErtelmez = (eredeti) => {
+  const szoveg = ' ' + styNorm(eredeti) + ' ';
+  const szavak = szoveg.trim().split(' ').filter(Boolean);
+  const r = { a: {}, st: {}, f: 0, ido: '', k: 0, arny: '', ev: '', szin: '', szinek: [], szinNot: [], kell: [], kerul: [], kabat: undefined, cimkek: [], fok: null, mindegy: false, tagadottStilus: [] };
+  // tagadás: a szó előtti 3 szóban tagadószó (mondathatárig), vagy utána „nélkül”
+  const tagadott = (i, hossz) => {
+    for (let j = i - 1; j >= Math.max(0, i - 3); j--) {
+      if (STY_HATAR.has(szavak[j])) break;
+      if (STY_TAGADO.has(szavak[j])) return true;
+    }
+    const utana = szavak[i + (hossz || 1)];
+    return !!(utana && utana.startsWith('nelkul'));
+  };
+  // hol fordul elő a szótő (szóindexekkel, a tagadás vizsgálatához)
+  const talalat = (to) => {
+    if (to.includes(' ')) {
+      const p = szoveg.indexOf(' ' + to);
+      if (p < 0) return [];
+      return [{ i: szoveg.slice(0, p + 1).trim().split(' ').filter(Boolean).length, hossz: to.split(' ').length }];
+    }
+    const out = [];
+    szavak.forEach((sz, i) => { if (styIllik(sz, to)) out.push({ i, hossz: 1 }); });
+    return out;
+  };
+  const cimke = (c, neg) => { if (c && !r.cimkek.includes((neg ? 'nem ' : '') + c)) r.cimkek.push((neg ? 'nem ' : '') + c); };
+
+  STY_SZOTAR.forEach(([tovek, h]) => {
+    let hit = null;
+    for (const to of tovek) { const x = talalat(to); if (x.length) { hit = x[0]; break; } }
+    if (!hit) return;
+    const neg = tagadott(hit.i, hit.hossz);
+    const elojel = neg ? -1 : 1;
+    if (h.a && !neg) r.a[h.a] = (r.a[h.a] || 0) + 1;
+    if (h.st) Object.entries(h.st).forEach(([k, v]) => { r.st[k] = (r.st[k] || 0) + v * elojel; if (neg) r.tagadottStilus.push(k); });
+    if (h.f) r.f += h.f * elojel;
+    if (h.ido && !neg) r.ido = r.ido === 'eso' ? 'eso' : h.ido; // az eső mindent visz
+    if (h.k) r.k += h.k * elojel;
+    if (h.arny) r.arny = neg ? (h.arny === 'sotet' ? 'vilagos' : 'sotet') : h.arny;
+    if (h.ev && !neg) r.ev = h.ev;
+    if (h.szin) r.szin = neg ? (h.szin === 'szines' ? 'semleges' : 'szines') : h.szin;
+    cimke(h.c, neg);
+  });
+
+  // hőfok számmal: „-3 fok”, „mínusz 5”, „25°”, „15 c”
+  const fokM = szoveg.match(/(minusz\s*|-)?(\d{1,2})\s*(fok|°|c\b)/);
+  if (fokM) {
+    const fok = (fokM[1] ? -1 : 1) * parseInt(fokM[2], 10);
+    r.fok = fok;
+    if (r.ido !== 'eso') r.ido = fok < 8 ? 'hideg' : fok < 16 ? 'huvos' : fok > 24 ? 'meleg' : 'enyhe';
+    cimke(fok + '°');
+  }
+
+  // színek és ruhadarabok, a tagadással együtt; „kék ing” → kék színű ing
+  szavak.forEach((sz, i) => {
+    const szin = stySzinSzo(sz);
+    if (!szin) return;
+    // a „kek” ne illeszkedjen pl. „keksz”-re: legalább a szín teljes töve legyen meg
+    if (tagadott(i)) { if (!r.szinNot.includes(szin)) r.szinNot.push(szin); cimke(szin, true); }
+    else if (!r.szinek.includes(szin)) { r.szinek.push(szin); cimke(szin); }
+  });
+  STY_DARAB.forEach(([tovek, nev, minta]) => {
+    let hit = null;
+    for (const to of tovek) { const x = talalat(to); if (x.length) { hit = x[0]; break; } }
+    if (!hit) return;
+    const elotte = szavak[hit.i - 1] || '';
+    const szin = stySzinSzo(elotte);
+    if (tagadott(hit.i, hit.hossz) || (szin && tagadott(hit.i - 1))) {
+      if (nev === 'kabát') r.kabat = false;
+      else r.kerul.push({ nev, minta, szin: szin || '' });
+      cimke(nev, true);
+    } else {
+      if (nev === 'kabát') r.kabat = true;
+      r.kell.push({ nev, minta, szin: szin || '' });
+      cimke((szin ? szin + ' ' : '') + nev);
+    }
+  });
+  if (r.szinek.length === 1 && !r.szin) r.szin = r.szinek[0];
+  if (/\b(mindegy|barmi|barmit|nem tudom|dontsd el|te dontsd|lepj meg|meglepetes|valami jot|ajanlj|ajanlasz|otletet|otlet)\b/.test(szoveg)) r.mindegy = true;
+  return r;
+};
+
 // FŐ KOMPONENS
 class Component extends DCLogic {
   // Állapot: a DEMÓ-mezők (BASE-ből) + belépési űrlapok + a VALÓDI backend
   // adatai (categories/items/outfits/realUser), amik csak akkor töltődnek
   // fel, ha tényleg bejelentkeztél (nem a ?start=app előnézeti módban).
-  state = { ...BASE, view: 'home', who: null, auth: null, lEmail: '', lPw: '', lShow: false, lErr: '', resetSent: '', suName: '', suEmail: '', suPw: '', suShow: false, suGender: '', suErr: '', sName: 'A neved', sEmail: 'te@email.com', rWeekly: true, rDaily: false, rIdle: true,
+  state = { ...BASE, view: 'start', who: null, auth: null, lEmail: '', lPw: '', lShow: false, lErr: '', resetSent: '', suName: '', suEmail: '', suPw: '', suShow: false, suGender: '', suErr: '', sName: 'A neved', sEmail: 'te@email.com', rWeekly: true, rDaily: false, rIdle: true,
     // Valódi időjárás (server/index.js /api/weather); amíg nem érkezik meg, null
     weather: null,
     // Valódi backend adatai - üresen indul, a bejelentkezés/munkamenet-ellenőrzés tölti fel
@@ -110,8 +990,15 @@ class Component extends DCLogic {
     let savedTheme = null;
     try { savedTheme = localStorage.getItem(THEME_STORE_KEY); } catch (e) { /* nincs tároló */ }
     applyTheme(savedTheme);
+    // a menücsoportok nyitva / csukva állapota ezen a gépen
+    try { const nn = JSON.parse(localStorage.getItem('wardro-nav-nyit') || 'null'); if (nn) this.setState({ navNyit: nn }); } catch (e) { /* nincs tároló */ }
     this.fetchWeather();
     this.checkSession();
+    // ha egy fotón megmértük, hol van a ruha, újrarajzolunk (több mérést egyszerre)
+    kepKeretFrissit = () => {
+      if (this._keretIdozito) return;
+      this._keretIdozito = setTimeout(() => { this._keretIdozito = null; this.setState({ kepKeretVer: Date.now() }); }, 60);
+    };
   }
 
   componentWillUnmount() {
@@ -123,7 +1010,9 @@ class Component extends DCLogic {
   // tényleges API hívást (server/index.js), mi csak a helyet küldjük el neki
   fetchWeather = async () => {
     let coords = null;
-    try {
+    const varos = this.wxVaros();
+    if (varos) coords = { latitude: varos.lat, longitude: varos.lon };
+    else try {
       if (navigator.geolocation) {
         coords = await new Promise((resolve) => {
           let done = false;
@@ -185,7 +1074,10 @@ class Component extends DCLogic {
   connectWs = (token) => {
     this.closeWs();
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-    const ws = new WebSocket(proto + '://' + location.host + '/api/pair/' + token + '/socket');
+    // A VS Code Live Server (5500) csak a sima /api kéréseket továbbítja a
+    // backendnek, a WebSocketet nem - ilyenkor közvetlenül a 8080-ra kapcsolódunk.
+    const host = location.port === '5500' ? location.hostname + ':8080' : location.host;
+    const ws = new WebSocket(proto + '://' + host + '/api/pair/' + token + '/socket');
     ws.onmessage = (ev) => {
       let msg;
       try { msg = JSON.parse(ev.data); } catch { return; }
@@ -198,7 +1090,25 @@ class Component extends DCLogic {
         this.setState({ pairError: 'Ez a kód lejárt.', qrSvgUrl: '' });
       }
     };
-    ws.onclose = () => { if (this._ws === ws) this._ws = null; };
+    // Ha a kapcsolat megszakad (alvó gép, Wi-Fi-zavar, szerver-újraindítás),
+    // újracsatlakozunk; a "hello" úgyis újraküldi a közben érkezett fotókat.
+    // Ha a munkamenet már nem létezik a szerveren, új kódot kérünk.
+    ws.onclose = () => {
+      if (this._ws !== ws) return;
+      this._ws = null;
+      setTimeout(async () => {
+        if (this._ws || this.state.pairToken !== token) return;
+        try {
+          const r = await fetch('/api/pair/' + token + '/status');
+          if (r.status === 404) {
+            this.setState({ pairError: 'Ez a kód lejárt.', qrSvgUrl: '' });
+            if (this.state.pairOpen) this.startPair();
+            return;
+          }
+        } catch { /* a szerver épp nem elérhető, később újra próbáljuk */ }
+        if (!this._ws && this.state.pairToken === token) this.connectWs(token);
+      }, 2000);
+    };
     this._ws = ws;
   };
 
@@ -207,7 +1117,9 @@ class Component extends DCLogic {
   // viselkedik máshogy (lásd lejjebb: saveDrops / realSaveDrops).
   receivePhonePhoto = (p) => {
     const s = this.state;
-    const file = 'phone-' + p.id;
+    // a fotó-azonosító minden munkamenetben 1-től indul, ezért a tokent is
+    // beletesszük, különben egy új párosítás fotóit "már láttuk"-nak vennénk
+    const file = 'phone-' + this.state.pairToken + '-' + p.id;
     if (s.drops.includes(file)) return; // pl. a "hello" újraküldené, amit már láttunk
     this.setState({
       drops: [...s.drops, file],
@@ -215,6 +1127,174 @@ class Component extends DCLogic {
       paired: true,
       phoneCount: (s.phoneCount || 0) + 1,
     });
+    this.hatterFeldolgoz(file);
+  };
+
+  // --- Háttér-eltávolítás a még el nem mentett fotókon ---
+  // hatter[file]: 'fut' | 'kesz' | 'eredeti' | 'hiba'; az eredeti fotó az origPhotos-ban marad
+  hatterFeldolgoz = async (file) => {
+    const forras = (this.state.origPhotos || {})[file] || this.state.phonePhotos[file];
+    if (!forras) return;
+    this.setState({ hatter: { ...(this.state.hatter || {}), [file]: 'fut' } });
+    try {
+      const blob = await (await fetch(forras)).blob();
+      const kivagott = await hatterEltavolit(blob);
+      const s = this.state;
+      if (!s.drops.includes(file)) return; // közben elvetették
+      this.setState({
+        origPhotos: { ...(s.origPhotos || {}), [file]: forras },
+        phonePhotos: { ...s.phonePhotos, [file]: URL.createObjectURL(kivagott) },
+        hatter: { ...(s.hatter || {}), [file]: 'kesz' },
+      });
+    } catch (e) {
+      console.error('Háttér-eltávolítás:', e);
+      this.setState({ hatter: { ...(this.state.hatter || {}), [file]: 'hiba' } });
+    }
+  };
+
+  // kivágott <-> eredeti fotó váltása egy még el nem mentett fotónál
+  hatterValt = (file) => {
+    const s = this.state;
+    const allapot = (s.hatter || {})[file];
+    const eredeti = (s.origPhotos || {})[file];
+    if (allapot === 'kesz' && eredeti) {
+      this.setState({
+        kivagottPhotos: { ...(s.kivagottPhotos || {}), [file]: s.phonePhotos[file] },
+        phonePhotos: { ...s.phonePhotos, [file]: eredeti },
+        hatter: { ...(s.hatter || {}), [file]: 'eredeti' },
+      });
+    } else if (allapot === 'eredeti' && (s.kivagottPhotos || {})[file]) {
+      this.setState({
+        phonePhotos: { ...s.phonePhotos, [file]: s.kivagottPhotos[file] },
+        hatter: { ...(s.hatter || {}), [file]: 'kesz' },
+      });
+    } else if (allapot !== 'fut') {
+      this.hatterFeldolgoz(file);
+    }
+  };
+
+  // --- Háttér-eltávolítás egy már elmentett ruha fotójáról (és visszaállítás) ---
+  realHatterItem = async (item) => {
+    if (!item || !item.photoUrl) return;
+    this.setState({ selHatter: 'fut' });
+    try {
+      const blob = await (await fetch(item.photoUrl)).blob();
+      const kivagott = await hatterEltavolit(blob);
+      const up = await fetch('/api/photos', { method: 'POST', headers: { 'content-type': kivagott.type || 'image/webp' }, body: kivagott });
+      if (!up.ok) throw new Error('feltöltés: ' + up.status);
+      const ujUrl = (await up.json()).url;
+      let szin = null;
+      try { szin = await szinFelismer(URL.createObjectURL(kivagott)); } catch (e) { /* marad a régi szín */ }
+      await fetch('/api/items/' + item.id, {
+        method: 'PATCH', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(Object.assign({ photoUrl: ujUrl, origPhotoUrl: item.photoUrl }, szin ? { color: szin.nev, colorHex: szin.hex } : {})),
+      });
+      this.setState({ selHatter: '' });
+      await this.reloadItems();
+    } catch (e) {
+      console.error('Háttér-eltávolítás:', e);
+      this.setState({ selHatter: 'hiba' });
+    }
+  };
+
+  // --- Háttér-eltávolítás az összes még hátteres fotóról (a próbababához) ---
+  // Egymás után (a modell sok memóriát használ); minden kész darab után frissül a
+  // szekrény, így a babán rögtön látszik. Az eredeti fotó megmarad (visszaállítható).
+  realHatterMind = async () => {
+    if (this.state.hatterMind) return;
+    const lista = (this.state.items || []).filter((it) => it.photoUrl && !it.origPhotoUrl && !it.removedAt);
+    if (!lista.length) return;
+    let kesz = 0, hiba = 0;
+    this.setState({ hatterMind: { kesz: 0, ossz: lista.length, hiba: 0 } });
+    for (const item of lista) {
+      try {
+        const blob = await (await fetch(item.photoUrl)).blob();
+        const kivagott = await hatterEltavolit(blob);
+        const up = await fetch('/api/photos', { method: 'POST', headers: { 'content-type': kivagott.type || 'image/webp' }, body: kivagott });
+        if (!up.ok) throw new Error('feltöltés: ' + up.status);
+        const ujUrl = (await up.json()).url;
+        let szin = null;
+        try { szin = await szinFelismer(URL.createObjectURL(kivagott)); } catch (e) { /* marad a régi szín */ }
+        await fetch('/api/items/' + item.id, {
+          method: 'PATCH', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(Object.assign({ photoUrl: ujUrl, origPhotoUrl: item.photoUrl }, szin ? { color: szin.nev, colorHex: szin.hex } : {})),
+        });
+        kesz++;
+        await this.reloadItems();
+      } catch (e) {
+        console.error('Háttér-eltávolítás (' + item.label + '):', e);
+        hiba++;
+      }
+      this.setState({ hatterMind: { kesz: kesz + hiba, ossz: lista.length, hiba } });
+    }
+    this.setState({
+      hatterMind: null,
+      hatterMindUzenet: hiba
+        ? kesz + ' fotóról levettem a hátteret, ' + hiba + ' nem sikerült.'
+        : kesz + ' fotóról levettem a hátteret – a babán most már csak maguk a ruhák látszanak.',
+    });
+  };
+
+  // szennyesbe / kimosva, javításra vár / megjavítva
+  realAllapot = async (id, patch) => {
+    await fetch('/api/items/' + id, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(patch) });
+    await this.reloadItems();
+  };
+
+  // Az összes olyan ruha színének felismerése, amelyiknek van fotója, de még nincs színe
+  realSzinekFelismer = async () => {
+    const kell = (this.state.items || []).filter((it) => !it.removedAt && it.photoUrl && !it.color);
+    if (!kell.length || this.state.szinFut) return;
+    this.setState({ szinFut: { kesz: 0, ossz: kell.length } });
+    for (let i = 0; i < kell.length; i++) {
+      try {
+        const sz = await szinFelismer(kell[i].photoUrl);
+        if (sz) await fetch('/api/items/' + kell[i].id, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ color: sz.nev, colorHex: sz.hex }) });
+      } catch (e) { /* ennél a fotónál nem sikerült, megyünk tovább */ }
+      this.setState({ szinFut: { kesz: i + 1, ossz: kell.length } });
+    }
+    this.setState({ szinFut: null });
+    await this.reloadItems();
+  };
+
+  realEredetiItem = async (item) => {
+    if (!item || !item.origPhotoUrl) return;
+    await fetch('/api/items/' + item.id, {
+      method: 'PATCH', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ photoUrl: item.origPhotoUrl, origPhotoUrl: null }),
+    });
+    await this.reloadItems();
+  };
+
+  // --- Hozzáadás a katalógusból ---
+  // A kiválasztott termék a fotókkal közös "drops" listába kerül: kap egy
+  // márkakártya-képet, nevet ("Nike Air Force 1 '07") és - ha kitalálható -
+  // kategóriát. Mentéskor ugyanúgy jön létre a ruha, mint egy fotóból.
+  // Ha már a listában van, a gomb újbóli megnyomása kiveszi onnan.
+  katValt = async (t, kategoriak) => {
+    const marVan = (this.state.katAdded || {})[t.key];
+    if (marVan) {
+      const s = this.state;
+      const added = { ...(s.katAdded || {}) }; delete added[t.key];
+      this.setState({ drops: s.drops.filter((f) => f !== marVan), katAdded: added });
+      return;
+    }
+    // ha van termékfotó, az lesz a ruha képe; ha nincs, a márkakártya
+    const kep = t.kep || await katKartya(t);
+    const file = 'kat-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+    const s = this.state; // a kép elkészülte után friss állapottal dolgozunk
+    const kat = katKategoria(t.tipus, kategoriak);
+    this.setState({
+      dropBrands: { ...(s.dropBrands || {}), [file]: t.marka === 'eBay' || t.generikus ? null : t.marka },
+      dropNoColor: t.kep ? (s.dropNoColor || {}) : { ...(s.dropNoColor || {}), [file]: true },
+      drops: [...s.drops, file],
+      phonePhotos: { ...s.phonePhotos, [file]: kep },
+      dropNames: { ...(s.dropNames || {}), [file]: t.generikus ? t.nev : t.marka + ' ' + t.nev },
+      dropCats: kat ? { ...s.dropCats, [file]: kat } : s.dropCats,
+      katAdded: { ...(s.katAdded || {}), [t.key]: file },
+    });
+    // valódi termékfotónál a háttér is lekerül (a márkakártyánál nincs mit levágni)
+    if (t.kep) this.hatterFeldolgoz(file);
   };
 
   // --- Fotók feltöltése a saját gépről ---
@@ -246,7 +1326,10 @@ class Component extends DCLogic {
     }
     let msg = '';
     if (skipped > 0) msg = skipped + ' fájlt kihagytunk, mert nem kép.';
+    const ujak = drops.filter((d) => !s.drops.includes(d));
     this.setState({ drops: drops, phonePhotos: photos, addErr: msg });
+    // egymás után dolgozzuk fel őket (párhuzamosan túl sok memóriát venne)
+    (async () => { for (const d of ujak) await this.hatterFeldolgoz(d); })();
   };
 
   // a rejtett <input type="file"> mezőt "megkattintjuk", így jön fel a tallózó ablak
@@ -289,7 +1372,22 @@ class Component extends DCLogic {
 
   // Oldal betöltésekor megnézzük, van-e már érvényes bejelentkezés (sütiből) -
   // így egy frissítés után sem esel vissza a bejelentkező képernyőre.
+  // a megerősítő link után a szerver ide irányít vissza: ?verified=1 / expired / invalid
+  verifyVisszajelzes() {
+    let q = null;
+    try { q = new URLSearchParams(location.search); } catch (e) { return; }
+    const v = q.get('verified');
+    if (!v) return;
+    try { history.replaceState(null, '', location.pathname); } catch (e) { /* nem baj */ }
+    if (v === 'expired') this.setState({ auth: 'verify', verifyEmail: q.get('email') || '', verifyHiba: true, verifyMsg: 'Ez a megerősítő link már lejárt (24 óráig érvényes). Kérj újat az alábbi gombbal.' });
+    else if (v === 'invalid') this.setState({ auth: 'login', lErr: 'Ez a megerősítő link érvénytelen vagy már felhasználták. Próbálj meg bejelentkezni.' });
+    else if (v === '1') this.setState({ verifyKesz: true });
+  }
+
   checkSession = async () => {
+    this.verifyVisszajelzes();
+    // jelszó-visszaállító link: előbb az új jelszó, a régi munkamenetet nem töltjük be
+    if (this.resetLinkFigyel()) return;
     try {
       const r = await fetch('/api/auth/me');
       if (!r.ok) return;
@@ -300,7 +1398,7 @@ class Component extends DCLogic {
 
   afterAuth = async (user) => {
     applyTheme(user.theme);
-    this.setState({ realUser: user, auth: 'app', view: 'home', lErr: '', suErr: '', lPw: '', suPw: '' });
+    this.setState({ realUser: user, auth: 'app', view: 'start', lErr: '', suErr: '', lPw: '', suPw: '' });
     await this.reloadAll();
   };
 
@@ -338,9 +1436,99 @@ class Component extends DCLogic {
     } catch (e) {
       return this.setState({ lErr: 'Nem sikerült elérni a szervert. Ellenőrizd, hogy fut-e a helyi backend.' });
     }
-    if (!r.ok) return this.setState({ lErr: 'Hibás e-mail cím vagy jelszó.' });
+    if (r.status === 403) {
+      // a fiók még nincs megerősítve: újraküldés felajánlása
+      return this.setState({ auth: 'verify', verifyEmail: s.lEmail.trim(), verifyMsg: 'A fiókod még nincs megerősítve. Kattints a regisztrációkor kapott e-mailben lévő linkre, vagy kérj újat.', verifyHiba: false, lPw: '' });
+    }
+    if (r.status === 429) {
+      const j = await r.json().catch(() => ({}));
+      return this.setState({ lErr: 'Túl sok sikertelen próbálkozás, ezért a belépést ideiglenesen zároltuk. Próbáld újra ' + percSzoveg(j.retryAfter) + ' múlva, vagy állíts be új jelszót az „Elfelejtett jelszó?” linkkel.', resetSent: '' });
+    }
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      const marad = typeof j.attemptsLeft === 'number' ? j.attemptsLeft : null;
+      return this.setState({ resetSent: '', lErr: 'Hibás e-mail cím vagy jelszó.' + (marad !== null && marad <= 2
+        ? ' Még ' + marad + ' próbálkozásod van, utána 15 percre zároljuk a belépést.' : '') });
+    }
     const data = await r.json();
     await this.afterAuth(data.user);
+  };
+
+  // --- Elfelejtett jelszó ---
+  // 1) a bejelentkezésnél: visszaállító link kérése e-mailben
+  realForgot = async () => {
+    const s = this.state;
+    const email = (s.lEmail || '').trim();
+    if (!/.+@.+\..+/.test(email)) return this.setState({ lErr: 'Először add meg az e-mail címed, majd koppints az Elfelejtett jelszóra.', resetSent: '' });
+    if (s.forgotKuld) return;
+    this.setState({ forgotKuld: true, lErr: '', resetSent: '' });
+    let r = null;
+    try {
+      r = await fetch('/api/auth/forgot', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) });
+    } catch (e) { r = null; }
+    if (!r) return this.setState({ forgotKuld: false, lErr: 'Nem sikerült elérni a szervert. Ellenőrizd, hogy fut-e a helyi backend.' });
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 429) return this.setState({ forgotKuld: false, lErr: 'Túl sok kérés érkezett. Próbáld újra ' + percSzoveg(j.retryAfter) + ' múlva.' });
+    if (!r.ok) return this.setState({ forgotKuld: false, lErr: 'Ez az e-mail cím nem tűnik helyesnek.' });
+    this.setState({ forgotKuld: false, resetSent: email, resetNoMail: j.mailConfigured === false });
+  };
+
+  // 2) a levélben lévő link ide hoz vissza: /?reset=<token>
+  resetLinkFigyel() {
+    let q = null;
+    try { q = new URLSearchParams(location.search); } catch (e) { return false; }
+    const token = q.get('reset');
+    if (!token) return false;
+    try { history.replaceState(null, '', location.pathname); } catch (e) { /* nem baj */ }
+    this.setState({ auth: 'reset', rToken: token, rPw: '', rPw2: '', rErr: '', rAllapot: 'ellenoriz', rEmail: '' });
+    fetch('/api/auth/reset?token=' + encodeURIComponent(token))
+      .then(async (r) => {
+        const j = await r.json().catch(() => ({}));
+        if (r.ok) this.setState({ rAllapot: 'urlap', rEmail: j.email || '' });
+        else this.setState({ rAllapot: r.status === 410 ? 'lejart' : 'ervenytelen' });
+      })
+      .catch(() => this.setState({ rAllapot: 'urlap' }));
+    return true;
+  }
+
+  // 3) az új jelszó elküldése: siker esetén rögtön belépünk
+  realResetPassword = async () => {
+    const s = this.state;
+    if ((s.rPw || '').length < 8) return this.setState({ rErr: 'Az új jelszónak legalább 8 karakteresnek kell lennie.' });
+    if (s.rPw !== s.rPw2) return this.setState({ rErr: 'A két jelszó nem egyezik.' });
+    if (s.rKuld) return;
+    this.setState({ rKuld: true, rErr: '' });
+    let r = null;
+    try {
+      r = await fetch('/api/auth/reset', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token: s.rToken, password: s.rPw }) });
+    } catch (e) { r = null; }
+    if (!r) return this.setState({ rKuld: false, rErr: 'Nem sikerült elérni a szervert. Ellenőrizd, hogy fut-e a helyi backend.' });
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 410) return this.setState({ rKuld: false, rAllapot: 'lejart' });
+    if (r.status === 404) return this.setState({ rKuld: false, rAllapot: 'ervenytelen' });
+    if (!r.ok) return this.setState({ rKuld: false, rErr: 'Nem sikerült menteni az új jelszót.' });
+    this.setState({ rKuld: false, rToken: '', rPw: '', rPw2: '' });
+    await this.afterAuth(j.user);
+  };
+
+  // megerősítő e-mail újraküldése
+  realResend = async () => {
+    const s = this.state;
+    if (!s.verifyEmail || s.verifyKuld) return;
+    this.setState({ verifyKuld: true });
+    let r = null;
+    try {
+      r = await fetch('/api/auth/resend', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: s.verifyEmail }) });
+    } catch (e) { r = null; }
+    if (!r) return this.setState({ verifyKuld: false, verifyHiba: true, verifyMsg: 'Nem sikerült elérni a szervert. Ellenőrizd, hogy fut-e a helyi backend.' });
+    if (r.status === 429) return this.setState({ verifyKuld: false, verifyHiba: true, verifyMsg: 'Egy percen belül már küldtünk egyet – várj egy kicsit, mielőtt újat kérsz.' });
+    const j = await r.json().catch(() => ({}));
+    this.setState({
+      verifyKuld: false, verifyHiba: false,
+      verifyMsg: j.mailConfigured === false
+        ? 'Új link készült. (Az e-mail-küldés még nincs beállítva a szerveren, ezért a link a szerver ablakában jelent meg.)'
+        : 'Elküldtük az új megerősítő e-mailt. Nézd meg a beérkezett leveleid (és a spam mappát is).',
+    });
   };
 
   realDoSignup = async () => {
@@ -361,12 +1549,21 @@ class Component extends DCLogic {
     if (r.status === 409) return this.setState({ suErr: 'Ezzel az e-mail címmel már van fiók.' });
     if (!r.ok) return this.setState({ suErr: 'Nem sikerült a regisztráció.' });
     const data = await r.json();
+    if (data.needsVerification) {
+      // nem lépünk be: előbb a megerősítő e-mailben lévő linkre kell kattintani
+      return this.setState({
+        auth: 'verify', verifyEmail: data.email, suPw: '', suErr: '', verifyHiba: false,
+        verifyMsg: data.mailConfigured === false
+          ? 'Az e-mail-küldés még nincs beállítva a szerveren, ezért a megerősítő link a szerver ablakában jelent meg – nyisd meg onnan.'
+          : (data.mailSent ? '' : 'A levelet most nem sikerült elküldeni. Próbáld újraküldeni egy perc múlva.'),
+      });
+    }
     await this.afterAuth(data.user);
   };
 
   realLogOut = async () => {
     try { await fetch('/api/auth/logout', { method: 'POST' }); } catch (e) { /* mindegy, helyben úgyis kijelentkeztetünk */ }
-    this.setState({ realUser: null, categories: [], items: [], outfits: [], calendarLog: {}, auth: 'login', lEmail: '', lPw: '', sel: null, editOpen: false, view: 'home' });
+    this.setState({ realUser: null, categories: [], items: [], outfits: [], calendarLog: {}, auth: 'login', lEmail: '', lPw: '', sel: null, editOpen: false, view: 'start' });
   };
 
   realAddCategory = async () => {
@@ -431,25 +1628,38 @@ class Component extends DCLogic {
       }
       const cat = s.categories.find((c) => c.name === catName);
       const label = ((s.dropNames || {})[file] || '').trim() || 'darab';
-      let photoUrl = null;
-      const phoneUrl = s.phonePhotos[file];
-      if (phoneUrl) {
+      // fotó feltöltése a tartós tárba (a böngészőben lévő / telefonos kép átmásolása)
+      const feltolt = async (url) => {
         try {
-          const imgRes = await fetch(phoneUrl);
-          const blob = await imgRes.blob();
+          const blob = await (await fetch(url)).blob();
           const upRes = await fetch('/api/photos', { method: 'POST', headers: { 'content-type': blob.type || 'image/jpeg' }, body: blob });
-          if (upRes.ok) { const upData = await upRes.json(); photoUrl = upData.url; }
-        } catch (e) { /* ha nem sikerül átmásolni a fotót, a darab fotó nélkül jön létre */ }
+          if (upRes.ok) return (await upRes.json()).url;
+        } catch (e) { /* ha nem sikerül, a darab fotó nélkül jön létre */ }
+        return null;
+      };
+      const phoneUrl = s.phonePhotos[file];
+      const photoUrl = phoneUrl ? await feltolt(phoneUrl) : null;
+      // ha a háttér el lett távolítva, az eredetit is eltesszük (vissza lehet állítani)
+      const eredeti = (s.hatter || {})[file] === 'kesz' && (s.origPhotos || {})[file];
+      const origPhotoUrl = eredeti ? await feltolt(eredeti) : null;
+      const ar = ((s.dropPrices || {})[file] || '').replace(/[^0-9]/g, '');
+      // szín a fotóból (a márkakártyánál nem, mert az a márka színe, nem a ruháé)
+      let szin = null;
+      if (phoneUrl && !(s.dropNoColor || {})[file]) {
+        try { szin = await szinFelismer(phoneUrl); } catch (e) { /* szín nélkül is mentjük */ }
       }
       await fetch('/api/items', {
         method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ label: label, categoryId: cat ? cat.id : null, photoUrl: photoUrl }),
+        body: JSON.stringify({
+          label: label, categoryId: cat ? cat.id : null, photoUrl: photoUrl, origPhotoUrl: origPhotoUrl, price: ar ? Number(ar) : null,
+          color: szin ? szin.nev : null, colorHex: szin ? szin.hex : null, brand: (s.dropBrands || {})[file] || null,
+        }),
       });
     }
 
     if (leftover.length === 0) {
       // minden mentve, mehetünk a kezdőlapra
-      this.setState({ dropNames: {}, view: 'home', drops: [], dropCats: {}, phonePhotos: {}, addErr: '' });
+      this.setState({ dropNames: {}, view: 'home', drops: [], dropCats: {}, phonePhotos: {}, addErr: '', dropPrices: {}, hatter: {}, origPhotos: {}, kivagottPhotos: {} });
     } else {
       // a kategória nélküli fotók maradnak, hogy be lehessen sorolni őket
       const savedCount = s.drops.length - leftover.length;
@@ -558,7 +1768,1950 @@ class Component extends DCLogic {
     const calendarOff = { isCalendar: false, railCalendar: false, calWeekdays: [], calCells: [], calPickList: [], themeOptions: [],
       // fotófeltöltés: a demóban ezek nem csinálnak semmit
       onFilesChosen: () => {}, onFilesDragOver: (e) => e.preventDefault(), onFilesDrop: (e) => e.preventDefault(), addErr: '' };
-    return Object.assign(calendarOff, base, this.renderSharedVals());
+    const all = Object.assign(calendarOff, base, this.renderSharedVals(), this.renderKatalogusVals(base), this.renderUjVals(base), this.renderOkosVals(base));
+    Object.assign(all, this.renderStartVals(all));
+    Object.assign(all, this.renderBuilderChipVals(all));
+    if (!all.themeOptions || !all.themeOptions.length) {
+      // demó: nincs fiók, ezért a téma csak ezen a gépen vált (a bejelentkezés után a fiókodhoz mentjük)
+      const aktiv = document.documentElement.getAttribute('data-theme') || DEFAULT_THEME;
+      all.themeOptions = THEMES.map((t) => {
+        const on = aktiv === t.key;
+        return {
+          label: t.label, hint: t.hint,
+          swatches: t.swatches.map((c) => ({ color: c })),
+          border: on ? '2px solid var(--m-accent)' : '1px solid var(--m-line-strong)',
+          bg: on ? 'var(--c-f1eadd)' : 'var(--c-f6f1e7)',
+          mark: on ? '✓' : '',
+          on: () => { applyTheme(t.key); this.setState({ demoTheme: t.key }); },
+        };
+      });
+    }
+    Object.assign(all, this.renderStylistVals(all));
+    Object.assign(all, this.renderWeatherVals(all));
+    Object.assign(all, this.renderSzennyesVals(all));
+    Object.assign(all, this.renderVasarlasVals(all));
+    Object.assign(all, this.renderCareVals(all));
+    // próbababa: női fióknál női sziluett (valódi fióknál a regisztrációkor választott profil, a demóban a Férfi/Nő választás)
+    const nem = s.realUser ? s.realUser.profile : (s.who || this.props.profile || 'Male');
+    // telefonon a jobb panel alsó lapként (bottom sheet) jön fel, ha éppen kell: kijelölt ruha
+    // a Szekrényben, vagy az összeállítóban egy helyre koppintva a ruhaválasztó
+    const mobLap = (s.view === 'wardrobe' && !!s.sel) || (s.view === 'builder' && !!s.bLap && !!s.bSlot);
+    all.mobLapBezar = () => this.setState(s.view === 'builder' ? { bLap: false } : { sel: null, editOpen: false });
+    all.gridMod = [all.gridMod || '', nem === 'Female' ? 'is-female' : '', mobLap ? 'is-mob-lap' : ''].filter(Boolean).join(' ');
+    Object.assign(all, this.navCsoportok(all.navItems || []));
+    return all;
+  }
+
+  // ==========================================================================
+  // MENÜ: a fő pontok külön, a többi két nyitható csoportban; a Beállítások a
+  // fogaskerékre került (az oldalsáv tetején, telefonon az alsó sávban).
+  // Széles képernyőn a csoport lenyílik, telefonon egy kis panel nyílik fölötte.
+  // A csoport magától nyitva van, ha benne van az épp nyitott oldal.
+  // ==========================================================================
+  navCsoportok(items) {
+    const s = this.state;
+    const beall = items.find((n) => n.icon === 'settings');
+    const CSOP = [
+      { key: 'okos', label: 'Okos eszközök', icon: 'sparkle', ikonok: ['stylist', 'bag', 'weather', 'okos'] },
+      { key: 'rend', label: 'Rendszerezés', icon: 'layers', ikonok: ['calendar', 'laundry', 'untouched', 'removed'] },
+    ];
+    const nyit = s.navNyit || {};
+    const telefon = () => { try { return window.matchMedia('(max-width: 760px)').matches; } catch (e) { return false; } };
+    const allit = (key, ertek) => {
+      const uj = { ...(this.state.navNyit || {}), [key]: ertek };
+      try { localStorage.setItem('wardro-nav-nyit', JSON.stringify(uj)); } catch (e) { /* nincs tároló */ }
+      this.setState({ navNyit: uj });
+    };
+    const kimarad = new Set(['settings']);
+    CSOP.forEach((c) => c.ikonok.forEach((i) => kimarad.add(i)));
+    const sima = (n) => ({ ...n, sima: true, csoport: false });
+    // a fő pontok (Főoldal, Ma, Szekrény, Outfitek) után jönnek a csoportok
+    const out = items.filter((n) => !kimarad.has(n.icon)).map(sima);
+    const csoportok = CSOP.map((c) => {
+      const elemek = c.ikonok.map((i) => items.find((n) => n.icon === i)).filter(Boolean);
+      if (!elemek.length) return null;
+      const aktiv = elemek.some((n) => /is-active/.test(n.cls || ''));
+      const lenyitva = nyit[c.key] === true || (nyit[c.key] === undefined && aktiv);
+      // telefonon a panel csak kifejezett koppintásra nyílik
+      const panel = nyit[c.key] === true;
+      return {
+        sima: false, csoport: true, label: c.label, icon: c.icon,
+        db: String(elemek.length),
+        cls: [lenyitva ? 'is-nyitva' : '', panel ? 'is-panel' : '', aktiv ? 'is-benne' : ''].filter(Boolean).join(' '),
+        fejCls: aktiv ? 'is-active-csop' : '',
+        aktivNev: aktiv ? (elemek.find((n) => /is-active/.test(n.cls || '')) || {}).label : '',
+        on: () => allit(c.key, telefon() ? !panel : !lenyitva),
+        bezar: () => allit(c.key, undefined),
+        elemek: elemek.map((n) => ({
+          ...n,
+          on: () => { if (telefon()) allit(c.key, undefined); n.on(); },
+        })),
+      };
+    }).filter(Boolean);
+    csoportok.forEach((c) => { c.cls += ' is-asztali'; });
+    out.push(...csoportok);
+    // telefonon a két csoport és a Beállítások egyetlen "Több" gombban (az alsó sáv kicsi)
+    const tobbElemek = [...CSOP.flatMap((c) => c.ikonok.map((i) => items.find((n) => n.icon === i))), beall && { ...beall, icon: 'gear' }].filter(Boolean);
+    if (tobbElemek.length) {
+      const aktiv = tobbElemek.some((n) => /is-active/.test(n.cls || ''));
+      const panel = nyit.tobb === true;
+      out.push({
+        sima: false, csoport: true, label: 'Több', icon: 'layers', db: String(tobbElemek.length),
+        cls: ['is-mobil', panel ? 'is-panel' : ''].filter(Boolean).join(' '),
+        fejCls: aktiv ? 'is-active-csop' : '',
+        on: () => allit('tobb', !panel),
+        bezar: () => allit('tobb', undefined),
+        elemek: tobbElemek.map((n) => ({ ...n, on: () => { allit('tobb', undefined); n.on(); } })),
+      });
+    }
+    return {
+      navItems: out,
+      settingsCls: beall && /is-active/.test(beall.cls || '') ? 'is-active' : '',
+      toSettingsGear: beall ? beall.on : () => this.setState({ view: 'settings', sel: null, editOpen: false }),
+    };
+  }
+
+  // ==========================================================================
+  // OUTFIT-ÖSSZEÁLLÍTÓ: alkalom és évszak – nem kötött lista
+  // Az alapértékek mellé beírhatsz sajátot is ("+ Saját"); ezeket megjegyezzük
+  // (ezen a gépen), és a már elmentett outfitjeid alkalmait / évszakait is
+  // felajánljuk. A saját opció × gombbal törölhető, a kijelölt újra kattintva levehető.
+  // ==========================================================================
+  builderSajat(kulcs) {
+    try { const x = JSON.parse(localStorage.getItem('wardro.' + kulcs) || '[]'); return Array.isArray(x) ? x : []; } catch (e) { return []; }
+  }
+
+  builderSajatMent(kulcs, lista) {
+    try { localStorage.setItem('wardro.' + kulcs, JSON.stringify(lista)); } catch (e) { /* privát mód: csak erre a munkamenetre marad meg */ }
+  }
+
+  renderBuilderChipVals(v) {
+    const s = this.state;
+    // a már elmentett outfitek alkalmai / évszakai (a "Munka · Hideg" alcímből)
+    const hasznalt = (v.outfitList || []).map((o) => String(o.sub || '').split(' · '));
+    const kisbetu = (x) => x.toLocaleLowerCase('hu-HU');
+    const csoport = (kulcs, stateKey, alap, hasznaltIdx, maxHossz, placeholder) => {
+      const sajat = s[kulcs] || this.builderSajat(kulcs);
+      const korabbi = hasznalt.map((x) => x[hasznaltIdx]).filter((x) => x && !/^Bármilyen/.test(x));
+      const opciok = [];
+      [...alap, ...korabbi, ...sajat].forEach((x) => { if (x && !opciok.some((y) => kisbetu(y) === kisbetu(x))) opciok.push(x); });
+      const aktiv = s[stateKey];
+      if (aktiv && !opciok.some((y) => kisbetu(y) === kisbetu(aktiv))) opciok.push(aktiv);
+      const zar = { [kulcs + 'Nyitva']: false, [kulcs + 'Input']: '' };
+      const hozzaad = () => {
+        const ertek = (this.state[kulcs + 'Input'] || '').trim().replace(/\s+/g, ' ').slice(0, maxHossz);
+        if (!ertek) { this.setState(zar); return; }
+        const meglevo = opciok.find((y) => kisbetu(y) === kisbetu(ertek));
+        const ujLista = meglevo ? sajat : [...sajat, ertek];
+        if (!meglevo) this.builderSajatMent(kulcs, ujLista);
+        this.setState({ ...zar, [kulcs]: ujLista, [stateKey]: meglevo || ertek });
+      };
+      return {
+        chips: opciok.map((x) => {
+          const on = aktiv === x;
+          return {
+            label: x,
+            bg: on ? 'var(--c-57462f)' : 'var(--c-f6f1e7)',
+            fg: on ? 'var(--c-f6f1e7)' : 'var(--c-6b5940)',
+            on: () => this.setState({ [stateKey]: on ? '' : x }),
+            custom: sajat.includes(x) && !alap.includes(x),
+            remove: (e) => {
+              if (e && e.stopPropagation) e.stopPropagation();
+              const ujLista = sajat.filter((y) => y !== x);
+              this.builderSajatMent(kulcs, ujLista);
+              this.setState({ [kulcs]: ujLista, [stateKey]: aktiv === x ? '' : aktiv });
+            },
+          };
+        }),
+        nyitva: !!s[kulcs + 'Nyitva'],
+        bevitel: s[kulcs + 'Input'] || '',
+        placeholder,
+        maxHossz: String(maxHossz),
+        nyit: () => {
+          this.setState({ [kulcs + 'Nyitva']: true });
+          setTimeout(() => { const el = document.querySelector('.we-b-add-field[data-k="' + kulcs + '"]'); if (el) el.focus(); }, 40);
+        },
+        onInput: (e) => this.setState({ [kulcs + 'Input']: e.target.value }),
+        onKey: (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); hozzaad(); }
+          if (e.key === 'Escape') this.setState(zar);
+        },
+        hozzaad,
+        megse: () => this.setState(zar),
+      };
+    };
+    const alk = csoport('bOccSajat', 'bOcc', ['Munka', 'Hétvége', 'Program'], 0, 40, 'pl. Esküvő, Randi, Edzés…');
+    const evs = csoport('bSeasonSajat', 'bSeason', ['Meleg', 'Enyhe', 'Hideg'], 1, 20, 'pl. Esős, Tél, Nyár…');
+    return {
+      bOccasions: alk.chips, bOccNyitva: alk.nyitva, bOccZarva: !alk.nyitva, bOccInput: alk.bevitel, bOccPlaceholder: alk.placeholder, bOccMax: alk.maxHossz,
+      openBOcc: alk.nyit, onBOccInput: alk.onInput, onBOccKey: alk.onKey, addBOcc: alk.hozzaad, cancelBOcc: alk.megse,
+      bSeasons: evs.chips, bSeasonNyitva: evs.nyitva, bSeasonZarva: !evs.nyitva, bSeasonInput: evs.bevitel, bSeasonPlaceholder: evs.placeholder, bSeasonMax: evs.maxHossz,
+      openBSeason: evs.nyit, onBSeasonInput: evs.onInput, onBSeasonKey: evs.onKey, addBSeason: evs.hozzaad, cancelBSeason: evs.megse,
+    };
+  }
+
+  // ==========================================================================
+  // STYLIST – AI-szerű beszélgetős outfit-összeállító
+  // Helyben fut (nem kell hozzá külső szolgáltatás): a magyar szövegből
+  // kiolvassa az alkalmat, a stílust, az időjárást és a színeket, a hiányzó
+  // részletekre rákérdez, majd a SAJÁT ruháidból pontozással rak össze egy
+  // outfitet. Utána finomítható ("elegánsabb", "cseréld a cipőt", "másikat"…).
+  // ==========================================================================
+  stylistKezdo() {
+    return [{ from: 'bot', text: 'Szia! A Wardro stylistod vagyok. Mondd el, hova készülsz, vagy mit szeretnél ma felvenni – a saját ruháidból rakok össze neked egy outfitet.\n\nÍrj nyugodtan a saját szavaiddal, akár hosszan is – például: „esős időben megyek egy drága étterembe, de ne legyen fekete”, „egész nap a városban leszek, kényelmes legyen” vagy „állásinterjúm lesz, 5 fok van”.' }];
+  }
+
+  // pontozás: viselési előzmény + stílus + elegancia + időjárás + szín + kényelem + kért / kerülendő darabok
+  stylistOsszerak(darabok, pref, mag, csere, tart) {
+    const STILUS = {
+      elegans: /\bing\b|ingek|bluz|blez|blaz|zako|oltony|chino|szovet|mokaszin|chelsea|csizm|\bbor\b|garbo|szokny|kosztum|felcip|oxford|loafer|gyapju|kasmir|karora|\bov\b|pliszir|ballon|ruha\b/,
+      laza: /polo|farmer|jean|sneaker|pulover|pulcsi|hoodie|kapucn|tornacip|sportcip|rovidnadr|vaszon|szandal|taska|sapka|kord|top\b/,
+      sportos: /sport|melegit|futo|edzo|legging|fleece|jogger|tornacip|sneaker|nike|adidas|puma|asics|new balance|hoka|on running|reebok/,
+      street: /hoodie|kapucn|cargo|sneaker|dunk|jordan|air max|oversize|bomber|sapka|corteiz|stussy|supreme|carhartt|baggy/,
+    };
+    const MELEG_JO = /polo|rovid|szandal|vaszon|\blen\b|top\b|\bing\b|bluz/, MELEG_ROSSZ = /pulover|pulcsi|garbo|gyapju|csizm|kabat|fleece|kord|kasmir|hoodie/;
+    const HIDEG_JO = /pulover|pulcsi|garbo|gyapju|csizm|bakancs|farmer|kord|fleece|kasmir|hoodie|chelsea/, HIDEG_ROSSZ = /rovid|szandal|top\b|vaszon|papucs/;
+    const ESO_JO = /csizm|bakancs|chelsea|boot/, ESO_ROSSZ = /vaszon|szandal|papucs|feher sneaker|velur|szarvasbor/;
+    const KENYELMES = /sneaker|tornacip|sportcip|futocip|edzocip|air max|samba/;
+    const rnd = prng(mag * 104729 + 7);
+    const most = Date.now();
+    const f = pref.f || 0;
+    const stilus = pref.stilus && pref.stilus !== 'mindegy' ? pref.stilus
+      : (f >= 2 ? 'elegans' : f <= -1.5 ? 'laza' : ({ munka: 'elegans', program: 'elegans', sport: 'sportos', buli: 'street', laza: 'laza' }[pref.alkalom] || ''));
+    const kerul = new Set(csere || []);
+    const marad = new Set(tart || []);
+    const kell = (pref.kell || []).map((k) => ({ ...k, re: new RegExp(k.minta) }));
+    const kerulDarab = (pref.kerul || []).map((k) => ({ ...k, re: new RegExp(k.minta) }));
+    const szinNot = new Set(pref.szinNot || []);
+    const pont = (d) => {
+      const sz = styDarabSzoveg(d);
+      const szin = styDarabSzin(d);
+      const hely = helyDarab(d);
+      const nap = d.lastWornAt ? (most - d.lastWornAt) / 864e5 : 45;
+      let p = Math.min(nap, 90) * 0.35 + rnd() * 28 - (d.wornToday ? 40 : 0);
+      if (stilus && STILUS[stilus] && STILUS[stilus].test(sz)) p += 45;
+      if (stilus === 'elegans' && STILUS.sportos.test(sz) && !STILUS.elegans.test(sz)) p -= 35;
+      if (stilus === 'sportos' && STILUS.elegans.test(sz)) p -= 35;
+      // elegancia-szint: minél formálisabb az alkalom, annál többet ér az elegáns darab
+      if (f >= 1) { if (STILUS.elegans.test(sz)) p += 12 * f; if (STILUS.sportos.test(sz) && !STILUS.elegans.test(sz)) p -= 10 * f; }
+      if (f <= -1) { if (STILUS.laza.test(sz)) p += 8 * -f; if (STILUS.elegans.test(sz) && !STILUS.laza.test(sz)) p -= 8 * -f; }
+      // időjárás
+      if (pref.ido === 'meleg') { if (MELEG_JO.test(sz)) p += 20; if (MELEG_ROSSZ.test(sz)) p -= 30; }
+      if (pref.ido === 'hideg' || pref.ido === 'eso') { if (HIDEG_JO.test(sz)) p += 20; if (HIDEG_ROSSZ.test(sz)) p -= 30; }
+      if (pref.ido === 'eso' && hely === 'cipo') { if (ESO_JO.test(sz)) p += 40; if (ESO_ROSSZ.test(sz)) p -= 45; }
+      // kényelem: sok séta, egész nap talpon
+      if ((pref.k || 0) >= 1 && hely === 'cipo') { if (KENYELMES.test(sz)) p += 18 * pref.k; if (/mokaszin|felcip|oxford|magassark|tusark/.test(sz)) p -= 8 * pref.k; }
+      // színek
+      if (pref.arny === 'sotet') p += STY_SOTET.has(szin) ? 25 : (STY_VILAGOS.has(szin) ? -15 : 0);
+      if (pref.arny === 'vilagos') p += STY_VILAGOS.has(szin) ? 25 : (STY_SOTET.has(szin) ? -15 : 0);
+      if (pref.szin === 'semleges' && (!szin || SEMLEGES_SZIN.has(szin))) p += 15;
+      if (pref.szin === 'szines' && szin && !SEMLEGES_SZIN.has(szin)) p += 25;
+      if (pref.szin && SZIN_LISTA[pref.szin] && szin === pref.szin) p += 45;
+      if (szin && szinNot.has(szin)) p -= 400;
+      // különleges alkalmak
+      if (pref.ev === 'temetes') p += (!szin || STY_SOTET.has(szin)) ? 40 : (SEMLEGES_SZIN.has(szin) ? 0 : -120);
+      if (pref.ev === 'eskuvo' && szin === 'fehér') p -= 200; // vendégként nem viselünk fehéret
+      if (pref.ev === 'interju') { if (!szin || SEMLEGES_SZIN.has(szin)) p += 20; else p -= 30; if (STILUS.street.test(sz) || STILUS.sportos.test(sz)) p -= 40; }
+      if (pref.ev === 'templom' && szin && !SEMLEGES_SZIN.has(szin)) p -= 25;
+      if (pref.ev === 'temetes' && szin === 'fekete') p += 45;
+      if (['interju', 'temetes', 'templom', 'eskuvo'].includes(pref.ev) && /csikos|mintas|kockas|virag|terepmint|grafika|feliratos/.test(sz)) p -= 35; // komoly alkalomra egyszínű
+      if (pref.ev === 'strand') { if (/rovid|szandal|papucs|polo|top\b|vaszon/.test(sz)) p += 30; if (MELEG_ROSSZ.test(sz)) p -= 40; }
+      if (pref.ev === 'tura' && hely === 'cipo') { if (/bakancs|tura|sneaker|futocip|sportcip/.test(sz)) p += 40; if (/mokaszin|felcip|szandal/.test(sz)) p -= 40; }
+      if (pref.ev === 'fesztival' && hely === 'cipo' && KENYELMES.test(sz)) p += 30;
+      // kért és kerülendő darabok
+      kell.forEach((k) => { if (k.re.test(sz)) p += (!k.szin || szin === k.szin) ? 300 : 110; });
+      kerulDarab.forEach((k) => { if (k.re.test(sz) && (!k.szin || szin === k.szin)) p -= 500; });
+      if ((pref.kellKulcs || []).includes(d.key)) p += 400;
+      if (kerul.has(d.key)) p -= 500;
+      if (marad.has(d.key)) p += 600; // a nem cserélt darabok a helyükön maradnak
+      return p;
+    };
+    const valasztas = [];
+    const legjobb = (h) => darabok.filter((d) => helyDarab(d) === h && !valasztas.includes(d))
+      .map((d) => {
+        const szin = styDarabSzin(d);
+        const utkozik = szin && !SEMLEGES_SZIN.has(szin) && valasztas.some((x) => { const xs = styDarabSzin(x); return xs && !SEMLEGES_SZIN.has(xs) && xs !== szin; });
+        return { d, p: pont(d) - (utkozik && pref.szin !== 'szines' ? 40 : 0) };
+      })
+      .sort((a, b) => b.p - a.p)[0];
+    const kellKabat = pref.ev !== 'strand' && (pref.kabat === true
+      || (pref.kabat !== false && (['hideg', 'eso', 'huvos'].includes(pref.ido) || (pref.ev === 'tura' && pref.ido !== 'meleg'))));
+    const helyek = ['felso', 'also', 'cipo'];
+    if (kellKabat) helyek.push('kabat');
+    helyek.forEach((h) => { const x = legjobb(h); if (x) valasztas.push(x.d); });
+    const kieg = legjobb('kieg');
+    const kiegKell = kieg && kell.some((k) => k.re.test(styDarabSzoveg(kieg.d)));
+    if (kieg && (kiegKell || stilus === 'elegans' || marad.has(kieg.d.key) || (!marad.size && rnd() < 0.55)) && kieg.p > -100) valasztas.push(kieg.d);
+    return { darabok: valasztas, stilus, kellKabat };
+  }
+
+  // a bot válasza egy felhasználói üzenetre
+  stylistValasz(szoveg) {
+    const s = this.state;
+    const adat = this._sty || { darabok: [], valos: false };
+    const darabok = adat.darabok.filter((d) => !d.inLaundry && !d.needsRepair);
+    const tn = ' ' + styNorm(szoveg) + ' ';
+    let pref = { ...(s.chatPref || {}) };
+    let mag = s.chatMag || 1;
+    const utolso = s.chatUtolso || null; // az utoljára ajánlott outfit darabjainak kulcsai
+    const bot = (text, extra) => ({ from: 'bot', text, ...(extra || {}) });
+    const ALAP_CHIPS = ['Valami laza a hétvégére', 'Esős időben megyek egy drága étterembe', 'Állásinterjúm lesz', 'Edzésre megyek'];
+
+    if (/^\s*ruhak hozzaadasa\s*$/.test(tn)) {
+      this.setState({ view: 'add', sel: null, editOpen: false });
+      return null;
+    }
+    if (!darabok.length) {
+      return { msgs: [bot('Még egy ruhát sem látok a szekrényedben, így nincs miből összeállítanom. Adj hozzá pár darabot (felsőt, alsót, cipőt), és utána szívesen segítek!')], chips: ['Ruhák hozzáadása'] };
+    }
+    if (/ elolrol | ujrakezd| kezdjuk ujra | uj beszelgetes | reset /.test(tn)) return { reset: true };
+
+    const uj = styErtelmez(szoveg);
+    const semmi = !Object.keys(uj.a).length && !Object.keys(uj.st).length && !uj.f && !uj.ido && !uj.k && !uj.arny && !uj.ev
+      && !uj.szin && !uj.szinNot.length && !uj.kell.length && !uj.kerul.length && uj.kabat === undefined && !uj.mindegy;
+
+    // --- csevegés: köszönés, köszönet, súgó ---
+    if (semmi && /^ (szia|szius|hello|hali|helo|szevasz|szervusz|jo napot|jo estet|jo reggelt|hey|hi|csa|csumi) /.test(tn)) {
+      return { msgs: [bot('Szia! 👋 Mesélj: hova mész ma, milyen idő van, és milyen hangulatban vagy? Minél többet írsz, annál pontosabb szettet rakok össze.')], chips: ALAP_CHIPS };
+    }
+    if (semmi && /(koszi|koszonom|kosz |kosszi|thx|thanks|koszike|koszke)/.test(tn)) {
+      return { msgs: [bot('Szívesen! Ha bármikor új szett kell, csak írj. 😊')], chips: utolso ? ['Másikat kérek', 'Kezdjük újra'] : ALAP_CHIPS };
+    }
+    if (/(mit tudsz|mire vagy kepes|hogyan mukodsz|hogy mukodik|segitseg| help |mit csinalsz|mit irjak)/.test(tn)) {
+      return { msgs: [bot('Írd le a saját szavaiddal, mire készülsz – én kiszűröm belőle a lényeget:\n\n• hova mész (étterem, iroda, buli, edzés, túra, esküvő…)\n• mennyire elegáns a hely („drága”, „puccos”, „laza kocsma”)\n• milyen az idő („esik”, „hideg van”, „25 fok”)\n• színek („sötét”, „legyen benne kék”, „ne legyen fekete”)\n• darabok („farmerben szeretnék lenni”, „sapka nélkül”)\n• kényelem („egész nap talpon leszek”)\n\nUtána finomíthatsz is: „elegánsabb”, „melegebb”, „nem tetszik a cipő”…')], chips: ALAP_CHIPS };
+    }
+
+    // --- műveletek egy már ajánlott outfiten ---
+    const negativ = /(nem tetszik|nem jo|nem az igazi|nem bejon|nem tetszenek|ronda|csunya|uncsi|unalmas|valami mas|mast|masikat|masik |ujat|kovetkezo|nem ez)/.test(tn);
+    if (utolso && utolso.length && !negativ) {
+      if (/(veszem fel|ezt veszem|tokeletes|jo lesz|felveszem|mehet|ez az | szuper |tetszik| imadom|pont jo|megfelel|ez jo|ok |oke|rendben)/.test(tn) && semmi) {
+        return { msgs: [bot('Szuper választás! Naplóztam, hogy ma ezt viseled – így a viselésszámok is frissülnek. Jó napot benne! ✨')], chips: ['Mentsd el outfitként', 'Kezdjük újra'], muvelet: 'visel' };
+      }
+      if (/(ments|mentes|elment|outfitkent|tedd el)/.test(tn)) {
+        return { msgs: [bot(adat.valos ? 'Elmentettem az Outfitek közé. Bármikor újra előveheted.' : 'A demóban nem tudok menteni – jelentkezz be a saját szekrényeddel, és ott elmentem.')], chips: ['Ezt veszem fel', 'Másikat kérek', 'Kezdjük újra'], muvelet: 'ment' };
+      }
+    }
+
+    // --- finomítás egy meglévő ajánlaton ---
+    let csere = [];
+    let tart = [];
+    if (utolso && utolso.length) {
+      const HELY_SZO = [['cipo', /cip|sneaker|csizm|bakancs|mokaszin|lab/], ['felso', /felso|polo|\bing|pulover|pulcsi|bluz|garbo|hoodie|top\b/],
+        ['also', /also|nadrag|farmer|szokny|chino|kord|short/], ['kabat', /kabat|dzseki|parka/], ['kieg', /kieg|taska|sapka|\bora|\bov\b|\bsal\b|ekszer/]];
+      // hőérzet: "melegebb legyen" → kabát rá, "könnyebb" → kabát le (a többi darab marad)
+      if (/(melegebb|fazom|fazni fogok|hidegebb lett|lehult)/.test(tn) && !/melegebb lett/.test(tn)) { uj.kabat = true; if (pref.ido !== 'eso') uj.ido = 'hideg'; }
+      if (/(konnyebb|huvosebb|melegem van|melegebb lett|izzadok|szellosebb)/.test(tn)) { uj.kabat = false; uj.ido = 'meleg'; }
+      const cserelo = /(csereld|cserel|csere|mas |masik|helyett|nem tetszik|nem jo|ne ez|ne ezt|mast|massal|valtoztass|valts|uj )/.test(tn);
+      const celzott = HELY_SZO.filter(([, re]) => re.test(tn)).map(([h]) => h).filter((h) => !(h === 'kabat' && uj.kabat !== undefined));
+      if (cserelo && celzott.length) {
+        csere = utolso.filter((k) => { const d = darabok.find((x) => x.key === k); return d && celzott.includes(helyDarab(d)); });
+        tart = utolso.filter((k) => !csere.includes(k));
+        mag += 1;
+      } else if (negativ) {
+        csere = utolso.slice();
+        mag += 1;
+      } else if (uj.kabat !== undefined && Object.keys(uj.st).length === 0 && !uj.f && !uj.arny && !uj.szin && !uj.kell.length) {
+        tart = utolso.slice(); // csak kabátot tesz rá / vesz le, a többi marad
+      } else {
+        mag += 1;
+      }
+    }
+
+    // --- az új információ beolvasztása ---
+    const kerdezett = s.chatKerdes || '';
+    const alk = Object.entries(uj.a).sort((a, b) => b[1] - a[1])[0];
+    if (alk) pref.alkalom = alk[0];
+    pref.f = Math.max(-3, Math.min(4, (pref.f || 0) + uj.f));
+    const st = { ...(pref.st || {}) };
+    Object.entries(uj.st).forEach(([k, v]) => { st[k] = (st[k] || 0) + v; });
+    pref.st = st;
+    const legjobbSt = Object.entries(st).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1])[0];
+    if (Object.keys(uj.st).length && legjobbSt && legjobbSt[1] >= 2) pref.stilus = legjobbSt[0];
+    else if (!pref.stilus && Math.abs(pref.f) >= 2) pref.stilus = pref.f > 0 ? 'elegans' : 'laza';
+    if (pref.stilus && uj.tagadottStilus.includes(pref.stilus)) pref.stilus = pref.f > 0.5 ? 'elegans' : 'laza';
+    if (uj.ido) { pref.ido = uj.ido; pref.idoAuto = uj.fok !== null ? uj.fok + '°' : ''; pref.idoKezi = true; }
+    if (uj.k) pref.k = Math.max(0, (pref.k || 0) + uj.k);
+    if (uj.arny) pref.arny = uj.arny;
+    if (uj.ev) pref.ev = uj.ev;
+    if (uj.szin) pref.szin = uj.szin;
+    pref.szinNot = [...new Set([...(pref.szinNot || []).filter((x) => !uj.szinek.includes(x)), ...uj.szinNot])];
+    if (pref.szin && pref.szinNot.includes(pref.szin)) delete pref.szin;
+    const kulcs = (x) => x.nev + '|' + x.szin;
+    const ujKerul = new Set(uj.kerul.map(kulcs));
+    const ujKell = new Set(uj.kell.map(kulcs));
+    pref.kell = [...(pref.kell || []).filter((x) => !ujKerul.has(kulcs(x)) && !ujKell.has(kulcs(x))), ...uj.kell];
+    pref.kerul = [...(pref.kerul || []).filter((x) => !ujKell.has(kulcs(x)) && !ujKerul.has(kulcs(x))), ...uj.kerul];
+    if (uj.kabat !== undefined) pref.kabat = uj.kabat;
+    pref.cimkek = [...new Set([...(pref.cimkek || []), ...uj.cimkek])].slice(-8);
+    // saját ruhák név szerint: ha a szöveg egy darabod minden fontos szavát tartalmazza
+    const szavak = tn.trim().split(' ');
+    const kellKulcs = darabok.filter((d) => {
+      const lw = styNorm(d.label).split(' ').filter((w) => w.length > 3);
+      return lw.length && lw.every((w) => szavak.some((u) => styIllik(u, styTo(w))));
+    }).map((d) => d.key);
+    if (kellKulcs.length) pref.kellKulcs = kellKulcs;
+
+    // ha a feltett kérdésre "mindegy" a válasz (vagy kétszer sem értettük), azt is elfogadjuk
+    const megvan = {
+      alkalom: () => !!pref.alkalom, stilus: () => !!pref.stilus, ido: () => !!pref.ido,
+      szin: () => !!(pref.szin || pref.arny || (pref.szinNot || []).length), k: () => pref.kValasz,
+    };
+    if (kerdezett === 'k') pref.kValasz = true; // a kényelmi kérdésre bármilyen válasz jó
+    if (kerdezett && megvan[kerdezett] && !megvan[kerdezett]()) {
+      if (uj.mindegy || (s.chatProba || 0) >= 1) pref[kerdezett === 'szin' ? 'szin' : kerdezett] = 'mindegy';
+    } else if (uj.mindegy && !kerdezett) {
+      ['alkalom', 'stilus', 'ido', 'szin'].forEach((k) => { if (!megvan[k]()) pref[k] = 'mindegy'; });
+      pref.kValasz = true;
+    }
+    if (s.weather && typeof s.weather.tempC === 'number' && !pref.ido) {
+      const fk = s.weather.tempC;
+      pref.ido = fk < 8 ? 'hideg' : fk < 16 ? 'huvos' : fk > 24 ? 'meleg' : 'enyhe';
+      pref.idoAuto = Math.round(fk) + '°';
+    }
+
+    // --- célzott kérdések a hiányzó részletekre (optimalizálás) ---
+    const formSzint = Math.abs(pref.f || 0);
+    const KERDES = {
+      alkalom: ['Hova készülsz? Így tudom, mennyire legyen elegáns.', ['Munka / iroda', 'Randi vagy vacsora', 'Hétvégi lazulás', 'Sport / edzés', 'Buli', 'Lepj meg!']],
+      stilus: [pref.alkalom === 'program' ? 'Mennyire elegáns a hely?' : 'Milyen hangulatú legyen a szett?',
+        pref.alkalom === 'program' ? ['Nagyon elegáns, puccos hely', 'Smart casual – félig elegáns', 'Laza hely', 'Mindegy, döntsd el']
+          : ['Elegáns', 'Laza és kényelmes', 'Sportos', 'Utcai (streetwear)', 'Mindegy, döntsd el']],
+      ido: ['Milyen idő van kint? (Nem sikerült lekérnem az időjárást.)', ['Hideg', 'Hűvös', 'Meleg', 'Esik az eső']],
+      k: ['Sokat leszel talpon, vagy inkább ülős program lesz?', ['Sokat sétálok, kényelmes cipő kell', 'Inkább ülök', 'Mindegy']],
+      szin: ['Van szín, amit ma szívesen viselnél – vagy amit inkább kerülnél?', ['Semleges', 'Legyen színes', 'Sötét tónusok', 'Ne legyen fekete', 'Mindegy']],
+    };
+    const kerdezve = pref.kerdezve || [];
+    const reszletes = (pref.cimkek || []).length >= 4; // ha sokat elmondtál, kevesebbet kérdezek
+    const sorrend = [
+      ['alkalom', !pref.alkalom && !pref.stilus && formSzint < 1],
+      ['stilus', !pref.stilus && ['buli', 'program', 'mindegy'].includes(pref.alkalom) && formSzint < 1.5],
+      ['ido', !pref.ido],
+      ['k', !pref.kValasz && !pref.k && ['laza', 'buli'].includes(pref.alkalom) && !reszletes && pref.ev !== 'strand'],
+      ['szin', !megvan.szin() && !reszletes && !pref.ev],
+    ];
+    const kovetkezo = (sorrend.find(([k, kell]) => kell && (!kerdezve.includes(k) || k === kerdezett)) || [])[0];
+    if (!utolso && kovetkezo && kerdezve.length < 3 + (kovetkezo === kerdezett ? 1 : 0)) {
+      const ujra = kerdezett === kovetkezo;
+      const nyugta = this.stylistNyugta(uj);
+      return {
+        pref: { ...pref, kerdezve: [...new Set([...kerdezve, kovetkezo])] }, mag, kerdes: kovetkezo, proba: ujra ? (s.chatProba || 0) + 1 : 0,
+        msgs: [bot((ujra ? 'Ezt nem egészen értettem. ' : nyugta) + KERDES[kovetkezo][0])],
+        chips: KERDES[kovetkezo][1],
+      };
+    }
+
+    // --- összeállítás ---
+    const res = this.stylistOsszerak(darabok, pref, mag, csere, tart);
+    if (!res.darabok.length) {
+      return { pref, mag, msgs: [bot('Ehhez most nem találtam illő darabot. Próbáld meg kicsit másképp – például „bármi kényelmes”.')], chips: ['Mindegy, döntsd el', 'Kezdjük újra'] };
+    }
+    const okok = [];
+    const STILUS_NEV = { elegans: 'elegáns', laza: 'laza', sportos: 'sportos', street: 'utcai' };
+    const EV_OK = {
+      temetes: 'Temetésre sötét, visszafogott darabokat választottam.',
+      eskuvo: 'Esküvőn vendégként kerülöm a fehéret – az a menyasszonyé.',
+      interju: 'Állásinterjúra letisztult, semleges, megbízható összeállítás.',
+      templom: 'Templomba visszafogott, elegáns darabokat választottam.',
+      strand: 'Strandra könnyű, szellős darabok – kabát nélkül.',
+      tura: 'Túrára kényelmes cipő és réteges öltözék.',
+      fesztival: 'Fesztiválra kényelmes cipő, mert egész nap talpon leszel.',
+      utazas: 'Utazáshoz kényelmes, gyűrődésre nem kényes darabok.',
+    };
+    if (pref.ev && EV_OK[pref.ev]) okok.push(EV_OK[pref.ev]);
+    if (res.stilus) okok.push('Stílus: ' + STILUS_NEV[res.stilus] + ((pref.f || 0) >= 2 && res.stilus === 'elegans' ? ' – ez egy elegánsabb alkalom.' : (pref.alkalom && pref.alkalom !== 'mindegy' ? ' – illik az alkalomhoz.' : '.')));
+    if (res.kellKabat) okok.push(pref.kabat === true ? 'Kabátot kértél, rátettem.' : pref.ido === 'eso' ? 'Esik, ezért kabátot tettem rá, és zárt cipőt választottam.' : (pref.ido === 'hideg' ? 'Hideg' : 'Hűvös') + ' van' + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') + ', ezért kabát is került rá.');
+    else if (pref.kabat === false) okok.push('Kabát nélkül, ahogy kérted.');
+    else if (pref.ido === 'meleg') okok.push('Meleg van' + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') + ', ezért könnyebb darabokat választottam.');
+    if ((pref.k || 0) >= 1) okok.push('Kényelmes cipőt választottam, mert sokat leszel talpon.');
+    if (pref.arny) okok.push(pref.arny === 'sotet' ? 'Sötétebb tónusokat választottam.' : 'Világos tónusokat választottam.');
+    if ((pref.szinNot || []).length) okok.push('Kerültem: ' + pref.szinNot.join(', ') + '.');
+    (pref.kell || []).forEach((k) => {
+      const re = new RegExp(k.minta);
+      const van = res.darabok.some((d) => re.test(styDarabSzoveg(d)) && (!k.szin || styDarabSzin(d) === k.szin));
+      okok.push(van ? 'Benne van, amit kértél: ' + (k.szin ? k.szin + ' ' : '') + k.nev + '.'
+        : 'Nem találtam ' + (k.szin ? k.szin + ' ' : '') + k.nev + ' darabot a szekrényedben, ezért mást választottam.');
+    });
+    if ((pref.kerul || []).length) okok.push('Kihagytam: ' + pref.kerul.map((k) => (k.szin ? k.szin + ' ' : '') + k.nev).join(', ') + '.');
+    const regi = res.darabok.find((d) => d.lastWornAt && Date.now() - d.lastWornAt > 60 * 864e5);
+    if (regi) okok.push('A(z) ' + regi.label + ' régóta vár a szekrényben – ideje újra elővenni.');
+    const harm = szinHarmonia(res.darabok.map((d) => ({ ...d, szin: styDarabSzin(d) })));
+    if (harm.szoveg) okok.push(harm.szoveg);
+    const hianyzik = ['felso', 'also', 'cipo'].filter((h) => !res.darabok.some((d) => helyDarab(d) === h));
+    if (hianyzik.length) okok.push('Nincs ' + hianyzik.map((h) => BABA_HELY_NEV[h].toLowerCase()).join(', ') + ' a szekrényedben, ezért az kimaradt.');
+    const ertett = (pref.cimkek || []).filter((c) => !/^nem /.test(c)).slice(-5);
+    const bevezeto = utolso
+      ? ['Rendben, módosítottam rajta:', 'Itt egy új változat:', 'Mit szólsz ehhez?'][mag % 3]
+      : (ertett.length ? 'Értem: ' + ertett.join(' · ') + '. Ezt állítottam össze neked:' : 'Megvan! Ezt állítottam össze neked:');
+    return {
+      pref, mag, kerdes: '', proba: 0, utolso: res.darabok.map((d) => d.key),
+      msgs: [bot(bevezeto, { outfit: res.darabok.map((d) => ({ key: d.key, label: d.label, hely: BABA_HELY_NEV[helyDarab(d)], photoUrl: d.photoUrl || '' })), okok })],
+      chips: ['Ezt veszem fel', 'Mentsd el outfitként', 'Másikat kérek', 'Elegánsabb', 'Lazább', 'Nem tetszik a cipő', res.kellKabat ? 'Kabát nélkül' : 'Kabáttal', 'Sötétebb'],
+      kovetes: 'Tetszik így? Írd meg nyugodtan a saját szavaiddal, mit változtassak – például „nem tetszik a cipő”, „legyen melegebb” vagy „ne legyen benne fekete”.',
+    };
+  }
+
+  // rövid visszajelzés arról, amit a bot megértett (kérdés előtt)
+  stylistNyugta(uj) {
+    const c = uj.cimkek.filter(Boolean);
+    if (!c.length) return '';
+    return 'Értem: ' + c.slice(0, 5).join(' · ') + '. ';
+  }
+
+  stylistKuld(szoveg) {
+    const text = (szoveg || '').trim();
+    const s = this.state;
+    if (!text || s.chatTyping) return;
+    const msgs = (s.chatMsgs || this.stylistKezdo()).concat([{ from: 'me', text }]);
+    this.setState({ chatMsgs: msgs, chatInput: '', chatChips: [], chatTyping: true });
+    this.stylistGorget();
+    const valasz = this.stylistValasz(text);
+    if (!valasz) { this.setState({ chatTyping: false }); return; }
+    setTimeout(async () => {
+      if (valasz.reset) {
+        this.setState({ chatMsgs: this.stylistKezdo(), chatPref: {}, chatMag: 1, chatKerdes: '', chatProba: 0, chatUtolso: null, chatTyping: false,
+          chatChips: null });
+        return;
+      }
+      const adat = this._sty || {};
+      if (valasz.muvelet && this.state.chatUtolso) {
+        const ids = this.state.chatUtolso;
+        const pref = this.state.chatPref || {};
+        if (valasz.muvelet === 'visel') {
+          if (adat.valos) {
+            await Promise.all(ids.map((id) => fetch('/api/items/' + id, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ wornToday: true }) })));
+            await this.reloadItems();
+          } else {
+            const worn = { ...this.state.worn }; ids.forEach((k) => { worn[k] = true; });
+            this.setState({ worn });
+            this.demoSzennyesbe(ids);
+          }
+        }
+        if (valasz.muvelet === 'ment' && adat.valos) {
+          const ALK = { munka: 'Munka', program: 'Program', buli: 'Program', sport: 'Hétvége', laza: 'Hétvége' };
+          const EVSZ = { hideg: 'Hideg', eso: 'Hideg', huvos: 'Enyhe', enyhe: 'Enyhe', meleg: 'Meleg' };
+          const nev = 'Stylist · ' + new Date().toLocaleDateString('hu-HU', { month: 'short', day: 'numeric' });
+          await fetch('/api/outfits', {
+            method: 'POST', headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ name: nev, occasion: ALK[pref.alkalom] || 'Bármilyen alkalom', season: EVSZ[pref.ido] || 'Bármilyen évszak', itemIds: ids }),
+          });
+          await this.reloadOutfits();
+        }
+      }
+      const most = this.state;
+      const uj = (most.chatMsgs || []).concat(valasz.msgs || []);
+      if (valasz.kovetes) uj.push({ from: 'bot', text: valasz.kovetes });
+      const patch = { chatMsgs: uj, chatChips: valasz.chips || [], chatTyping: false };
+      ['pref', 'mag', 'kerdes', 'proba', 'utolso'].forEach((k) => {
+        if (valasz[k] !== undefined) patch['chat' + { pref: 'Pref', mag: 'Mag', kerdes: 'Kerdes', proba: 'Proba', utolso: 'Utolso' }[k]] = valasz[k];
+      });
+      this.setState(patch);
+      this.stylistGorget();
+    }, 650 + Math.random() * 500);
+  }
+
+  stylistGorget() {
+    setTimeout(() => {
+      const l = document.querySelector('.we-chat-list');
+      if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' });
+    }, 40);
+  }
+
+  // ==========================================================================
+  // IDŐJÁRÁS – az elmúlt 7 nap és a következő 7 nap
+  // Adat: server/index.js /api/weather/week (Open-Meteo). Ha a szerver régebbi
+  // és nincs ilyen végpontja, közvetlenül az Open-Meteótól kérjük le.
+  // ==========================================================================
+  fetchWeatherWeek = async () => {
+    if (this.state.wxLoad) return;
+    this.setState({ wxLoad: true, wxErr: '' });
+    const varos = this.wxVaros();
+    let coords = varos ? { latitude: varos.lat, longitude: varos.lon } : (this._wxCoords || null);
+    if (!coords) {
+      try {
+        if (navigator.geolocation) {
+          coords = await new Promise((resolve) => {
+            let kesz = false;
+            const ido = setTimeout(() => { if (!kesz) { kesz = true; resolve(null); } }, 4000);
+            navigator.geolocation.getCurrentPosition(
+              (pos) => { if (!kesz) { kesz = true; clearTimeout(ido); resolve(pos.coords); } },
+              () => { if (!kesz) { kesz = true; clearTimeout(ido); resolve(null); } },
+            );
+          });
+        }
+      } catch (e) { coords = null; }
+      if (coords) this._wxCoords = { latitude: coords.latitude, longitude: coords.longitude };
+    }
+    // saját helyzetnél kiderítjük, melyik városban vagy
+    if (!varos && coords && !this.state.wxHelyNev) this.wxHelyNevLeker(coords.latitude, coords.longitude);
+    const lat = coords ? coords.latitude : 47.4979;
+    const lon = coords ? coords.longitude : 19.0402;
+    let data = null;
+    try {
+      const r = await fetch('/api/weather/week' + (coords ? '?lat=' + lat + '&lon=' + lon : ''));
+      if (r.ok) { const j = await r.json(); if (j.ok) data = j; }
+    } catch (e) { /* nincs ilyen végpont vagy nem fut a szerver – jön a közvetlen lekérés */ }
+    if (!data) {
+      try {
+        const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+          '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code,is_day' +
+          '&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,' +
+          'precipitation_sum,precipitation_probability_max,wind_speed_10m_max,uv_index_max,sunrise,sunset' +
+          '&hourly=temperature_2m,precipitation_probability,weather_code&timezone=auto&past_days=7&forecast_days=8');
+        if (r.ok) { const j = await r.json(); data = { ok: true, usedDefaultLocation: !coords, ...j }; }
+      } catch (e) { /* nincs internet */ }
+    }
+    if (data && data.daily) this.setState({ wx: data, wxAt: Date.now(), wxLoad: false, wxErr: '' });
+    else this.setState({ wxLoad: false, wxErr: 'Most nem sikerült lekérni az időjárást. Ellenőrizd az internetkapcsolatot, és próbáld újra.' });
+  };
+
+  // --- város: választott (a böngésző megjegyzi), keresés, helynév ---
+  wxVaros() {
+    if (this.state.wxCity !== undefined) return this.state.wxCity;
+    try { const c = JSON.parse(localStorage.getItem('wardro.wxCity') || 'null'); return c && typeof c.lat === 'number' ? c : null; } catch (e) { return null; }
+  }
+
+  wxVarosBeallit(c) {
+    try { if (c) localStorage.setItem('wardro.wxCity', JSON.stringify(c)); else localStorage.removeItem('wardro.wxCity'); } catch (e) { /* privát mód */ }
+    if (!c) this._wxCoords = null;
+    this.setState({ wxCity: c, wx: null, wxAt: 0, wxErr: '', wxHelyNev: '', wxQ: '', wxTalalat: [], wxKeresNyitva: false, wxKeresFut: false, wxKeresVolt: false });
+    setTimeout(() => { this.fetchWeatherWeek(); this.fetchWeather(); }, 0);
+  }
+
+  wxHelyNevLeker = async (lat, lon) => {
+    let h = null;
+    try {
+      const r = await fetch('/api/geocode/reverse?lat=' + lat + '&lon=' + lon);
+      if (r.ok) { const j = await r.json(); if (j.ok && j.name) h = j; }
+    } catch (e) { /* régebbi szerver – közvetlenül kérdezzük */ }
+    if (!h) {
+      try {
+        const r = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=10&accept-language=hu&lat=' + lat + '&lon=' + lon);
+        if (r.ok) { const j = await r.json(); const a = j.address || {}; h = { name: a.city || a.town || a.village || a.municipality || j.name || '', region: a.county || a.state || '', country: a.country || '' }; }
+      } catch (e) { /* nincs internet */ }
+    }
+    if (h && h.name) this.setState({ wxHelyNev: h.name, wxHelySub: [h.region, h.country].filter(Boolean).join(', ') });
+  };
+
+  wxKeres = (q) => {
+    clearTimeout(this._wxKeresT);
+    const kerdes = (q || '').trim();
+    if (kerdes.length < 2) { this.setState({ wxTalalat: [], wxKeresFut: false, wxKeresVolt: false }); return; }
+    this.setState({ wxKeresFut: true });
+    this._wxKeresT = setTimeout(async () => {
+      let lista = [];
+      try {
+        const r = await fetch('https://geocoding-api.open-meteo.com/v1/search?count=8&language=hu&format=json&name=' + encodeURIComponent(kerdes));
+        if (r.ok) { const j = await r.json(); lista = j.results || []; }
+      } catch (e) { lista = []; }
+      if ((this.state.wxQ || '').trim() !== kerdes) return; // közben tovább gépeltél
+      this.setState({
+        wxKeresFut: false, wxKeresVolt: true,
+        // sorrend: a beírt szöveggel kezdődő név, a hazai (választott ország / Magyarország) város, majd a népesség
+        wxTalalat: (() => {
+          const nq = styNorm(kerdes);
+          const otthon = (this.wxVaros() || {}).cc || 'HU';
+          const pont = (x) => (styNorm(x.name).startsWith(nq) ? 3 : 0) + (styNorm(x.name) === nq ? 2 : 0)
+            + (x.country_code === otthon ? 1.5 : 0) + (x.country_code === 'HU' ? 0.5 : 0) + Math.log10((x.population || 0) + 1) / 2;
+          return lista.slice().sort((a, b) => pont(b) - pont(a));
+        })().map((x) => ({ nev: x.name, admin: x.admin1 || '', orszag: x.country || '', cc: x.country_code || '', lat: x.latitude, lon: x.longitude, nep: x.population || 0 })),
+      });
+    }, 280);
+  };
+
+  renderWeatherVals(v) {
+    const s = this.state;
+    const isWeather = s.view === 'weather';
+    const toWeather = () => this.setState({ view: 'weather', sel: null, editOpen: false });
+    const out = { isWeather, toWeather };
+    const valasztott = this.wxVaros();
+    const varosNev = valasztott ? valasztott.nev : (s.wxHelyNev || '');
+    if (varosNev && v.startWeather) out.startWeather = varosNev + ' · ' + v.startWeather;
+    out.wxRailHely = varosNev ? ' · ' + varosNev : '';
+    // menüpont a Stylist után
+    const nav = (v.navItems || []).slice();
+    const hol = nav.findIndex((n) => n.icon === 'stylist');
+    nav.splice(hol < 0 ? 2 : hol + 1, 0, { label: 'Időjárás', icon: 'weather', cls: isWeather ? 'is-active' : '', on: toWeather });
+    out.navItems = nav;
+    if (!isWeather) return out;
+    out.gridMod = 'is-norail';
+    out.railDisplay = 'none';
+
+    // betöltés: első belépéskor, és fél óránként frissítjük
+    if (!s.wxLoad && !s.wxErr && (!s.wx || Date.now() - (s.wxAt || 0) > 30 * 60 * 1000)) setTimeout(() => this.fetchWeatherWeek(), 0);
+    out.wxReload = () => { this.setState({ wxErr: '' }); setTimeout(() => this.fetchWeatherWeek(), 0); };
+    // városkereső
+    const varos = this.wxVaros();
+    const NEPSZERU = [
+      { nev: 'Budapest', admin: 'Budapest', orszag: 'Magyarország', cc: 'HU', lat: 47.4979, lon: 19.0402 },
+      { nev: 'Debrecen', admin: 'Hajdú-Bihar vármegye', orszag: 'Magyarország', cc: 'HU', lat: 47.5317, lon: 21.6244 },
+      { nev: 'Szeged', admin: 'Csongrád-Csanád vármegye', orszag: 'Magyarország', cc: 'HU', lat: 46.253, lon: 20.1414 },
+      { nev: 'Pécs', admin: 'Baranya vármegye', orszag: 'Magyarország', cc: 'HU', lat: 46.0727, lon: 18.2323 },
+      { nev: 'Győr', admin: 'Győr-Moson-Sopron vármegye', orszag: 'Magyarország', cc: 'HU', lat: 47.6875, lon: 17.6504 },
+      { nev: 'Miskolc', admin: 'Borsod-Abaúj-Zemplén vármegye', orszag: 'Magyarország', cc: 'HU', lat: 48.1035, lon: 20.7784 },
+    ];
+    const talalat = (s.wxQ || '').trim().length >= 2 ? (s.wxTalalat || []) : NEPSZERU;
+    out.wxKeresNyitva = !!s.wxKeresNyitva;
+    out.wxKeresCls = s.wxKeresNyitva ? 'is-open' : '';
+    out.wxKeresNyit = () => {
+      this.setState({ wxKeresNyitva: !s.wxKeresNyitva });
+      setTimeout(() => { const el = document.querySelector('.we-wx-search-field'); if (el) el.focus(); }, 40);
+    };
+    out.wxKeresZar = () => this.setState({ wxKeresNyitva: false, wxQ: '', wxTalalat: [], wxKeresVolt: false });
+    out.wxQ = s.wxQ || '';
+    out.onWxQ = (e) => { this.setState({ wxQ: e.target.value }); this.wxKeres(e.target.value); };
+    out.onWxKey = (e) => {
+      if (e.key === 'Escape') out.wxKeresZar();
+      if (e.key === 'Enter' && talalat[0]) { e.preventDefault(); const x = talalat[0]; this.wxVarosBeallit({ nev: x.nev, admin: x.admin, orszag: x.orszag, cc: x.cc, lat: x.lat, lon: x.lon }); }
+    };
+    out.wxTalalatCim = (s.wxQ || '').trim().length >= 2 ? 'Találatok' : 'Népszerű városok';
+    out.wxTalalat = talalat.map((x) => ({
+      nev: x.nev,
+      sub: [x.admin !== x.nev ? x.admin : '', x.orszag].filter(Boolean).join(', '),
+      cc: x.cc,
+      cls: varos && Math.abs(varos.lat - x.lat) < 0.01 && Math.abs(varos.lon - x.lon) < 0.01 ? 'is-active' : '',
+      on: () => this.wxVarosBeallit({ nev: x.nev, admin: x.admin, orszag: x.orszag, cc: x.cc, lat: x.lat, lon: x.lon }),
+    }));
+    out.wxKeresFut = !!s.wxKeresFut;
+    out.wxNincsTalalat = !!s.wxKeresVolt && !s.wxKeresFut && (s.wxQ || '').trim().length >= 2 && !(s.wxTalalat || []).length;
+    out.wxSajatHely = () => this.wxVarosBeallit(null);
+    out.wxSajatCls = varos ? '' : 'is-active';
+    out.wxHely = varos ? varos.nev : (s.wxHelyNev || (s.wx && !s.wx.usedDefaultLocation ? 'A jelenlegi helyzeted' : 'Budapest'));
+    out.wxHelySub = varos ? [varos.admin !== varos.nev ? varos.admin : '', varos.orszag].filter(Boolean).join(', ')
+      : (s.wxHelyNev ? (s.wxHelySub || '') + ' · a helyzeted alapján' : (s.wx && s.wx.usedDefaultLocation ? 'alapértelmezett – válassz várost' : 'a helyzeted alapján'));
+    out.wxLoading = !s.wx && !s.wxErr;
+    out.wxHasErr = !s.wx && !!s.wxErr;
+    out.wxErr = s.wxErr || '';
+    out.wxReady = !!s.wx;
+    if (!s.wx) return out;
+
+    const W = s.wx;
+    const d = W.daily;
+    const cur = W.current || {};
+    const ma = (cur.time || d.time[7] || '').slice(0, 10);
+    const ti = Math.max(0, d.time.indexOf(ma));
+    const NEV = { 0: 'Derült', 1: 'Többnyire derült', 2: 'Részben felhős', 3: 'Borult', 45: 'Köd', 48: 'Zúzmarás köd',
+      51: 'Gyenge szitálás', 53: 'Szitálás', 55: 'Erős szitálás', 56: 'Fagyos szitálás', 57: 'Erős fagyos szitálás',
+      61: 'Gyenge eső', 63: 'Eső', 65: 'Erős eső', 66: 'Fagyos eső', 67: 'Erős fagyos eső',
+      71: 'Gyenge havazás', 73: 'Havazás', 75: 'Erős havazás', 77: 'Hószemcsék',
+      80: 'Gyenge zápor', 81: 'Zápor', 82: 'Heves zápor', 85: 'Hózápor', 86: 'Erős hózápor',
+      95: 'Zivatar', 96: 'Zivatar jégesővel', 99: 'Heves zivatar jégesővel' };
+    const ikon = (k) => (k === 0 ? 'sun' : k <= 2 ? 'partly' : k === 3 ? 'cloud' : k <= 48 ? 'fog' : k <= 57 ? 'drizzle'
+      : k <= 67 ? 'rain' : k <= 77 ? 'snow' : k <= 82 ? 'rain' : k <= 86 ? 'snow' : 'storm');
+    const kerek = (x) => (x === null || x === undefined || Number.isNaN(x) ? '–' : Math.round(x));
+    const datum = (iso) => { const [y, m, n] = iso.split('-').map(Number); return new Date(y, m - 1, n); };
+    const napNev = (iso) => {
+      const egy = 864e5, kul = Math.round((datum(iso) - datum(ma)) / egy);
+      if (kul === 0) return 'Ma';
+      if (kul === 1) return 'Holnap';
+      if (kul === -1) return 'Tegnap';
+      const x = datum(iso).toLocaleDateString('hu-HU', { weekday: 'long' });
+      return x.charAt(0).toUpperCase() + x.slice(1);
+    };
+    const ora = (iso) => (iso || '').slice(11, 16);
+    const osszMin = Math.min(...d.temperature_2m_min.filter((x) => x !== null));
+    const osszMax = Math.max(...d.temperature_2m_max.filter((x) => x !== null));
+    const tart = Math.max(1, osszMax - osszMin);
+    const sel = s.wxSel && d.time.includes(s.wxSel) ? s.wxSel : ma;
+
+    const napok = d.time.map((iso, i) => {
+      const min = d.temperature_2m_min[i], max = d.temperature_2m_max[i];
+      const multbeli = iso < ma;
+      const k = d.weather_code[i];
+      return {
+        iso, i, multbeli,
+        nev: napNev(iso),
+        datum: datum(iso).toLocaleDateString('hu-HU', { month: 'short', day: 'numeric' }),
+        ikon: ikon(k), leiras: NEV[k] || 'Változékony',
+        max: kerek(max) + '°', min: kerek(min) + '°',
+        savBal: ((min - osszMin) / tart * 100).toFixed(1) + '%',
+        savSzel: Math.max(4, (max - min) / tart * 100).toFixed(1) + '%',
+        eso: multbeli ? (d.precipitation_sum[i] ? (Math.round(d.precipitation_sum[i] * 10) / 10) + ' mm' : 'nem esett')
+          : (d.precipitation_probability_max[i] !== null ? d.precipitation_probability_max[i] + '%' : '–'),
+        esoCim: multbeli ? 'Csapadék' : 'Eső esélye',
+        cls: [iso === ma ? 'is-today' : '', multbeli ? 'is-past' : '', iso === sel ? 'is-sel' : ''].filter(Boolean).join(' '),
+        on: () => this.setState({ wxSel: iso }),
+      };
+    });
+
+    // --- a kiválasztott nap részletei ---
+    const si = d.time.indexOf(sel);
+    const orak = W.hourly.time.map((t, j) => ({ t, j })).filter((x) => x.t.slice(0, 10) === sel);
+    const ht = orak.map((x) => W.hourly.temperature_2m[x.j]);
+    const hp = orak.map((x) => W.hourly.precipitation_probability[x.j]);
+    const tMin = Math.min(...ht), tMax = Math.max(...ht);
+    const lo = Math.floor(tMin - 2), hi = Math.ceil(tMax + 2);
+    const VW = 720, VH = 200, PAD = 14;
+    const xPos = (j) => PAD + (j / Math.max(1, orak.length - 1)) * (VW - PAD * 2);
+    const yPos = (t) => VH - 18 - ((t - lo) / Math.max(1, hi - lo)) * (VH - 46);
+    const pontok = ht.map((t, j) => [xPos(j), yPos(t)]);
+    const vonal = pontok.map((p, j) => (j ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    const terulet = pontok.length ? vonal + ' L' + pontok[pontok.length - 1][0].toFixed(1) + ' ' + (VH - 18) + ' L' + pontok[0][0].toFixed(1) + ' ' + (VH - 18) + ' Z' : '';
+    const most = (cur.time || '').slice(0, 13);
+    const oraLista = orak.map((x, j) => ({
+      ora: x.t.slice(11, 13),
+      cimke: j % 3 === 0 ? x.t.slice(11, 13) : '',
+      temp: kerek(ht[j]) + '°',
+      eso: (hp[j] === null || hp[j] === undefined ? '–' : hp[j]) + '%',
+      bal: (xPos(j) / VW * 100).toFixed(2) + '%',
+      pontFent: (yPos(ht[j]) / VH * 100).toFixed(2) + '%',
+      esoMag: Math.max(2, hp[j] || 0) + '%',
+      ikon: ikon(W.hourly.weather_code[x.j]),
+      cls: x.t.slice(0, 13) === most ? 'is-now' : '',
+    }));
+
+    // öltözködési tipp a napra
+    const nMax = d.temperature_2m_max[si], nMin = d.temperature_2m_min[si];
+    const valoban = d.apparent_temperature_min ? d.apparent_temperature_min[si] : nMin;
+    const esely = d.precipitation_probability_max[si] || 0;
+    const szel = d.wind_speed_10m_max[si] || 0;
+    const uv = d.uv_index_max ? d.uv_index_max[si] : 0;
+    const kod = d.weather_code[si];
+    const tippek = [];
+    if (nMax < 5) tippek.push({ ikon: 'snow', t: 'Nagyon hideg lesz: meleg kabát, sál, sapka és vastag cipő.' });
+    else if (nMax < 12) tippek.push({ ikon: 'cloud', t: 'Hideg nap: kabát és pulóver kell, zárt cipővel.' });
+    else if (nMax < 18) tippek.push({ ikon: 'partly', t: 'Átmeneti idő: rétegezz – póló, pulóver vagy ing, és egy könnyű kabát.' });
+    else if (nMax < 25) tippek.push({ ikon: 'sun', t: 'Kellemes idő: egy könnyű felső elég, estére vigyél egy vékony réteget.' });
+    else tippek.push({ ikon: 'sun', t: 'Meleg lesz: szellős, világos darabok, könnyű cipő.' });
+    if (nMax - nMin >= 9) tippek.push({ ikon: 'partly', t: 'Nagy a különbség reggel (' + kerek(nMin) + '°) és napközben (' + kerek(nMax) + '°) – a rétegek a legjobbak.' });
+    if (esely >= 50 || (kod >= 51 && kod <= 82) || kod >= 95) tippek.push({ ikon: 'rain', t: 'Esőre ' + esely + '% az esély: vízálló kabát, zárt cipő, esernyő.' });
+    else if (esely >= 25) tippek.push({ ikon: 'drizzle', t: 'Lehet egy kis eső (' + esely + '%) – egy esernyő nem árt.' });
+    if (szel >= 30) tippek.push({ ikon: 'fog', t: 'Erős szél (' + kerek(szel) + ' km/h): szélálló kabát, a laza sálat hagyd otthon.' });
+    if (uv >= 6) tippek.push({ ikon: 'sun', t: 'Erős UV (' + kerek(uv) + '): napszemüveg és sapka.' });
+    if (valoban !== null && valoban < nMin - 3) tippek.push({ ikon: 'cloud', t: 'Hidegebbnek fogod érezni (' + kerek(valoban) + '°), mint amit a hőmérő mutat.' });
+
+    const kerdes = (napNev(sel) === 'Ma' ? 'Ma' : napNev(sel) === 'Holnap' ? 'Holnap' : napNev(sel) + ' (' + datum(sel).toLocaleDateString('hu-HU', { month: 'long', day: 'numeric' }) + ')') +
+      ' ' + kerek(nMin) + '–' + kerek(nMax) + ' fok lesz, ' + (NEV[kod] || '').toLowerCase() + (esely >= 40 ? ', eshet az eső' : '') + '. Mit vegyek fel?';
+
+    Object.assign(out, {
+      wxIdozona: W.timezone || '',
+      wxMost: {
+        temp: kerek(cur.temperature_2m) + '°',
+        erzet: kerek(cur.apparent_temperature) + '°',
+        para: kerek(cur.relative_humidity_2m) + '%',
+        szel: kerek(cur.wind_speed_10m) + ' km/h',
+        leiras: NEV[cur.weather_code] || '',
+        ikon: ikon(cur.weather_code),
+        maxmin: 'Ma ' + kerek(d.temperature_2m_max[ti]) + '° / ' + kerek(d.temperature_2m_min[ti]) + '°',
+        nap: ora(d.sunrise[ti]) + ' – ' + ora(d.sunset[ti]),
+      },
+      wxElore: napok.filter((n) => !n.multbeli),
+      wxVissza: napok.filter((n) => n.multbeli).reverse(),
+      wxSel: {
+        nev: napNev(sel),
+        datum: datum(sel).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }),
+        leiras: NEV[kod] || '',
+        ikon: ikon(kod),
+        max: kerek(nMax) + '°', min: kerek(nMin) + '°',
+        eso: d.precipitation_sum[si] ? (Math.round(d.precipitation_sum[si] * 10) / 10) + ' mm' : '0 mm',
+        esely: (d.precipitation_probability_max[si] === null ? '–' : d.precipitation_probability_max[si]) + '%',
+        szel: kerek(szel) + ' km/h',
+        uv: uv === null || uv === undefined ? '–' : String(Math.round(uv * 10) / 10),
+        napkelte: ora(d.sunrise[si]), napnyugta: ora(d.sunset[si]),
+        multbeli: sel < ma,
+      },
+      wxVonal: vonal,
+      wxTerulet: terulet,
+      wxOrak: oraLista,
+      wxSkalaFent: hi + '°', wxSkalaLent: lo + '°',
+      wxTippek: tippek,
+      wxStylist: () => {
+        this.setState({ view: 'stylist', sel: null, editOpen: false });
+        setTimeout(() => this.stylistKuld(kerdes), 60);
+      },
+    });
+    return out;
+  }
+
+  // ==========================================================================
+  // SZENNYES – viselés után a mosható darabok ide kerülnek; színek szerint
+  // csoportosítva (sötét / fehér-világos / színes), csoportonként egy gombnyomással
+  // kivehetők. A cipő, a kabát és a kiegészítők nem kerülnek ide automatikusan.
+  // ==========================================================================
+  moshato(d) {
+    const h = helyDarab(d);
+    return h === 'felso' || h === 'also';
+  }
+
+  // demó: a viselt mosható darabok a szennyesbe (a valódi fióknál ezt a szerver intézi)
+  demoSzennyesbe(kulcsok) {
+    const darabok = this._demoDarabok || [];
+    const uj = { ...(this.state.demoSzennyes || {}) };
+    kulcsok.forEach((k) => { const d = darabok.find((x) => x.key === k); if (d && this.moshato(d)) uj[k] = true; });
+    this.setState({ demoSzennyes: uj });
+  }
+
+  renderSzennyesVals(v) {
+    const s = this.state;
+    const valos = !!v.napiValos;
+    if (!valos) this._demoDarabok = v.napiDarabok || [];
+    const isSzennyes = s.view === 'laundry';
+    const toSzennyes = () => this.setState({ view: 'laundry', sel: null, editOpen: false });
+    const szennyes = (v.napiDarabok || []).filter((d) => d.inLaundry);
+    const out = { isSzennyes, toSzennyes };
+    // menüpont az Okos szekrény után, a darabszámmal
+    const nav = (v.navItems || []).slice();
+    const hol = nav.findIndex((n) => n.icon === 'okos');
+    nav.splice(hol < 0 ? nav.length - 1 : hol + 1, 0, { label: szennyes.length ? 'Szennyes · ' + szennyes.length : 'Szennyes', icon: 'laundry', cls: isSzennyes ? 'is-active' : '', on: toSzennyes });
+    out.navItems = nav;
+    if (!isSzennyes) return out;
+    out.gridMod = 'is-norail';
+    out.railDisplay = 'none';
+
+    // színcsoport: sötét / fehér és világos / színes
+    const VILAGOS = new Set(['fehér', 'bézs', 'világosszürke', 'világoskék', 'rózsaszín', 'sárga']);
+    const SOTET = new Set(['fekete', 'sötétszürke', 'szürke', 'sötétkék', 'farmerkék', 'bordó', 'sötétzöld', 'barna', 'olíva', 'khaki']);
+    const csoport = (d) => {
+      const szin = styDarabSzin(d);
+      if (!szin) return { k: 'szines', szin: '' };
+      if (VILAGOS.has(szin)) return { k: 'vilagos', szin };
+      if (SOTET.has(szin)) return { k: 'sotet', szin };
+      return { k: 'szines', szin };
+    };
+    const kivesz = async (lista) => {
+      if (!lista.length) return;
+      if (valos) {
+        await Promise.all(lista.map((d) => fetch('/api/items/' + d.key, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ inLaundry: false }) })));
+        await this.reloadItems();
+      } else {
+        const uj = { ...(this.state.demoSzennyes || {}) };
+        lista.forEach((d) => { delete uj[d.key]; });
+        this.setState({ demoSzennyes: uj });
+      }
+      this.setState({ szennyesUzenet: lista.length === 1 ? '„' + lista[0].label + '” kimosva, újra viselhető.' : lista.length + ' darab kimosva, újra viselhetők.' });
+    };
+    // mosási adatok: a címke alapján, vagy becsülve (lásd careDarab)
+    const care = (d) => careDarab(d, valos ? d.care : (s.demoCare || {})[d.key]) || { mosas: '40', becsult: true };
+    const HOFOK_SOR = ['kezi', '30', '40', '60', '90'];
+    const hofokCsop = (d) => { const m = care(d).mosas; return m === '90' ? '60' : (m || '40'); };
+    // egy adag tanácsa: a legkényesebb darab szabja meg a programot
+    const tipp = (lista, szinSzerint) => {
+      if (!lista.length) return '';
+      const cs = lista.map(care);
+      const sorok = [];
+      if (szinSzerint) {
+        const moshato = cs.filter((c) => c.mosas !== 'tilos');
+        const min = moshato.map((c) => c.mosas).sort((a, b) => HOFOK_SOR.indexOf(a) - HOFOK_SOR.indexOf(b))[0];
+        const becsult = cs.filter((c) => c.becsult).length;
+        if (min) sorok.push('Program: ' + (min === 'kezi' ? 'kímélő / kézi mosás' : min + '°')
+          + (becsult === cs.length ? ' (becsült)' : becsult ? ' (részben becsült)' : ''));
+        const kezi = cs.filter((c) => c.mosas === 'kezi').length;
+        if (kezi && kezi < moshato.length) sorok.push(kezi + ' darab csak kézzel mosható – azt vedd ki külön');
+      } else {
+        const szinek = lista.map((d) => csoport(d).k);
+        if (szinek.includes('sotet') && szinek.includes('vilagos')) sorok.push('Sötét és világos is van benne – két adagban moss');
+      }
+      const tilos = cs.filter((c) => c.mosas === 'tilos').length;
+      if (tilos) sorok.push(tilos + ' darab nem mosható – vegytisztítóba való');
+      const szarito = cs.filter((c) => c.szarito === 'tilos').length;
+      if (szarito) sorok.push(szarito + ' darab ne menjen szárítógépbe');
+      return sorok.join(' · ');
+    };
+    const darabSor = (d) => {
+      const cs = csoport(d);
+      const c = care(d);
+      return {
+        label: d.label, cat: d.cat || '', photoUrl: d.photoUrl || '',
+        szin: cs.szin ? cs.szin : 'nincs felismert szín',
+        pont: cs.szin ? (SZIN_LISTA[cs.szin] || '') : '',
+        pontCls: cs.szin ? '' : 'is-ures',
+        fotoCls: d.photoUrl ? 'has-photo' : '',
+        mosas: (c.becsult ? '~' : '') + (CARE_MOSAS_NEV[c.mosas] || '') + (c.szarito === 'tilos' ? ' · ne szárítsd gépben' : ''),
+        mosasCls: c.becsult ? 'is-becsult' : '',
+        mosasCim: c.becsult ? 'Becsült érték – a darabnál fotózd le a címkét a pontos adatokért' : 'A mosási címke alapján',
+        kimos: () => kivesz([d]),
+      };
+    };
+    const hofokMod = s.szMod === 'hofok';
+    out.szModok = [['szin', 'Szín szerint'], ['hofok', 'Hőfok szerint']].map(([k, label]) => ({
+      label, cls: (hofokMod ? 'hofok' : 'szin') === k ? 'is-active' : '', on: () => this.setState({ szMod: k }),
+    }));
+    const CSOP = hofokMod ? [
+      { k: 'kezi', cim: 'Kézi és kímélő', alcim: 'Gyapjú, selyem és más kényes anyagok', gomb: 'Kézi adag kimosva', jel: 'Kézi' },
+      { k: '30', cim: '30°-os adag', alcim: 'Farmer, sportruha, viszkóz, élénk színek', gomb: '30°-os adag kimosva', jel: '30°' },
+      { k: '40', cim: '40°-os adag', alcim: 'Hétköznapi pamut és vegyes anyagok', gomb: '40°-os adag kimosva', jel: '40°' },
+      { k: '60', cim: '60° és felette', alcim: 'Fehér pamut, zokni, alsónemű', gomb: '60°-os adag kimosva', jel: '60°' },
+      { k: 'tilos', cim: 'Nem mosható', alcim: 'Vegytisztítóba vagy szellőztetés', gomb: 'Vegytisztítóból vissza', jel: '✕' },
+    ].filter((c) => c.k === '30' || c.k === '40' || szennyes.some((d) => hofokCsop(d) === c.k)) : [
+      { k: 'sotet', cim: 'Sötétek', alcim: 'Fekete, sötétkék, szürke, farmer, barna…', gomb: 'Sötétek kimosva', jel: '' },
+      { k: 'vilagos', cim: 'Fehérek és világosak', alcim: 'Fehér, bézs, világos árnyalatok', gomb: 'Fehérek kimosva', jel: '' },
+      { k: 'szines', cim: 'Színesek és egyéb', alcim: 'Élénk színek, mintás vagy felismeretlen színű darabok', gomb: 'Színesek kimosva', jel: '' },
+    ];
+    out.szCsoportok = CSOP.map((c) => {
+      const lista = szennyes.filter((d) => (hofokMod ? hofokCsop(d) : csoport(d).k) === c.k);
+      const t = tipp(lista, !hofokMod);
+      return {
+        cim: c.cim, alcim: c.alcim, jel: c.jel,
+        cls: (hofokMod ? 'is-h is-h-' : 'is-') + c.k + (lista.length ? '' : ' is-ures'),
+        db: lista.length + ' darab',
+        ures: lista.length === 0,
+        uresSzoveg: hofokMod ? 'Nincs ilyen hőfokú darab a szennyesben.' : 'Nincs ilyen színű darab a szennyesben.',
+        van: lista.length > 0,
+        tipp: t,
+        vanTipp: !!t,
+        gomb: c.gomb + (lista.length ? ' (' + lista.length + ')' : ''),
+        kimos: () => kivesz(lista),
+        darabok: lista.map(darabSor),
+      };
+    });
+    out.szOssz = szennyes.length;
+    out.szOsszSzoveg = szennyes.length ? szennyes.length + ' darab vár mosásra' : 'Üres a szennyes – minden ruhád tiszta';
+    out.szVan = szennyes.length > 0;
+    out.szUres = szennyes.length === 0;
+    out.szMind = () => kivesz(szennyes);
+    out.szUzenet = s.szennyesUzenet || '';
+    out.szVanUzenet = !!s.szennyesUzenet;
+    return out;
+  }
+
+  // ==========================================================================
+  // MOSÁSI CÍMKE – a kijelölt darab paneljén (fotó → szövegfelismerés → űrlap)
+  // ==========================================================================
+  careKijelolt(v) {
+    const s = this.state;
+    const darabok = v.napiDarabok || [];
+    if (!s.sel) return null;
+    if (v.napiValos) return darabok.find((d) => d.key === s.sel.id) || null;
+    return darabok.find((d) => d.label === s.sel.label && (!s.sel.cat || d.cat === s.sel.cat)) || null;
+  }
+
+  careFotoz = async (d, valos, sajat) => {
+    const file = await fajlValaszt(true);
+    if (!file) return;
+    const elonezet = URL.createObjectURL(file);
+    this.setState({
+      careEdit: { key: d.key, care: { ...(sajat || {}) }, elonezet },
+      careOlvas: true, careHiba: false,
+      careUzenet: 'Címke beolvasása… (első alkalommal a szövegfelismerő letöltése fél percig is eltarthat)',
+    });
+    // a címke fotója a darabhoz mentve (később is meg lehet nézni)
+    let kep = '';
+    if (valos) {
+      try {
+        const c = await kepCanvas(file, 1400, false);
+        const blob = await new Promise((ok) => c.toBlob(ok, 'image/jpeg', 0.85));
+        const up = await fetch('/api/photos', { method: 'POST', headers: { 'content-type': 'image/jpeg' }, body: blob });
+        if (up.ok) kep = (await up.json()).url || '';
+      } catch (e) { /* a fotó nélkül is mehet tovább */ }
+    }
+    let eredm = { care: {}, talalt: [] };
+    let hiba = false;
+    try {
+      const T = await tesseractBetolt();
+      const c = await kepCanvas(file, 1800, true);
+      const r = await Promise.race([
+        T.recognize(c, 'eng+hun'),
+        new Promise((_, rossz) => setTimeout(() => rossz(new Error('időtúllépés')), 90000)),
+      ]);
+      eredm = careOcrErtelmez(r && r.data ? r.data.text : '');
+    } catch (e) { hiba = true; }
+    const ed = this.state.careEdit;
+    if (!ed || ed.key !== d.key) return; // közben bezárta vagy másik darabra kattintott
+    const care = { ...ed.care, ...eredm.care };
+    if (kep) care.kep = kep;
+    else if (!valos) care.kep = elonezet;
+    this.setState({
+      careEdit: { ...ed, care }, careOlvas: false, careHiba: hiba || !eredm.talalt.length,
+      careUzenet: hiba
+        ? 'A szövegfelismerő most nem érhető el (nincs internet?). Koppints a címkén látható jelekre – a fotót elmentjük a darabhoz.'
+        : eredm.talalt.length
+          ? 'Felismertem: ' + eredm.talalt.join(', ') + '. Ellenőrizd a jeleket, aztán mentsd.'
+          : 'Nem találtam olvasható szöveget a címkén (a jeleket a gép nem tudja kiolvasni). Koppints a címkén látható jelekre.',
+    });
+  };
+
+  careMentes = async (d, valos, care) => {
+    const tiszta = {};
+    Object.keys(care || {}).forEach((k) => { if (care[k]) tiszta[k] = care[k]; });
+    const ertek = Object.keys(tiszta).length ? tiszta : null;
+    if (valos) {
+      try {
+        await fetch('/api/items/' + d.key, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ care: ertek }) });
+        await this.reloadItems();
+      } catch (e) { return this.setState({ careHiba: true, careUzenet: 'Nem sikerült menteni. Ellenőrizd, hogy fut-e a szerver.' }); }
+    } else {
+      this.setState({ demoCare: { ...(this.state.demoCare || {}), [d.key]: ertek } });
+    }
+    const ed = this.state.careEdit;
+    if (valos && ed && ed.elonezet) URL.revokeObjectURL(ed.elonezet);
+    this.setState({ careEdit: null, careOlvas: false, careUzenet: '', careHiba: false });
+  };
+
+  renderCareVals(v) {
+    const s = this.state;
+    const valos = !!v.napiValos;
+    const d = this.careKijelolt(v);
+    const out = { selCareVan: !!d, careEditOpen: false, selCareChipek: [], careSorok: [] };
+    if (!d) return out;
+    const sajat = valos ? d.care : (s.demoCare || {})[d.key];
+    const eff = careDarab(d, sajat);
+    const ed = s.careEdit && s.careEdit.key === d.key ? s.careEdit : null;
+    out.selCareChipek = careChipek(eff);
+    out.selCareAllapot = !eff ? 'Cipőnél, kiegészítőnél nincs mosási javaslat' : eff.becsult ? 'Becsült – fotózd le a címkét a pontos adatokért' : 'A mosási címke alapján';
+    out.selCareAllapotCls = eff && !eff.becsult ? 'is-pontos' : 'is-becsult';
+    out.selCareKep = (sajat && sajat.kep) || '';
+    out.selCareKepVan = !!out.selCareKep;
+    out.careFotoz = () => this.careFotoz(d, valos, sajat);
+    out.careSzerk = () => this.setState({ careEdit: { key: d.key, care: { ...(sajat || {}) } }, careUzenet: '', careHiba: false, careOlvas: false });
+    out.careFotoLabel = sajat && sajat.mosas ? 'Új címkefotó' : 'Címke fotózása';
+    out.careEditOpen = !!ed;
+    if (!ed) return out;
+    const allit = (k, val) => this.setState({ careEdit: { ...ed, care: { ...ed.care, [k]: val } } });
+    out.careSorok = CARE_SOROK.map((r) => ({
+      cim: r.cim,
+      opts: r.opts.map(([val, label]) => ({
+        label, cls: ed.care[r.k] === val ? 'is-active' : '',
+        on: () => allit(r.k, ed.care[r.k] === val ? '' : val),
+      })),
+    }));
+    out.careAnyag = ed.care.anyag || '';
+    out.onCareAnyag = (e) => allit('anyag', e.target.value);
+    out.careElonezet = ed.elonezet || ed.care.kep || '';
+    out.careElonezetVan = !!out.careElonezet;
+    out.careOlvas = !!s.careOlvas;
+    out.careUzenet = s.careUzenet || '';
+    out.careUzenetVan = !!s.careUzenet;
+    out.careUzenetCls = s.careOlvas ? 'is-olvas' : (s.careHiba ? 'is-hiba' : '');
+    out.careMentLabel = s.careOlvas ? 'Beolvasás…' : 'Mentés';
+    out.careMent = () => { if (!s.careOlvas) this.careMentes(d, valos, ed.care); };
+    out.careTorol = () => this.careMentes(d, valos, null);
+    out.careMegse = () => {
+      if (valos && ed.elonezet) URL.revokeObjectURL(ed.elonezet);
+      this.setState({ careEdit: null, careOlvas: false, careUzenet: '', careHiba: false });
+    };
+    return out;
+  }
+
+  // ==========================================================================
+  // "MEGVEGYEM?" – vásárlási segéd (lásd a VS_* állandókat fent)
+  // ==========================================================================
+  vsFotoValaszt = async () => {
+    const file = await fajlValaszt(true);
+    if (!file) return;
+    const s = this.state;
+    if (s.vsFoto) URL.revokeObjectURL(s.vsFoto);
+    const url = URL.createObjectURL(file);
+    this.setState({ vsFoto: url, vsFile: file, vsSzinOlvas: true });
+    try {
+      const sz = await szinFelismer(url);
+      if (this.state.vsFoto === url) this.setState({ vsSzin: sz ? sz.nev : this.state.vsSzin, vsSzinHex: sz ? sz.hex : '', vsSzinAuto: !!sz, vsSzinOlvas: false });
+    } catch (e) { this.setState({ vsSzinOlvas: false }); }
+  };
+
+  // az elemzés: tiszta függvény a darabokra (a sablontól független, könnyű tesztelni)
+  vsElemez(darabok, uj) {
+    const most = Date.now();
+    const aktiv = darabok.filter((d) => d && d.label);
+    const helyOfD = (d) => helyDarab(d);
+    const parok = VS_PAROK[uj.hely] || [];
+    // 1) mihez illik: a kiegészítő helyek darabjai, színharmóniával súlyozva
+    const illok = aktiv.filter((d) => parok.includes(helyOfD(d)))
+      .map((d) => ({ d, p: vsSzinIllik(uj.szin, styDarabSzin(d)) }))
+      .filter((x) => x.p >= 0.5)
+      .sort((a, b) => b.p - a.p || (b.d.wearCount || 0) - (a.d.wearCount || 0));
+    const helyenkent = {};
+    illok.forEach((x) => { const h = helyOfD(x.d); helyenkent[h] = (helyenkent[h] || 0) + 1; });
+    // 2) hány új outfit jön ki belőle (felső × alsó × cipő jellegű kombinációk)
+    const fo = parok.filter((h) => h !== 'kabat');
+    let kombi = fo.reduce((acc, h) => acc * Math.max(1, helyenkent[h] || 0), 1);
+    if (!fo.some((h) => helyenkent[h])) kombi = 0;
+    // 3) hasonló darab, ami már megvan (ugyanaz a hely és nagyon hasonló szín)
+    const hasonlo = aktiv.filter((d) => helyOfD(d) === uj.hely).filter((d) => {
+      const sz = styDarabSzin(d);
+      return (uj.szin && sz === uj.szin) || hexTav(uj.hex, d.szinHex) < 70;
+    });
+    const parlagon = hasonlo.filter((d) => !d.wearCount || (d.lastWornAt && most - d.lastWornAt > 90 * 864e5));
+    // 4) becsült viselések egy évben a saját szokásaid alapján (ugyanilyen helyű darabok)
+    const sajat = aktiv.filter((d) => helyOfD(d) === uj.hely && d.createdAt && d.wearCount);
+    let evente = VS_ALAP_VISELES[uj.hely] || 30;
+    if (sajat.length >= 2) {
+      const rata = sajat.map((d) => d.wearCount / Math.max(0.25, (most - d.createdAt) / (365 * 864e5)));
+      evente = Math.round(Math.min(150, Math.max(4, rata.reduce((a, b) => a + b, 0) / rata.length)));
+    }
+    const verseny = Math.max(1, aktiv.filter((d) => helyOfD(d) === uj.hely).length / 6);
+    evente = Math.max(3, Math.round(evente / Math.sqrt(verseny) / (1 + hasonlo.length * 0.35)));
+    const cpw = uj.ar > 0 ? uj.ar / evente : null;
+    // 5) pontszám és indoklás
+    let pont = 40;
+    const okok = [];
+    const illDb = illok.length;
+    pont += Math.min(illDb, 10) * 3;
+    if (illDb >= 6) okok.push({ jo: true, t: illDb + ' meglévő darabodhoz illik – sokoldalú vétel.' });
+    else if (illDb >= 1) okok.push({ jo: illDb >= 3, t: 'Csak ' + illDb + ' meglévő darabodhoz illik igazán.' });
+    else okok.push({ jo: false, t: 'Egyik meglévő darabodhoz sem illik jól – külön szett kellene hozzá.' });
+    const helyDb = aktiv.filter((d) => helyOfD(d) === uj.hely).length;
+    const helyNev = (VS_HELYEK.find(([k]) => k === uj.hely) || [, 'darab'])[1].toLowerCase();
+    if (helyDb < 3) { pont += 10; okok.push({ jo: true, t: 'Kevés ' + helyNev + ' van a szekrényedben (' + helyDb + ') – hiánypótló.' }); }
+    if (!hasonlo.length) { pont += 12; okok.push({ jo: true, t: 'Nincs még hasonló darabod – új színt / formát hoz.' }); }
+    else { pont -= Math.min(30, hasonlo.length * 10); okok.push({ jo: false, t: 'Már van ' + hasonlo.length + ' hasonló: ' + hasonlo.slice(0, 2).map((d) => '„' + d.label + '”').join(', ') + (hasonlo.length > 2 ? '…' : '') + '.' }); }
+    if (parlagon.length) { pont -= Math.min(20, parlagon.length * 8); okok.push({ jo: false, t: parlagon.length + ' hasonló darabod régóta (vagy soha) nem volt rajtad.' }); }
+    if (uj.szin && SEMLEGES_SZIN.has(uj.szin)) { pont += 5; okok.push({ jo: true, t: 'Semleges szín (' + uj.szin + ') – szinte mindennel megy.' }); }
+    else if (uj.szin) {
+      // élénk szín: csak a semleges darabjaidhoz megy igazán
+      const utkozo = illok.length ? 0 : 1;
+      pont -= 5 + utkozo * 5;
+      okok.push({ jo: false, t: 'Élénk szín (' + uj.szin + ') – főleg a semleges darabjaiddal tudod párosítani.' });
+    }
+    if (cpw !== null) {
+      if (cpw <= 300) { pont += 10; okok.push({ jo: true, t: 'Egy viselése kb. ' + ftForma(cpw) + ' lenne – jó ár/érték.' }); }
+      else if (cpw > 3000) { pont -= 20; okok.push({ jo: false, t: 'Egy viselése kb. ' + ftForma(cpw) + ' lenne – drága ahhoz képest, milyen gyakran hordanád.' }); }
+      else if (cpw > 1200) { pont -= 8; okok.push({ jo: false, t: 'Egy viselése kb. ' + ftForma(cpw) + ' lenne – közepesen drága.' }); }
+      else okok.push({ jo: true, t: 'Egy viselése kb. ' + ftForma(cpw) + ' lenne.' });
+    }
+    pont = Math.max(0, Math.min(100, Math.round(pont)));
+    return { illok: illok.map((x) => x.d), kombi, hasonlo, parlagon, evente, cpw, pont, okok };
+  }
+
+  renderVasarlasVals(v) {
+    const s = this.state;
+    const isVasarlas = s.view === 'shop';
+    const toVasarlas = () => this.setState({ view: 'shop', sel: null, editOpen: false });
+    const out = { isVasarlas, toVasarlas };
+    const nav = (v.navItems || []).slice();
+    const hol = nav.findIndex((n) => n.icon === 'stylist');
+    nav.splice(hol < 0 ? 1 : hol + 1, 0, { label: 'Megvegyem?', icon: 'bag', cls: isVasarlas ? 'is-active' : '', on: toVasarlas });
+    out.navItems = nav;
+    if (!isVasarlas) return out;
+    out.gridMod = 'is-norail';
+    out.railDisplay = 'none';
+
+    const darabok = v.napiDarabok || [];
+    // a hely: amit kiválasztott, vagy a beírt névből kitalált
+    const nevHely = (() => {
+      const n = s.vsNev || '';
+      if (!n.trim()) return '';
+      const x = HELY_MINTA.find(([, re]) => re.test(n));
+      return x ? x[0] : '';
+    })();
+    const hely = s.vsHely || nevHely || 'felso';
+    // szín: a fotóról felismert, a kézzel választott, vagy a névből
+    const nevSzin = styNorm(s.vsNev || '').split(' ').map(stySzinSzo).find(Boolean) || '';
+    const szin = s.vsSzin || nevSzin || '';
+    const ar = parseInt(String(s.vsAr || '').replace(/\D/g, ''), 10) || 0;
+    const kesz = !!(s.vsFoto || (s.vsNev || '').trim() || s.vsSzin);
+
+    out.vsFoto = s.vsFoto || '';
+    out.vsVanFoto = !!s.vsFoto;
+    out.vsNincsFoto = !s.vsFoto;
+    out.vsFotoValaszt = () => this.vsFotoValaszt();
+    out.vsNev = s.vsNev || '';
+    out.onVsNev = (e) => this.setState({ vsNev: e.target.value });
+    out.vsAr = s.vsAr || '';
+    out.onVsAr = (e) => this.setState({ vsAr: e.target.value.replace(/[^\d ]/g, '') });
+    out.vsHelyek = VS_HELYEK.map(([k, label]) => ({
+      label, cls: hely === k ? 'is-active' : '',
+      on: () => this.setState({ vsHely: k }),
+    }));
+    out.vsHelyTipp = !s.vsHely && nevHely ? 'A névből: ' + (VS_HELYEK.find(([k]) => k === nevHely) || ['', ''])[1] : '';
+    out.vsSzinek = Object.keys(SZIN_LISTA).map((nev) => ({
+      label: nev, dot: SZIN_LISTA[nev], cls: szin === nev ? 'is-active' : '',
+      on: () => this.setState({ vsSzin: szin === nev ? '' : nev, vsSzinAuto: false, vsSzinHex: '' }),
+    }));
+    out.vsSzinCim = s.vsSzinOlvas ? 'Szín felismerése…' : (szin ? (s.vsSzinAuto ? 'Felismert szín: ' + szin : 'Szín: ' + szin) : 'Válaszd ki a színét');
+    out.vsSzinDot = szin ? (s.vsSzinHex || SZIN_LISTA[szin] || '') : '';
+    out.vsUjra = () => {
+      if (s.vsFoto) URL.revokeObjectURL(s.vsFoto);
+      this.setState({ vsFoto: '', vsFile: null, vsNev: '', vsAr: '', vsHely: '', vsSzin: '', vsSzinHex: '', vsSzinAuto: false });
+    };
+    out.vsKesz = kesz;
+    out.vsUres = !kesz;
+    out.vsKevesDarab = darabok.length < 3;
+    if (!kesz) return out;
+
+    const e = this.vsElemez(darabok, { hely, szin, hex: s.vsSzinHex || '', ar });
+    const itelet = e.pont >= 70 ? ['Megéri', 'is-jo', 'Jól illik a szekrényedhez – ezt tényleg hordanád.']
+      : e.pont >= 45 ? ['Gondold át', 'is-kozep', 'Van mellette és ellene is érv. Aludj rá egyet.']
+        : ['Inkább hagyd ki', 'is-rossz', 'Valószínűleg a szekrényben maradna. Keress jobban illőt.'];
+    out.vsPont = String(e.pont);
+    out.vsGyuruBg = 'conic-gradient(var(--vs-szin) 0 ' + Math.round(e.pont * 3.6) + 'deg, var(--vs-ures) 0)';
+    out.vsItelet = itelet[0];
+    out.vsIteletCls = itelet[1];
+    out.vsIteletSzoveg = itelet[2];
+    out.vsOkok = e.okok.map((o) => ({ t: o.t, cls: o.jo ? 'is-jo' : 'is-rossz', jel: o.jo ? '+' : '–' }));
+    const kombiSzoveg = e.kombi > 99 ? '99+' : String(e.kombi);
+    out.vsStatok = [
+      { szam: String(e.illok.length), cim: 'darabodhoz illik' },
+      { szam: kombiSzoveg, cim: 'új outfit-lehetőség' },
+      { szam: String(e.hasonlo.length), cim: 'hasonló már megvan' },
+      { szam: e.cpw !== null ? ftForma(e.cpw) : '—', cim: e.cpw !== null ? 'egy viselés (~' + e.evente + ' viselés / év)' : 'add meg az árát a viselésenkénti árhoz' },
+    ];
+    const kartya = (d) => ({
+      label: d.label, sub: [styDarabSzin(d), d.cat].filter(Boolean).join(' · '),
+      photoUrl: d.photoUrl || '', cls: d.photoUrl ? 'has-photo' : '',
+      viseles: d.wearCount ? d.wearCount + '× viselted' : 'még nem viselted',
+    });
+    out.vsIllok = e.illok.slice(0, 12).map(kartya);
+    out.vsVanIllo = e.illok.length > 0;
+    out.vsHasonlok = e.hasonlo.slice(0, 8).map(kartya);
+    out.vsVanHasonlo = e.hasonlo.length > 0;
+    // megvette: átvisszük a feltöltéshez (fotó, név, ár előtöltve)
+    out.vsVanMegvett = !!s.vsFile;
+    out.vsMegvettem = () => {
+      if (s.vsFile) this.vsAtad(s.vsFile, (s.vsNev || '').trim() || (szin ? szin + ' ' : '') + (VS_HELYEK.find(([k]) => k === hely) || ['', 'darab'])[1].toLowerCase(), ar ? String(ar) : '');
+    };
+    return out;
+  }
+
+  // a megvett darab a "Hozzáadás" feltöltőbe kerül: fotó, név és ár előtöltve, a háttér is lekerül
+  vsAtad(file, nev, ar) {
+    const s = this.state;
+    const kulcs = 'vasarlas-' + Date.now();
+    this.setState({
+      drops: [...s.drops, kulcs],
+      phonePhotos: { ...s.phonePhotos, [kulcs]: URL.createObjectURL(file) },
+      dropNames: { ...(s.dropNames || {}), [kulcs]: nev },
+      dropPrices: { ...(s.dropPrices || {}), [kulcs]: ar },
+      view: 'add', addMode: 'foto', sel: null, editOpen: false,
+    });
+    this.hatterFeldolgoz(kulcs);
+  }
+
+  renderStylistVals(v) {
+    const s = this.state;
+    this._sty = { darabok: v.napiDarabok || [], valos: !!v.napiValos };
+    const msgs = s.chatMsgs || this.stylistKezdo();
+    const pref = s.chatPref || {};
+    const chips = s.chatChips || ['Esős időben megyek egy drága étterembe', 'Valami laza a hétvégére', 'Állásinterjúm lesz', 'Edzésre megyek', 'Lepj meg!'];
+    const N = {
+      alkalom: { munka: 'Munka', program: 'Program / vacsora', buli: 'Buli', sport: 'Sport', laza: 'Laza nap', mindegy: 'Mindegy' },
+      stilus: { elegans: 'Elegáns', laza: 'Laza', sportos: 'Sportos', street: 'Utcai', mindegy: 'Mindegy' },
+      ido: { hideg: 'Hideg', huvos: 'Hűvös', enyhe: 'Enyhe', meleg: 'Meleg', eso: 'Esős', mindegy: 'Mindegy' },
+    };
+    const szinNev = (x) => (!x ? '' : x === 'semleges' ? 'Semleges' : x === 'szines' ? 'Színes' : x === 'mindegy' ? 'Mindegy' : x[0].toUpperCase() + x.slice(1));
+    const sor = (label, ertek, ico) => ({ label, value: ertek || 'Még nem tudom', cls: ertek ? 'is-set' : '', icon: ico });
+    const isStylist = s.view === 'stylist';
+    const out = {
+      isStylist,
+      toStylist: () => this.setState({ view: 'stylist', sel: null, editOpen: false }),
+      chatMsgs: msgs.map((m, i) => ({
+        cls: m.from === 'bot' ? 'is-bot' : 'is-me',
+        isBot: m.from === 'bot',
+        text: m.text,
+        hasOutfit: !!(m.outfit && m.outfit.length),
+        outfit: (m.outfit || []).map((d) => ({ ...d, cls: d.photoUrl ? 'has-photo' : '' })),
+        okok: (m.okok || []).map((t) => ({ t })),
+        hasOkok: !!(m.okok && m.okok.length),
+      })),
+      chatChips: chips.map((c) => ({ label: c, on: () => this.stylistKuld(c) })),
+      chatHasChips: chips.length > 0 && !s.chatTyping,
+      chatTyping: !!s.chatTyping,
+      chatInput: s.chatInput || '',
+      onChatInput: (e) => this.setState({ chatInput: e.target.value }),
+      onChatKey: (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.stylistKuld(e.target.value); } },
+      chatSend: () => this.stylistKuld(s.chatInput),
+      chatSendCls: (s.chatInput || '').trim() ? 'is-ready' : '',
+      chatReset: () => this.setState({ chatMsgs: this.stylistKezdo(), chatPref: {}, chatMag: 1, chatKerdes: '', chatProba: 0, chatUtolso: null, chatTyping: false, chatChips: null, chatInput: '' }),
+      chatPrefs: [
+        sor('Alkalom', N.alkalom[pref.alkalom], 'calendar'),
+        sor('Stílus', N.stilus[pref.stilus], 'sparkle'),
+        sor('Időjárás', N.ido[pref.ido] ? N.ido[pref.ido] + (pref.idoAuto ? ' · ' + pref.idoAuto : '') : '', 'sun'),
+        sor('Szín', [szinNev(pref.szin), pref.arny === 'sotet' ? 'Sötét tónusok' : pref.arny === 'vilagos' ? 'Világos tónusok' : ''].filter(Boolean).join(' · '), 'palette'),
+        sor('Részletek', (pref.cimkek || []).filter((c) => !/^nem /.test(c)).slice(-4).join(' · '), 'tag'),
+        sor('Kerülöm', [...(pref.szinNot || []), ...(pref.kerul || []).map((k) => (k.szin ? k.szin + ' ' : '') + k.nev), ...(pref.kabat === false ? ['kabát'] : [])].join(', '), 'close'),
+      ],
+      chatItemCount: String((v.napiDarabok || []).length),
+    };
+    // menüpont a Főoldal / Ma után
+    const nav = (v.navItems || []).slice();
+    const hol = nav.findIndex((n) => n.icon === 'home');
+    nav.splice(hol < 0 ? 1 : hol + 1, 0, { label: 'Stylist', icon: 'stylist', cls: isStylist ? 'is-active' : '', on: out.toStylist });
+    out.navItems = nav;
+    if (isStylist) { out.gridMod = 'is-norail'; out.railDisplay = 'none'; }
+    return out;
+  }
+
+  // FŐOLDAL (nyitóoldal) – ide érkezel belépés után: üdvözlés, gyors műveletek
+  // és csúsztatható kártyasorok (kategóriák, outfitek, inspiráció a katalógusból).
+  // A demó és a valódi mód kész értékeiből dolgozik, ezért mindkettőben működik.
+  renderStartVals(v) {
+    const s = this.state;
+    const isStart = s.view === 'start';
+    const num = (x) => parseInt(x, 10) || 0;
+    const tiles = v.homeTiles || [];
+    const outfits = v.outfitList || [];
+    const idle = v.idleItems || [];
+    const total = tiles.reduce((a, t) => a + num(t.count), 0);
+    // a sáv nyilai: a kártyasor egy "képernyőnyit" görget
+    const slide = (dir) => (e) => {
+      const sec = e.currentTarget.closest('.we-start-sec');
+      const track = sec && sec.querySelector('.we-start-track');
+      if (track) track.scrollBy({ left: dir * Math.max(240, track.clientWidth * 0.8), behavior: 'smooth' });
+    };
+    // inspiráció: a katalógus termékei eBay-fotóval (márkánként egy), a futószalaghoz kétszer egymás után
+    if (isStart) this.ebayKepekBetolt();
+    const kepek = s.ebayKepek || {};
+    const inspo = KATALOGUS.filter((t) => !t.generikus && kepek[t.key]).filter((t, i, arr) => arr.findIndex((x) => x.marka === t.marka) === i).slice(0, 14)
+      .map((t) => ({
+        brand: t.marka, name: t.nev, kind: t.tipus,
+        photoUrl: kepek[t.key], credit: 'Fotó: eBay',
+        on: () => this.setState({ view: 'add', addMode: 'kat', katBrand: t.marka, katKind: '', katQ: '', sel: null, editOpen: false }),
+      }));
+    const go = (view, extra) => () => this.setState({ view, sel: null, editOpen: false, ...(extra || {}) });
+    const features = [
+      { title: 'Okos statisztika', line: 'Kategóriák, színek és a szekrényed értéke egy helyen.', icon: 'chart', tag: 'Elemzés', on: go('okos', { okosTab: 'stat' }) },
+      { title: 'Kapszulagardrób', line: 'Kevés darab, sok kombináció. Nézd meg, mi hiányzik.', icon: 'outfits', tag: 'Stílus', on: go('okos', { okosTab: 'kapszula' }) },
+      { title: 'Bőröndpakoló', line: 'Napokra bontott csomaglista az időjárás alapján.', icon: 'calendar', tag: 'Utazás', on: go('okos', { okosTab: 'utazas' }) },
+      { title: 'Kihasználatlan', line: idle.length ? idle.length + ' darab vár arra, hogy újra felvedd.' : 'Minden darabodat hordod mostanában.', icon: 'untouched', tag: 'Rendrakás', on: go('untouched') },
+    ];
+    const nav = (v.navItems || []).map((n) => (n.icon === 'home' ? { ...n, label: 'Ma' } : n));
+    const startNav = { label: 'Főoldal', icon: 'start', cls: isStart ? 'is-active' : '', on: go('start') };
+    const hour = new Date().getHours();
+    const out = {
+      isStart,
+      navItems: [startNav, ...nav],
+      toHome: go('start'),
+      startGreeting: (hour < 10 ? 'Jó reggelt' : hour < 18 ? 'Szia' : 'Szép estét') + ', ' + (v.firstName || 'Barátom') + '!',
+      startDate: new Date().toLocaleDateString('hu-HU', { weekday: 'long', month: 'long', day: 'numeric' }),
+      startWeather: (v.weatherTemp || '') + (v.weatherLine ? ' · ' + v.weatherLine : ''),
+      startStats: [
+        { value: String(total), label: 'darab' },
+        { value: String(tiles.length), label: 'kategória' },
+        { value: String(outfits.length), label: 'outfit' },
+        { value: String(idle.length), label: 'kihasználatlan' },
+      ],
+      startToToday: go('home'),
+      startToAdd: v.toAdd,
+      startToBuilder: v.toBuilder,
+      startToWardrobe: v.viewAll,
+      startToOutfits: go('outfits'),
+      startCats: tiles.map((t, i) => ({ ...t, idx: String(i + 1).padStart(2, '0') })),
+      startCatsEmpty: tiles.length === 0,
+      startOutfits: outfits.map((o) => ({ name: o.name, sub: o.sub, thumbs: o.thumbs, mark: o.mark, on: o.on })),
+      startOutfitsEmpty: outfits.length === 0,
+      startInspo: inspo.concat(inspo),
+      startHasInspo: inspo.length > 0,
+      startFeatures: features,
+      startPrev: slide(-1),
+      startNext: slide(1),
+    };
+    if (isStart) { out.gridMod = 'is-norail'; out.railDisplay = 'none'; }
+    return out;
+  }
+
+  // Egy még el nem mentett fotó extra mezői: háttér-eltávolítás állapota és ár
+  dropExtra(file) {
+    const s = this.state;
+    const allapot = (s.hatter || {})[file] || '';
+    const vanFoto = !!s.phonePhotos[file];
+    const szoveg = {
+      fut: 'Háttér eltávolítása…', kesz: 'Háttér eltávolítva · eredeti', eredeti: 'Eredeti fotó · háttér levágása', hiba: 'Nem sikerült · újra',
+    }[allapot] || 'Háttér eltávolítása';
+    return {
+      hatterVan: vanFoto,
+      hatterLabel: szoveg,
+      hatterCls: allapot ? 'is-' + allapot : '',
+      hatterIcon: allapot === 'kesz' ? 'undo' : (allapot === 'fut' ? 'refresh' : 'image'),
+      hatterValt: () => this.hatterValt(file),
+      boxCls: allapot === 'kesz' ? 'is-kivagott' : '',
+      price: (s.dropPrices || {})[file] || '',
+      onPrice: (e) => this.setState({ dropPrices: { ...(s.dropPrices || {}), [file]: e.target.value.replace(/[^0-9]/g, '') } }),
+    };
+  }
+
+  // Viselésenkénti ár egy ruhára: ár / viselések száma, és hogy mennyi lesz pár viselés múlva
+  cpwVals(item) {
+    const ures = { selCpwVan: false, selCpwFo: '', selCpwSor: '', selCpwHint: '' };
+    if (!item) return ures;
+    if (item.price === null || item.price === undefined) {
+      return { ...ures, selCpwHint: 'Add meg az árát a „Szerkesztés”-ben, és kiszámolom, mennyibe kerül egy viselése.' };
+    }
+    const db = item.wearCount || 0;
+    if (!db) {
+      return { selCpwVan: true, selCpwFo: ftForma(item.price), selCpwSor: 'Ár · még egyszer sem viselted',
+        selCpwHint: 'Minden viseléssel csökken, mennyibe került egy alkalom.' };
+    }
+    const cel = db < 10 ? 10 : (db < 30 ? 30 : db + 20);
+    return {
+      selCpwVan: true,
+      selCpwFo: ftForma(item.price / db) + ' / viselés',
+      selCpwSor: ftForma(item.price) + ' · ' + db + ' viselés',
+      selCpwHint: (cel - db) + ' viselés múlva már csak ' + ftForma(item.price / cel) + ' lesz.',
+    };
+  }
+
+  // "Mit vegyek fel ma?" és a próbababák (kezdőlap, outfit-nézet, összeállító).
+  // A két mód (demó / valódi) a base-ben adja át a darabokat egységes formában:
+  // { key, label, cat, photoUrl, lastWornAt, wornToday, kivagott }
+  renderUjVals(base) {
+    const s = this.state;
+    const darabok = (base.napiDarabok || []).filter((d) => !d.inLaundry && !d.needsRepair);
+    const mag = s.napiMag || maiMag();
+    const napi = napiOutfit(darabok, s.weather, mag);
+    const fok = napi.fok;
+    const regi = napi.darabok
+      .filter((d) => d.lastWornAt && Date.now() - d.lastWornAt > 60 * 864e5)
+      .map((d) => d.label)[0];
+    let ok = fok === null ? 'Az időjárást nem sikerült lekérni, ezért kabát nélkül állítottam össze.'
+      : Math.round(fok) + '° ' + (s.weather && s.weather.description ? '(' + s.weather.description.toLowerCase() + ')' : '') +
+        (fok < 16 ? ': kabát is kell.' : ': kabát nélkül is jó.');
+    if (regi) ok += ' A(z) ' + regi + ' régóta vár a szekrényben.';
+    const hianyzik = ['felso', 'also', 'cipo'].filter((h) => !napi.darabok.some((d) => helyDarab(d) === h));
+    const ids = napi.darabok.map((d) => d.key);
+    const maiNev = 'Napi outfit · ' + new Date().toLocaleDateString('hu-HU', { month: 'short', day: 'numeric' });
+    // hány fotón van még háttér (valódi fióknál): ezekről egy gombbal levehető
+    const hatteres = base.napiValos ? (s.items || []).filter((it) => it.photoUrl && !it.origPhotoUrl && !it.removedAt).length : 0;
+    const hm = s.hatterMind;
+    return {
+      babaHatterVan: !!(hm || hatteres || s.hatterMindUzenet),
+      babaHatterFut: !!hm,
+      babaHatterSzoveg: hm
+        ? 'Háttér eltávolítása: ' + hm.kesz + ' / ' + hm.ossz + ' kész…'
+        : hatteres
+          ? hatteres + ' fotódon még látszik a háttér. Háttér nélkül a ruha egészben, pontosan illeszkedik a babára.'
+          : (s.hatterMindUzenet || ''),
+      babaHatterGomb: hatteres && !hm,
+      babaHatterGombLabel: 'Háttér eltávolítása mind (' + hatteres + ')',
+      babaHatterSzazalek: hm ? Math.round(hm.kesz / hm.ossz * 100) + '%' : '0%',
+      babaHatterInditas: () => this.realHatterMind(),
+      napiVan: darabok.length > 0,
+      napiBaba: babaAdat(napi.darabok),
+      napiOk: ok,
+      napiHiany: hianyzik.length
+        ? 'Még nincs ' + hianyzik.map((h) => BABA_HELY_NEV[h].toLowerCase()).join(', ') + ' a szekrényedben, ezért az kimaradt.'
+        : '',
+      napiLista: napi.darabok.map((d) => ({ label: d.label, hely: BABA_HELY_NEV[helyDarab(d)], photoUrl: d.photoUrl || '' })),
+      napiUzenet: s.napiUzenet || '',
+      napiMasik: () => this.setState({ napiMag: mag + 1, napiUzenet: '' }),
+      napiViselem: async () => {
+        if (!ids.length) return;
+        if (base.napiValos) {
+          await Promise.all(ids.map((id) => fetch('/api/items/' + id, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ wornToday: true }) })));
+          await this.reloadItems();
+        } else {
+          const worn = { ...s.worn }; ids.forEach((k) => { worn[k] = true; });
+          this.setState({ worn });
+          this.demoSzennyesbe(ids);
+        }
+        this.setState({ napiUzenet: 'Naplózva: ma ezt viseled. A mosható darabok a szennyesbe kerültek.' });
+      },
+      napiMent: async () => {
+        if (!ids.length) return;
+        if (base.napiValos) {
+          await fetch('/api/outfits', {
+            method: 'POST', headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ name: maiNev, occasion: 'Bármilyen alkalom', season: 'Bármilyen évszak', itemIds: ids }),
+          });
+          await this.reloadOutfits();
+          this.setState({ napiUzenet: 'Elmentve az Outfitek közé „' + maiNev + '” néven.' });
+        } else {
+          this.setState({ napiUzenet: 'A demóban nem lehet menteni - jelentkezz be a saját szekrényeddel.' });
+        }
+      },
+      outfitBaba: babaAdat(base.outfitDarabok || []),
+      builderBaba: babaAdat(base.builderDarabok || []),
+      napiHarmonia: szinHarmonia(napi.darabok),
+      outfitHarmonia: szinHarmonia(base.outfitDarabok || []),
+      builderHarmonia: szinHarmonia(base.builderDarabok || []),
+    };
+  }
+
+  // ==========================================================================
+  // OKOS SZEKRÉNY: statisztika, kapszulagardrób, bőröndpakoló, mosás/állapot
+  // A darabok ugyanabban a formában jönnek, mint a napi ajánlathoz (base.napiDarabok).
+  // ==========================================================================
+  renderOkosVals(base) {
+    const s = this.state;
+    const darabok = base.napiDarabok || [];
+    const valos = !!base.napiValos;
+    const tab = s.okosTab || 'stat';
+    const fulek = [['stat', 'Statisztika', 'chart'], ['kapszula', 'Kapszulagardrób', 'outfits'], ['utazas', 'Bőröndpakoló', 'calendar'], ['mosas', 'Mosás és állapot', 'refresh']]
+      .map(([k, l, i]) => ({ label: l, icon: i, cls: tab === k ? 'is-active' : '', on: () => this.setState({ okosTab: k }) }));
+    const hely = (d) => helyDarab(d);
+    const db = (h) => darabok.filter((d) => hely(d) === h).length;
+    const szazalek = (n, ossz) => (ossz ? Math.round((n / ossz) * 100) : 0) + '%';
+
+    // --- Statisztika ---
+    const arasak = darabok.filter((d) => d.price);
+    const ertek = arasak.reduce((a, d) => a + d.price, 0);
+    const viselesek = arasak.reduce((a, d) => a + Math.max(1, d.wearCount || 0), 0);
+    const kpi = [
+      { label: 'Darab', value: String(darabok.length) },
+      { label: 'A szekrény értéke', value: arasak.length ? ftForma(ertek) : '—' },
+      { label: 'Átlag / viselés', value: arasak.length ? ftForma(ertek / viselesek) : '—' },
+      { label: 'Szennyesben', value: String(darabok.filter((d) => d.inLaundry).length) },
+    ];
+    const katSzam = {};
+    darabok.forEach((d) => { const k = d.cat || 'Kategória nélkül'; katSzam[k] = (katSzam[k] || 0) + 1; });
+    const katMax = Math.max(1, ...Object.values(katSzam));
+    const katSorok = Object.entries(katSzam).sort((a, b) => b[1] - a[1])
+      .map(([nev, n]) => ({ nev, db: n + ' db', szel: Math.round((n / katMax) * 100) + '%' }));
+    const szinSzam = {};
+    darabok.forEach((d) => { if (d.szin) szinSzam[d.szin] = (szinSzam[d.szin] || 0) + 1; });
+    const szinOssz = Object.values(szinSzam).reduce((a, b) => a + b, 0);
+    const szinSav = Object.entries(szinSzam).sort((a, b) => b[1] - a[1])
+      .map(([nev, n]) => ({ nev, hex: SZIN_LISTA[nev] || '#888', szel: szazalek(n, szinOssz), db: n + ' db' }));
+    const markaSzam = {};
+    darabok.forEach((d) => {
+      const m = d.marka || KAT_MARKAK.find((x) => katNormal(d.label).indexOf(katNormal(x) + ' ') === 0);
+      if (m) markaSzam[m] = (markaSzam[m] || 0) + 1;
+    });
+    const markaMax = Math.max(1, ...Object.values(markaSzam));
+    const markaSorok = Object.entries(markaSzam).sort((a, b) => b[1] - a[1]).slice(0, 8)
+      .map(([nev, n]) => ({ nev, db: n + ' db', szel: Math.round((n / markaMax) * 100) + '%' }));
+    const legtobb = darabok.filter((d) => d.wearCount > 0).sort((a, b) => b.wearCount - a.wearCount).slice(0, 5)
+      .map((d) => ({ label: d.label, sub: d.wearCount + ' viselés', photoUrl: d.photoUrl || '' }));
+    const legjobbVetel = darabok.filter((d) => d.price && d.wearCount > 0)
+      .sort((a, b) => a.price / a.wearCount - b.price / b.wearCount).slice(0, 3)
+      .map((d) => ({ label: d.label, sub: ftForma(d.price / d.wearCount) + ' / viselés', photoUrl: d.photoUrl || '' }));
+    // tanácsok a szekrény egyensúlyáról
+    const tanacsok = [];
+    const F = db('felso'), A = db('also'), C = db('cipo'), K = db('kabat');
+    if (darabok.length) {
+      if (!A) tanacsok.push('Még nincs alsód (nadrág, szoknya) a szekrényben, így nem tudok teljes outfitet összerakni.');
+      else if (F >= A * 3) tanacsok.push(F + ' felsőhöz csak ' + A + ' alsó tartozik: egy új nadrág rengeteg új outfitet nyitna.');
+      if (A && A >= F * 3) tanacsok.push(A + ' alsóhoz csak ' + F + ' felső tartozik: érdemes pár felsővel bővíteni.');
+      if (!C) tanacsok.push('Még nincs cipő a szekrényedben: adj hozzá egyet, és teljesek lesznek az outfitek.');
+      if (!K) tanacsok.push('Nincs kabátod a szekrényben: hűvös napokon nem tudok kabátot ajánlani.');
+      const elenk = Object.keys(szinSzam).filter((x) => !SEMLEGES_SZIN.has(x)).reduce((a, x) => a + szinSzam[x], 0);
+      if (szinOssz >= 6 && elenk / szinOssz > 0.6) tanacsok.push('A ruháid több mint fele élénk színű: néhány semleges darab (fekete, fehér, bézs) sokkal több kombinációt adna.');
+      const nemViselt = darabok.filter((d) => !d.wearCount).length;
+      if (valos && darabok.length >= 5 && nemViselt / darabok.length > 0.4) tanacsok.push(nemViselt + ' darabot még egyszer sem jelöltél viseltnek. Használd az „Ezt veszem fel” gombot, és pontosabb lesz a statisztika.');
+      if (!tanacsok.length) tanacsok.push('Kiegyensúlyozott a szekrényed, minden kategóriából jut darab az outfitekhez.');
+    }
+    const szinNelkul = valos ? (s.items || []).filter((it) => !it.removedAt && it.photoUrl && !it.color).length : 0;
+
+    // --- Kapszulagardrób ---
+    const kapszula = s.kapszula || {};
+    const kivalasztott = darabok.filter((d) => kapszula[d.key]);
+    const kH = (h) => kivalasztott.filter((d) => hely(d) === h);
+    const kombi = kH('felso').length * kH('also').length * kH('cipo').length * (kH('kabat').length + 1);
+    const hianyK = ['felso', 'also', 'cipo'].filter((h) => !kH(h).length).map((h) => BABA_HELY_NEV[h].toLowerCase());
+    const peldak = [];
+    if (!hianyK.length) {
+      const rnd = prng(42 + kivalasztott.length);
+      const lattuk = {};
+      for (let p = 0; p < 60 && peldak.length < 4; p++) {
+        const v = (lista) => lista[Math.floor(rnd() * lista.length)];
+        const csomag = [v(kH('felso')), v(kH('also')), v(kH('cipo'))];
+        if (kH('kabat').length && rnd() < 0.5) csomag.unshift(v(kH('kabat')));
+        const kulcs = csomag.map((d) => d.key).sort().join('|');
+        if (lattuk[kulcs]) continue;
+        lattuk[kulcs] = true;
+        peldak.push({ baba: babaAdat(csomag), nevek: csomag.map((d) => d.label).join(' · '), harmonia: szinHarmonia(csomag) });
+      }
+    }
+    const kapszulaAjanl = () => {
+      // sokoldalú alapkapszula: semleges színek és a legtöbbet hordott darabok előnyben
+      const pont = (d) => (d.wearCount || 0) * 3 + (d.szin && SEMLEGES_SZIN.has(d.szin) ? 10 : 0) + (d.inLaundry ? -100 : 0);
+      const valaszt = {};
+      [['felso', 4], ['also', 3], ['cipo', 2], ['kabat', 1]].forEach(([h, n]) => {
+        darabok.filter((d) => hely(d) === h).sort((a, b) => pont(b) - pont(a)).slice(0, n).forEach((d) => { valaszt[d.key] = true; });
+      });
+      this.setState({ kapszula: valaszt });
+    };
+
+    // --- Bőröndpakoló ---
+    const ut = s.utazas || {};
+    const utEredmeny = ut.eredmeny;
+    let napTerv = [], csomag = [];
+    const tippek = [];
+    if (utEredmeny) {
+      const elerheto = darabok.filter((d) => !d.inLaundry && !d.needsRepair);
+      const hasznalt = {}; // kulcs -> hány napon kerül elő
+      napTerv = utEredmeny.napok.map((n, i) => {
+        // a már becsomagolt felsőket "frissen viseltnek" vesszük, így változatos lesz;
+        // az alsók és a cipők szívesebben ismétlődnek (kevesebb csomag)
+        const lista = elerheto.map((d) => {
+          if (!hasznalt[d.key]) return hely(d) === 'felso' ? d : { ...d, lastWornAt: Date.now() - 200 * 864e5 };
+          return { ...d, lastWornAt: Date.now() - (hely(d) === 'felso' ? 0 : 400) * 864e5 };
+        });
+        const terv = napiOutfit(lista, { tempC: (n.max + n.min) / 2 + 2 }, 100 + i * 31);
+        terv.darabok.forEach((d) => { hasznalt[d.key] = (hasznalt[d.key] || 0) + 1; });
+        const datum = new Date(n.datum + 'T12:00:00');
+        return {
+          cim: datum.toLocaleDateString('hu-HU', { month: 'short', day: 'numeric', weekday: 'short' }),
+          ido: Math.round(n.max) + '° / ' + Math.round(n.min) + '° · ' + n.leiras + (n.eso !== null && n.eso !== undefined ? ' · ' + n.eso + '% eső' : ''),
+          baba: babaAdat(terv.darabok),
+          nevek: terv.darabok.map((d) => d.label).join(' · ') || 'Nincs elég ruha egy outfithez',
+        };
+      });
+      const pipa = ut.pipa || {};
+      csomag = BABA_HELYEK.map((h) => ({
+        cim: BABA_HELY_NEV[h],
+        darabok: elerheto.filter((d) => hasznalt[d.key] && hely(d) === h).map((d) => ({
+          label: d.label, photoUrl: d.photoUrl || '', sub: hasznalt[d.key] + ' napra',
+          cls: pipa[d.key] ? 'is-pipa' : '',
+          on: () => this.setState({ utazas: { ...this.state.utazas, pipa: { ...pipa, [d.key]: !pipa[d.key] } } }),
+        })),
+      })).filter((g) => g.darabok.length);
+      const n = utEredmeny.napok;
+      if (n.some((x) => (x.eso || 0) >= 50 || [61, 63, 65, 80, 81, 82, 95, 96, 99].includes(x.kod))) tippek.push('Esős napok is lesznek: vigyél esernyőt vagy vízálló kabátot.');
+      if (n.some((x) => x.max - x.min >= 10)) tippek.push('Nagy lesz a különbség a nappali és az éjszakai hőmérséklet között: öltözz rétegesen.');
+      if (n.some((x) => x.kod <= 1 && x.max >= 20)) tippek.push('Napos idő várható: napszemüveget is tegyél be.');
+      if (n.some((x) => x.min <= 3)) tippek.push('Fagyos éjszakák jönnek: sapka, sál és meleg kabát is kell.');
+      if (utEredmeny.becsult) tippek.push('Az utazás 16 napnál messzebb van, ezért az időjárás csak becslés. Az indulás előtt nézd meg újra.');
+    }
+    const utKeres = async () => {
+      const most = this.state.utazas || {};
+      const hova = (most.hely || '').trim();
+      if (!hova) { this.setState({ utazas: { ...most, hiba: 'Írd be, hová utazol.' } }); return; }
+      this.setState({ utazas: { ...most, fut: true, hiba: '' } });
+      try {
+        const q = new URLSearchParams({ hely: hova, napok: String(most.napok || 3) });
+        if (most.indulas) q.set('indulas', most.indulas);
+        const j = await (await fetch('/api/utazas?' + q.toString())).json();
+        if (!j.ok) {
+          this.setState({ utazas: { ...this.state.utazas, fut: false, hiba: j.error === 'place_not_found'
+            ? 'Nem találom ezt a helyet. Próbáld meg másképp írni (pl. „Barcelona”, „London”).'
+            : 'Az előrejelzés most nem érhető el, próbáld újra később.' } });
+          return;
+        }
+        this.setState({ utazas: { ...this.state.utazas, fut: false, eredmeny: j, pipa: {} } });
+      } catch (e) {
+        this.setState({ utazas: { ...this.state.utazas, fut: false, hiba: 'Az előrejelzés most nem érhető el (nincs internet?).' } });
+      }
+    };
+
+    // --- Mosás és állapot ---
+    const allapotSor = (d, mezo, gombFelirat) => ({
+      label: d.label, photoUrl: d.photoUrl || '', sub: d.cat || '', gomb: gombFelirat,
+      on: () => (valos ? this.realAllapot(d.key, { [mezo]: false }) : null),
+    });
+    const szennyes = darabok.filter((d) => d.inLaundry);
+    const javitas = darabok.filter((d) => d.needsRepair);
+
+    return {
+      isOkos: s.view === 'okos',
+      okosFulek: fulek,
+      okosStat: tab === 'stat', okosKapszula: tab === 'kapszula', okosUtazas: tab === 'utazas', okosMosas: tab === 'mosas',
+      okosKpi: kpi,
+      okosKatSorok: katSorok,
+      okosSzinVan: szinSav.length > 0,
+      okosSzinSav: szinSav,
+      okosSzinHiany: szinNelkul ? szinNelkul + ' fotós ruhádnak még nincs felismert színe.' : '',
+      okosSzinGomb: s.szinFut ? 'Színek felismerése… ' + s.szinFut.kesz + ' / ' + s.szinFut.ossz : 'Színek felismerése a fotókból',
+      okosSzinIndit: () => this.realSzinekFelismer(),
+      okosMarkaVan: markaSorok.length > 0,
+      okosMarkaSorok: markaSorok,
+      okosLegtobbVan: legtobb.length > 0,
+      okosLegtobb: legtobb,
+      okosVetelVan: legjobbVetel.length > 0,
+      okosVetel: legjobbVetel,
+      okosTanacsok: tanacsok.map((t) => ({ szoveg: t })),
+      // kapszula
+      kapszulaDarabok: darabok.map((d) => ({
+        label: d.label, photoUrl: d.photoUrl || '', hely: BABA_HELY_NEV[hely(d)], cls: kapszula[d.key] ? 'is-valasztva' : '',
+        on: () => this.setState({ kapszula: { ...(this.state.kapszula || {}), [d.key]: !kapszula[d.key] } }),
+      })),
+      kapszulaDb: kivalasztott.length + ' darab kiválasztva',
+      kapszulaSzam: String(kombi),
+      kapszulaSzoveg: hianyK.length
+        ? 'Válassz legalább egy ' + hianyK.join(', ') + ' darabot is, és kiszámolom, hány outfit jön ki belőlük.'
+        : 'különböző outfit jön ki ebből a ' + kivalasztott.length + ' darabból' + (kH('kabat').length ? ' (kabáttal és anélkül)' : '') + '.',
+      kapszulaPeldak: peldak,
+      kapszulaVanPelda: peldak.length > 0,
+      kapszulaAjanl,
+      kapszulaTorol: () => this.setState({ kapszula: {} }),
+      // utazás
+      utHely: ut.hely || '',
+      onUtHely: (e) => this.setState({ utazas: { ...(this.state.utazas || {}), hely: e.target.value } }),
+      utIndulas: ut.indulas || '',
+      onUtIndulas: (e) => this.setState({ utazas: { ...(this.state.utazas || {}), indulas: e.target.value } }),
+      utNapok: [2, 3, 4, 5, 7, 10, 14].map((n) => ({
+        label: n + ' nap', cls: (ut.napok || 3) === n ? 'is-active' : '',
+        on: () => this.setState({ utazas: { ...(this.state.utazas || {}), napok: n } }),
+      })),
+      utKeres,
+      utGomb: ut.fut ? 'Előrejelzés lekérése…' : 'Bőrönd összeállítása',
+      utHiba: ut.hiba || '',
+      utVan: !!utEredmeny,
+      utCim: utEredmeny ? utEredmeny.hely + ' · ' + utEredmeny.napok.length + ' nap' : '',
+      utNapTerv: napTerv,
+      utCsomag: csomag,
+      utTippek: tippek.map((t) => ({ szoveg: t })),
+      utTippVan: tippek.length > 0,
+      // mosás
+      mosasSzennyes: szennyes.map((d) => allapotSor(d, 'inLaundry', 'Kimostam')),
+      mosasJavitas: javitas.map((d) => allapotSor(d, 'needsRepair', 'Megjavítva')),
+      mosasSzennyesUres: szennyes.length === 0,
+      mosasJavitasUres: javitas.length === 0,
+      mosasMindVan: szennyes.length > 1,
+      mosasMind: async () => {
+        if (!valos || !szennyes.length) return;
+        await Promise.all(szennyes.map((d) => fetch('/api/items/' + d.key, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ inLaundry: false }) })));
+        await this.reloadItems();
+      },
+    };
+  }
+
+  // "Ruhák hozzáadása" oldal: fül-váltó (fotó / katalógus) és a katalógus-keresés.
+  // `base.katCats` a felhasználó kategórianevei (demóban és valódi módban is).
+  // ==========================================================================
+  // EBAY – termékfotók a katalógushoz és szabad keresés (csak bejelentkezve;
+  // a kulcs a szerveren van, lásd server/ebay.js)
+  // ==========================================================================
+  ebayAllapotKer = async () => {
+    if (this._ebayAllapotKert) return;
+    this._ebayAllapotKert = true;
+    try {
+      const r = await fetch('/api/ebay/status');
+      const j = await r.json();
+      this.setState({ ebayStatus: j.ebay || null });
+    } catch (e) { this.setState({ ebayStatus: { configured: false, ok: false, error: 'offline' } }); }
+  };
+
+  // a szerver által már letöltött összes katalóguskép (bejelentkezés nélkül is; legfeljebb percenként frissítve,
+  // mert a szerver a háttérben folyamatosan tölti le a többit)
+  ebayKepekBetolt() {
+    if (this._ebayKepekIdo && Date.now() - this._ebayKepekIdo < 60 * 1000) return;
+    this._ebayKepekIdo = Date.now();
+    setTimeout(async () => {
+      try {
+        const r = await fetch('/api/ebay/katalogus-kepek');
+        if (!r.ok) return;
+        const j = await r.json();
+        const uj = {};
+        Object.keys(j.kepek || {}).forEach((k) => { uj[k] = '/api/ebay/kep?u=' + encodeURIComponent(j.alap + j.kepek[k]); });
+        this.setState({ ebayKepek: { ...uj, ...(this.state.ebayKepek || {}) } });
+      } catch (e) { /* nem fut a szerver: a márkakártyák látszanak */ }
+    }, 0);
+  }
+
+  // a látható, még kép nélküli katalógustermékek képe (egyszerre kérve, megjegyezve)
+  ebayKatalogusKer(termekek) {
+    if (!this._ebayKert) this._ebayKert = new Set();
+    const uj = termekek.filter((t) => !this._ebayKert.has(t.key));
+    if (!uj.length) return;
+    uj.forEach((t) => this._ebayKert.add(t.key));
+    setTimeout(async () => {
+      try {
+        const r = await fetch('/api/ebay/katalogus', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ items: uj.map((t) => ({ key: t.key, q: (t.generikus ? 'női ' + t.nev : t.marka + ' ' + t.nev) })) }),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) {
+          // nem működik a kulcs: legközelebb újra próbáljuk (pl. aktiválás után)
+          uj.forEach((t) => this._ebayKert.delete(t.key));
+          this._ebayAllapotKert = false;
+          return;
+        }
+        this.setState({ ebayKepek: { ...(this.state.ebayKepek || {}), ...(j.kepek || {}) } });
+      } catch (e) { uj.forEach((t) => this._ebayKert.delete(t.key)); }
+    }, 0);
+  }
+
+  // szabad keresés az eBay-en (gépelés után fél másodperccel)
+  ebayKeresIdozit(q) {
+    clearTimeout(this._ebayKeresIdo);
+    const k = (q || '').trim();
+    if (k.length < 3) { this.setState({ ebayTalalat: null }); return; }
+    this._ebayKeresIdo = setTimeout(async () => {
+      this.setState({ ebayTalalat: { q: k, items: (this.state.ebayTalalat || {}).items || [], betolt: true } });
+      try {
+        const r = await fetch('/api/ebay/kereses?q=' + encodeURIComponent(k));
+        const j = await r.json().catch(() => ({}));
+        if ((this.state.katQ || '').trim() !== k) return; // közben tovább gépelt
+        this.setState({ ebayTalalat: { q: k, items: r.ok ? (j.items || []) : [], betolt: false, hiba: !r.ok } });
+      } catch (e) { this.setState({ ebayTalalat: { q: k, items: [], betolt: false, hiba: true } }); }
+    }, 500);
+  }
+
+  renderKatalogusVals(base) {
+    const s = this.state;
+    const kategoriak = base.katCats || [];
+    const kat = s.addMode === 'kat';
+    const q = katNormal(s.katQ).trim();
+    const szavak = q ? q.split(/\s+/) : [];
+    // férfi fióknál a női típusokat kihagyjuk (valódi fióknál a regisztrációkor választott profil, a demóban a Férfi/Nő választás)
+    const ferfi = (s.realUser ? s.realUser.profile : (s.who || this.props.profile || 'Male')) !== 'Female';
+    const kinalat = ferfi ? KATALOGUS.filter((t) => !t.generikus && !KAT_NOI_TIPUSOK.has(t.tipus)) : KATALOGUS;
+    const markak = ferfi ? KAT_MARKAK.filter((m) => kinalat.some((t) => t.marka === m)) : KAT_MARKAK;
+    const csoportok = KAT_CSOPORTOK.filter((k) => kinalat.some((t) => KAT_CSOPORT[t.tipus] === k));
+    const talalatok = kinalat.filter((t) => {
+      if (s.katBrand && t.marka !== s.katBrand) return false;
+      if (s.katKind && KAT_CSOPORT[t.tipus] !== s.katKind) return false;
+      if (!szavak.length) return true;
+      const hol = katNormal(t.marka + ' ' + t.nev + ' ' + t.tipus + ' ' + (KAT_CSOPORT[t.tipus] || ''));
+      return szavak.every((sz) => hol.indexOf(sz) > -1);
+    });
+    const limit = s.katLimit || 48;
+    const added = s.katAdded || {};
+    const lathato = talalatok.slice(0, limit);
+    const kartya = (t) => ({
+      // a márka nélküli női alapdaraboknál a kártyán a darab színe áll (az illik a kártya színéhez)
+      brand: t.generikus ? t.nev.split(' ')[0] : t.marka, name: t.nev, kind: t.tipus, bg: t.bg, fg: t.fg,
+      // a márka a címkén áll; alatta a típus (a női alapdaraboknál ez jelzi, hogy márka nélküli)
+      brandSub: t.generikus ? 'Női alapdarab · ' + t.tipus : t.tipus,
+      photoUrl: t.kep || '',
+      credit: t.credit || '',
+      thumbCls: t.kep ? 'has-photo' : '',
+      cls: bennVan(t) ? 'is-added' : '',
+      icon: bennVan(t) ? 'check' : 'plus',
+      addLabel: bennVan(t) ? 'Hozzáadva' : 'Hozzáadás',
+      add: () => this.katValt(t, kategoriak),
+    });
+    // csak azokat jelöljük "hozzáadva"-nak, amik még tényleg a listában vannak (mentés/elvetés után már nem)
+    const bennVan = (t) => added[t.key] && s.drops.includes(added[t.key]);
+
+    // --- eBay: fotók a látható termékekhez és szabad keresés (csak valódi fiókkal) ---
+    const ebayVan = kat && !!s.realUser;
+    // a termékfotók az eBay-ről jönnek: a szerver által már letöltöttek mindenkinek, a hiányzókat
+    // bejelentkezve azonnal lekérjük (a többit a szerver a háttérben tölti le)
+    const ebayKepek = s.ebayKepek || {};
+    if (kat) this.ebayKepekBetolt();
+    const est = s.ebayStatus;
+    if (ebayVan && !est) setTimeout(() => this.ebayAllapotKer(), 0);
+    if (ebayVan && est && est.ok) this.ebayKatalogusKer(lathato.filter((t) => !ebayKepek[t.key]));
+    const et = s.ebayTalalat;
+    const ebayKartya = (i) => {
+      const cim = i.title.replace(/\s+/g, ' ').trim();
+      const marka = KAT_MARKAK.find((m) => m !== 'eBay' && new RegExp('\\b' + m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(cim)) || 'eBay';
+      const t = {
+        key: 'ebay|' + i.id, marka, generikus: false, tipus: ebayTipus(cim),
+        nev: (marka !== 'eBay' ? cim.replace(new RegExp(marka.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), '').trim() : cim).slice(0, 70),
+        // a felismert márka saját színei a címkén (ismeretlen márkánál az eBay színe)
+        ...(() => { const b = (window.WARDRO_KATALOGUS || []).find((x) => x.marka === marka); return b ? { bg: b.bg, fg: b.fg } : { bg: '#0064D2', fg: '#FFFFFF' }; })(),
+        kep: i.image,
+        credit: 'Fotó: eBay' + (i.condition ? ' · ' + i.condition : ''),
+      };
+      return { ...kartya(t), brandSub: (i.price !== null ? i.price.toLocaleString('hu-HU') + ' ' + i.currency + ' · ' : '') + t.tipus };
+    };
+    const ebayVals = {
+      ebayFigy: ebayVan && est && !est.ok
+        ? (est.error === 'not_configured'
+          ? 'Az eBay-képekhez add meg a kulcsokat a server/ebay.config.json fájlban.'
+          : est.error === 'invalid_client'
+            ? 'Az eBay elutasította a kulcsot (invalid_client). Aktiváld a Production kulcspárt a developer.ebay.com oldalon – addig a márkakártyák látszanak.'
+            : 'Az eBay most nem érhető el – a márkakártyák látszanak.')
+        : '',
+      ebayBlokk: ebayVan && !!et,
+      ebayCim: et ? (et.betolt ? 'Keresés az eBay-en…' : et.hiba ? 'Az eBay-keresés most nem sikerült.' : et.items.length ? 'Az eBay-en is: ' + et.items.length + ' találat erre: „' + et.q + '”' : 'Az eBay-en sincs találat erre: „' + et.q + '”') : '',
+      ebayVanTalalat: !!(et && et.items.length),
+      ebayTalalatok: et ? et.items.map(ebayKartya) : [],
+    };
+    const chip = (label, on, aktiv) => ({ label, on, cls: aktiv ? 'is-active' : '' });
+    return {
+      isKatalogus: kat,
+      isFotoMod: !kat,
+      showNoDrops: !kat && !!base.noDrops,
+      addTabFotoCls: kat ? '' : 'is-active',
+      addTabKatCls: kat ? 'is-active' : '',
+      toAddFoto: () => this.setState({ addMode: 'foto' }),
+      toAddKat: () => this.setState({ addMode: 'kat' }),
+      katQ: s.katQ || '',
+      onKatQ: (e) => { this.setState({ katQ: e.target.value, katLimit: 48 }); if (ebayVan) this.ebayKeresIdozit(e.target.value); },
+      katHasQ: !!(s.katQ || '').trim(),
+      clearKatQ: () => this.setState({ katQ: '', katLimit: 48, ebayTalalat: null }),
+      ...ebayVals,
+      katBrands: [chip('Összes márka', () => this.setState({ katBrand: '', katLimit: 48 }), !s.katBrand)]
+        .concat(markak.map((m) => chip(m, () => this.setState({ katBrand: s.katBrand === m ? '' : m, katLimit: 48 }), s.katBrand === m))),
+      katKinds: [chip('Minden típus', () => this.setState({ katKind: '', katLimit: 48 }), !s.katKind)]
+        .concat(csoportok.map((k) => chip(k, () => this.setState({ katKind: s.katKind === k ? '' : k, katLimit: 48 }), s.katKind === k))),
+      katLine: talalatok.length
+        ? talalatok.length + ' termék'
+        : 'Nincs találat. Próbálj rövidebb keresést, vagy válassz másik márkát.',
+      katEmpty: talalatok.length === 0,
+      katResults: lathato.map((t) => kartya({ ...t, kep: ebayKepek[t.key] || '', credit: ebayKepek[t.key] ? 'Fotó: eBay' : '' })),
+      katHasSel: kat && s.drops.length > 0,
+      katSelLine: s.drops.length + ' termék kiválasztva',
+      katToSel: () => {
+        const el = document.querySelector('.we-has-drops-grid1');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      },
+      katMore: talalatok.length > limit,
+      katMoreLabel: 'Továbbiak (' + (talalatok.length - limit) + ')',
+      katShowMore: () => this.setState({ katLimit: limit + 48 }),
+    };
   }
 
   // Naptár nézet + a jobb oldali "kijelölt nap" panel értékei (valódi mód).
@@ -730,6 +3883,11 @@ class Component extends DCLogic {
         noteFg: isWorn ? 'var(--c-6b5940)' : (flags && x.note ? 'var(--c-8a5a22)' : 'var(--c-6b5940)'),
         border: s.sel && s.sel.label === x.label ? '2px solid var(--c-57462f)' : '2px solid transparent',
         on: this.select(x.label, x.cat, x.note),
+        cls: s.sel && s.sel.label === x.label ? 'is-sel' : '',
+        subCls: !isWorn && flags && x.note ? 'is-regi' : '',
+        marka: '', markaVan: false, markaBg: '', markaFg: '',
+        // a demó darabjainak nincs valódi fotója, ott a csíkozott helyőrző marad
+        photoUrl: '', imgDisplay: 'none', placeholderDisplay: 'block',
       };
     });
     if (s.filter === 'Rég nem viselt') pieces = pieces.filter((p) => p.note && !s.worn[p.key]);
@@ -768,22 +3926,22 @@ class Component extends DCLogic {
       { key: 'shoes', role: 'Cipő', cat: 'Cipők', empty: 'Válassz cipőt' },
       { key: 'extra', role: 'Extra', cat: 'Kiegészítők', empty: 'Opcionális' },
     ].concat((s.bMore || []).map((k, i) => ({ key: k, role: 'Extra ' + (i + 2), cat: '*', empty: 'Válassz bármilyen darabot', removable: true })));
-    const slotItems = (sl) => (sl.cat === '*' ? allItems : inCat(sl.cat));
+    const slotItems = (sl) => slotSzur(sl.key, allItems).darabok;
     const slot = bSlots.find((x) => x.key === s.bSlot);
     const bReady = s.bPicks.top && s.bPicks.bottom && s.bPicks.shoes;
 
     // Segédfüggvények a sablon elemeihez: oldalsáv-gomb (nav), kategória-sor (catRow), szűrő-chip (chipOf)
+    // A kinézetet (aktív állapot, ikon) a CSS adja: `cls` és `icon` osztálynevek.
     const nav = (text, view) => ({
-      label: text,
-      bg: s.view === view ? 'var(--c-6e5b41)' : 'transparent',
-      fg: s.view === view ? 'var(--c-f6f1e7)' : 'var(--c-d8c9ae)',
-      on: () => this.setState({ view, editOpen: false, sel: view === 'wardrobe' ? s.sel : null }),
+      label: text, icon: view,
+      cls: s.view === view ? 'is-active' : '',
+      on: () => this.setState(view === 'wardrobe'
+        ? { view, cat: 'All', filter: 'Összes', q: '', editOpen: false }
+        : { view, editOpen: false, sel: null }),
     });
     const catRow = (text, key, count) => ({
       label: text, count: String(count),
-      bg: s.cat === key && s.view === 'wardrobe' ? 'var(--c-6e5b41)' : 'transparent',
-      fg: s.cat === key && s.view === 'wardrobe' ? 'var(--c-f6f1e7)' : 'var(--c-d8c9ae)',
-      countFg: s.cat === key && s.view === 'wardrobe' ? 'var(--c-e4d9c6)' : 'var(--c-c9b99e)',
+      cls: s.cat === key && s.view === 'wardrobe' ? 'is-active' : '',
       on: () => this.setState({ view: 'wardrobe', cat: key, filter: 'Összes', editOpen: false }),
     });
     const chipOf = (text, key, active) => ({
@@ -818,9 +3976,17 @@ class Component extends DCLogic {
 
     return {
       // Bejelentkezés / regisztráció
-      isAuth: authMode === 'login' || authMode === 'signup',
+      isAuth: authMode === 'login' || authMode === 'signup' || authMode === 'verify',
       isLogin: authMode === 'login',
       isSignup: authMode === 'signup',
+      isVerify: authMode === 'verify',
+      verifyEmail: s.verifyEmail || '',
+      verifyMsg: s.verifyMsg || '',
+      verifyVanMsg: !!s.verifyMsg,
+      verifyMsgCls: s.verifyHiba ? 'is-hiba' : '',
+      verifyResendLabel: s.verifyKuld ? 'Küldés…' : 'Megerősítő e-mail újraküldése',
+      doResend: () => this.realResend(),
+      verifyToLogin: () => this.setState({ auth: 'login', lEmail: s.verifyEmail || s.lEmail, verifyMsg: '', lErr: '' }),
       toSignup: () => this.setState({ auth: 'signup', lErr: '', resetSent: '' }),
       toLogin: () => this.setState({ auth: 'login', suErr: '' }),
       lEmail: s.lEmail,
@@ -839,9 +4005,9 @@ class Component extends DCLogic {
       doLogin: () => {
         if (!validEmail(s.lEmail)) return this.setState({ lErr: 'Add meg a regisztrációkor használt e-mail címet.', resetSent: '' });
         if (!s.lPw) return this.setState({ lErr: 'Add meg a jelszavad.', resetSent: '' });
-        this.setState({ ...BASE, auth: 'app', view: 'home', fresh: true, sEmail: s.lEmail.trim(), lPw: '', lErr: '', resetSent: '' });
+        this.setState({ ...BASE, auth: 'app', view: 'start', fresh: true, sEmail: s.lEmail.trim(), lPw: '', lErr: '', resetSent: '' });
       },
-      appleLogin: () => this.setState({ ...BASE, auth: 'app', view: 'home', fresh: true, lErr: '', resetSent: '' }),
+      appleLogin: () => this.setState({ ...BASE, auth: 'app', view: 'start', fresh: true, lErr: '', resetSent: '' }),
       suName: s.suName,
       suEmail: s.suEmail,
       suPw: s.suPw,
@@ -862,7 +4028,7 @@ class Component extends DCLogic {
         if (s.suPw.length < 8) return this.setState({ suErr: 'A jelszónak legalább 8 karakteresnek kell lennie.' });
         if (!s.suGender) return this.setState({ suErr: 'Válaszd a Férfit vagy a Nőt a folytatáshoz.' });
         this.setState({
-          ...BASE, view: 'home', auth: 'app', fresh: true,
+          ...BASE, view: 'start', auth: 'app', fresh: true,
           who: s.suGender, sName: s.suName.trim(), sEmail: s.suEmail.trim(),
           suPw: '', suErr: '',
         });
@@ -875,7 +4041,7 @@ class Component extends DCLogic {
       isOutfitsFilled: s.view === 'outfits' && list.length > 0,
       outfitsEmpty: s.view === 'outfits' && list.length === 0,
       outfitsEmptyLine: total ? 'Válassz egy felsőt, egy alsót és cipőt a hozzáadott ruháid közül, majd nevezd el.' : 'Először adj hozzá pár darabot a szekrényedhez. Utána itt tudod összeállítani az első outfitedet.',
-      outfitsEmptyCta: total ? 'Első outfit összeállítása' : 'Fotók hozzáadása',
+      outfitsEmptyCta: total ? 'Első outfit összeállítása' : 'Ruhák hozzáadása',
       outfitsEmptyGo: total
         ? () => this.setState({ view: 'builder', sel: null, bName: '', bOcc: '', bSeason: '', bPicks: {}, bMore: [], bSlot: 'top', bLogDay: '' })
         : () => this.setState({ view: 'add', sel: null, editOpen: false }),
@@ -892,7 +4058,7 @@ class Component extends DCLogic {
       isUntouched: s.view === 'untouched',
       isSettings: s.view === 'settings',
       isAdd: s.view === 'add',
-      navItems: [nav('Outfitek', 'outfits'), nav('Kihasználatlan', 'untouched'), nav('Eltávolított', 'removed'), nav('Beállítások', 'settings')],
+      navItems: [nav('Kezdőlap', 'home'), nav('Szekrény', 'wardrobe'), nav('Outfitek', 'outfits'), nav('Okos szekrény', 'okos'), nav('Kihasználatlan', 'untouched'), nav('Eltávolított', 'removed'), nav('Beállítások', 'settings')],
       // Eltávolított ruhák (30 napig várnak a végleges törlésig)
       isRemoved: s.view === 'removed',
       toRemoved: () => this.setState({ view: 'removed', sel: null, editOpen: false }),
@@ -928,8 +4094,26 @@ class Component extends DCLogic {
         };
       }),
       // Oldalsáv: kategóriák listája darabszámmal
-      catNav: [catRow('Összes', 'All', total)].concat(rawAll.map((n) => catRow(label(n), n, inCat(n).length))),
+      catNav: rawAll.map((n) => catRow(label(n), n, inCat(n).length)),
+      katCats: rawAll, // a katalógusból hozzáadott termékek kategória-felismeréséhez
+      // "Mit vegyek fel ma?" és próbababák - a demó kitalált ruháiból (fotó nélkül)
+      ...(() => {
+        const most = Date.now();
+        const demoDarab = (x) => ({
+          key: x.label, label: nameOf(x.label), cat: x.cat, photoUrl: '', wornToday: !!s.worn[x.label],
+          inLaundry: !!(s.demoSzennyes || {})[x.label],
+          lastWornAt: x.note ? most - this.monthsOf(x.note) * 30 * 864e5 : most - 4 * 864e5,
+        });
+        const cimkek = (cur.items || [cur.top, cur.bottom, cur.shoes, cur.extra]).filter((x) => x && x !== 'nincs extra');
+        const keres = (l) => allItems.find((x) => x.label === l || nameOf(x.label) === l);
+        return {
+          napiDarabok: allItems.map(demoDarab),
+          outfitDarabok: cimkek.map((l) => keres(l) || { label: l, cat: '', note: '' }).map(demoDarab),
+          builderDarabok: Object.values(s.bPicks || {}).map(keres).filter(Boolean).map(demoDarab),
+        };
+      })(),
       accountName: s.sName || 'A szekrényed',
+      accountInitial: ((s.sName || 'W').trim()[0] || 'W').toUpperCase(),
       profileLine: whoLabel + ' · ' + total + ' darab',
       toHome: () => this.setState({ view: 'home', cat: 'All', filter: 'Összes', q: '', sel: null, editOpen: false }),
       toAdd: () => this.setState({ view: 'add', sel: null, editOpen: false }),
@@ -978,7 +4162,12 @@ class Component extends DCLogic {
       outfitWearLabel: s.worn[cur.name] ? 'Mára naplózva' : 'Viselem ma',
       outfitWearBg: s.worn[cur.name] ? 'var(--c-dcd8ce)' : 'var(--c-57462f)',
       outfitWearFg: s.worn[cur.name] ? 'var(--c-57462f)' : 'var(--c-f6f1e7)',
-      wearOutfit: () => this.setState({ worn: { ...s.worn, [cur.name]: true } }),
+      wearOutfit: () => {
+        this.setState({ worn: { ...s.worn, [cur.name]: true } });
+        // az outfit darabjai is a szennyesbe kerülnek (a mosható darabok)
+        const cimkek = (cur.items || [cur.top, cur.bottom, cur.shoes, cur.extra]).filter((x) => x && x !== 'nincs extra');
+        this.demoSzennyesbe(cimkek.map((l) => (allItems.find((x) => x.label === l || nameOf(x.label) === l) || {}).label).filter(Boolean));
+      },
       outfitList: list.map((o, n) => ({
         name: o.name, sub: o.occasion + ' · ' + o.season,
         bg: o.name === cur.name ? 'var(--c-dcd8ce)' : 'var(--c-ebe2d2)',
@@ -986,6 +4175,7 @@ class Component extends DCLogic {
         mark: s.favs.includes(o.name) ? '★' : '☆',
         markFg: s.favs.includes(o.name) ? 'var(--c-57462f)' : 'var(--c-8a7a62)',
         markBg: s.favs.includes(o.name) ? 'var(--c-f6f1e7)' : 'transparent',
+        thumbs: [{}, {}, {}, {}], // a demóban nincs fotó, csak helyőrzők
         on: () => this.setState({ view: 'outfits', oi: n, sel: null }),
         star: () => {
           const on = s.favs.includes(o.name);
@@ -1004,7 +4194,7 @@ class Component extends DCLogic {
         label: s.bPicks[x.key] ? nameOf(s.bPicks[x.key]) : x.empty,
         bg: s.bPicks[x.key] ? 'var(--c-dcd8ce)' : 'var(--c-f6f1e7)',
         border: s.bSlot === x.key ? '2px solid var(--c-57462f)' : (s.bPicks[x.key] ? '2px solid rgba(var(--c-57462f-rgb),.35)' : '1.5px dashed rgba(var(--c-57462f-rgb),.35)'),
-        on: () => this.setState({ bSlot: x.key }),
+        on: () => this.setState({ bSlot: x.key, bLap: true }),
         removable: !!x.removable,
         remove: (e) => {
           e.stopPropagation();
@@ -1044,13 +4234,13 @@ class Component extends DCLogic {
       // Jobb panel: ruhaválasztó az összeállítóhoz
       railPicker: s.view === 'builder',
       pickerIdle: !slot,
-      pickerTitle: slot ? (slot.cat === '*' ? 'Bármilyen darab' : label(slot.cat)) : 'Darabok',
+      pickerTitle: slot ? (SLOT_CIM[slot.key] && !slotSzur(slot.key, allItems).mind ? SLOT_CIM[slot.key] : 'Bármilyen darab') : 'Darabok',
       pickerCount: slot ? slotItems(slot).length + ' db' : '',
       pickerItems: slot
         ? slotItems(slot).map((x) => ({
             label: nameOf(x.label),
             border: s.bPicks[slot.key] === x.label ? '2px solid var(--c-57462f)' : '2px solid transparent',
-            on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.label } }),
+            on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.label }, bLap: false }),
           }))
         : [],
 
@@ -1060,7 +4250,7 @@ class Component extends DCLogic {
       idleItems: idleAll.map((x) => ({
         label: nameOf(x.label), cat: label(x.cat), note: x.note,
         open: this.select(x.label, x.cat, x.note),
-        wear: () => this.setState({ worn: { ...s.worn, [x.label]: true } }),
+        wear: () => { this.setState({ worn: { ...s.worn, [x.label]: true } }); this.demoSzennyesbe([x.label]); },
         remove: () => this.setState({ hidden: [...gone, x.label], sel: null, lastGone: x.label }),
       })),
       undoVisible: !!s.lastGone && gone.indexOf(s.lastGone) > -1,
@@ -1149,8 +4339,9 @@ class Component extends DCLogic {
       railUntouched: s.view === 'untouched',
       railAdd: s.view === 'add',
       railRemoved: s.view === 'removed',
-      railDisplay: s.view === 'settings' ? 'none' : 'flex',
-      gridCols: s.view === 'settings' ? '216px minmax(0,1fr)' : '216px minmax(0,1fr) 336px',
+      railDisplay: s.view === 'settings' || s.view === 'okos' ? 'none' : 'flex',
+      // az oszlopszélességeket a CSS adja (képernyőmérettől függően), itt csak azt jelezzük, ha nincs jobb panel
+      gridMod: s.view === 'settings' || s.view === 'okos' ? 'is-norail' : '',
       dealtLine: dealt + ' / ' + idleBase.length + ' elintézve',
       dealtPct: (idleBase.length ? Math.round((dealt / idleBase.length) * 100) : 100) + '%',
       hasOldest: idleAll.length > 0,
@@ -1162,6 +4353,7 @@ class Component extends DCLogic {
       deleteAllNow: () => this.setState({ purged: [...(s.purged || []), ...gone], hidden: [], lastGone: '' }),
       // Kijelölt ruhadarab adatai (név, kategória, viselési statisztika)
       selLabel: nameOf(selKey),
+      selPhotoUrl: '', selImgDisplay: 'none', selPlaceholderDisplay: 'block',
       selCat: label(s.sel ? (s.moved[selKey] || s.sel.cat) : ''),
       selWorn: selIsWorn
         ? 'Ma viselted · összesen ' + (baseWears + 1) + '-szer'
@@ -1172,7 +4364,7 @@ class Component extends DCLogic {
       selWearLabel: selIsWorn ? 'Mára naplózva' : 'Viselem ma',
       selWearBg: selIsWorn ? 'var(--c-dcd8ce)' : 'var(--c-57462f)',
       selWearFg: selIsWorn ? 'var(--c-57462f)' : 'var(--c-f6f1e7)',
-      wearSel: () => { if (selKey) this.setState({ worn: { ...s.worn, [selKey]: true } }); },
+      wearSel: () => { if (selKey) { this.setState({ worn: { ...s.worn, [selKey]: true } }); this.demoSzennyesbe([selKey]); } },
       selTags: (s.tags[selKey] || DEFAULT_TAGS).map((t) => ({ label: t })),
       selOutfits: list.slice(0, 2).map((o, n) => ({
         name: o.name, sub: o.occasion + ' · ' + o.season,
@@ -1234,7 +4426,7 @@ class Component extends DCLogic {
       // nem mutatunk semmit itt, nehogy nemlétező ruhák jelenjenek meg.
       hasMostWorn: total > 0 && !fresh,
       mostWorn: (total === 0 || fresh) ? [] : (who === 'Female'
-        ? [{ label: 'fehér sportcipő', cat: 'Cipők', n: '31 alkalom' }, { label: 'kék farmer', cat: 'Nadrágok és szoknyák', n: '28 alkalom' }, { label: 'csíkos póló', cat: 'Felsők', n: '22 alkalom' }]
+        ? [{ label: 'fehér sportcipő', cat: 'Cipők', n: '31 alkalom' }, { label: 'kék farmer', cat: 'Nadrágok', n: '28 alkalom' }, { label: 'csíkos póló', cat: 'Felsők', n: '22 alkalom' }]
         : [{ label: 'fehér sneaker', cat: 'Cipők', n: '31 alkalom' }, { label: 'kék farmer', cat: 'Nadrágok', n: '28 alkalom' }, { label: 'szürke póló', cat: 'Pólók', n: '22 alkalom' }]
       ).map((m) => ({ label: nameOf(m.label), n: m.n, on: this.select(m.label, m.cat, '') })),
     };
@@ -1272,11 +4464,22 @@ class Component extends DCLogic {
       key: it.id, label: it.label, cat: catNameById(it.categoryId),
       note: it.wornToday ? '' : this.noteFromLastWorn(it.lastWornAt),
       wornToday: it.wornToday, photoUrl: it.photoUrl, tags: it.tags || [],
+      lastWornAt: it.lastWornAt, price: it.price, wearCount: it.wearCount || 0, kivagott: !!it.origPhotoUrl,
+      szin: it.color || '', szinHex: it.colorHex || '', marka: it.brand || '', inLaundry: !!it.inLaundry, needsRepair: !!it.needsRepair,
+      care: it.care || null, createdAt: it.createdAt || null,
     }));
     const inCat = (n) => allItems.filter((x) => x.cat === n);
     const total = allItems.length;
+    const darabAdat = (id) => allItems.find((x) => x.key === id);
     const itemById = (id) => (s.items || []).find((it) => it.id === id);
     const nameOfItem = (id) => { const it = itemById(id); return it ? it.label : ''; };
+    // Fotók a sablonhoz: ha nincs, üres szöveg - ilyenkor a csíkozott helyőrző látszik
+    const photoOfItem = (id) => { const it = itemById(id); return (it && it.photoUrl) || ''; };
+    const outfitPhoto = (o) => {
+      const ids = (o && o.raw && o.raw.itemIds) || [];
+      for (let i = 0; i < ids.length; i++) { if (photoOfItem(ids[i])) return photoOfItem(ids[i]); }
+      return '';
+    };
 
     const idleAll = allItems
       .filter((x) => x.note && !x.wornToday)
@@ -1289,10 +4492,25 @@ class Component extends DCLogic {
       noteFg: x.wornToday ? 'var(--c-6b5940)' : (flags && x.note ? 'var(--c-8a5a22)' : 'var(--c-6b5940)'),
       border: s.sel && s.sel.id === x.key ? '2px solid var(--c-57462f)' : '2px solid transparent',
       on: this.realSelectItem({ id: x.key }),
+      // kártya: kijelölve, rég nem viselt (a felirat kiemelve), márka a saját színeivel
+      cls: s.sel && s.sel.id === x.key ? 'is-sel' : '',
+      subCls: !x.wornToday && flags && x.note ? 'is-regi' : '',
+      marka: x.marka || '', markaVan: !!x.marka,
+      markaBg: markaSzin(x.marka).bg, markaFg: markaSzin(x.marka).fg,
+      boxCls: x.kivagott ? 'is-kivagott' : '',
+      szinNev: x.szin, szinDot: szinPont(x.szin, x.szinHex),
+      allapot: x.inLaundry ? 'Szennyesben' : (x.needsRepair ? 'Javításra vár' : ''),
+      photoUrl: x.photoUrl || '',
+      imgDisplay: x.photoUrl ? 'block' : 'none',
+      placeholderDisplay: x.photoUrl ? 'none' : 'block',
     }));
     if (s.filter === 'Rég nem viselt') pieces = pieces.filter((p) => p.note);
     if (s.filter === 'Nemrég viselt') pieces = pieces.filter((p) => !p.note && p.sub === 'Ma viselve');
     if (query) pieces = pieces.filter((p) => p.label.toLowerCase().indexOf(query) > -1);
+    if (s.szinSzuro) pieces = pieces.filter((p) => p.szinNev === s.szinSzuro);
+    // a szekrényben előforduló színek (szűrő-chipekhez)
+    const szinSzamlalo = {};
+    allItems.forEach((x) => { if (x.szin) szinSzamlalo[x.szin] = (szinSzamlalo[x.szin] || 0) + 1; });
 
     // Outfitek
     const outfitItemLabels = (o) => (o.itemIds || []).map(nameOfItem).filter(Boolean);
@@ -1335,17 +4553,17 @@ class Component extends DCLogic {
     const slot = bSlots.find((x) => x.key === s.bSlot);
     const bReady = s.bPicks.top && s.bPicks.bottom && s.bPicks.shoes;
 
+    // A kinézetet (aktív állapot, ikon) a CSS adja: `cls` és `icon` osztálynevek.
     const nav = (text, view) => ({
-      label: text,
-      bg: s.view === view ? 'var(--c-6e5b41)' : 'transparent',
-      fg: s.view === view ? 'var(--c-f6f1e7)' : 'var(--c-d8c9ae)',
-      on: () => this.setState({ view, editOpen: false, sel: view === 'wardrobe' ? s.sel : null }),
+      label: text, icon: view,
+      cls: s.view === view ? 'is-active' : '',
+      on: () => this.setState(view === 'wardrobe'
+        ? { view, cat: 'All', filter: 'Összes', q: '', editOpen: false }
+        : { view, editOpen: false, sel: null }),
     });
     const catRow = (text, key, count) => ({
       label: text, count: String(count),
-      bg: s.cat === key && s.view === 'wardrobe' ? 'var(--c-6e5b41)' : 'transparent',
-      fg: s.cat === key && s.view === 'wardrobe' ? 'var(--c-f6f1e7)' : 'var(--c-d8c9ae)',
-      countFg: s.cat === key && s.view === 'wardrobe' ? 'var(--c-e4d9c6)' : 'var(--c-c9b99e)',
+      cls: s.cat === key && s.view === 'wardrobe' ? 'is-active' : '',
       on: () => this.setState({ view: 'wardrobe', cat: key, filter: 'Összes', editOpen: false }),
     });
     const chipOf = (text, key, active) => ({
@@ -1382,9 +4600,38 @@ class Component extends DCLogic {
 
     return {
       // Bejelentkezés / regisztráció - valódi backend-hívások
-      isAuth: authMode === 'login' || authMode === 'signup',
+      isAuth: authMode === 'login' || authMode === 'signup' || authMode === 'verify' || authMode === 'reset',
       isLogin: authMode === 'login',
       isSignup: authMode === 'signup',
+      isVerify: authMode === 'verify',
+      verifyEmail: s.verifyEmail || '',
+      verifyMsg: s.verifyMsg || '',
+      verifyVanMsg: !!s.verifyMsg,
+      verifyMsgCls: s.verifyHiba ? 'is-hiba' : '',
+      verifyResendLabel: s.verifyKuld ? 'Küldés…' : 'Megerősítő e-mail újraküldése',
+      doResend: () => this.realResend(),
+      // új jelszó beállítása (a visszaállító e-mail linkjéből)
+      isReset: authMode === 'reset',
+      rUrlap: s.rAllapot === 'urlap',
+      rEllenoriz: s.rAllapot === 'ellenoriz',
+      rRossz: s.rAllapot === 'lejart' || s.rAllapot === 'ervenytelen',
+      rRosszSzoveg: s.rAllapot === 'lejart'
+        ? 'Ez a link már lejárt (1 óráig érvényes). Kérj újat a bejelentkezésnél az „Elfelejtett jelszó?” linkkel.'
+        : 'Ez a link érvénytelen, vagy már felhasználták. Kérj újat a bejelentkezésnél az „Elfelejtett jelszó?” linkkel.',
+      rEmail: s.rEmail || '',
+      rPw: s.rPw || '',
+      rPw2: s.rPw2 || '',
+      onRPw: (e) => this.setState({ rPw: e.target.value, rErr: '' }),
+      onRPw2: (e) => this.setState({ rPw2: e.target.value, rErr: '' }),
+      rPwType: s.rShow ? 'text' : 'password',
+      rShowLabel: s.rShow ? 'Elrejtés' : 'Mutat',
+      toggleRShow: () => this.setState({ rShow: !s.rShow }),
+      rErr: s.rErr || '',
+      rErosseg: jelszoErosseg(s.rPw || ''),
+      rMentLabel: s.rKuld ? 'Mentés…' : 'Új jelszó mentése',
+      doReset: () => this.realResetPassword(),
+      resetToLogin: () => this.setState({ auth: 'login', lEmail: s.rEmail || s.lEmail, rAllapot: '', rErr: '', rToken: '' }),
+      verifyToLogin: () => this.setState({ auth: 'login', lEmail: s.verifyEmail || s.lEmail, verifyMsg: '', lErr: '' }),
       toSignup: () => this.setState({ auth: 'signup', lErr: '', resetSent: '' }),
       toLogin: () => this.setState({ auth: 'login', suErr: '' }),
       lEmail: s.lEmail,
@@ -1395,13 +4642,11 @@ class Component extends DCLogic {
       lShowLabel: s.lShow ? 'Elrejtés' : 'Mutat',
       toggleLShow: () => this.setState({ lShow: !s.lShow }),
       lErr: s.lErr,
-      // nincs valódi "elfelejtett jelszó" e-mail küldés (nincs levélküldő szolgáltatás bekötve),
-      // ez csak egy visszajelzés, hogy a kérés megérkezett
-      resetLine: s.resetSent ? 'Ha ez a cím létezik nálunk, hamarosan kapsz e-mailt: ' + s.resetSent + '.' : '',
-      forgot: () => {
-        if (!validEmail(s.lEmail)) return this.setState({ lErr: 'Először add meg az e-mail címed, majd koppints az Elfelejtett jelszóra.', resetSent: '' });
-        this.setState({ resetSent: s.lEmail.trim(), lErr: '' });
-      },
+      // elfelejtett jelszó: visszaállító link e-mailben (nem áruljuk el, létezik-e a fiók)
+      resetLine: !s.resetSent ? '' : s.resetNoMail
+        ? 'A visszaállító link a szerver ablakában jelent meg (az e-mail-küldés nincs beállítva).'
+        : 'Ha van fiók ezzel a címmel (' + s.resetSent + '), pár percen belül megérkezik a visszaállító link. Nézd meg a spam mappát is.',
+      forgot: () => this.realForgot(),
       doLogin: () => this.realDoLogin(),
       appleLogin: () => {},
       suName: s.suName,
@@ -1427,7 +4672,7 @@ class Component extends DCLogic {
       isOutfitsFilled: s.view === 'outfits' && list.length > 0,
       outfitsEmpty: s.view === 'outfits' && list.length === 0,
       outfitsEmptyLine: total ? 'Válassz egy felsőt, egy alsót és cipőt a hozzáadott ruháid közül, majd nevezd el.' : 'Először adj hozzá pár darabot a szekrényedhez. Utána itt tudod összeállítani az első outfitedet.',
-      outfitsEmptyCta: total ? 'Első outfit összeállítása' : 'Fotók hozzáadása',
+      outfitsEmptyCta: total ? 'Első outfit összeállítása' : 'Ruhák hozzáadása',
       outfitsEmptyGo: total
         ? () => this.setState({ view: 'builder', sel: null, bName: '', bOcc: '', bSeason: '', bPicks: {}, bMore: [], bSlot: 'top', bLogDay: '' })
         : () => this.setState({ view: 'add', sel: null, editOpen: false }),
@@ -1444,7 +4689,7 @@ class Component extends DCLogic {
       isUntouched: s.view === 'untouched',
       isSettings: s.view === 'settings',
       isAdd: s.view === 'add',
-      navItems: [nav('Outfitek', 'outfits'), nav('Naptár', 'calendar'), nav('Kihasználatlan', 'untouched'), nav('Eltávolított', 'removed'), nav('Beállítások', 'settings')],
+      navItems: [nav('Kezdőlap', 'home'), nav('Szekrény', 'wardrobe'), nav('Outfitek', 'outfits'), nav('Naptár', 'calendar'), nav('Okos szekrény', 'okos'), nav('Kihasználatlan', 'untouched'), nav('Eltávolított', 'removed'), nav('Beállítások', 'settings')],
       ...this.renderCalendarVals(list),
 
       isRemoved: s.view === 'removed',
@@ -1456,6 +4701,7 @@ class Component extends DCLogic {
       removedList: removedItems.map((it) => ({
         label: it.label,
         hint: 'Eltávolítva · 30 nap belül törlődik',
+        photoUrl: it.photoUrl || '',
         restore: () => this.realRestoreItem(it.id),
       })),
       purgeAll: () => this.realPurgeAllRemoved(),
@@ -1464,22 +4710,26 @@ class Component extends DCLogic {
       homeTotal: total + ' darab, ' + rawAll.length + ' kategóriában',
       viewAll: () => this.setState({ view: 'wardrobe', cat: 'All', filter: 'Összes', q: '', sel: null, editOpen: false }),
       suggestions: suggestionPicks.map(({ o, i }) => ({
-        name: o.name, sub: o.pieces,
+        name: o.name, sub: o.pieces, photoUrl: outfitPhoto(o),
         on: () => this.setState({ view: 'outfits', oi: i, sel: null, editOpen: false }),
       })),
       homeTiles: rawAll.map((n, i) => {
         const items = inCat(n);
         const idle = items.filter((x) => x.note).length;
+        const cover = items.find((x) => x.photoUrl);
         return {
           name: n, count: items.length + ' darab',
+          photoUrl: cover ? cover.photoUrl : '',
           idle: items.length === 0 ? 'üres' : (idle ? idle + ' kihasználatlan' : 'mind viselve nemrég'),
           bg: ['var(--c-cfcbc1)', 'var(--c-c6c2b8)', 'var(--c-d2cec4)', 'var(--c-cbc7bd)', 'var(--c-d6d2c8)'][i % 5],
           span: i === 0 ? 'span 2' : 'span 1',
           on: () => this.setState({ view: 'wardrobe', cat: n, filter: 'Összes', q: '', sel: null, editOpen: false }),
         };
       }),
-      catNav: [catRow('Összes', 'All', total)].concat(rawAll.map((n) => catRow(n, n, inCat(n).length))),
+      catNav: rawAll.map((n) => catRow(n, n, inCat(n).length)),
+      katCats: rawAll, // a katalógusból hozzáadott termékek kategória-felismeréséhez
       accountName: (user && user.name) || 'A szekrényed',
+      accountInitial: (((user && user.name) || 'W').trim()[0] || 'W').toUpperCase(),
       profileLine: profileLabel + ' · ' + total + ' darab',
       toHome: () => this.setState({ view: 'home', cat: 'All', filter: 'Összes', q: '', sel: null, editOpen: false }),
       toAdd: () => this.setState({ view: 'add', sel: null, editOpen: false }),
@@ -1506,7 +4756,10 @@ class Component extends DCLogic {
       cardH: compact ? '160px' : '212px',
 
       outfit: cur,
-      outfitTiles: cur.items.map((x, i) => ({ label: x, bg: ['var(--c-dcd8ce)', 'var(--c-d4d0c6)', 'var(--c-d8d4ca)', 'var(--c-cdc9bf)'][i % 4] })),
+      outfitTiles: ((cur.raw && cur.raw.itemIds) || []).filter((id) => nameOfItem(id)).map((id, i) => ({
+        label: nameOfItem(id), photoUrl: photoOfItem(id),
+        bg: ['var(--c-dcd8ce)', 'var(--c-d4d0c6)', 'var(--c-d8d4ca)', 'var(--c-cdc9bf)'][i % 4],
+      })),
       outfitCols: cur.items.length > 4 ? 3 : 2,
       outfitMeta: cur.occasion + ' · ' + cur.season + ' · ' + cur.worn,
       outfitCount: list.length + ' mentve',
@@ -1526,6 +4779,8 @@ class Component extends DCLogic {
         mark: o.favourite ? '★' : '☆',
         markFg: o.favourite ? 'var(--c-57462f)' : 'var(--c-8a7a62)',
         markBg: o.favourite ? 'var(--c-f6f1e7)' : 'transparent',
+        // négy kis bélyegkép az outfit darabjaiból (ami hiányzik, az helyőrző marad)
+        thumbs: [0, 1, 2, 3].map((k) => ({ photoUrl: photoOfItem(((o.raw && o.raw.itemIds) || [])[k]) })),
         on: () => this.setState({ view: 'outfits', oi: n, sel: null }),
         star: () => this.realToggleFavOutfit(o.raw),
       })),
@@ -1538,9 +4793,10 @@ class Component extends DCLogic {
       bSlots: bSlots.map((x) => ({
         role: x.role,
         label: s.bPicks[x.key] ? nameOfItem(s.bPicks[x.key]) : x.empty,
+        photoUrl: s.bPicks[x.key] ? photoOfItem(s.bPicks[x.key]) : '',
         bg: s.bPicks[x.key] ? 'var(--c-dcd8ce)' : 'var(--c-f6f1e7)',
         border: s.bSlot === x.key ? '2px solid var(--c-57462f)' : (s.bPicks[x.key] ? '2px solid rgba(var(--c-57462f-rgb),.35)' : '1.5px dashed rgba(var(--c-57462f-rgb),.35)'),
-        on: () => this.setState({ bSlot: x.key }),
+        on: () => this.setState({ bSlot: x.key, bLap: true }),
         removable: !!x.removable,
         remove: (e) => {
           e.stopPropagation();
@@ -1561,13 +4817,14 @@ class Component extends DCLogic {
 
       railPicker: s.view === 'builder',
       pickerIdle: !slot,
-      pickerTitle: slot ? 'Darabok' : 'Darabok',
-      pickerCount: slot ? allItems.length + ' db' : '',
+      pickerTitle: slot ? (SLOT_CIM[slot.key] && !slotSzur(slot.key, allItems).mind ? SLOT_CIM[slot.key] : 'Bármilyen darab') : 'Darabok',
+      pickerCount: slot ? slotSzur(slot.key, allItems).darabok.length + ' db' : '',
       pickerItems: slot
-        ? allItems.map((x) => ({
+        ? slotSzur(slot.key, allItems).darabok.map((x) => ({
             label: x.label,
+            photoUrl: x.photoUrl || '',
             border: s.bPicks[slot.key] === x.key ? '2px solid var(--c-57462f)' : '2px solid transparent',
-            on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.key } }),
+            on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.key }, bLap: false }),
           }))
         : [],
 
@@ -1575,6 +4832,7 @@ class Component extends DCLogic {
       idleEmpty: idleAll.length === 0,
       idleItems: idleAll.map((x) => ({
         label: x.label, cat: label(x.cat), note: x.note,
+        photoUrl: x.photoUrl || '',
         open: this.realSelectItem({ id: x.key }),
         wear: () => this.realWearItem(x.key),
         remove: () => this.realRemoveItem(x.key),
@@ -1614,13 +4872,13 @@ class Component extends DCLogic {
         { label: 'Kihasználatlan darabok', hint: 'Ha valami elér 6 hónapot', bg: reminders.idle ? 'var(--c-57462f)' : 'var(--c-d8d1c1)', knob: reminders.idle ? 'flex-end' : 'flex-start', toggle: () => this.realSaveSettings({ reminders: { ...reminders, idle: !reminders.idle } }) },
       ],
       themeOptions: THEMES.map((t) => {
-        const on = ((user && user.theme) || 'homok') === t.key;
+        const on = ((user && user.theme) || DEFAULT_THEME) === t.key;
         return {
           label: t.label,
           hint: t.hint,
           swatches: t.swatches.map((c) => ({ color: c })),
-          border: on ? '2px solid var(--c-57462f)' : '1px solid rgba(var(--c-57462f-rgb),.18)',
-          bg: on ? 'var(--c-dcd8ce)' : 'var(--c-f6f1e7)',
+          border: on ? '2px solid var(--m-accent)' : '1px solid var(--m-line-strong)',
+          bg: on ? 'var(--c-f1eadd)' : 'var(--c-f6f1e7)',
           mark: on ? '✓' : '',
           on: () => { if (!on) this.realSaveSettings({ theme: t.key }); },
         };
@@ -1645,6 +4903,7 @@ class Component extends DCLogic {
         placeholderDisplay: s.phonePhotos[file] ? 'none' : 'block',
         name: (s.dropNames || {})[file] || '',
         onName: (e) => this.setState({ dropNames: { ...(s.dropNames || {}), [file]: e.target.value } }),
+        ...this.dropExtra(file),
         options: rawAll.map((n) => ({
           label: n,
           bg: s.dropCats[file] === n ? 'var(--c-57462f)' : 'var(--c-ebe2d2)',
@@ -1665,6 +4924,15 @@ class Component extends DCLogic {
         }
       },
       clearDrops: () => this.setState({ drops: [], dropCats: {}, dropNames: {}, addErr: '' }),
+      // jobb panel: a még el nem mentett fotók listája
+      queueLine: s.drops.length ? s.drops.length + ' fotó' : '',
+      queueEmpty: s.drops.length === 0,
+      queueRows: s.drops.map((file) => ({
+        file: ((s.dropNames || {})[file] || '').trim() || (file.indexOf('phone-') === 0 ? 'Telefonról érkezett fotó' : file),
+        photoUrl: s.phonePhotos[file] || '',
+        status: s.dropCats[file] ? s.dropCats[file] : 'Kategóriára vár',
+        fg: s.dropCats[file] ? 'var(--c-7a9a52)' : 'var(--c-8a5a22)',
+      })),
 
       railItem: !!s.sel && s.view === 'wardrobe' && !s.editOpen,
       railEdit: !!s.sel && s.view === 'wardrobe' && s.editOpen,
@@ -1674,12 +4942,14 @@ class Component extends DCLogic {
       railUntouched: s.view === 'untouched',
       railAdd: s.view === 'add',
       railRemoved: s.view === 'removed',
-      railDisplay: s.view === 'settings' ? 'none' : 'flex',
-      gridCols: s.view === 'settings' ? '216px minmax(0,1fr)' : '216px minmax(0,1fr) 336px',
+      railDisplay: s.view === 'settings' || s.view === 'okos' ? 'none' : 'flex',
+      // az oszlopszélességeket a CSS adja (képernyőmérettől függően), itt csak azt jelezzük, ha nincs jobb panel
+      gridMod: s.view === 'settings' || s.view === 'okos' ? 'is-norail' : '',
       dealtLine: idleBase.length ? (idleBase.length - idleAll.length) + ' / ' + idleBase.length + ' elintézve' : 'Nincs mit elintézni',
       dealtPct: (idleBase.length ? Math.round(((idleBase.length - idleAll.length) / idleBase.length) * 100) : 100) + '%',
       hasOldest: idleAll.length > 0,
       oldestLabel: idleAll[0] ? idleAll[0].label : '',
+      oldestPhotoUrl: idleAll[0] ? idleAll[0].photoUrl || '' : '',
       oldestSub: idleAll[0] ? label(idleAll[0].cat) + ' · ' + idleAll[0].note : '',
       openOldest: () => { if (idleAll[0]) this.realSelectItem({ id: idleAll[0].key })(); },
 
@@ -1688,19 +4958,36 @@ class Component extends DCLogic {
       deleteAllNow: () => this.realPurgeAllRemoved(),
 
       selLabel: selItem ? selItem.label : '',
+      selPhotoUrl: selItem && selItem.photoUrl ? selItem.photoUrl : '',
+      selImgDisplay: selItem && selItem.photoUrl ? 'block' : 'none',
+      selPlaceholderDisplay: selItem && selItem.photoUrl ? 'none' : 'block',
       selCat: selItem ? label(catNameById(selItem.categoryId)) : '',
-      selWorn: selIsWorn
-        ? 'Ma viselted · összesen ' + (baseWears + 1) + '-szer'
-        : (selNote
-            ? 'Utoljára ' + selNote.replace(/ nem viselted$/, '') + ' viselted · összesen ' + baseWears + '-szer'
-            : 'Még nincs naplózva, hogy viselted-e'),
+      selWorn: (() => {
+        const db = selItem ? selItem.wearCount || 0 : 0;
+        const ossz = db ? ' · összesen ' + db + ' alkalommal' : '';
+        if (selIsWorn) return 'Ma viselted' + ossz;
+        if (selNote) return 'Utoljára ' + selNote.replace(/ nem viselted$/, '') + ' viselted' + ossz;
+        return db ? 'Viselve ' + db + ' alkalommal' : 'Még nincs naplózva, hogy viselted-e';
+      })(),
+      ...this.cpwVals(selItem),
+      selKivagott: !!(selItem && selItem.origPhotoUrl),
+      selBoxCls: selItem && selItem.origPhotoUrl ? 'is-kivagott' : '',
+      selHatterVan: !!(selItem && selItem.photoUrl),
+      selHatterLabel: s.selHatter === 'fut' ? 'Háttér eltávolítása… (első alkalommal kb. fél perc)'
+        : (s.selHatter === 'hiba' ? 'Nem sikerült – próbáld újra'
+          : (selItem && selItem.origPhotoUrl ? 'Eredeti fotó visszaállítása' : 'Háttér eltávolítása a fotóról')),
+      selHatterIcon: selItem && selItem.origPhotoUrl ? 'undo' : 'image',
+      selHatter: () => {
+        if (!selItem || s.selHatter === 'fut') return;
+        if (selItem.origPhotoUrl) this.realEredetiItem(selItem); else this.realHatterItem(selItem);
+      },
       selWearLabel: selIsWorn ? 'Mára naplózva' : 'Viselem ma',
       selWearBg: selIsWorn ? 'var(--c-dcd8ce)' : 'var(--c-57462f)',
       selWearFg: selIsWorn ? 'var(--c-57462f)' : 'var(--c-f6f1e7)',
       wearSel: () => { if (selId !== null) this.realWearItem(selId); },
       selTags: (selItem && selItem.tags && selItem.tags.length ? selItem.tags : DEFAULT_TAGS).map((t) => ({ label: t })),
       selOutfits: list.filter((o) => selId !== null && o.raw && (o.raw.itemIds || []).includes(selId)).slice(0, 2).map((o, n) => ({
-        name: o.name, sub: o.occasion + ' · ' + o.season,
+        name: o.name, sub: o.occasion + ' · ' + o.season, photoUrl: outfitPhoto(o),
         on: () => this.setState({ view: 'outfits', oi: n, sel: null }),
       })),
       removeSel: () => { if (selId !== null) this.realRemoveItem(selId); },
@@ -1711,8 +4998,12 @@ class Component extends DCLogic {
         editName: selItem ? selItem.label : '',
         editTags: selItem && selItem.tags && selItem.tags.length ? selItem.tags : DEFAULT_TAGS,
         editCat: selItem ? (catIdByName[catNameById(selItem.categoryId)] || '') : '',
+        editPrice: selItem && selItem.price !== null && selItem.price !== undefined ? String(selItem.price) : '',
+        editSzin: selItem && selItem.color ? selItem.color : '',
       }),
       cancelEdit: () => this.setState({ editOpen: false }),
+      editPrice: s.editPrice || '',
+      onEditPrice: (e) => this.setState({ editPrice: e.target.value.replace(/[^0-9]/g, '') }),
       editName: s.editName,
       onEditName: (e) => this.setState({ editName: e.target.value }),
       editCats: categories.map((c) => ({
@@ -1736,6 +5027,12 @@ class Component extends DCLogic {
         const patch = { tags: s.editTags };
         if (v) patch.label = v;
         if (s.editCat) patch.categoryId = s.editCat;
+        patch.price = (s.editPrice || '') === '' ? null : Number(s.editPrice);
+        // ha kézzel más színt választott, a színkód a lista szerinti lesz
+        if ((s.editSzin || '') !== ((selItem && selItem.color) || '')) {
+          patch.color = s.editSzin || null;
+          patch.colorHex = s.editSzin ? SZIN_LISTA[s.editSzin] : null;
+        }
         this.realSaveItemEdit(selId, patch);
       },
 
@@ -1745,11 +5042,47 @@ class Component extends DCLogic {
         { label: 'Outfit', value: String(list.length) },
         { label: 'Viselve ma', value: String(allItems.filter((x) => x.wornToday).length + list.filter((o) => o.wornToday).length) },
         { label: 'Kihasználatlan', value: String(idleAll.length) },
-      ],
+      ].concat((() => {
+        const arasak = allItems.filter((x) => x.price);
+        if (!arasak.length) return [];
+        const ertek = arasak.reduce((a, x) => a + x.price, 0);
+        const viselesek = arasak.reduce((a, x) => a + Math.max(1, x.wearCount), 0);
+        return [
+          { label: 'A szekrény értéke', value: ftForma(ertek) },
+          { label: 'Átlag / viselés', value: ftForma(ertek / viselesek) },
+        ];
+      })()),
       idleHeadline: idleAll.length ? idleAll.length + ' darabot hónapok óta nem viseltél' : 'Mindent nemrég viseltél',
       idleBody: idleAll.length
         ? 'Viselj fel egyet ezen a héten, vagy engedd el — az eltávolított darabok 30 napig várnak törlés előtt.'
         : 'Semmi sem hever kihasználatlanul. Naplózd, mit viselsz, és ez így is marad.',
+      // szín szerinti szűrés a szekrényben (csak a ténylegesen előforduló színek)
+      szinVan: Object.keys(szinSzamlalo).length > 0,
+      szinChipek: [{ label: 'Minden szín', dot: 'conic-gradient(#d0302f,#e8c52a,#3f9a4f,#2f6fd0,#7a4fb0,#d0302f)', cls: s.szinSzuro ? '' : 'is-active', on: () => this.setState({ szinSzuro: '' }) }]
+        .concat(Object.keys(szinSzamlalo).sort((a, b) => szinSzamlalo[b] - szinSzamlalo[a]).map((nev) => ({
+          label: nev + ' (' + szinSzamlalo[nev] + ')', dot: SZIN_LISTA[nev] || '', cls: s.szinSzuro === nev ? 'is-active' : '',
+          on: () => this.setState({ szinSzuro: s.szinSzuro === nev ? '' : nev }),
+        }))),
+      // kijelölt ruha: szín, mosás, javítás
+      selSzinVan: !!(selItem && selItem.color),
+      selSzinNev: selItem && selItem.color ? selItem.color : '',
+      selSzinDot: selItem ? szinPont(selItem.color, selItem.colorHex) : '',
+      selSzennyesLabel: selItem && selItem.inLaundry ? 'Kimostam' : 'Szennyesbe',
+      selSzennyesCls: selItem && selItem.inLaundry ? 'is-aktiv' : '',
+      selSzennyes: () => { if (selItem) this.realAllapot(selItem.id, { inLaundry: !selItem.inLaundry }); },
+      selJavitasLabel: selItem && selItem.needsRepair ? 'Megjavítva' : 'Javításra vár',
+      selJavitasCls: selItem && selItem.needsRepair ? 'is-aktiv' : '',
+      selJavitas: () => { if (selItem) this.realAllapot(selItem.id, { needsRepair: !selItem.needsRepair }); },
+      // szerkesztés: szín kézi megadása / javítása
+      editSzinek: Object.keys(SZIN_LISTA).map((nev) => ({
+        label: nev, dot: SZIN_LISTA[nev], cls: s.editSzin === nev ? 'is-active' : '',
+        on: () => this.setState({ editSzin: s.editSzin === nev ? '' : nev }),
+      })),
+      // próbababák és "Mit vegyek fel ma?" (lásd renderUjVals)
+      napiValos: true,
+      napiDarabok: allItems,
+      outfitDarabok: ((cur.raw && cur.raw.itemIds) || []).map(darabAdat).filter(Boolean),
+      builderDarabok: Object.values(s.bPicks || {}).map(darabAdat).filter(Boolean),
       // Valódi fiókkal nincs kitalált "legtöbbet viselt" lista - csak akkor
       // mutatunk valamit, ha tényleg van legalább egy megjelölt viselés.
       hasMostWorn: false,

@@ -1,0 +1,3303 @@
+/* ==========================================================================
+   Wardro Temak.css – színtémák (generálva: néhány alapszínből a teljes készlet)
+   Minden téma: háttér, felület, szöveg, kiemelő szín, színfoltok.
+   A világos témák lágy, tört fehérek (nem vakítanak), a sötétek nem tiszta
+   fehér szöveggel dolgoznak. A téma a <html data-theme="..."> értékéből jön.
+   ========================================================================== */
+
+/* --- Éjjel – Grafit sötét, lime kiemeléssel --- */
+:root[data-theme="ejjel"] {
+  color-scheme: dark;
+  --c-f6f1e7: #17171A;
+  --c-ebe2d2: #0F0F11;
+  --c-f1eadd: #202023;
+  --c-e4d9c6: #2E2E31;
+  --c-dcd8ce: #262629;
+  --c-d2cec4: #29292C;
+  --c-d8d1c1: #343437;
+  --c-d6d2c8: #2F2F32;
+  --c-cdc9bf: #333336;
+  --c-d8d4ca: #2C2C2E;
+  --c-d4d0c6: #28282B;
+  --c-cfcbc1: #303033;
+  --c-cbc7bd: #363639;
+  --c-c6c2b8: #3A3A3D;
+  --c-c9b99e: #5D5D60;
+  --c-b8a78a: #656568;
+  --c-d8c9ae: #404043;
+  --c-57462f: #E4E4E7;
+  --c-2c2219: #F4F4F5;
+  --c-6b5940: #ADADB0;
+  --c-6e5b41: #A4A4A7;
+  --c-8a7250: #BBBBBE;
+  --c-8a7a62: #848487;
+  --c-7a6749: #737376;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #331F22;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 228,228,231;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 23,23,26;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(23,23,26,.62);
+  --m-accent: #C8F169;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(124,92,255,.5);
+  --m-a2: rgba(255,122,89,.36);
+  --m-a3: rgba(45,212,191,.34);
+  --m-plot: #C8F169;
+}
+:root[data-theme="ejjel"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #17171A;
+  --c-ebe2d2: #0F0F11;
+  --c-f1eadd: #202023;
+  --c-e4d9c6: #2E2E31;
+  --c-dcd8ce: #262629;
+  --c-d2cec4: #29292C;
+  --c-d8d1c1: #343437;
+  --c-d6d2c8: #2F2F32;
+  --c-cdc9bf: #333336;
+  --c-d8d4ca: #2C2C2E;
+  --c-d4d0c6: #28282B;
+  --c-cfcbc1: #303033;
+  --c-cbc7bd: #363639;
+  --c-c6c2b8: #3A3A3D;
+  --c-c9b99e: #5D5D60;
+  --c-b8a78a: #656568;
+  --c-d8c9ae: #404043;
+  --c-57462f: #E4E4E7;
+  --c-2c2219: #F4F4F5;
+  --c-6b5940: #ADADB0;
+  --c-6e5b41: #A4A4A7;
+  --c-8a7250: #BBBBBE;
+  --c-8a7a62: #848487;
+  --c-7a6749: #737376;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #331F22;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 228,228,231;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 23,23,26;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(23,23,26,.62);
+  --m-accent: #C8F169;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(124,92,255,.5);
+  --m-a2: rgba(255,122,89,.36);
+  --m-a3: rgba(45,212,191,.34);
+  --m-plot: #C8F169;
+}
+:root[data-theme="ejjel"] body,
+:root[data-theme="ejjel"] .we-keret-grid1 { background: #0F0F11; }
+:root[data-theme="ejjel"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="ejjel"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Rubin – Mély bordó sötét, piros kiemeléssel --- */
+:root[data-theme="rubin"] {
+  color-scheme: dark;
+  --c-f6f1e7: #1F1215;
+  --c-ebe2d2: #140B0D;
+  --c-f1eadd: #281B1E;
+  --c-e4d9c6: #36292C;
+  --c-dcd8ce: #2F2225;
+  --c-d2cec4: #322528;
+  --c-d8d1c1: #3C2F32;
+  --c-d6d2c8: #372A2D;
+  --c-cdc9bf: #3B2E31;
+  --c-d8d4ca: #34272A;
+  --c-d4d0c6: #312427;
+  --c-cfcbc1: #382B2E;
+  --c-cbc7bd: #3E3134;
+  --c-c6c2b8: #423538;
+  --c-c9b99e: #66595B;
+  --c-b8a78a: #6E6164;
+  --c-d8c9ae: #493C3E;
+  --c-57462f: #EFE2E4;
+  --c-2c2219: #F8EEF0;
+  --c-6b5940: #B7AAAC;
+  --c-6e5b41: #AFA2A4;
+  --c-8a7250: #C5B8BB;
+  --c-8a7a62: #8D8083;
+  --c-7a6749: #7D7072;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #3A1B1D;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 239,226,228;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 31,18,21;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(31,18,21,.62);
+  --m-accent: #FF5468;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,64,96,.46);
+  --m-a2: rgba(255,146,92,.30);
+  --m-a3: rgba(176,48,120,.38);
+  --m-plot: #FF5468;
+}
+:root[data-theme="rubin"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #1F1215;
+  --c-ebe2d2: #140B0D;
+  --c-f1eadd: #281B1E;
+  --c-e4d9c6: #36292C;
+  --c-dcd8ce: #2F2225;
+  --c-d2cec4: #322528;
+  --c-d8d1c1: #3C2F32;
+  --c-d6d2c8: #372A2D;
+  --c-cdc9bf: #3B2E31;
+  --c-d8d4ca: #34272A;
+  --c-d4d0c6: #312427;
+  --c-cfcbc1: #382B2E;
+  --c-cbc7bd: #3E3134;
+  --c-c6c2b8: #423538;
+  --c-c9b99e: #66595B;
+  --c-b8a78a: #6E6164;
+  --c-d8c9ae: #493C3E;
+  --c-57462f: #EFE2E4;
+  --c-2c2219: #F8EEF0;
+  --c-6b5940: #B7AAAC;
+  --c-6e5b41: #AFA2A4;
+  --c-8a7250: #C5B8BB;
+  --c-8a7a62: #8D8083;
+  --c-7a6749: #7D7072;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #3A1B1D;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 239,226,228;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 31,18,21;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(31,18,21,.62);
+  --m-accent: #FF5468;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,64,96,.46);
+  --m-a2: rgba(255,146,92,.30);
+  --m-a3: rgba(176,48,120,.38);
+  --m-plot: #FF5468;
+}
+:root[data-theme="rubin"] body,
+:root[data-theme="rubin"] .we-keret-grid1 { background: #140B0D; }
+:root[data-theme="rubin"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="rubin"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Óceán – Éjkék sötét, türkiz kiemeléssel --- */
+:root[data-theme="ocean"] {
+  color-scheme: dark;
+  --c-f6f1e7: #111A26;
+  --c-ebe2d2: #0A1018;
+  --c-f1eadd: #1A232F;
+  --c-e4d9c6: #28313C;
+  --c-dcd8ce: #212935;
+  --c-d2cec4: #242D38;
+  --c-d8d1c1: #2E3742;
+  --c-d6d2c8: #29323D;
+  --c-cdc9bf: #2D3641;
+  --c-d8d4ca: #262F3A;
+  --c-d4d0c6: #232C37;
+  --c-cfcbc1: #2A333E;
+  --c-cbc7bd: #303944;
+  --c-c6c2b8: #343D48;
+  --c-c9b99e: #58606B;
+  --c-b8a78a: #606873;
+  --c-d8c9ae: #3B434E;
+  --c-57462f: #E1E8F0;
+  --c-2c2219: #F0F5FA;
+  --c-6b5940: #A9B0B9;
+  --c-6e5b41: #A1A8B1;
+  --c-8a7250: #B7BFC8;
+  --c-8a7a62: #7F8791;
+  --c-7a6749: #6F7781;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2E222C;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 225,232,240;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 17,26,38;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(17,26,38,.62);
+  --m-accent: #4CD3F5;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(56,120,255,.46);
+  --m-a2: rgba(32,210,200,.32);
+  --m-a3: rgba(130,90,255,.32);
+  --m-plot: #4CD3F5;
+}
+:root[data-theme="ocean"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #111A26;
+  --c-ebe2d2: #0A1018;
+  --c-f1eadd: #1A232F;
+  --c-e4d9c6: #28313C;
+  --c-dcd8ce: #212935;
+  --c-d2cec4: #242D38;
+  --c-d8d1c1: #2E3742;
+  --c-d6d2c8: #29323D;
+  --c-cdc9bf: #2D3641;
+  --c-d8d4ca: #262F3A;
+  --c-d4d0c6: #232C37;
+  --c-cfcbc1: #2A333E;
+  --c-cbc7bd: #303944;
+  --c-c6c2b8: #343D48;
+  --c-c9b99e: #58606B;
+  --c-b8a78a: #606873;
+  --c-d8c9ae: #3B434E;
+  --c-57462f: #E1E8F0;
+  --c-2c2219: #F0F5FA;
+  --c-6b5940: #A9B0B9;
+  --c-6e5b41: #A1A8B1;
+  --c-8a7250: #B7BFC8;
+  --c-8a7a62: #7F8791;
+  --c-7a6749: #6F7781;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2E222C;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 225,232,240;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 17,26,38;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(17,26,38,.62);
+  --m-accent: #4CD3F5;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(56,120,255,.46);
+  --m-a2: rgba(32,210,200,.32);
+  --m-a3: rgba(130,90,255,.32);
+  --m-plot: #4CD3F5;
+}
+:root[data-theme="ocean"] body,
+:root[data-theme="ocean"] .we-keret-grid1 { background: #0A1018; }
+:root[data-theme="ocean"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="ocean"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Erdő – Fenyőzöld sötét, friss zöld kiemeléssel --- */
+:root[data-theme="erdo"] {
+  color-scheme: dark;
+  --c-f6f1e7: #131C16;
+  --c-ebe2d2: #0B110D;
+  --c-f1eadd: #1C251F;
+  --c-e4d9c6: #2A332D;
+  --c-dcd8ce: #232B25;
+  --c-d2cec4: #262F28;
+  --c-d8d1c1: #303933;
+  --c-d6d2c8: #2B342E;
+  --c-cdc9bf: #2F3832;
+  --c-d8d4ca: #28312A;
+  --c-d4d0c6: #252E27;
+  --c-cfcbc1: #2C352F;
+  --c-cbc7bd: #323B35;
+  --c-c6c2b8: #363F39;
+  --c-c9b99e: #59625C;
+  --c-b8a78a: #626A64;
+  --c-d8c9ae: #3C453F;
+  --c-57462f: #E2EAE3;
+  --c-2c2219: #F0F5F1;
+  --c-6b5940: #AAB2AC;
+  --c-6e5b41: #A2AAA3;
+  --c-8a7250: #B9C1BA;
+  --c-8a7a62: #818983;
+  --c-7a6749: #707972;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2F231E;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 226,234,227;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 19,28,22;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(19,28,22,.62);
+  --m-accent: #7BDC8F;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(64,190,110,.40);
+  --m-a2: rgba(210,190,80,.26);
+  --m-a3: rgba(40,150,170,.32);
+  --m-plot: #7BDC8F;
+}
+:root[data-theme="erdo"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #131C16;
+  --c-ebe2d2: #0B110D;
+  --c-f1eadd: #1C251F;
+  --c-e4d9c6: #2A332D;
+  --c-dcd8ce: #232B25;
+  --c-d2cec4: #262F28;
+  --c-d8d1c1: #303933;
+  --c-d6d2c8: #2B342E;
+  --c-cdc9bf: #2F3832;
+  --c-d8d4ca: #28312A;
+  --c-d4d0c6: #252E27;
+  --c-cfcbc1: #2C352F;
+  --c-cbc7bd: #323B35;
+  --c-c6c2b8: #363F39;
+  --c-c9b99e: #59625C;
+  --c-b8a78a: #626A64;
+  --c-d8c9ae: #3C453F;
+  --c-57462f: #E2EAE3;
+  --c-2c2219: #F0F5F1;
+  --c-6b5940: #AAB2AC;
+  --c-6e5b41: #A2AAA3;
+  --c-8a7250: #B9C1BA;
+  --c-8a7a62: #818983;
+  --c-7a6749: #707972;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #2F231E;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 226,234,227;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 19,28,22;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(19,28,22,.62);
+  --m-accent: #7BDC8F;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(64,190,110,.40);
+  --m-a2: rgba(210,190,80,.26);
+  --m-a3: rgba(40,150,170,.32);
+  --m-plot: #7BDC8F;
+}
+:root[data-theme="erdo"] body,
+:root[data-theme="erdo"] .we-keret-grid1 { background: #0B110D; }
+:root[data-theme="erdo"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="erdo"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Ametiszt – Sötét lila, levendula kiemeléssel --- */
+:root[data-theme="ametiszt"] {
+  color-scheme: dark;
+  --c-f6f1e7: #191322;
+  --c-ebe2d2: #100C17;
+  --c-f1eadd: #221C2B;
+  --c-e4d9c6: #302A39;
+  --c-dcd8ce: #292332;
+  --c-d2cec4: #2C2635;
+  --c-d8d1c1: #36303F;
+  --c-d6d2c8: #312B3A;
+  --c-cdc9bf: #352F3E;
+  --c-d8d4ca: #2E2837;
+  --c-d4d0c6: #2B2534;
+  --c-cfcbc1: #322C3B;
+  --c-cbc7bd: #383241;
+  --c-c6c2b8: #3C3645;
+  --c-c9b99e: #605A68;
+  --c-b8a78a: #686271;
+  --c-d8c9ae: #433D4B;
+  --c-57462f: #E9E3F1;
+  --c-2c2219: #F5F1FA;
+  --c-6b5940: #B1ABB9;
+  --c-6e5b41: #A9A3B1;
+  --c-8a7250: #BFB9C8;
+  --c-8a7a62: #878190;
+  --c-7a6749: #77717F;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #351C29;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 233,227,241;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 25,19,34;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(25,19,34,.62);
+  --m-accent: #BC94FF;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(150,90,255,.46);
+  --m-a2: rgba(255,110,180,.30);
+  --m-a3: rgba(80,130,255,.32);
+  --m-plot: #BC94FF;
+}
+:root[data-theme="ametiszt"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #191322;
+  --c-ebe2d2: #100C17;
+  --c-f1eadd: #221C2B;
+  --c-e4d9c6: #302A39;
+  --c-dcd8ce: #292332;
+  --c-d2cec4: #2C2635;
+  --c-d8d1c1: #36303F;
+  --c-d6d2c8: #312B3A;
+  --c-cdc9bf: #352F3E;
+  --c-d8d4ca: #2E2837;
+  --c-d4d0c6: #2B2534;
+  --c-cfcbc1: #322C3B;
+  --c-cbc7bd: #383241;
+  --c-c6c2b8: #3C3645;
+  --c-c9b99e: #605A68;
+  --c-b8a78a: #686271;
+  --c-d8c9ae: #433D4B;
+  --c-57462f: #E9E3F1;
+  --c-2c2219: #F5F1FA;
+  --c-6b5940: #B1ABB9;
+  --c-6e5b41: #A9A3B1;
+  --c-8a7250: #BFB9C8;
+  --c-8a7a62: #878190;
+  --c-7a6749: #77717F;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #351C29;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 233,227,241;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 25,19,34;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(25,19,34,.62);
+  --m-accent: #BC94FF;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(150,90,255,.46);
+  --m-a2: rgba(255,110,180,.30);
+  --m-a3: rgba(80,130,255,.32);
+  --m-plot: #BC94FF;
+}
+:root[data-theme="ametiszt"] body,
+:root[data-theme="ametiszt"] .we-keret-grid1 { background: #100C17; }
+:root[data-theme="ametiszt"] :is(.we-photo, .we-drops-img1) { filter: brightness(.92); }
+:root[data-theme="ametiszt"] :is(.we-auth-el1, .we-auth-el2) { filter: brightness(.8) contrast(1.05); }
+
+/* --- Homok – Lágy, meleg világos – nem vakít --- */
+:root[data-theme="homok"] {
+  color-scheme: light;
+  --c-f6f1e7: #F3F0EA;
+  --c-ebe2d2: #E9E5DE;
+  --c-f1eadd: #EAE7E1;
+  --c-e4d9c6: #DDDAD4;
+  --c-dcd8ce: #E4E1DB;
+  --c-d2cec4: #E1DED8;
+  --c-d8d1c1: #D7D4CE;
+  --c-d6d2c8: #DCD9D3;
+  --c-cdc9bf: #D8D5CF;
+  --c-d8d4ca: #DFDCD6;
+  --c-d4d0c6: #E2DFD9;
+  --c-cfcbc1: #DBD8D2;
+  --c-cbc7bd: #D5D2CC;
+  --c-c6c2b8: #D1CDC8;
+  --c-c9b99e: #AFABA5;
+  --c-b8a78a: #A7A39D;
+  --c-d8c9ae: #CBC7C2;
+  --c-57462f: #2A2520;
+  --c-2c2219: #1B1714;
+  --c-6b5940: #605C57;
+  --c-6e5b41: #68645F;
+  --c-8a7250: #524E48;
+  --c-8a7a62: #6C6863;
+  --c-7a6749: #7A7671;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F1E0D8;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 42,37,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 243,240,234;
+  --c-shadow-rgb: 48,44,40;
+  --m-line: rgba(48,44,40,.09);
+  --m-line-strong: rgba(48,44,40,.16);
+  --m-shadow: 0 1px 2px rgba(48,44,40,.05), 0 10px 28px -18px rgba(48,44,40,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(48,44,40,.32), 0 0 0 1px rgba(48,44,40,.09);
+  --m-glass: rgba(243,240,234,.66);
+  --m-accent: #D9531E;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,150,100,.42);
+  --m-a2: rgba(255,205,140,.50);
+  --m-a3: rgba(190,170,250,.40);
+  --m-plot: #1B1714;
+}
+:root[data-theme="homok"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #F3F0EA;
+  --c-ebe2d2: #E9E5DE;
+  --c-f1eadd: #EAE7E1;
+  --c-e4d9c6: #DDDAD4;
+  --c-dcd8ce: #E4E1DB;
+  --c-d2cec4: #E1DED8;
+  --c-d8d1c1: #D7D4CE;
+  --c-d6d2c8: #DCD9D3;
+  --c-cdc9bf: #D8D5CF;
+  --c-d8d4ca: #DFDCD6;
+  --c-d4d0c6: #E2DFD9;
+  --c-cfcbc1: #DBD8D2;
+  --c-cbc7bd: #D5D2CC;
+  --c-c6c2b8: #D1CDC8;
+  --c-c9b99e: #AFABA5;
+  --c-b8a78a: #A7A39D;
+  --c-d8c9ae: #CBC7C2;
+  --c-57462f: #2A2520;
+  --c-2c2219: #1B1714;
+  --c-6b5940: #605C57;
+  --c-6e5b41: #68645F;
+  --c-8a7250: #524E48;
+  --c-8a7a62: #6C6863;
+  --c-7a6749: #7A7671;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F1E0D8;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 42,37,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 243,240,234;
+  --c-shadow-rgb: 48,44,40;
+  --m-line: rgba(48,44,40,.09);
+  --m-line-strong: rgba(48,44,40,.16);
+  --m-shadow: 0 1px 2px rgba(48,44,40,.05), 0 10px 28px -18px rgba(48,44,40,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(48,44,40,.32), 0 0 0 1px rgba(48,44,40,.09);
+  --m-glass: rgba(243,240,234,.66);
+  --m-accent: #D9531E;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(255,150,100,.42);
+  --m-a2: rgba(255,205,140,.50);
+  --m-a3: rgba(190,170,250,.40);
+  --m-plot: #1B1714;
+}
+:root[data-theme="homok"] body,
+:root[data-theme="homok"] .we-keret-grid1 { background: #E9E5DE; }
+
+/* --- Rózsa – Púderes rózsaszín, piros kiemeléssel --- */
+:root[data-theme="rozsa"] {
+  color-scheme: light;
+  --c-f6f1e7: #F6EEEE;
+  --c-ebe2d2: #EEE3E3;
+  --c-f1eadd: #EDE5E5;
+  --c-e4d9c6: #E0D7D7;
+  --c-dcd8ce: #E7DEDF;
+  --c-d2cec4: #E4DBDB;
+  --c-d8d1c1: #DAD1D1;
+  --c-d6d2c8: #DFD6D6;
+  --c-cdc9bf: #DBD2D2;
+  --c-d8d4ca: #E2D9D9;
+  --c-d4d0c6: #E5DCDC;
+  --c-cfcbc1: #DED5D5;
+  --c-cbc7bd: #D8CFCF;
+  --c-c6c2b8: #D4CACB;
+  --c-c9b99e: #B2A7A8;
+  --c-b8a78a: #AA9FA0;
+  --c-d8c9ae: #CEC4C5;
+  --c-57462f: #2E1D20;
+  --c-2c2219: #1F1214;
+  --c-6b5940: #645558;
+  --c-6e5b41: #6C5E60;
+  --c-8a7250: #564749;
+  --c-8a7a62: #706264;
+  --c-7a6749: #7E7172;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F4DEDC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 46,29,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 246,238,238;
+  --c-shadow-rgb: 52,39,41;
+  --m-line: rgba(52,39,41,.09);
+  --m-line-strong: rgba(52,39,41,.16);
+  --m-shadow: 0 1px 2px rgba(52,39,41,.05), 0 10px 28px -18px rgba(52,39,41,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(52,39,41,.32), 0 0 0 1px rgba(52,39,41,.09);
+  --m-glass: rgba(246,238,238,.66);
+  --m-accent: #D2304C;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(240,90,120,.36);
+  --m-a2: rgba(255,170,140,.40);
+  --m-a3: rgba(200,140,230,.34);
+  --m-plot: #1F1214;
+}
+:root[data-theme="rozsa"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #F6EEEE;
+  --c-ebe2d2: #EEE3E3;
+  --c-f1eadd: #EDE5E5;
+  --c-e4d9c6: #E0D7D7;
+  --c-dcd8ce: #E7DEDF;
+  --c-d2cec4: #E4DBDB;
+  --c-d8d1c1: #DAD1D1;
+  --c-d6d2c8: #DFD6D6;
+  --c-cdc9bf: #DBD2D2;
+  --c-d8d4ca: #E2D9D9;
+  --c-d4d0c6: #E5DCDC;
+  --c-cfcbc1: #DED5D5;
+  --c-cbc7bd: #D8CFCF;
+  --c-c6c2b8: #D4CACB;
+  --c-c9b99e: #B2A7A8;
+  --c-b8a78a: #AA9FA0;
+  --c-d8c9ae: #CEC4C5;
+  --c-57462f: #2E1D20;
+  --c-2c2219: #1F1214;
+  --c-6b5940: #645558;
+  --c-6e5b41: #6C5E60;
+  --c-8a7250: #564749;
+  --c-8a7a62: #706264;
+  --c-7a6749: #7E7172;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F4DEDC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 46,29,32;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 246,238,238;
+  --c-shadow-rgb: 52,39,41;
+  --m-line: rgba(52,39,41,.09);
+  --m-line-strong: rgba(52,39,41,.16);
+  --m-shadow: 0 1px 2px rgba(52,39,41,.05), 0 10px 28px -18px rgba(52,39,41,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(52,39,41,.32), 0 0 0 1px rgba(52,39,41,.09);
+  --m-glass: rgba(246,238,238,.66);
+  --m-accent: #D2304C;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(240,90,120,.36);
+  --m-a2: rgba(255,170,140,.40);
+  --m-a3: rgba(200,140,230,.34);
+  --m-plot: #1F1214;
+}
+:root[data-theme="rozsa"] body,
+:root[data-theme="rozsa"] .we-keret-grid1 { background: #EEE3E3; }
+
+/* --- Zsálya – Nyugodt, halvány zöld világos --- */
+:root[data-theme="zsalya"] {
+  color-scheme: light;
+  --c-f6f1e7: #EFF3EE;
+  --c-ebe2d2: #E3E9E2;
+  --c-f1eadd: #E6EAE5;
+  --c-e4d9c6: #D8DDD8;
+  --c-dcd8ce: #DFE4DF;
+  --c-d2cec4: #DCE1DC;
+  --c-d8d1c1: #D2D7D1;
+  --c-d6d2c8: #D7DCD7;
+  --c-cdc9bf: #D3D8D2;
+  --c-d8d4ca: #DADFDA;
+  --c-d4d0c6: #DDE2DD;
+  --c-cfcbc1: #D6DBD6;
+  --c-cbc7bd: #D0D5CF;
+  --c-c6c2b8: #CCD1CB;
+  --c-c9b99e: #A8AFA9;
+  --c-b8a78a: #A0A7A0;
+  --c-d8c9ae: #C5CBC5;
+  --c-57462f: #1F2A22;
+  --c-2c2219: #131C16;
+  --c-6b5940: #576059;
+  --c-6e5b41: #5F6861;
+  --c-8a7250: #49524B;
+  --c-8a7a62: #646C65;
+  --c-7a6749: #727A74;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #EEE3DC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 31,42,34;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 239,243,238;
+  --c-shadow-rgb: 40,48,42;
+  --m-line: rgba(40,48,42,.09);
+  --m-line-strong: rgba(40,48,42,.16);
+  --m-shadow: 0 1px 2px rgba(40,48,42,.05), 0 10px 28px -18px rgba(40,48,42,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(40,48,42,.32), 0 0 0 1px rgba(40,48,42,.09);
+  --m-glass: rgba(239,243,238,.66);
+  --m-accent: #2E8A57;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(120,220,160,.44);
+  --m-a2: rgba(170,220,245,.48);
+  --m-a3: rgba(245,220,130,.40);
+  --m-plot: #131C16;
+}
+:root[data-theme="zsalya"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #EFF3EE;
+  --c-ebe2d2: #E3E9E2;
+  --c-f1eadd: #E6EAE5;
+  --c-e4d9c6: #D8DDD8;
+  --c-dcd8ce: #DFE4DF;
+  --c-d2cec4: #DCE1DC;
+  --c-d8d1c1: #D2D7D1;
+  --c-d6d2c8: #D7DCD7;
+  --c-cdc9bf: #D3D8D2;
+  --c-d8d4ca: #DADFDA;
+  --c-d4d0c6: #DDE2DD;
+  --c-cfcbc1: #D6DBD6;
+  --c-cbc7bd: #D0D5CF;
+  --c-c6c2b8: #CCD1CB;
+  --c-c9b99e: #A8AFA9;
+  --c-b8a78a: #A0A7A0;
+  --c-d8c9ae: #C5CBC5;
+  --c-57462f: #1F2A22;
+  --c-2c2219: #131C16;
+  --c-6b5940: #576059;
+  --c-6e5b41: #5F6861;
+  --c-8a7250: #49524B;
+  --c-8a7a62: #646C65;
+  --c-7a6749: #727A74;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #EEE3DC;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 31,42,34;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 239,243,238;
+  --c-shadow-rgb: 40,48,42;
+  --m-line: rgba(40,48,42,.09);
+  --m-line-strong: rgba(40,48,42,.16);
+  --m-shadow: 0 1px 2px rgba(40,48,42,.05), 0 10px 28px -18px rgba(40,48,42,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(40,48,42,.32), 0 0 0 1px rgba(40,48,42,.09);
+  --m-glass: rgba(239,243,238,.66);
+  --m-accent: #2E8A57;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(120,220,160,.44);
+  --m-a2: rgba(170,220,245,.48);
+  --m-a3: rgba(245,220,130,.40);
+  --m-plot: #131C16;
+}
+:root[data-theme="zsalya"] body,
+:root[data-theme="zsalya"] .we-keret-grid1 { background: #E3E9E2; }
+
+/* --- Erős kontraszt – Fekete-fehér, a legjobban olvasható --- */
+:root[data-theme="kontraszt"] {
+  color-scheme: light;
+  --c-f6f1e7: #F7F7F7;
+  --c-ebe2d2: #E8E8E8;
+  --c-f1eadd: #EDEDED;
+  --c-e4d9c6: #DEDEDE;
+  --c-dcd8ce: #E6E6E6;
+  --c-d2cec4: #E3E3E3;
+  --c-d8d1c1: #D7D7D7;
+  --c-d6d2c8: #DDDDDD;
+  --c-cdc9bf: #D8D8D8;
+  --c-d8d4ca: #E0E0E0;
+  --c-d4d0c6: #E4E4E4;
+  --c-cfcbc1: #DCDCDC;
+  --c-cbc7bd: #D5D5D5;
+  --c-c6c2b8: #D0D0D0;
+  --c-c9b99e: #AAAAAA;
+  --c-b8a78a: #A1A1A1;
+  --c-d8c9ae: #CACACA;
+  --c-57462f: #141414;
+  --c-2c2219: #000000;
+  --c-6b5940: #515151;
+  --c-6e5b41: #5A5A5A;
+  --c-8a7250: #414141;
+  --c-8a7a62: #5F5F5F;
+  --c-7a6749: #6F6F6F;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F5E6E4;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 20,20,20;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 247,247,247;
+  --c-shadow-rgb: 23,23,23;
+  --m-line: rgba(23,23,23,.09);
+  --m-line-strong: rgba(23,23,23,.16);
+  --m-shadow: 0 1px 2px rgba(23,23,23,.05), 0 10px 28px -18px rgba(23,23,23,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(23,23,23,.32), 0 0 0 1px rgba(23,23,23,.09);
+  --m-glass: rgba(247,247,247,.66);
+  --m-accent: #1F45FF;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(31,69,255,.24);
+  --m-a2: rgba(255,0,110,.16);
+  --m-a3: rgba(0,200,255,.20);
+  --m-plot: #000000;
+}
+:root[data-theme="kontraszt"] :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #F7F7F7;
+  --c-ebe2d2: #E8E8E8;
+  --c-f1eadd: #EDEDED;
+  --c-e4d9c6: #DEDEDE;
+  --c-dcd8ce: #E6E6E6;
+  --c-d2cec4: #E3E3E3;
+  --c-d8d1c1: #D7D7D7;
+  --c-d6d2c8: #DDDDDD;
+  --c-cdc9bf: #D8D8D8;
+  --c-d8d4ca: #E0E0E0;
+  --c-d4d0c6: #E4E4E4;
+  --c-cfcbc1: #DCDCDC;
+  --c-cbc7bd: #D5D5D5;
+  --c-c6c2b8: #D0D0D0;
+  --c-c9b99e: #AAAAAA;
+  --c-b8a78a: #A1A1A1;
+  --c-d8c9ae: #CACACA;
+  --c-57462f: #141414;
+  --c-2c2219: #000000;
+  --c-6b5940: #515151;
+  --c-6e5b41: #5A5A5A;
+  --c-8a7250: #414141;
+  --c-8a7a62: #5F5F5F;
+  --c-7a6749: #6F6F6F;
+  --c-9a3412: #B93E0F;
+  --c-8a5a22: #8E5414;
+  --c-8a2e22: #A3271B;
+  --c-f6e4e1: #F5E6E4;
+  --c-7a9a52: #457F33;
+  --c-b8433a: #C93A2C;
+  --c-57462f-rgb: 20,20,20;
+  --c-9a3412-rgb: 185,62,15;
+  --c-f6f1e7-rgb: 247,247,247;
+  --c-shadow-rgb: 23,23,23;
+  --m-line: rgba(23,23,23,.09);
+  --m-line-strong: rgba(23,23,23,.16);
+  --m-shadow: 0 1px 2px rgba(23,23,23,.05), 0 10px 28px -18px rgba(23,23,23,.22);
+  --m-card-hover: 0 30px 60px -30px rgba(23,23,23,.32), 0 0 0 1px rgba(23,23,23,.09);
+  --m-glass: rgba(247,247,247,.66);
+  --m-accent: #1F45FF;
+  --m-accent-ink: #FFFFFF;
+  --m-a1: rgba(31,69,255,.24);
+  --m-a2: rgba(255,0,110,.16);
+  --m-a3: rgba(0,200,255,.20);
+  --m-plot: #000000;
+}
+:root[data-theme="kontraszt"] body,
+:root[data-theme="kontraszt"] .we-keret-grid1 { background: #E8E8E8; }
+
+:root:not([data-theme]) :is(.we-keret-col1, .we-keret-col5, .we-keret-box2, .we-undo-visible-abs1, .we-pair-open-abs1, .we-pair-open-abs2, .we-auth-abs1) {
+  --c-f6f1e7: #17171A;
+  --c-ebe2d2: #0F0F11;
+  --c-f1eadd: #202023;
+  --c-e4d9c6: #2E2E31;
+  --c-dcd8ce: #262629;
+  --c-d2cec4: #29292C;
+  --c-d8d1c1: #343437;
+  --c-d6d2c8: #2F2F32;
+  --c-cdc9bf: #333336;
+  --c-d8d4ca: #2C2C2E;
+  --c-d4d0c6: #28282B;
+  --c-cfcbc1: #303033;
+  --c-cbc7bd: #363639;
+  --c-c6c2b8: #3A3A3D;
+  --c-c9b99e: #5D5D60;
+  --c-b8a78a: #656568;
+  --c-d8c9ae: #404043;
+  --c-57462f: #E4E4E7;
+  --c-2c2219: #F4F4F5;
+  --c-6b5940: #ADADB0;
+  --c-6e5b41: #A4A4A7;
+  --c-8a7250: #BBBBBE;
+  --c-8a7a62: #848487;
+  --c-7a6749: #737376;
+  --c-9a3412: #F08C66;
+  --c-8a5a22: #E4A45C;
+  --c-8a2e22: #F49D8D;
+  --c-f6e4e1: #331F22;
+  --c-7a9a52: #86C27A;
+  --c-b8433a: #EE6B5E;
+  --c-57462f-rgb: 228,228,231;
+  --c-9a3412-rgb: 240,140,102;
+  --c-f6f1e7-rgb: 23,23,26;
+  --c-shadow-rgb: 0,0,0;
+  --m-line: rgba(255,255,255,.07);
+  --m-line-strong: rgba(255,255,255,.12);
+  --m-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -20px rgba(0,0,0,.7);
+  --m-card-hover: 0 30px 60px -28px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.1);
+  --m-glass: rgba(23,23,26,.62);
+  --m-accent: #C8F169;
+  --m-accent-ink: #111111;
+  --m-a1: rgba(124,92,255,.5);
+  --m-a2: rgba(255,122,89,.36);
+  --m-a3: rgba(45,212,191,.34);
+  --m-plot: #C8F169;
+}
+
+/* --- diagramvonal és pont a téma szerint --- */
+.we-keret-col5 .we-wx-line { stroke: var(--m-plot, var(--m-accent)); }
+.we-keret-col5 .we-wx-dot { background: var(--m-plot, var(--m-accent)); }
+
+/* --- a téma váltása finoman, áttűnéssel történjen --- */
+.we-keret-grid1,
+.we-keret-col1,
+.we-keret-box2,
+.we-auth-abs1 {
+  transition: background-color .35s ease, color .35s ease;
+}
+
+/* ==========================================================================
+   Beállítások – témaválasztó: kártyák kis előnézettel
+   ========================================================================== */
+.we-keret-col5 .we-theme-grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.we-keret-col5 .we-theme-options-btn1 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 12px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .25s ease;
+}
+
+.we-keret-col5 .we-theme-options-btn1:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--m-card-hover);
+}
+
+/* előnézet: a téma háttere, rajta egy felület-kártya és a kiemelő szín */
+.we-keret-col5 .we-theme-options-row1 {
+  position: relative;
+  height: 74px;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  overflow: hidden;
+  display: block;
+  background: var(--th-bg, #222);
+}
+
+.we-keret-col5 .we-theme-options-box1 {
+  position: absolute;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+}
+
+/* 1. minta: kiemelő szín (pötty) · 2.: háttér · 3.: felület (kártya) · 4.: szöveg (vonalak) */
+.we-keret-col5 .we-theme-options-box1:nth-child(2) { inset: 0; }
+.we-keret-col5 .we-theme-options-box1:nth-child(3) { left: 12px; right: 34%; top: 12px; bottom: 12px; border-radius: 10px; }
+.we-keret-col5 .we-theme-options-box1:nth-child(4) { left: 22px; top: 22px; width: 38%; height: 6px; border-radius: 3px; opacity: .9; }
+.we-keret-col5 .we-theme-options-box1:nth-child(1) { right: 14px; top: 50%; width: 26px; height: 26px; margin-top: -13px; border-radius: 50%; z-index: 1; box-shadow: 0 0 0 4px rgba(255,255,255,.08); }
+
+.we-keret-col5 .we-theme-options-text1 {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 700 12px 'Instrument Sans',system-ui,sans-serif;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+.we-keret-col5 .we-theme-options-text1:empty { display: none; }
+/* a sablonmotor egy belső span-be teszi az értéket, ezért ezt is figyeljük */
+.we-keret-col5 .we-theme-options-text1:has(> .sc-interp:empty) { display: none; }
+
+.we-keret-col5 .we-theme-options-btn1 .we-login-text10 {
+  font: 650 15px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.02em;
+  color: var(--c-2c2219);
+  text-decoration: none;
+}
+
+.we-keret-col5 .we-theme-options-btn1 .we-login-text7 {
+  font: 400 12px/1.4 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+@media (max-width: 760px) {
+  .we-keret-col5 .we-theme-grid1 { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
+
+/* ==========================================================================
+   8) PRÓBABABA – női sziluett, ha a fiók profilja "Nő"
+   (a .we-keret-grid1 kapja az is-female osztályt; a ruhahelyek ugyanott maradnak,
+   csak a felső és az alsó lesz kicsit keskenyebb, a női alakhoz igazítva)
+   ========================================================================== */
+.we-keret-grid1.is-female .we-baba {
+  --baba-maszk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 440'%3E%3Cpath d='M100 9C73 9 63 31 65 52c1 14-3 27 3 38h64c6-11 2-24 3-38 2-21-8-43-35-43Z'/%3E%3Ccircle cx='100' cy='38' r='21'/%3E%3Crect x='93' y='56' width='14' height='18' rx='5'/%3E%3Cpath d='M70 80Q100 70 130 80L148 92Q156 96 157 106L161 204Q161 212 154 212H148Q143 212 142 205L135 128H130Q125 150 127 170Q133 202 140 234H60Q67 202 73 170Q75 150 70 128H65L58 205Q57 212 52 212H46Q39 212 39 204L43 106Q44 96 52 92Z'/%3E%3Cpath d='M64 230H136L136 252L126 400Q125 407 118 407H108Q102 407 102 400L100 272L98 400Q98 407 92 407H82Q75 407 74 400L64 252Z'/%3E%3Cellipse cx='86' cy='419' rx='19' ry='8'/%3E%3Cellipse cx='114' cy='419' rx='19' ry='8'/%3E%3C/svg%3E");
+}
+
+.we-keret-grid1.is-female .we-baba-felso { left: 29%; width: 42%; }
+.we-keret-grid1.is-female .we-baba-also { left: 30%; width: 40%; }
+.we-keret-grid1.is-female .we-baba-kabat { left: 15%; width: 70%; }
+
+
+/* ==========================================================================
+   9) SZENNYES – színek szerint csoportosított mosnivaló
+   ========================================================================== */
+.we-ico-laundry { --ico: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='3' width='16' height='18' rx='3'/><path d='M4 7.5h16'/><circle cx='7.5' cy='5.3' r='.6' fill='black'/><circle cx='12' cy='14' r='4.2'/><path d='M8.8 14.6c1.1-.9 2.2-.9 3.2 0s2.1.9 3.2 0'/></svg>"); }
+
+.we-sz {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 clamp(16px, 3vw, 40px) 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-sizing: border-box;
+}
+
+.we-keret-col5 .we-sz > .we-page-hero {
+  margin: 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.we-keret-col5 .we-sz > .we-page-hero .we-home-text2 { max-width: 720px; }
+
+.we-sz-hero-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.we-sz-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 18px 0 6px;
+  border-radius: 999px;
+  background: var(--m-glass);
+  border: 1px solid var(--m-line-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font: 600 14px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+}
+
+.we-sz-count-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+.we-sz-count-ico .we-ico { width: 18px; height: 18px; }
+
+.we-sz-uzenet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font: 500 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-sz-uzenet .we-ico { width: 15px; height: 15px; color: var(--m-accent); }
+
+.we-sz-ures {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 36px 20px;
+  border-radius: 26px;
+  border: 1.5px dashed rgba(var(--c-57462f-rgb),.18);
+  text-align: center;
+}
+
+.we-sz-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.we-sz-csop {
+  border-radius: 26px;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .25s ease;
+  animation: we-start-up .5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-sz-csop:nth-child(2) { animation-delay: .06s; }
+.we-sz-csop:nth-child(3) { animation-delay: .12s; }
+
+.we-sz-csop:hover {
+  transform: translateY(-4px);
+  border-color: var(--m-line-strong);
+  box-shadow: var(--m-card-hover);
+}
+
+.we-sz-csop.is-ures { opacity: .7; }
+.we-sz-csop.is-ures:hover { transform: none; box-shadow: none; }
+
+.we-sz-csop-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* a csoport jele: sötét / fehér / színes kör */
+.we-sz-csop-ico {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--m-line-strong) inset, 0 6px 16px -8px rgba(var(--c-shadow-rgb),.6);
+}
+
+.we-sz-csop.is-sotet .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #4A4D55, #121316 70%); }
+.we-sz-csop.is-vilagos .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #FFFFFF, #E6E1D8 70%); }
+.we-sz-csop.is-szines .we-sz-csop-ico { background: conic-gradient(#FF5468, #FFC857, #7BDC8F, #4CD3F5, #BC94FF, #FF5468); }
+
+.we-sz-csop-tt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.we-sz-csop-tt > b {
+  font: 650 17px/1.2 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.025em;
+  color: var(--c-2c2219);
+}
+
+.we-sz-csop-tt > span {
+  font: 400 12px/1.35 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+.we-sz-csop-db {
+  flex: none;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(var(--c-57462f-rgb),.08);
+  font: 600 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  white-space: nowrap;
+}
+
+.we-sz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.we-sz-csop-ures {
+  padding: 14px 4px;
+  font: 400 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+.we-sz-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 16px;
+  background: var(--c-ebe2d2);
+  border: 1px solid var(--m-line);
+  user-select: none;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-sz-item:hover { transform: translateX(3px); border-color: var(--m-line-strong); }
+
+.we-sz-item-img {
+  position: relative;
+  width: 48px;
+  height: 56px;
+  flex: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg, rgba(var(--c-57462f-rgb),.07) 0 8px, transparent 8px 16px),
+    var(--c-dcd8ce);
+}
+
+.we-sz-item-img img { pointer-events: none; }
+
+.we-sz-item-t {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.we-sz-item-t > b {
+  font: 600 14px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-sz-item-t > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 400 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-sz-pont {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--m-line-strong);
+}
+
+.we-sz-pont.is-ures { background: conic-gradient(#FF5468, #FFC857, #7BDC8F, #4CD3F5, #BC94FF, #FF5468) !important; opacity: .7; }
+
+.we-sz-item-btn {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--m-line-strong);
+  color: var(--c-57462f);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .25s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
+}
+
+.we-sz-item-btn .we-ico { width: 15px; height: 15px; }
+
+.we-sz-item-btn:hover {
+  background: var(--m-accent);
+  border-color: transparent;
+  color: var(--m-accent-ink);
+  transform: scale(1.08);
+}
+
+.we-sz-csop-gomb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  font: 600 14px 'Instrument Sans',system-ui,sans-serif;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, filter .2s ease;
+}
+
+.we-sz-csop-gomb .we-ico { width: 16px; height: 16px; }
+.we-sz-csop-gomb:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -16px rgba(var(--c-shadow-rgb),.7); }
+.we-sz-csop-gomb:active { transform: translateY(0) scale(.98); }
+
+/* a gombok a csoport színét veszik fel */
+.we-sz-csop.is-sotet .we-sz-csop-gomb { background: #17181B; color: #F2F2F3; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset; }
+.we-sz-csop.is-vilagos .we-sz-csop-gomb { background: #F4F1EA; color: #1B1714; box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset; }
+.we-sz-csop.is-szines .we-sz-csop-gomb { background: linear-gradient(110deg, #FF5468, #FF9F43 45%, #4CD3F5); color: #FFFFFF; }
+
+@media (hover: none) {
+  .we-sz-csop:hover, .we-sz-item:hover { transform: none; box-shadow: none; }
+}
+
+@media (max-width: 1180px) {
+  .we-sz-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 760px) {
+  .we-sz { padding: 0 16px 32px; overflow: visible; flex: none; }
+  .we-keret-col5 .we-sz > .we-page-hero { margin: 16px 0 0; }
+  .we-sz-grid { grid-template-columns: 1fr; }
+  .we-sz-hero-row .we-start-btn { flex: 1 1 auto; justify-content: center; }
+}
+
+
+/* ==========================================================================
+   10) E-MAIL MEGERŐSÍTÉS – "Nézd meg a postafiókod" képernyő a belépő oldalon
+   ========================================================================== */
+.we-auth-abs1 .we-verify-ico {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+  box-shadow: 0 16px 34px -16px color-mix(in srgb, var(--m-accent) 70%, transparent);
+  animation: we-verify-lebeg 4s ease-in-out infinite;
+}
+
+.we-auth-abs1 .we-verify-ico .we-ico { width: 28px; height: 28px; }
+
+@keyframes we-verify-lebeg {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-5px) rotate(3deg); }
+}
+
+.we-auth-abs1 .we-verify .we-login-text2 { line-height: 1.55; }
+.we-auth-abs1 .we-verify .we-login-text2 b { color: var(--c-2c2219); font-weight: 600; }
+.we-auth-abs1 .we-verify .we-verify-email { overflow-wrap: anywhere; }
+
+.we-auth-abs1 .we-verify-msg {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--m-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m-accent) 40%, transparent);
+  font: 500 13px/1.5 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-auth-abs1 .we-verify-msg.is-hiba {
+  background: color-mix(in srgb, var(--c-b8433a) 12%, transparent);
+  border-color: color-mix(in srgb, var(--c-b8433a) 45%, transparent);
+}
+
+.we-auth-abs1 .we-verify-tips {
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 400 13px/1.5 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-auth-abs1 .we-verify-ico { animation: none; }
+}
+
+/* új jelszó: erősség-csík és a fiók címe */
+.we-auth-abs1 .we-reset-fiok {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  background: rgba(var(--c-57462f-rgb),.07);
+  font: 500 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  overflow-wrap: anywhere;
+}
+
+.we-auth-abs1 .we-reset-fiok .we-ico { width: 15px; height: 15px; flex: none; }
+
+.we-auth-abs1 .we-pw-erosseg {
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 4px;
+  background: rgba(var(--c-57462f-rgb),.1);
+  overflow: hidden;
+}
+
+.we-auth-abs1 .we-pw-erosseg > i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--c-b8433a);
+  transition: width .35s cubic-bezier(.2,.8,.2,1), background .25s ease;
+}
+
+.we-auth-abs1 .we-pw-erosseg.is-kozepes > i { background: #E0A33A; }
+.we-auth-abs1 .we-pw-erosseg.is-eros > i { background: var(--m-accent); }
+
+.we-auth-abs1 .we-pw-erosseg-t {
+  display: block;
+  margin-top: 5px;
+  font: 500 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+.we-auth-abs1 .we-pw-erosseg-t.is-gyenge { color: var(--c-b8433a); }
+
+
+/* ==========================================================================
+   11) SZENNYES – hőfok szerinti nézet, mosási tanácsok
+   ========================================================================== */
+.we-sz-mod {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: var(--m-glass);
+  border: 1px solid var(--m-line-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.we-sz-mod-btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  user-select: none;
+  font: 600 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  transition: background .2s ease, color .2s ease;
+}
+
+.we-sz-mod-btn:hover { background: rgba(var(--c-57462f-rgb),.08); }
+.we-sz-mod-btn.is-active { background: var(--m-accent); color: var(--m-accent-ink); }
+
+.we-sz-csop-ico {
+  display: grid;
+  place-items: center;
+  font: 700 12px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.02em;
+}
+
+.we-sz-csop.is-h .we-sz-csop-ico { color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+.we-sz-csop.is-h-kezi .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #F3C6E0, #B76AA0 75%); }
+.we-sz-csop.is-h-30 .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #9ED8FF, #2F7FD0 75%); }
+.we-sz-csop.is-h-40 .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #FFE08A, #E0A33A 75%); }
+.we-sz-csop.is-h-60 .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #FFB08A, #D0502F 75%); }
+.we-sz-csop.is-h-tilos .we-sz-csop-ico { background: radial-gradient(circle at 35% 30%, #8A8F99, #3A3D44 75%); }
+
+.we-sz-csop.is-h .we-sz-csop-gomb { background: var(--c-2c2219); color: var(--c-f6f1e7); }
+.we-sz-csop.is-h-30 .we-sz-csop-gomb { background: #2F7FD0; color: #FFFFFF; }
+.we-sz-csop.is-h-40 .we-sz-csop-gomb { background: #E0A33A; color: #1B1408; }
+.we-sz-csop.is-h-60 .we-sz-csop-gomb { background: #D0502F; color: #FFFFFF; }
+.we-sz-csop.is-h-kezi .we-sz-csop-gomb { background: #B76AA0; color: #FFFFFF; }
+
+.we-sz-tipp {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--m-accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m-accent) 30%, transparent);
+  font: 500 12.5px/1.45 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+}
+
+.we-sz-tipp .we-ico { width: 14px; height: 14px; flex: none; margin-top: 2px; color: var(--m-accent); }
+
+.we-sz-item-t > .we-sz-mosas {
+  align-self: flex-start;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(var(--c-57462f-rgb),.08);
+  font: 600 11px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+}
+
+.we-sz-item-t > .we-sz-mosas.is-becsult { background: transparent; border: 1px dashed var(--m-line-strong); color: var(--c-8a7a62); }
+.we-sz-item-t > .we-sz-mosas:has(> .sc-interp:empty) { display: none; }
+
+@media (max-width: 760px) {
+  .we-sz-mod { order: 3; width: 100%; }
+  .we-sz-mod-btn { flex: 1; }
+}
+
+
+/* ==========================================================================
+   12) MOSÁSI CÍMKE – a kijelölt darab paneljén
+   ========================================================================== */
+.we-care {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 20px;
+  background: var(--c-ebe2d2);
+  border: 1px solid var(--m-line);
+}
+
+.we-care-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.we-care-ico {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+.we-care-ico .we-ico { width: 17px; height: 17px; }
+
+.we-care-tt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.we-care-tt > b { font: 650 14px 'Instrument Sans',system-ui,sans-serif; color: var(--c-2c2219); }
+.we-care-tt > span { font: 400 12px/1.35 'Instrument Sans',system-ui,sans-serif; color: var(--c-8a7a62); }
+.we-care-tt > span.is-pontos { color: var(--c-57462f); }
+
+.we-care-kep {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--m-line-strong);
+}
+
+.we-care-chipek {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.we-care-chipek:has(> .sc-interp:empty), .we-care-chipek:empty { display: none; }
+
+.we-care-chip {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line);
+  font: 500 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+}
+
+.we-care-chip.is-fo { background: var(--m-accent); border-color: transparent; color: var(--m-accent-ink); font-weight: 650; }
+.we-care-chip.is-tilos { border-color: color-mix(in srgb, var(--c-b8433a) 45%, transparent); color: var(--c-b8433a); }
+.we-care-chip.is-anyag { font-style: italic; }
+
+.we-care-akciok {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.we-care-akciok .we-hatter-btn { flex: 1 1 auto; justify-content: center; }
+
+.we-care-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-care-elonezet {
+  position: relative;
+  height: 140px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--c-dcd8ce);
+}
+
+.we-care-elonezet img { object-fit: contain !important; }
+
+.we-care-uzenet {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--m-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m-accent) 35%, transparent);
+  font: 500 12.5px/1.45 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+}
+
+.we-care-uzenet.is-hiba {
+  background: color-mix(in srgb, #E0A33A 14%, transparent);
+  border-color: color-mix(in srgb, #E0A33A 45%, transparent);
+}
+
+.we-care-uzenet.is-olvas {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--m-accent) 8%, transparent), color-mix(in srgb, var(--m-accent) 24%, transparent), color-mix(in srgb, var(--m-accent) 8%, transparent));
+  background-size: 200% 100%;
+  animation: we-care-olvas 1.6s linear infinite;
+}
+
+@keyframes we-care-olvas { to { background-position: -200% 0; } }
+
+.we-care-sor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.we-care-sor-cim {
+  font: 600 11px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--c-8a7a62);
+}
+
+.we-care-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.we-care-opt {
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line-strong);
+  font: 500 12.5px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.we-care-opt:hover { transform: translateY(-1px); border-color: var(--m-accent); }
+.we-care-opt.is-active { background: var(--m-accent); border-color: transparent; color: var(--m-accent-ink); font-weight: 650; }
+
+.we-care-anyag {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--m-line-strong);
+  background: var(--c-f6f1e7);
+  font: 400 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+  outline: none;
+  min-width: 0;
+}
+
+.we-care-anyag:focus { border-color: var(--m-accent); }
+
+.we-care-gombok {
+  display: flex;
+  gap: 8px;
+}
+
+.we-care-gomb {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid var(--m-line-strong);
+  font: 600 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  transition: transform .2s ease, background .2s ease;
+}
+
+.we-care-gomb .we-ico { width: 15px; height: 15px; }
+.we-care-gomb:hover { transform: translateY(-1px); }
+.we-care-gomb.is-fo { flex: 1; background: var(--m-accent); border-color: transparent; color: var(--m-accent-ink); }
+.we-care-gomb.is-torol { width: 38px; padding: 0; color: var(--c-b8433a); }
+
+
+/* ==========================================================================
+   13) MEGVEGYEM? – vásárlási segéd
+   ========================================================================== */
+.we-ico-bag { --ico: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M5 8h14l-1.2 11.2A2 2 0 0 1 15.8 21H8.2a2 2 0 0 1-2-1.8L5 8Z'/><path d='M9 10V6.5a3 3 0 0 1 6 0V10'/></svg>"); }
+
+.we-vs {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 clamp(16px, 3vw, 40px) 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-sizing: border-box;
+  --vs-szin: var(--m-accent);
+  --vs-ures: rgba(var(--c-57462f-rgb),.1);
+}
+
+.we-keret-col5 .we-vs > .we-page-hero {
+  margin: 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.we-keret-col5 .we-vs > .we-page-hero .we-home-text2 { max-width: 720px; }
+
+.we-vs-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.we-vs-card {
+  border-radius: 26px;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  animation: we-start-up .5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-vs-card + .we-vs-card { animation-delay: .06s; }
+
+.we-vs-foto {
+  position: relative;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1.5px dashed rgba(var(--c-57462f-rgb),.22);
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--m-accent) 14%, transparent), transparent 60%),
+    var(--c-ebe2d2);
+  transition: border-color .25s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+}
+
+.we-vs-foto:hover { border-color: var(--m-accent); transform: translateY(-2px); }
+.we-vs-foto img { object-fit: contain !important; pointer-events: none; }
+.we-vs-foto:has(img[src]:not([src=""])) { border-style: solid; border-color: var(--m-line); padding: 0; }
+
+.we-vs-foto > b { font: 650 16px 'Instrument Sans',system-ui,sans-serif; color: var(--c-2c2219); }
+.we-vs-foto > span:not(.we-vs-foto-ico) { font: 400 12.5px/1.4 'Instrument Sans',system-ui,sans-serif; color: var(--c-8a7a62); max-width: 260px; }
+
+.we-vs-foto-ico {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+  box-shadow: 0 16px 34px -16px color-mix(in srgb, var(--m-accent) 70%, transparent);
+}
+
+.we-vs-foto-ico .we-ico { width: 26px; height: 26px; }
+
+.we-vs-foto-csere {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--m-glass);
+  border: 1px solid var(--m-line-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font: 600 12px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+}
+
+.we-vs-foto-csere .we-ico { width: 14px; height: 14px; }
+
+.we-vs-mezok {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.we-vs-mezo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.we-vs-cimke {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 11px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--c-8a7a62);
+}
+
+.we-vs-cimke > i:not(.we-vs-szinpont) {
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: var(--m-accent);
+}
+
+.we-vs-szinpont {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--m-line-strong);
+}
+
+.we-vs-szoveg {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--m-line-strong);
+  background: var(--c-ebe2d2);
+  font: 400 14px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-2c2219);
+  outline: none;
+  min-width: 0;
+  transition: border-color .2s ease;
+}
+
+.we-vs-szoveg:focus { border-color: var(--m-accent); }
+
+.we-vs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.we-vs-chip {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid var(--m-line-strong);
+  font: 500 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  transition: background .2s ease, color .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.we-vs-chip:hover { transform: translateY(-1px); border-color: var(--m-accent); }
+.we-vs-chip.is-active { background: var(--m-accent); border-color: transparent; color: var(--m-accent-ink); font-weight: 650; }
+
+.we-vs-szinek {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.we-vs-szin {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px var(--m-line-strong) inset;
+  transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease;
+}
+
+.we-vs-szin:hover { transform: scale(1.12); }
+.we-vs-szin.is-active { box-shadow: 0 0 0 2px var(--c-f6f1e7), 0 0 0 4px var(--m-accent); transform: scale(1.06); }
+
+.we-vs-ujra {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  font: 500 13px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+  transition: color .2s ease;
+}
+
+.we-vs-ujra .we-ico { width: 14px; height: 14px; }
+.we-vs-ujra:hover { color: var(--c-2c2219); }
+
+.we-vs-ures {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 48px 16px;
+}
+
+.we-vs-figy {
+  margin-top: 6px;
+  font: 500 12.5px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--m-accent);
+}
+
+.we-vs-itelet {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 4px 4px;
+}
+
+.we-vs-itelet.is-kozep { --vs-szin: #E0A33A; }
+.we-vs-itelet.is-rossz { --vs-szin: var(--c-b8433a); }
+
+.we-vs-gyuru {
+  width: 112px;
+  height: 112px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background .4s ease;
+}
+
+.we-vs-gyuru > div {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--c-f6f1e7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.we-vs-gyuru > div > b { font: 700 32px/1 'Instrument Sans',system-ui,sans-serif; letter-spacing: -.04em; color: var(--c-2c2219); }
+.we-vs-gyuru > div > span { font: 500 11px 'Instrument Sans',system-ui,sans-serif; color: var(--c-8a7a62); }
+
+.we-vs-itelet-t {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.we-vs-itelet-t > b {
+  font: 700 clamp(26px, 3vw, 34px)/1.05 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.04em;
+  color: var(--vs-szin);
+}
+
+.we-vs-itelet-t > span:last-child { font: 400 14px/1.45 'Instrument Sans',system-ui,sans-serif; color: var(--c-57462f); }
+
+.we-vs-statok {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.we-vs-stat {
+  padding: 14px 12px;
+  border-radius: 18px;
+  background: var(--c-ebe2d2);
+  border: 1px solid var(--m-line);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
+}
+
+.we-vs-stat:hover { transform: translateY(-3px); border-color: var(--m-line-strong); }
+.we-vs-stat > b { font: 700 22px/1.1 'Instrument Sans',system-ui,sans-serif; letter-spacing: -.03em; color: var(--c-2c2219); overflow-wrap: anywhere; }
+.we-vs-stat > span { font: 400 12px/1.35 'Instrument Sans',system-ui,sans-serif; color: var(--c-8a7a62); }
+
+.we-vs-okok {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.we-vs-ok {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--c-ebe2d2);
+  font: 400 13.5px/1.45 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-vs-ok > i {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 700 14px/1 'Instrument Sans',system-ui,sans-serif;
+  font-style: normal;
+}
+
+.we-vs-ok.is-jo > i { background: var(--m-accent); color: var(--m-accent-ink); }
+.we-vs-ok.is-rossz > i { background: color-mix(in srgb, var(--c-b8433a) 18%, transparent); color: var(--c-b8433a); }
+
+.we-vs-megvett { justify-content: center; }
+
+.we-vs-sor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.we-vs-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 2px 12px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.we-vs-darab {
+  flex: 0 0 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scroll-snap-align: start;
+  user-select: none;
+}
+
+.we-vs-darab-img {
+  position: relative;
+  height: 180px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  border: 1px solid var(--m-line);
+  background:
+    repeating-linear-gradient(135deg, rgba(var(--c-57462f-rgb),.07) 0 8px, transparent 8px 16px),
+    var(--c-dcd8ce);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+}
+
+.we-vs-darab:hover .we-vs-darab-img { transform: translateY(-4px); box-shadow: var(--m-card-hover); }
+.we-vs-darab-img img { pointer-events: none; }
+.we-vs-darab > b { font: 600 13.5px 'Instrument Sans',system-ui,sans-serif; color: var(--c-2c2219); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.we-vs-darab > span { font: 400 12px 'Instrument Sans',system-ui,sans-serif; color: var(--c-8a7a62); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (hover: none) {
+  .we-vs-stat:hover, .we-vs-foto:hover { transform: none; }
+}
+
+@media (max-width: 1180px) {
+  .we-vs-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .we-vs { padding: 0 16px 32px; overflow: visible; flex: none; }
+  .we-keret-col5 .we-vs > .we-page-hero { margin: 16px 0 0; }
+  .we-vs-statok { grid-template-columns: 1fr 1fr; }
+  .we-vs-foto { height: 220px; }
+  .we-vs-gyuru { width: 92px; height: 92px; }
+  .we-vs-gyuru > div { width: 72px; height: 72px; }
+  .we-vs-gyuru > div > b { font-size: 26px; }
+  .we-vs-darab { flex-basis: 130px; }
+  .we-vs-darab-img { height: 156px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-care-uzenet.is-olvas { animation: none; }
+}
+
+
+/* ==========================================================================
+   14) PRÓBABABA – valósághű baba és szabásminták
+   A baba egy lekerekített, térhatású próbababa (férfi / női alak). Minden
+   ruhahely egy szabásmintát kap (póló, hosszú ujjú, ujjatlan, ruha, nyitott
+   kabát, nadrág, short, szoknya, cipőpár): a fotó ebbe a formába kerül, rajta
+   varrások, bordák, zsebek, gyűrődések és árnyékolás. Fotó nélkül a darab a
+   saját színében jelenik meg. Levágott hátterű fotónál nincs maszk: maga a
+   ruha a forma, egészben.
+   Minden minta a baba 200 × 440-es koordinátáiban van megadva; az SVG
+   viewBox-a éppen a hely téglalapja, így a forma pontosan a testre illik.
+   ========================================================================== */
+.we-baba {
+  /* férfi alak */
+  --baba-maszk: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 440'><ellipse cx='100' cy='34' rx='18' ry='22'/><path d='M91 50Q92 62 88 72L112 72Q108 62 109 50Z'/><path d='M100 70C88 70 72 72 62 78C50 82 44 92 42 106L34 196C33 204 36 212 41 214C46 222 54 218 54 210L58 150L62 126C64 150 66 175 68 196C68 210 64 224 64 236L136 236C136 224 132 210 132 196C134 175 136 150 138 126L142 150L146 210C146 218 154 222 159 214C164 212 167 204 166 196L158 106C156 92 150 82 138 78C128 72 112 70 100 70Z'/><path d='M64 234L136 234C138 260 136 290 132 320L128 400C128 404 124 406 120 406L108 406C104 406 103 402 103 398L101 272Q100 264 99 272L97 398C97 402 96 406 92 406L80 406C76 406 72 404 72 400L68 320C64 290 62 260 64 234Z'/><ellipse cx='86' cy='420' rx='17' ry='9'/><ellipse cx='114' cy='420' rx='17' ry='9'/></svg>");
+
+  /* szabásminták (maszk) */
+  --f-polo: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='30 60 140 176' preserveAspectRatio='none'><path d='M84 71Q100 84 116 71L138 77C151 82 157 92 159 104L163 140L143 145L139 128C141 160 140 198 140 234L60 234C60 198 59 160 61 128L57 145L37 140L41 104C43 92 49 82 62 77Z'/></svg>");
+  --f-hosszu: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='30 60 140 176' preserveAspectRatio='none'><path d='M84 71Q100 84 116 71L138 77C151 82 157 92 159 104L168 198L148 202L139 128C141 160 140 198 140 234L60 234C60 198 59 160 61 128L52 202L32 198L41 104C43 92 49 82 62 77Z'/></svg>");
+  --f-ujjatlan: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='30 60 140 176' preserveAspectRatio='none'><path d='M86 72Q100 94 114 72L122 72C124 92 130 110 138 126C141 160 140 198 140 234L60 234C60 198 59 160 62 126C70 110 76 92 78 72Z'/></svg>");
+  --f-ruha: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='20 60 160 290' preserveAspectRatio='none'><path d='M84 71Q100 86 116 71L134 75C146 80 152 90 154 100L141 118C139 150 134 175 132 196C140 240 152 290 160 345L40 345C48 290 60 240 68 196C66 175 61 150 59 118L46 100C48 90 54 80 66 75Z'/></svg>");
+  --f-kabat: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='24 58 152 232' preserveAspectRatio='none'><path d='M88 64C78 68 70 72 64 75C51 81 45 91 43 104L31 200L53 205L59 132C60 180 60 240 61 286L94 286L92 150L80 100Z'/><path d='M112 64C122 68 130 72 136 75C149 81 155 91 157 104L169 200L147 205L141 132C140 180 140 240 139 286L106 286L108 150L120 100Z'/><path d='M87 63Q100 58 113 63L114 71Q100 66 86 71Z'/></svg>");
+  --f-nadrag: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='50 228 100 182' preserveAspectRatio='none'><path d='M64 230L136 230C138 258 137 290 133 320L130 404L104 404L101 274L99 274L96 404L70 404L67 320C63 290 62 258 64 230Z'/></svg>");
+  --f-short: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='50 228 100 182' preserveAspectRatio='none'><path d='M64 230L136 230C138 252 138 272 137 300L102 302L100 276L98 302L63 300C62 272 62 252 64 230Z'/></svg>");
+  --f-szoknya: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='50 228 100 182' preserveAspectRatio='none'><path d='M66 230L134 230C136 250 140 290 146 330L54 330C60 290 64 250 66 230Z'/></svg>");
+  --f-cipo: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='62 396 76 40' preserveAspectRatio='none'><path d='M71 404C70 398 78 396 84 397L96 399C99 404 100 414 100 422C100 430 96 434 88 434L76 434C68 434 64 430 64 424C64 416 68 410 71 404Z'/><path d='M129 404C130 398 122 396 116 397L104 399C101 404 100 414 100 422C100 430 104 434 112 434L124 434C132 434 136 430 136 424C136 416 132 410 129 404Z'/></svg>");
+
+  /* részletek: varrások, bordák, zsebek, gyűrődések (a forma fölé rajzolva) */
+  --r-polo: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='30 60 140 176' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M84 71Q100 84 116 71' stroke='rgba(0,0,0,.38)' stroke-width='4'/><path d='M86 76Q100 87 114 76' stroke='rgba(255,255,255,.22)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M38 137L57 142M162 137L143 142' stroke='rgba(0,0,0,.3)' stroke-width='3'/><path d='M38 133L58 138M162 133L142 138' stroke='rgba(255,255,255,.18)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M61 228L139 228' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M62 128Q68 134 70 146M138 128Q132 134 130 146' stroke='rgba(0,0,0,.22)' stroke-width='2.2'/><path d='M74 196Q86 204 94 222M126 192Q114 202 108 224M90 110Q100 118 112 112' stroke='rgba(0,0,0,.13)' stroke-width='3'/><path d='M138 79Q141 90 140 104M62 79Q59 90 60 104' stroke='rgba(0,0,0,.18)' stroke-width='1.2'/></svg>");
+  --r-hosszu: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='30 60 140 176' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M84 71Q100 84 116 71' stroke='rgba(0,0,0,.38)' stroke-width='4'/><path d='M86 76Q100 87 114 76' stroke='rgba(255,255,255,.22)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M33 190L52 194M167 190L148 194' stroke='rgba(0,0,0,.3)' stroke-width='5'/><path d='M60 226L140 226' stroke='rgba(0,0,0,.2)' stroke-width='7'/><path d='M61 222L139 222' stroke='rgba(255,255,255,.18)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M40 150Q46 156 54 154M160 150Q154 156 146 154M38 120Q44 126 52 124M162 120Q156 126 148 124' stroke='rgba(0,0,0,.18)' stroke-width='2'/><path d='M62 128Q68 134 70 146M138 128Q132 134 130 146' stroke='rgba(0,0,0,.22)' stroke-width='2.2'/><path d='M74 192Q86 200 94 218M126 188Q114 198 108 220' stroke='rgba(0,0,0,.13)' stroke-width='3'/><path d='M138 79Q141 90 140 104M62 79Q59 90 60 104' stroke='rgba(0,0,0,.18)' stroke-width='1.2'/></svg>");
+  --r-ujjatlan: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='30 60 140 176' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M86 72Q100 94 114 72' stroke='rgba(0,0,0,.35)' stroke-width='3'/><path d='M122 72C124 92 130 110 138 126M78 72C76 92 70 110 62 126' stroke='rgba(0,0,0,.3)' stroke-width='2.5'/><path d='M61 228L139 228' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M74 196Q86 204 94 222M126 192Q114 202 108 224' stroke='rgba(0,0,0,.13)' stroke-width='3'/></svg>");
+  --r-ruha: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='20 60 160 290' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M84 71Q100 86 116 71' stroke='rgba(0,0,0,.35)' stroke-width='3'/><path d='M68 196Q100 204 132 196' stroke='rgba(0,0,0,.3)' stroke-width='2.5'/><path d='M69 200Q100 208 131 200' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M84 204Q80 270 70 342M100 206L100 344M116 204Q120 270 130 342' stroke='rgba(0,0,0,.14)' stroke-width='4'/><path d='M92 206Q90 270 86 344M108 206Q110 270 114 344' stroke='rgba(255,255,255,.08)' stroke-width='3'/><path d='M41 340L159 340' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/></svg>");
+  --r-kabat: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='24 58 152 232' preserveAspectRatio='none' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M88 64L80 100L92 150L94 286M112 64L120 100L108 150L106 286' stroke='rgba(0,0,0,.45)' stroke-width='3'/><path d='M80 100L88 108L92 150M120 100L112 108L108 150' stroke='rgba(0,0,0,.25)' stroke-width='1.5'/><path d='M91 152L92 282M109 152L108 282' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M66 226L88 228M134 226L112 228' stroke='rgba(0,0,0,.35)' stroke-width='2.5'/><path d='M32 192L53 197M168 192L147 197' stroke='rgba(0,0,0,.3)' stroke-width='3'/><path d='M62 280L93 280M138 280L107 280' stroke='rgba(255,255,255,.18)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M59 132Q62 150 62 170M141 132Q138 150 138 170M44 150Q48 156 54 154M156 150Q152 156 146 154' stroke='rgba(0,0,0,.18)' stroke-width='2'/><circle cx='86' cy='170' r='2.6' fill='rgba(0,0,0,.45)'/><circle cx='86' cy='206' r='2.6' fill='rgba(0,0,0,.45)'/><circle cx='86' cy='242' r='2.6' fill='rgba(0,0,0,.45)'/><path d='M138 79Q143 90 142 104M62 79Q57 90 58 104' stroke='rgba(0,0,0,.2)' stroke-width='1.2'/></svg>");
+  --r-nadrag: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='50 228 100 182' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M64 240Q100 244 136 240' stroke='rgba(0,0,0,.35)' stroke-width='2'/><path d='M65 236Q100 240 135 236' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M72 231L72 242M88 232L88 243M112 232L112 243M128 231L128 242' stroke='rgba(0,0,0,.3)' stroke-width='2.2'/><path d='M100 243L100 262Q100 268 106 270' stroke='rgba(255,255,255,.25)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M100 243L100 270' stroke='rgba(0,0,0,.3)' stroke-width='1.2'/><path d='M66 244Q78 248 84 262M134 244Q122 248 116 262' stroke='rgba(0,0,0,.32)' stroke-width='1.6'/><path d='M84 276L84 400M116 276L116 400' stroke='rgba(255,255,255,.1)' stroke-width='2'/><path d='M74 330Q84 336 94 330M106 330Q116 336 126 330M72 380Q84 386 96 380M104 380Q116 386 128 380' stroke='rgba(0,0,0,.14)' stroke-width='2.4'/><path d='M71 398L95 398M105 398L129 398' stroke='rgba(255,255,255,.22)' stroke-width='.8' stroke-dasharray='2 2'/><path d='M101 274L99 274' stroke='rgba(0,0,0,.4)' stroke-width='3'/></svg>");
+  --r-short: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='50 228 100 182' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M64 240Q100 244 136 240' stroke='rgba(0,0,0,.35)' stroke-width='2'/><path d='M72 231L72 242M88 232L88 243M112 232L112 243M128 231L128 242' stroke='rgba(0,0,0,.3)' stroke-width='2.2'/><path d='M100 243L100 270' stroke='rgba(0,0,0,.3)' stroke-width='1.2'/><path d='M66 244Q78 248 84 262M134 244Q122 248 116 262' stroke='rgba(0,0,0,.32)' stroke-width='1.6'/><path d='M64 294L98 296M136 294L102 296' stroke='rgba(0,0,0,.25)' stroke-width='3'/></svg>");
+  --r-szoknya: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='50 228 100 182' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M66 238Q100 242 134 238' stroke='rgba(0,0,0,.35)' stroke-width='2.5'/><path d='M80 242L72 328M92 242L90 328M108 242L110 328M120 242L128 328' stroke='rgba(0,0,0,.16)' stroke-width='2.5'/><path d='M86 242L82 328M114 242L118 328' stroke='rgba(255,255,255,.1)' stroke-width='2'/><path d='M56 324L144 324' stroke='rgba(255,255,255,.2)' stroke-width='.8' stroke-dasharray='2 2'/></svg>");
+  --r-cipo: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='62 396 76 40' preserveAspectRatio='none' fill='none' stroke-linecap='round'><path d='M64 425C66 431 70 434 76 434L88 434C96 434 100 430 100 425M136 425C134 431 130 434 124 434L112 434C104 434 100 430 100 425' stroke='rgba(255,255,255,.6)' stroke-width='4'/><path d='M78 403L90 404M77 408L91 409M77 413L91 414M122 403L110 404M123 408L109 409M123 413L109 414' stroke='rgba(255,255,255,.55)' stroke-width='1.3'/><path d='M66 420Q82 416 99 421M134 420Q118 416 101 421' stroke='rgba(0,0,0,.25)' stroke-width='1.2'/></svg>");
+
+  filter: drop-shadow(0 14px 18px rgba(var(--c-shadow-rgb),.28));
+}
+
+/* női alak: keskenyebb váll és derék, szélesebb csípő, haj */
+.we-keret-grid1.is-female .we-baba {
+  --baba-maszk: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 440'><path d='M82 40C80 16 92 8 102 8C116 8 124 20 122 40C121 54 124 66 128 74C120 76 114 74 110 70L90 70C86 74 80 76 72 74C76 66 79 54 82 40Z'/><ellipse cx='100' cy='34' rx='17' ry='21'/><path d='M93 50Q94 62 91 72L109 72Q106 62 107 50Z'/><path d='M100 70C89.4 70 75.4 72 66.6 78C56 82 50.7 92 49 106L42.1 196C41.2 204 43.7 212 48.1 214C52.5 222 59.5 218 59.5 210L63 150L66.6 126C68 150 72 175 75 196C73 212 64 224 64 236L136 236C136 224 127 212 125 196C128 175 132 150 133.4 126L137 150L140.5 210C140.5 218 147.5 222 151.9 214C156.3 212 158.8 204 157.9 196L151 106C149.3 92 144 82 133.4 78C124.6 72 110.6 70 100 70Z'/><path d='M64 234L136 234C138 260 136 290 132 320L128 400C128 404 124 406 120 406L108 406C104 406 103 402 103 398L101 272Q100 264 99 272L97 398C97 402 96 406 92 406L80 406C76 406 72 404 72 400L68 320C64 290 62 260 64 234Z'/><ellipse cx='88' cy='420' rx='14' ry='8'/><ellipse cx='112' cy='420' rx='14' ry='8'/></svg>");
+}
+
+/* a baba teste: térhatású, a téma színével */
+.we-baba-sziluett {
+  background:
+    radial-gradient(ellipse 34% 9% at 50% 7%, rgba(255,255,255,.16), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 50% 30%, rgba(255,255,255,.10), transparent 70%),
+    linear-gradient(90deg, rgba(var(--c-57462f-rgb),.12), rgba(var(--c-57462f-rgb),.24) 50%, rgba(var(--c-57462f-rgb),.12));
+}
+
+/* talajárnyék a lábak alatt */
+.we-baba::after {
+  content: '';
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: -2.5%;
+  height: 4%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(var(--c-shadow-rgb),.45), transparent);
+  pointer-events: none;
+}
+
+/* a helyek a babán (a viewBox-ok téglalapjai, százalékban) */
+.we-baba > .we-baba-zona.we-baba-felso { left: 15%; top: 13.636%; width: 70%; height: 40%; z-index: 2; }
+.we-baba > .we-baba-zona.we-baba-felso.is-v-ruha { left: 10%; width: 80%; height: 65.909%; }
+.we-baba > .we-baba-zona.we-baba-kabat { left: 12%; top: 13.182%; width: 76%; height: 52.727%; z-index: 3; }
+.we-baba > .we-baba-zona.we-baba-also { left: 25%; top: 51.818%; width: 50%; height: 41.364%; z-index: 1; }
+.we-baba > .we-baba-zona.we-baba-cipo { left: 31%; top: 90%; width: 38%; height: 9.091%; z-index: 2; }
+
+.we-keret-grid1.is-female .we-baba > .we-baba-zona.we-baba-felso { left: 19.2%; width: 61.6%; }
+.we-keret-grid1.is-female .we-baba > .we-baba-zona.we-baba-felso.is-v-ruha { left: 14.8%; width: 70.4%; }
+.we-keret-grid1.is-female .we-baba > .we-baba-zona.we-baba-kabat { left: 16.6%; width: 66.8%; }
+.we-keret-grid1.is-female .we-baba > .we-baba-zona.we-baba-cipo { left: 33.3%; width: 33.4%; }
+
+/* ruha: az alsó nem kell alá */
+.we-baba-felso.is-v-ruha:not(.is-ures) ~ .we-baba-also { display: none; }
+
+/* a szabásminta: maszk, keret és lekerekítés nélkül */
+.we-baba > .we-baba-zona:is(.we-baba-felso, .we-baba-kabat, .we-baba-also, .we-baba-cipo):not(.is-kivagott) {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  background-image: none;
+  background-color: color-mix(in srgb, var(--c-57462f) 32%, var(--c-f6f1e7));
+  -webkit-mask: var(--minta) 0 0 / 100% 100% no-repeat;
+  mask: var(--minta) 0 0 / 100% 100% no-repeat;
+}
+
+.we-baba > .we-baba-felso { --minta: var(--f-polo); --reszlet: var(--r-polo); }
+.we-baba > .we-baba-felso.is-v-hosszu { --minta: var(--f-hosszu); --reszlet: var(--r-hosszu); }
+.we-baba > .we-baba-felso.is-v-ujjatlan { --minta: var(--f-ujjatlan); --reszlet: var(--r-ujjatlan); }
+.we-baba > .we-baba-felso.is-v-ruha { --minta: var(--f-ruha); --reszlet: var(--r-ruha); }
+.we-baba > .we-baba-kabat { --minta: var(--f-kabat); --reszlet: var(--r-kabat); }
+.we-baba > .we-baba-also { --minta: var(--f-nadrag); --reszlet: var(--r-nadrag); }
+.we-baba > .we-baba-also.is-v-short { --minta: var(--f-short); --reszlet: var(--r-short); }
+.we-baba > .we-baba-also.is-v-szoknya { --minta: var(--f-szoknya); --reszlet: var(--r-szoknya); }
+.we-baba > .we-baba-cipo { --minta: var(--f-cipo); --reszlet: var(--r-cipo); }
+
+/* sima fotó: a kép közepére nagyítunk (ott maga az anyag van, nem a háttér) */
+.we-baba > .we-baba-zona:not(.is-kivagott) .we-photo {
+  object-fit: cover;
+  object-position: center 45%;
+  transform: scale(1.7);
+}
+
+.we-baba > .we-baba-also:not(.is-kivagott) .we-photo { object-position: center top; transform-origin: 50% 8%; transform: scale(2.4); }
+.we-baba > .we-baba-kabat:not(.is-kivagott) .we-photo { transform: scale(1.9); }
+.we-baba > .we-baba-cipo:not(.is-kivagott) .we-photo { object-position: center; transform: scale(2); }
+
+/* illesztett fotó: a ruha (a fotón mért körvonala) pontosan a helyére kerül.
+   A méretet és a helyet a sablon adja (width/height/left/top), itt csak a
+   nagyítást és a középre vágást kapcsoljuk ki. */
+.we-baba > .we-baba-zona.is-illesztett .we-photo,
+.we-baba > .we-baba-zona.is-illesztett:not(.is-kivagott) .we-photo {
+  right: auto;
+  bottom: auto;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+  transform: none;
+  transition: none;
+}
+
+/* kivágott cipő: pár – a jobb cipő a háttérkép, a bal a fotó tükörképe */
+.we-baba > .we-baba-zona.we-baba-cipo.is-par {
+  left: 26%;
+  top: 88.5%;
+  width: 48%;
+  height: 11%;
+  overflow: visible;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 50% auto;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.35));
+}
+
+.we-baba > .we-baba-zona.we-baba-cipo.is-par .we-photo {
+  left: 0;
+  right: auto;
+  width: 50%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: scaleX(-1);
+  filter: none;
+}
+
+/* kivágott ruha a szabásmintában: a ruha a színén ül, enyhe árnyékkal a szélein */
+.we-baba > .we-baba-zona.is-alfa .we-photo {
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.28)) saturate(1.04);
+}
+
+/* kivágott fotó: nincs maszk, ezért a felismert szín nem lehet a hely háttere */
+.we-baba > .we-baba-zona.is-kivagott:not(.we-baba-kieg) {
+  background-color: transparent !important;
+  border: 0;
+  box-shadow: none;
+}
+
+/* kivágott, illesztett ruha: maga a ruha a forma – árnyékkal, hogy a babán „feküdjön” */
+.we-baba > .we-baba-zona.is-kivagott.is-illesztett .we-photo {
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.35)) contrast(1.04);
+}
+
+/* részletek és térhatás: varrások, majd két oldalt árnyék, középen fény */
+.we-baba > .we-baba-zona:is(.we-baba-felso, .we-baba-kabat, .we-baba-also, .we-baba-cipo):not(.is-kivagott)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    var(--reszlet) 0 0 / 100% 100% no-repeat,
+    var(--ujj-arnyek, linear-gradient(transparent, transparent)),
+    var(--kabat-arnyek, linear-gradient(transparent, transparent)),
+    var(--derek-arnyek, linear-gradient(transparent, transparent)),
+    linear-gradient(90deg, rgba(0,0,0,.28), rgba(0,0,0,0) 18%, rgba(255,255,255,.08) 46%, rgba(0,0,0,0) 74%, rgba(0,0,0,.3)),
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0) 26%, rgba(0,0,0,.16));
+}
+
+/* --- "felvett" hatás: anyaggyűrődés (SVG-szűrő, lásd a Wardro Web.dc.html elején) és
+       árnyékok a test és a ruhák között --- */
+.we-baba > .we-baba-zona:is(.we-baba-felso, .we-baba-kabat):not(.is-kivagott):not(.is-ures) { filter: url(#wd-szovet); }
+.we-baba > .we-baba-also:not(.is-kivagott):not(.is-ures) { filter: url(#wd-szovet-nadrag); }
+
+@media (hover: hover) {
+  .we-baba > .we-baba-zona:is(.we-baba-felso, .we-baba-kabat):not(.is-kivagott):not(.is-ures):hover { filter: url(#wd-szovet) brightness(1.1); }
+  .we-baba > .we-baba-also:not(.is-kivagott):not(.is-ures):hover { filter: url(#wd-szovet-nadrag) brightness(1.1); }
+}
+
+/* az ujjak külön hengerként: a hónaljnál sötétebb varrás választja el őket a törzstől */
+.we-baba > :is(.we-baba-felso:not(.is-v-ujjatlan):not(.is-v-ruha), .we-baba-kabat) {
+  --ujj-arnyek: linear-gradient(90deg, transparent 15%, rgba(0,0,0,.3) 19.5%, transparent 24%, transparent 76%, rgba(0,0,0,.3) 80.5%, transparent 85%);
+}
+
+/* nyitott kabát alatt a felső a kabát két szélénél árnyékban van */
+.we-baba > .we-baba-kabat:not(.is-ures) ~ .we-baba-felso {
+  --kabat-arnyek: linear-gradient(90deg, transparent 36%, rgba(0,0,0,.42) 42%, transparent 47%, transparent 53%, rgba(0,0,0,.42) 58%, transparent 64%);
+}
+
+/* a felső alja árnyékot vet a nadrág derekára */
+.we-baba > .we-baba-felso:not(.is-ures) ~ .we-baba-also {
+  --derek-arnyek: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.12) 5%, transparent 10%);
+}
+
+/* a gallér alatt a nyakon árnyék, a kézfejen és az arcon finom fény */
+.we-baba-sziluett {
+  background:
+    radial-gradient(ellipse 10% 2.6% at 50% 17%, rgba(0,0,0,.4), transparent 75%),
+    radial-gradient(ellipse 34% 9% at 50% 7%, rgba(255,255,255,.16), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 50% 30%, rgba(255,255,255,.10), transparent 70%),
+    linear-gradient(90deg, rgba(var(--c-57462f-rgb),.12), rgba(var(--c-57462f-rgb),.24) 50%, rgba(var(--c-57462f-rgb),.12));
+}
+
+/* cipő mintaként: cipőforma a cipő színében, a fotóból csak a részletek (fény-árnyék) látszanak –
+   így a fotón lévő doboz, láb vagy háttér nem kerül a babára */
+.we-baba > .we-baba-zona.we-baba-cipo.is-cipo-minta .we-photo {
+  object-fit: cover;
+  object-position: center 35%;
+  transform: scale(1.6);
+  opacity: .6;
+  mix-blend-mode: luminosity;
+  filter: contrast(1.25) brightness(1.05);
+}
+
+/* kivágott ruha "felvéve": a ruha a saját alakjával van a babán (nincs szabásminta-maszk és
+   színkitöltés) – ahol nem takar, ott a baba látszik, mint egy embernél. A ráncok, a hengerszerű
+   árnyékolás és a testre vetett árnyék a ruha körvonalán belül jön (wd-felvett szűrő). */
+.we-baba > .we-baba-zona.is-alfa:is(.we-baba-felso, .we-baba-kabat, .we-baba-also) {
+  -webkit-mask: none;
+  mask: none;
+  background-color: transparent !important;
+  filter: none !important;
+  overflow: visible;
+}
+
+.we-baba > .we-baba-zona.is-alfa::before,
+.we-baba > .we-baba-zona.is-alfa::after { display: none; }
+
+.we-baba > .we-baba-zona.is-alfa .we-photo {
+  filter: url(#wd-felvett) saturate(1.06) contrast(1.04);
+}
+
+@media (hover: hover) {
+  .we-baba > .we-baba-zona.is-alfa:hover .we-photo { filter: url(#wd-felvett) saturate(1.12) contrast(1.06) brightness(1.08); }
+}
+
+/* fotó nélkül: anyagszerű szövésminta a darab színén */
+.we-baba > .we-baba-zona.is-nincsfoto:not(.is-kivagott) .we-photo { display: none; }
+.we-baba > .we-baba-zona.is-nincsfoto:is(.we-baba-felso, .we-baba-kabat, .we-baba-also):not(.is-kivagott)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 2px, rgba(0,0,0,.035) 2px 4px);
+}
+
+.we-baba > .we-baba-also.is-nincsfoto:not(.is-kivagott)::before {
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.05) 1px 3px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px);
+}
+
+/* a nevek a formán belül nem olvashatók: a név a buborékban (title) látszik */
+.we-baba > .we-baba-zona .we-baba-nev { display: none !important; }
+
+/* levágott hátterű darab: egészben, a helye tetejéhez (cipőnél az aljához) igazítva */
+.we-baba > .we-baba-zona.is-kivagott .we-photo { object-position: center top; }
+.we-baba > .we-baba-cipo.is-kivagott .we-photo { object-position: center bottom; }
+
+/* felöltöztetés: a darab finoman a helyére csúszik; rámutatva kiemelődik */
+.we-baba > .we-baba-zona:not(.is-ures) {
+  animation: we-baba-be .5s cubic-bezier(.2,.8,.2,1) both;
+  transition: filter .25s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+}
+
+.we-baba > .we-baba-felso { animation-delay: .04s; }
+.we-baba > .we-baba-also { animation-delay: .08s; }
+.we-baba > .we-baba-cipo { animation-delay: .12s; }
+.we-baba > .we-baba-kabat { animation-delay: .16s; }
+
+@keyframes we-baba-be {
+  from { opacity: 0; transform: translateY(-6px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (hover: hover) {
+  .we-baba > .we-baba-zona:not(.is-ures):hover { filter: brightness(1.12) saturate(1.05); }
+}
+
+/* kiegészítő: kerek jelvény a fej mellett */
+.we-baba > .we-baba-zona.we-baba-kieg {
+  left: 68%;
+  top: 1%;
+  width: 30%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid var(--c-f6f1e7);
+  background-image: none;
+  background-color: color-mix(in srgb, var(--c-57462f) 32%, var(--c-f6f1e7));
+  box-shadow: 0 8px 18px -10px rgba(var(--c-shadow-rgb),.7);
+  z-index: 4;
+}
+
+/* fotó nélküli kiegészítő: kis ikon a darab színén */
+.we-baba > .we-baba-zona.we-baba-kieg.is-nincsfoto::before {
+  content: '';
+  position: absolute;
+  inset: 26%;
+  background: rgba(255,255,255,.75);
+  -webkit-mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 8h14l-1.2 11.2A2 2 0 0 1 15.8 21H8.2a2 2 0 0 1-2-1.8L5 8Z'/><path d='M9 10V6.5a3 3 0 0 1 6 0V10'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 8h14l-1.2 11.2A2 2 0 0 1 15.8 21H8.2a2 2 0 0 1-2-1.8L5 8Z'/><path d='M9 10V6.5a3 3 0 0 1 6 0V10'/></svg>") center / contain no-repeat;
+}
+
+.we-baba > .we-baba-zona.we-baba-kieg.is-nincsfoto .we-photo { display: none; }
+
+.we-baba > .we-baba-zona.we-baba-kieg.is-kivagott { background-color: var(--c-f6f1e7); overflow: hidden; }
+.we-baba > .we-baba-zona.we-baba-kieg.is-kivagott .we-photo { object-fit: contain; object-position: center; padding: 12%; box-sizing: border-box; filter: none; }
+
+/* "Háttér eltávolítása mind" sáv a napi ajánlat kártyáján */
+.we-baba-hatter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--m-accent) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m-accent) 28%, transparent);
+  animation: we-chat-in .35s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-baba-hatter-ico {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+.we-baba-hatter-ico .we-ico { width: 17px; height: 17px; }
+
+.we-baba-hatter-t {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font: 500 13px/1.45 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+}
+
+.we-baba-hatter-sav {
+  height: 5px;
+  border-radius: 5px;
+  background: rgba(var(--c-57462f-rgb),.12);
+  overflow: hidden;
+}
+
+.we-baba-hatter-sav > i {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  background: var(--m-accent);
+  transition: width .4s ease;
+}
+
+.we-baba-hatter-gomb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+  font: 600 13px 'Instrument Sans',system-ui,sans-serif;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease;
+}
+
+.we-baba-hatter-gomb .we-ico { width: 15px; height: 15px; }
+.we-baba-hatter-gomb:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -14px color-mix(in srgb, var(--m-accent) 80%, transparent); }
+
+/* a mini babákon (kapszula, bőrönd) kisebb árnyék */
+.we-baba-mini { filter: drop-shadow(0 6px 8px rgba(var(--c-shadow-rgb),.22)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .we-baba > .we-baba-zona:not(.is-ures) { animation: none; }
+}
+
+
+/* eBay a katalógusban: figyelmeztetés (pl. nincs aktív kulcs) és a találatok blokkja */
+.we-ebay-figy {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, #E0A33A 12%, transparent);
+  border: 1px solid color-mix(in srgb, #E0A33A 40%, transparent);
+  font: 500 13px/1.45 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-57462f);
+}
+
+.we-ebay-figy .we-ico { width: 15px; height: 15px; flex: none; margin-top: 2px; color: #E0A33A; }
+
+.we-ebay {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--m-line);
+}
+
+/* ==========================================================================
+   15) MENÜ – fő pontok, nyitható csoportok, Beállítások a fogaskeréken
+   ========================================================================== */
+.we-ico-gear { --ico: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z'/></svg>"); }
+.we-ico-layers { --ico: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3 3 8l9 5 9-5-9-5Z'/><path d='m3 13 9 5 9-5'/><path d='m3 17.5 9 5 9-5' opacity='.55'/></svg>"); }
+
+/* fejléc: logó + fogaskerék */
+.we-keret-col1 .we-keret-fej {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 22px;
+  flex: none;
+}
+
+.we-keret-col1 .we-keret-fej .we-keret-btn1 { padding-bottom: 0; min-width: 0; }
+
+.we-keret-col1 .we-keret-gear {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--c-6b5940);
+  border: 1px solid var(--m-line);
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.we-keret-col1 .we-keret-gear .we-side-ico { width: 18px; height: 18px; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.we-keret-col1 .we-keret-gear:hover { background: rgba(var(--c-57462f-rgb),.06); color: var(--c-2c2219); border-color: var(--m-line-strong); }
+.we-keret-col1 .we-keret-gear:hover .we-side-ico { transform: rotate(75deg); }
+.we-keret-col1 .we-keret-gear.is-active { background: var(--m-accent); border-color: transparent; color: var(--m-accent-ink); }
+
+/* csoport: fejléc (darabszám, nyíl) és lenyíló lista */
+.we-keret-col1 .we-nav-csop { display: flex; flex-direction: column; }
+
+.we-keret-col1 .we-nav-csop-fej .we-nav-csop-db {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  background: rgba(var(--c-57462f-rgb),.08);
+  font: 600 11px 'Instrument Sans',system-ui,sans-serif;
+  color: var(--c-8a7a62);
+}
+
+.we-keret-col1 .we-nav-csop-chev {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  margin: 0 4px 3px 2px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(-45deg);
+  opacity: .65;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1);
+}
+
+.we-keret-col1 .we-nav-csop.is-nyitva .we-nav-csop-chev { transform: rotate(45deg); margin-bottom: 5px; }
+
+/* zárt csoport, benne a nyitott oldallal: a fejléc jelzi */
+.we-keret-col1 .we-nav-csop:not(.is-nyitva) .we-nav-csop-fej.is-active-csop { color: var(--c-2c2219); font-weight: 600; }
+.we-keret-col1 .we-nav-csop:not(.is-nyitva) .we-nav-csop-fej.is-active-csop .we-nav-csop-db { background: var(--m-accent); color: var(--m-accent-ink); }
+
+.we-keret-col1 .we-nav-csop-lista {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .32s cubic-bezier(.2,.8,.2,1);
+}
+
+.we-keret-col1 .we-nav-csop.is-nyitva .we-nav-csop-lista { grid-template-rows: 1fr; }
+
+.we-keret-col1 .we-nav-csop-belso {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 19px;
+  padding-left: 10px;
+  border-left: 1px solid var(--m-line-strong);
+}
+
+.we-keret-col1 .we-nav-csop.is-nyitva .we-nav-csop-belso { padding-top: 2px; padding-bottom: 4px; }
+
+.we-keret-col1 .we-nav-al { height: 36px; font-size: 13px; }
+.we-keret-col1 .we-nav-csop-cim, .we-keret-col1 .we-nav-csop-hatter { display: none; }
+
+/* csoportok elválasztása a fő pontoktól */
+.we-keret-col1 .we-keret-col2 > .we-nav-csop:first-of-type,
+.we-keret-col1 .we-keret-col2 > sc-if:has(> .we-nav-csop) { margin-top: 0; }
+.we-keret-col1 .we-nav-csop { margin-top: 6px; }
+
+/* a "Több" gomb csak telefonon, a két csoport csak nagyobb képernyőn */
+.we-keret-col1 .we-nav-csop.is-mobil { display: none; }
+
+/* ikonsáv (tablet): a lista ikonokként, egy halvány dobozban nyílik le */
+@media (max-width: 1180px) {
+  .we-keret-col1 .we-keret-fej { flex-direction: column; gap: 12px; padding-bottom: 18px; }
+  .we-keret-col1 .we-nav-csop-fej :is(.we-nav-csop-db, .we-nav-csop-chev) { display: none; }
+  .we-keret-col1 .we-nav-csop-belso {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+    border-radius: 12px;
+    background: rgba(var(--c-57462f-rgb),.05);
+  }
+  .we-keret-col1 .we-nav-al { height: 40px; }
+  .we-keret-col1 .we-nav-csop-fej.is-active-csop { background: rgba(var(--c-57462f-rgb),.07); }
+}
+
+/* telefon: az alsó sávban a csoport egy gomb; koppintásra panel nyílik fölötte */
+@media (max-width: 760px) {
+  .we-keret-col1 .we-keret-col2 { order: 1; }
+  .we-keret-col1 .we-keret-fej { order: 2; padding: 0; flex-direction: row; }
+  .we-keret-col1 .we-keret-btn2 { order: 3; }
+  .we-keret-col1 .we-keret-fej { display: none; }
+  .we-keret-col1 .we-nav-csop.is-asztali { display: none; }
+  .we-keret-col1 .we-nav-csop.is-mobil { display: flex; }
+
+  .we-keret-col1 .we-nav-csop { margin-top: 0; }
+
+  /* az 5 gomb (4 fő pont + Több) egyenlően osztozik a sávon, nem kell görgetni */
+  .we-keret-col1 .we-keret-col2 > :is(.we-nav-items-btn1, .we-nav-csop.is-mobil) { flex: 1 1 0; min-width: 0; }
+  .we-keret-col1 .we-keret-col2 > .we-nav-csop.is-mobil > .we-nav-csop-fej { min-width: 0; width: 100%; box-sizing: border-box; }
+  .we-keret-col1 .we-keret-col2 .we-nav-items-btn1 .we-side-label { max-width: 100%; }
+  .we-keret-col1 .we-nav-csop-lista { display: none; }
+  .we-keret-col1 .we-nav-csop-fej.is-active-csop { background: rgba(var(--c-57462f-rgb),.07); color: var(--c-2c2219); }
+
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-csop-hatter {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,.35);
+    animation: we-nav-hatter .25s ease both;
+  }
+
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-csop-lista {
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: calc(100% + 10px);
+    z-index: 2;
+    padding: 14px;
+    border-radius: 22px;
+    background: var(--c-f6f1e7);
+    border: 1px solid var(--m-line-strong);
+    box-shadow: 0 24px 50px -20px rgba(0,0,0,.6);
+    animation: we-nav-panel .3s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-csop-belso {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    overflow: visible;
+  }
+
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-csop-cim {
+    display: block;
+    grid-column: 1 / -1;
+    padding: 0 4px 4px;
+    font: 600 11px 'Instrument Sans',system-ui,sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--c-8a7a62);
+  }
+
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-al {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    min-width: 0;
+    height: 52px;
+    padding: 0 12px;
+    border-radius: 14px;
+    background: rgba(var(--c-57462f-rgb),.05);
+    font-size: 13.5px;
+  }
+
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-al .we-side-label { max-width: none; }
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-al.is-active { background: var(--m-accent); color: var(--m-accent-ink); }
+  .we-keret-col1 .we-nav-csop.is-panel .we-nav-al.is-active::before { display: none; }
+}
+
+@keyframes we-nav-panel { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes we-nav-hatter { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .we-keret-col1 .we-nav-csop-lista { transition: none; }
+  .we-keret-col1 .we-nav-csop.is-panel :is(.we-nav-csop-lista, .we-nav-csop-hatter) { animation: none; }
+}
+
+
+/* ==========================================================================
+   16) TERMÉKKÁRTYÁK (katalógus, eBay) – a fotó kitölti a kártyát, rajta a
+   márka színes címkéje és a név; lebegő hozzáadás gomb, élénk rámutatás
+   ========================================================================== */
+.we-keret-col5 .we-kat-grid {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5.2;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 22px;
+  border: 1px solid var(--m-line);
+  background: #111114;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease, border-color .3s ease;
+}
+
+/* a fotó (vagy fotó nélkül a márkakártya) kitölti a kártyát */
+.we-keret-col5 .we-kat-grid .we-kat-thumb {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+  padding: 14px;
+  box-shadow: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-thumb.has-photo { background: #EDEDED !important; }
+
+.we-keret-col5 .we-kat-grid .we-kat-thumb .we-photo {
+  object-fit: cover;
+  padding: 0;
+  background: transparent;
+  filter: saturate(1.08) contrast(1.03);
+  transition: transform .7s cubic-bezier(.2,.8,.2,1), filter .4s ease;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-card:hover .we-kat-thumb .we-photo {
+  transform: scale(1.08);
+  filter: saturate(1.18) contrast(1.05);
+}
+
+/* fotó nélkül: a márka neve nagyban, a kártya közepén */
+.we-keret-col5 .we-kat-grid .we-kat-thumb:not(.has-photo) .we-kat-thumb-brand {
+  font-size: clamp(26px, 3vw, 34px);
+  text-align: center;
+  margin-bottom: 30%;
+  opacity: .9;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-thumb:not(.has-photo) .we-photo { display: none; }
+
+/* a típus: üveghatású címke a bal felső sarokban (fotónál is látszik) */
+.we-keret-col5 .we-kat-grid .we-kat-thumb .we-kat-thumb-kind {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  visibility: visible;
+  max-width: calc(100% - 70px);
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(15,15,18,.45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  opacity: 1;
+  font: 650 10px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: .1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-thumb.has-photo .we-kat-thumb-brand { visibility: hidden; }
+
+/* sötét átmenet alul, hogy a szöveg minden fotón olvasható legyen */
+.we-keret-col5 .we-kat-grid .we-kat-card::after {
+  content: '';
+  position: absolute;
+  inset: 38% 0 0 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8,8,10,0) 0%, rgba(8,8,10,.55) 45%, rgba(8,8,10,.92) 100%);
+}
+
+/* fényvillanás rámutatáskor */
+.we-keret-col5 .we-kat-grid .we-kat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%);
+  transform: translateX(-120%);
+}
+
+@media (hover: hover) {
+  .we-keret-col5 .we-kat-grid .we-kat-card:hover::before { transform: translateX(120%); transition: transform .9s cubic-bezier(.2,.8,.2,1); }
+}
+
+/* márka, név, ár/típus a kártya alján */
+.we-keret-col5 .we-kat-grid .we-kat-info {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 0;
+  gap: 5px;
+  align-items: flex-start;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-marka {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 4px 10px 3px;
+  border-radius: 999px;
+  font: 700 12px/1.2 'Oswald','Instrument Sans',sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.35), 0 6px 16px -6px rgba(0,0,0,.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform-origin: left center;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1);
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-card:hover .we-kat-marka { transform: scale(1.06); }
+
+.we-keret-col5 .we-kat-grid .we-kat-name {
+  min-height: 0;
+  font: 700 15.5px/1.2 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.02em;
+  color: #FFFFFF;
+  text-shadow: 0 1px 10px rgba(0,0,0,.45);
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-sub {
+  font: 500 12px 'Instrument Sans',system-ui,sans-serif;
+  color: rgba(255,255,255,.78);
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-credit {
+  font-size: 10px;
+  color: rgba(255,255,255,.5);
+  opacity: 1;
+  max-width: 100%;
+}
+
+/* hozzáadás: lebegő kerek gomb a jobb felső sarokban */
+.we-keret-col5 .we-kat-grid .we-kat-add {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  gap: 0;
+  border-radius: 50%;
+  background: rgba(15,15,18,.45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.25);
+  font-size: 0;
+  transition: background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-add > span:not(.we-ico) { display: none; }
+.we-keret-col5 .we-kat-grid .we-kat-add .we-ico { width: 18px; height: 18px; }
+
+/* rámutatáskor csak a színe vált: nagyítás / forgatás nélkül, hogy az ikon éles maradjon */
+.we-keret-col5 .we-kat-grid .we-kat-card:hover .we-kat-add {
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+  box-shadow: 0 0 0 1px transparent, 0 8px 20px -8px color-mix(in srgb, var(--m-accent) 80%, transparent);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--m-accent) 45%, transparent);
+  box-shadow: 0 22px 44px -22px rgba(0,0,0,.75), 0 0 0 1px color-mix(in srgb, var(--m-accent) 25%, transparent);
+}
+
+/* kiválasztva: zöld pipa és keret a kiemelő színnel */
+.we-keret-col5 .we-kat-grid .we-kat-card.is-added {
+  border-color: var(--m-accent);
+  box-shadow: 0 0 0 2px var(--m-accent), 0 18px 40px -22px color-mix(in srgb, var(--m-accent) 70%, transparent);
+}
+
+.we-keret-col5 .we-kat-grid .we-kat-card.is-added .we-kat-add,
+.we-keret-col5 .we-kat-grid .we-kat-card.is-added:hover .we-kat-add {
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+}
+
+/* a kártya emelkedésétől se mosódjon el a szöveg és az ikon (egész pixelre, külön rétegen) */
+.we-keret-col5 .we-kat-grid .we-kat-card :is(.we-kat-add, .we-kat-info, .we-kat-thumb-kind) {
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+}
+
+/* a kártyák egymás után úsznak be */
+.we-keret-col5 .we-kat-grid .we-kat-card { animation: we-start-up .5s cubic-bezier(.2,.8,.2,1) both; }
+.we-keret-col5 .we-kat-grid .we-kat-card:nth-child(4n+2) { animation-delay: .04s; }
+.we-keret-col5 .we-kat-grid .we-kat-card:nth-child(4n+3) { animation-delay: .08s; }
+.we-keret-col5 .we-kat-grid .we-kat-card:nth-child(4n+4) { animation-delay: .12s; }
+
+@media (max-width: 760px) {
+  .we-keret-col5 .we-kat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .we-keret-col5 .we-kat-grid .we-kat-name { font-size: 13.5px; }
+  .we-keret-col5 .we-kat-grid .we-kat-marka { font-size: 10.5px; padding: 3px 8px 2px; }
+  .we-keret-col5 .we-kat-grid .we-kat-credit { display: none; }
+  .we-keret-col5 .we-kat-grid .we-kat-add { width: 34px; height: 34px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-keret-col5 .we-kat-grid .we-kat-card { animation: none; }
+  .we-keret-col5 .we-kat-grid .we-kat-card::before { display: none; }
+}
+
+
+/* ==========================================================================
+   17) SZEKRÉNY – a saját ruhák kártyái a katalógus stílusában: a fotó tölti
+   ki a kártyát, rajta a kategória, alul a márka színes címkéje és a név
+   ========================================================================== */
+.we-keret-col5 .we-wardrobe-grid1 { gap: 14px; }
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1 {
+  position: relative;
+  isolation: isolate;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--m-line);
+  background: #111114;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease, border-color .3s ease;
+  animation: we-start-up .5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1:nth-child(4n+2) { animation-delay: .04s; }
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1:nth-child(4n+3) { animation-delay: .08s; }
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1:nth-child(4n+4) { animation-delay: .12s; }
+
+/* a fotó doboza a teljes kártya (a régi keret és emelkedés helyett a kártya mozdul) */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-box1 {
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none !important;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-box1 .we-drops-img1 {
+  filter: saturate(1.08) contrast(1.03);
+  transition: transform .7s cubic-bezier(.2,.8,.2,1), filter .4s ease;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1:hover .we-drops-img1 { transform: scale(1.08); filter: saturate(1.18) contrast(1.05); }
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-box1.is-kivagott .we-drops-img1 { filter: drop-shadow(0 10px 16px rgba(0,0,0,.35)); }
+
+/* sötét átmenet alul a szövegnek */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1::after {
+  content: '';
+  position: absolute;
+  inset: 40% 0 0 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8,8,10,0) 0%, rgba(8,8,10,.55) 45%, rgba(8,8,10,.92) 100%);
+}
+
+/* fényvillanás rámutatáskor */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.2) 50%, transparent 65%);
+  transform: translateX(-120%);
+}
+
+@media (hover: hover) {
+  .we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1:hover::before { transform: translateX(120%); transition: transform .9s cubic-bezier(.2,.8,.2,1); }
+  .we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--m-accent) 45%, transparent);
+    box-shadow: 0 22px 44px -22px rgba(0,0,0,.75), 0 0 0 1px color-mix(in srgb, var(--m-accent) 25%, transparent);
+  }
+}
+
+/* kijelölt darab: kiemelő színű keret */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1.is-sel {
+  border-color: var(--m-accent);
+  box-shadow: 0 0 0 2px var(--m-accent), 0 18px 40px -22px color-mix(in srgb, var(--m-accent) 70%, transparent);
+}
+
+/* kategória: üveghatású címke a bal felső sarokban */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-tipus {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  max-width: calc(100% - 50px);
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(15,15,18,.45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  font: 650 10px 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-tipus:has(> .sc-interp:empty) { display: none; }
+
+/* a szín pöttye a jobb felső sarokban, az állapot (szennyesben / javításra vár) a kategória alatt */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-szin { z-index: 3; top: 14px; right: 14px; box-shadow: 0 0 0 2px rgba(255,255,255,.85), 0 2px 8px rgba(0,0,0,.4); }
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-allapot {
+  z-index: 3;
+  top: 42px;
+  bottom: auto;
+  left: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #E0A33A 88%, transparent);
+  color: #1B1408;
+}
+
+/* márka, név és a viselés / kategória a kártya alján */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-col1 {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 0;
+  gap: 5px;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-marka {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 4px 10px 3px;
+  border-radius: 999px;
+  font: 700 11.5px/1.2 'Oswald','Instrument Sans',sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.35), 0 6px 16px -6px rgba(0,0,0,.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-text1 {
+  font: 700 15px/1.2 'Instrument Sans',system-ui,sans-serif;
+  letter-spacing: -.02em;
+  color: #FFFFFF;
+  text-shadow: 0 1px 10px rgba(0,0,0,.45);
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-text2 {
+  font: 500 12px 'Instrument Sans',system-ui,sans-serif;
+  color: rgba(255,255,255,.78);
+}
+
+/* rég nem viselt: a felirat kiemelve */
+.we-keret-col5 .we-wardrobe-grid1 .we-pieces-text2.is-regi { color: #FFC66B; }
+
+@media (max-width: 760px) {
+  .we-keret-col5 .we-wardrobe-grid1 { gap: 10px; }
+  .we-keret-col5 .we-wardrobe-grid1 .we-pieces-text1 { font-size: 13.5px; }
+  .we-keret-col5 .we-wardrobe-grid1 .we-pieces-marka { font-size: 10px; padding: 3px 8px 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1 { animation: none; }
+  .we-keret-col5 .we-wardrobe-grid1 .we-pieces-btn1::before { display: none; }
+}
+
+
+/* ==========================================================================
+   18) TELEFON – alsó lap (bottom sheet), Stylist, Okos szekrény fülei
+   ========================================================================== */
+/* nagyobb képernyőn az alsó lap részei nem látszanak */
+.we-mob-lap-hatter, .we-mob-lap-fej { display: none; }
+
+@media (max-width: 760px) {
+  /* kijelölt ruha / ruhaválasztó: a jobb panel alulról felcsúszó lapként, a tartalom fölött */
+  .we-keret-grid1.is-mob-lap .we-mob-lap-hatter {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0,0,0,.5);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    animation: we-nav-hatter .25s ease both;
+  }
+
+  .we-keret-grid1.is-mob-lap .we-keret-box2 {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 41;
+    max-height: 86dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 16px calc(20px + env(safe-area-inset-bottom));
+    box-sizing: border-box;
+    border-radius: 26px 26px 0 0;
+    border-top: 1px solid var(--m-line-strong);
+    background: var(--c-f6f1e7);
+    box-shadow: 0 -24px 60px -20px rgba(0,0,0,.7);
+    animation: we-mob-lap-fel .38s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  @keyframes we-mob-lap-fel { from { transform: translateY(60%); opacity: .4; } to { transform: none; opacity: 1; } }
+
+  /* fogantyú és bezáró gomb a lap tetején (görgetéskor is fent marad) */
+  .we-keret-grid1.is-mob-lap .we-mob-lap-fej {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    height: 44px;
+    margin: 0 -16px 4px;
+    background: var(--c-f6f1e7);
+  }
+
+  .we-keret-grid1.is-mob-lap .we-mob-lap-fogo {
+    width: 44px;
+    height: 5px;
+    border-radius: 5px;
+    background: rgba(var(--c-57462f-rgb),.25);
+  }
+
+  .we-keret-grid1.is-mob-lap .we-mob-lap-x {
+    position: absolute;
+    right: 12px;
+    top: 6px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(var(--c-57462f-rgb),.08);
+    color: var(--c-2c2219);
+    cursor: pointer;
+  }
+
+  .we-keret-grid1.is-mob-lap .we-mob-lap-x .we-ico { width: 16px; height: 16px; }
+
+  /* a ruha paneljének saját bezáró gombja helyett a lap tetején lévő szolgál */
+  .we-keret-grid1.is-mob-lap .we-keret-box2 .we-rail-item-btn1 { display: none; }
+
+  /* Stylist: a chat elfér a képernyőn, az üzenetíró mező nem csúszik az alsó menüsáv alá */
+  .we-sty-chat { height: calc(100dvh - 290px - env(safe-area-inset-bottom)); min-height: 380px; }
+
+  /* Okos szekrény: a fülek két sorban, mind látszik (nem kell oldalra görgetni) */
+  .we-keret-col5 .we-okos-fulek {
+    flex-wrap: wrap;
+    overflow: visible;
+    justify-content: center;
+  }
+
+  .we-keret-col5 .we-okos-fulek .we-add-tab { flex: 1 1 40%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-keret-grid1.is-mob-lap :is(.we-keret-box2, .we-mob-lap-hatter) { animation: none; }
+}

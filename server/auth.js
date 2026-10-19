@@ -17,8 +17,10 @@ function verifyPassword(password, stored) {
   var salt = parts[0];
   var hash = parts[1];
   if (!salt || !hash) return false;
-  var check = crypto.scryptSync(password, salt, 64).toString("hex");
-  return check === hash;
+  var check = crypto.scryptSync(password, salt, 64);
+  var want = Buffer.from(hash, "hex");
+  // állandó idejű összehasonlítás (ne lehessen időzítésből következtetni)
+  return want.length === check.length && crypto.timingSafeEqual(check, want);
 }
 
 // munkamenetek egy sima objektumban, nem Map-ben - token a kulcs
@@ -45,6 +47,13 @@ function getSession(token) {
 
 function destroySession(token) {
   delete sessions[token];
+}
+
+// jelszócsere után: a felhasználó minden eszközről kijelentkezik
+function destroyUserSessions(userId) {
+  Object.keys(sessions).forEach(function (t) {
+    if (String(sessions[t].userId) === String(userId)) delete sessions[t];
+  });
 }
 
 function parseCookies(req) {
@@ -87,6 +96,7 @@ module.exports = {
   createSession: createSession,
   getSession: getSession,
   destroySession: destroySession,
+  destroyUserSessions: destroyUserSessions,
   parseCookies: parseCookies,
   setSessionCookie: setSessionCookie,
   clearSessionCookie: clearSessionCookie,

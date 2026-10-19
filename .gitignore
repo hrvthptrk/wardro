@@ -1,5 +1,5 @@
-# A backend telepített csomagjai – npm install újratelepíti (server/package.json alapján)
-server/node_modules/
-
-# Feltöltött ruhafotók – ezek felhasználói adatok, nem forráskód
-server/uploads/
+# Minden fájl a tárolóba kerül, kivéve ezt a kettőt: jelszót / titkos kulcsot tartalmaznak,
+# ezért a GitHub nem engedi feltölteni őket (push protection). A gépen megmaradnak;
+# kitöltetlen mintájuk: server/email.config.example.json, server/ebay.config.example.json
+server/email.config.json
+server/ebay.config.json

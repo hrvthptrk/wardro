@@ -1,0 +1,5 @@
+{
+  "clientId": "ide az eBay App ID (Production)",
+  "clientSecret": "ide az eBay Cert ID (Production)",
+  "marketplace": "EBAY_DE"
+}

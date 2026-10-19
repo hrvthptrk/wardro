@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "mysql2": "^3.24.5",
+    "nodemailer": "^10.1.6",
     "qrcode": "^1.5.4",
     "ws": "^8.18.3"
   }
