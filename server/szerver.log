@@ -239,3 +239,22 @@ Kiszolgálási hiba: Error: connect ECONNREFUSED 127.0.0.1:3306
   port: 3306,
   fatal: true
 }
+[2026. 10. 20. 8:04:34] [felügyelő] felügyelő indul
+[2026. 10. 20. 8:04:34] [felügyelő] szerver elindítva (pid 2856)
+Kiszolgálás indul...
+Várom az adatbázist – indítsd el a XAMPP-ban a MySQL-t (5 másodpercenként újrapróbálom)…
+Az adatbázis elérhető, folytatom.
+A 8080-as port foglalt – valószínűleg már fut a Wardro a háttérben (http://localhost:8080). Ez a példány kilép.
+[2026. 10. 20. 8:04:59] [felügyelő] már fut egy szerver – a felügyelő kilép
+[2026. 10. 20. 8:09:02] [felügyelő] felügyelő indul
+[2026. 10. 20. 8:09:02] [felügyelő] szerver elindítva (pid 8356)
+Kiszolgálás indul...
+Kiszolgálás fut a http://localhost:8080 címen
+Telefonról elérhető cím: http://172.20.10.8:8080
+
+==================================================================
+ Nyilvános cím (bárhonnan elérhető, az internetről is):
+   https://symposium-incl-effort-pennsylvania.trycloudflare.com
+ A megerősítő e-mailek linkjei ezt a címet kapják.
+==================================================================
+

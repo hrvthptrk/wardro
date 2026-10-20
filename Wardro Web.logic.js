@@ -707,13 +707,19 @@ const BASE = { view: 'wardrobe', cat: 'All', sel: null, worn: {}, hidden: [], fa
 // STYLIST – SZÖVEGÉRTÉS
 // Saját írású, összetett mondatokat is értelmez (pl. „esős időben megyek egy
 // drága étterembe, de ne legyen fekete”). Lépések:
-//  1. normalizálás: kisbetű, ékezetek nélkül, írásjelek nélkül
+//  1. normalizálás: kisbetű, ékezetek nélkül; a vesszők / mondatvégek
+//     tagmondat-határként megmaradnak (a tagadás nem lép át rajtuk)
 //  2. szavakra bontás; a magyar ragok miatt szótő-előtaggal egyeztetünk
 //     („étterembe” → „etterem”), hosszabb szavaknál 1 elírást is elnézünk
 //  3. kulcsszó-szótár: minden találat súlyozott jelzést ad (alkalom, stílus,
-//     elegancia-szint, időjárás, kényelem, árnyalat, különleges esemény…)
-//  4. tagadás: „ne / nem / nincs / se / utálom / kerüld … X” és „X nélkül”
-//  5. színek, ruhadarabok és ezek párosai („kék ing”), hőfok számmal
+//     elegancia-szint, időjárás, kényelem, árnyalat, színpaletta, esemény…);
+//     a szleng és az angol kifejezések is benne vannak („comfy”, „date night”)
+//  4. erősítés / gyengítés: „nagyon elegáns”, „kicsit lazább”, „kevésbé sötét”,
+//     „ne legyen túl elegáns” (= csak kicsit visszafogottabb)
+//  5. tagadás: „ne / nem / nincs / se / utálom / kerüld … X”, „X nélkül”,
+//     „X helyett”, „X ne legyen”, „inkább Y, mint X”, „vedd le a kabátot”
+//  6. színek, ruhadarabok és ezek párosai („kék ing”, „fekete bőr dzseki”),
+//     hőfok számmal vagy betűvel („huszonöt fok”), napok („holnap”, „szombaton”)
 // ==========================================================================
 const styNorm = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/[^a-z0-9°\-\s]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -739,159 +745,395 @@ const styIllik = (szo, to) => {
   return to.length >= 7 && szo.length >= to.length - 1 && szo[0] === to[0] && szo[1] === to[1] && styTav(szo.slice(0, to.length), to) <= 1;
 };
 
-const STY_TAGADO = new Set(['ne', 'nem', 'nincs', 'se', 'sem', 'soha', 'semmi', 'utalom', 'utalok', 'kerul', 'kerulj', 'kerulnem', 'kerulnek', 'kerulje', 'nelkul', 'tilos', 'felejtsd', 'hagyd']);
-const STY_HATAR = new Set(['de', 'es', 'hanem', 'viszont', 'csak', 'meg', 'inkabb', 'vagy']);
+// tagmondat-határ jelölő (a vesszőből, pontból… lesz; a normalizálás után is megmarad)
+const STY_VESSZO = 'xhatarx';
+const STY_TAGADO = new Set(['ne', 'nem', 'nincs', 'se', 'sem', 'soha', 'semmi', 'utalom', 'utalok', 'utalnam', 'gyulolom', 'kerul', 'kerulj', 'kerulnem', 'kerulnek',
+  'kerulje', 'kerulnenk', 'nelkul', 'nelkule', 'tilos', 'tiltott', 'felejtsd', 'hagyd', 'hagyjuk', 'kiveve', 'nehogy', 'semmikepp', 'semmikeppen',
+  'semmiesetre', 'dehogy', 'kihagy', 'kihagynam', 'kihagynek', 'mellozd', 'mellozzuk', 'kizar', 'kizarva', 'felejtos', 'nemszeretem', 'not', 'dont', 'without', 'never']);
+const STY_HATAR = new Set([STY_VESSZO, 'de', 'es', 'hanem', 'viszont', 'csak', 'meg', 'inkabb', 'vagy', 'ha', 'mert', 'amikor', 'ahol', 'aztan', 'utana',
+  'plusz', 'illetve', 'valamint', 'azonban', 'mig', 'mivel', 'but', 'and']);
+// „X ne legyen”, „X nem kell”: a szó UTÁN álló tagadás
+const STY_UTO_IGE = new Set(['legyen', 'legyenek', 'kell', 'kellene', 'kerek', 'kerem', 'akarok', 'akarom', 'szeretnek', 'szeretnem', 'jo', 'tetszik', 'hordok',
+  'hordanam', 'veszek', 'vennek', 'vennem', 'nagyon', 'igazan', 'szeretem', 'birom', 'kedvelem', 'jon', 'megy']);
+// „vedd le a kabátot”, „hagyd le a sapkát”
+const STY_LE_IGE = new Set(['vedd', 'vegyed', 'vegyuk', 'hagyd', 'hagyjuk', 'szedd', 'tedd', 'tegyuk', 'vegyel']);
+
+// erősítő / gyengítő szavak a kulcsszó előtt: „nagyon elegáns”, „kicsit lazább”, „kevésbé sötét”
+const STY_ERO = {
+  nagyon: 1.6, rettento: 1.8, iszonyu: 1.8, borzaszto: 1.8, szuper: 1.5, hiper: 1.6, abszolut: 1.7, teljesen: 1.6, totalisan: 1.7, kifejezetten: 1.5,
+  kulonosen: 1.4, igazan: 1.4, tok: 1.5, full: 1.6, extra: 1.5, maximalisan: 1.8, tul: 1.5, sokkal: 1.6, jocskan: 1.4, ennyire: 1.3, annyira: 1.3,
+  egyaltalan: 1.5, very: 1.6, super: 1.5, really: 1.4, eleg: 0.9, kicsit: 0.5, kicsiket: 0.5, kisse: 0.5, picit: 0.5, piciket: 0.5,
+  enyhen: 0.5, valamelyest: 0.5, valamennyire: 0.6, mersekelten: 0.6, felig: 0.5, nemileg: 0.6, alig: 0.3, slightly: 0.5, kevesbe: -0.6, less: -0.6,
+};
+
+// számok betűvel (hőfokhoz): „huszonöt fok”, „mínusz öt”
+const STY_SZAM_EGY = { nulla: 0, egy: 1, ket: 2, ketto: 2, harom: 3, negy: 4, ot: 5, hat: 6, het: 7, nyolc: 8, kilenc: 9 };
+const STY_SZAM_TIZ = [['harminc', 30], ['negyven', 40], ['huszon', 20], ['tizen', 10], ['husz', 20], ['tiz', 10]];
+const stySzam = (szo) => {
+  if (/^-?\d{1,2}$/.test(szo)) return parseInt(szo, 10);
+  if (STY_SZAM_EGY[szo] !== undefined) return STY_SZAM_EGY[szo];
+  for (const [elo, ertek] of STY_SZAM_TIZ) {
+    if (szo === elo) return ertek;
+    if (szo.startsWith(elo) && STY_SZAM_EGY[szo.slice(elo.length)] !== undefined) return ertek + STY_SZAM_EGY[szo.slice(elo.length)];
+  }
+  return null;
+};
+
+// napok: melyik napra öltözöl (az előrejelzéshez)
+const STY_NAPOK = [
+  [['holnaput'], 'holnapután', 2], [['holnap'], 'holnap', 1], [['ma$', 'mai$', 'ma este', 'ma delutan', 'most$', 'mara$'], 'ma', 0],
+  [['hetfo'], 'hétfőn', 'hetfo'], [['kedd'], 'kedden', 'kedd'], [['szerda', 'szerdan'], 'szerdán', 'szerda'], [['csutortok'], 'csütörtökön', 'csutortok'],
+  [['pentek'], 'pénteken', 'pentek'], [['szombat'], 'szombaton', 'szombat'], [['vasarnap'], 'vasárnap', 'vasarnap'],
+  [['hetvege', 'hetvegen', 'hetvegere', 'weekend'], 'hétvégén', 'hetvege'],
+];
+const STY_HET_NAP = { vasarnap: 0, hetfo: 1, kedd: 2, szerda: 3, csutortok: 4, pentek: 5, szombat: 6 };
 
 // Szótár: [szótövek, hatás]. A szótövek ékezet nélkül; a „$” végű csak pontos szóra illik,
 // a szóközt tartalmazó kifejezés a teljes szövegben keresendő.
 // Hatások: a = alkalom, st = stílus-szavazat, f = elegancia (+ formálisabb / − lazább),
-// ido = időjárás, k = kényelem, arny = sötét / világos, ev = különleges esemény, c = címke a visszajelzéshez
+// ido = időjárás (idoGy: gyenge jel, pl. hónapnév – csak ha más nem szól az időről),
+// k = kényelem, arny = sötét / világos, szin = semleges / színes, paletta = előnyben részesített színek,
+// ev = különleges esemény, kabat / kieg = kabát / kiegészítő legyen-e, ritka / kedvenc / uj = melyik darabokat
+// vegye elő, nt = a tagadás nem fordítja meg („ne fázzak” is meleg ruhát jelent), c = címke a visszajelzéshez
+const STY_FOLD = ['barna', 'bézs', 'khaki', 'olíva'];
 const STY_SZOTAR = [
   // --- munka ---
-  [['iroda', 'irodai', 'munkaba', 'munkahely', 'munkam', 'melo', 'dolgoz', 'kolleg', 'cegnel', 'ceges'], { a: 'munka', f: 1, c: 'munka' }],
-  [['meeting', 'megbeszel', 'targyal', 'ugyfel', 'prezent', 'konferenc', 'tanacskoz', 'ertekezlet', 'workshop'], { a: 'munka', f: 1.5, c: 'fontos megbeszélés' }],
-  [['allasinterj', 'interju', 'felveteli'], { a: 'munka', f: 3, ev: 'interju', c: 'állásinterjú' }],
-  [['home office', 'otthonrol dolgoz', 'tavmunk'], { a: 'laza', f: -1.5, k: 1, c: 'home office' }],
+  [['iroda', 'irodai', 'munka$', 'munkaba', 'munkara', 'munkahoz', 'munkahely', 'munkam', 'munkanap', 'munkaido', 'melo', 'melohely', 'dolgoz', 'kolleg', 'cegnel', 'ceges', 'office', 'uzleti',
+    'business$', 'corporate', 'irodista'], { a: 'munka', f: 1, c: 'munka' }],
+  [['meeting', 'megbeszel', 'targyal', 'ugyfel', 'prezent', 'konferenc', 'tanacskoz', 'ertekezlet', 'workshop', 'fonokkel', 'fonokom', 'igazgato', 'vezetoseg',
+    'board$', 'partnertalalk', 'tender'], { a: 'munka', f: 1.5, c: 'fontos megbeszélés' }],
+  [['uzleti ebed', 'uzleti vacsor', 'business lunch', 'business dinner', 'munkavacsor', 'munkaebed'], { a: 'munka', f: 2, c: 'üzleti étkezés' }],
+  [['allasinterj', 'interju', 'felveteli', 'job interview', 'probanap', 'elso munkanap'], { a: 'munka', f: 3, ev: 'interju', c: 'állásinterjú' }],
+  [['vizsga$', 'vizsgara', 'vizsgam', 'vizsgaz', 'vizsgat', 'vizsgan', 'allamvizsga', 'zarovizsga', 'szobeli', 'erettsegi', 'vedes', 'szakdolgozat', 'diplomamunk'],
+    { a: 'munka', f: 2, ev: 'vizsga', c: 'vizsga' }],
+  [['eloadast tartok', 'eloadok', 'prezentalok', 'beszedet mondok', 'beszedet tartok', 'pitch', 'kiallok', 'szinpadra'], { a: 'munka', f: 2, c: 'előadás / prezentáció' }],
+  [['home office', 'homeoffice', 'otthonrol dolgoz', 'tavmunk', 'remote'], { a: 'laza', f: -1.5, k: 1, c: 'home office' }],
+  [['zoom', 'teams$', 'videohiv', 'videochat', 'online meeting', 'onlinemeeting', 'webkamera', 'kamera elott', 'google meet'], { a: 'munka', f: 0.5, k: 1, ev: 'video', c: 'videóhívás' }],
+  [['casual friday', 'laza pentek', 'pentek iroda'], { a: 'munka', f: -0.8, st: { laza: 1 }, c: 'laza péntek' }],
+  [['startup', 'kreativ iroda', 'ugynokseg', 'it ceg', 'programozo', 'fejleszto', 'coworking'], { a: 'munka', f: -0.6, st: { laza: 1 }, c: 'laza munkahely' }],
+  [['ceges buli', 'ceges parti', 'ceges rendezveny', 'karacsonyi buli', 'evzaro', 'csapatepito', 'teambuilding', 'team building', 'ceges vacsor'],
+    { a: 'program', f: 1, c: 'céges rendezvény' }],
   // --- elegáns programok ---
-  [['etterem', 'ettermi', 'vacsor', 'bisztro', 'vendeglo'], { a: 'program', f: 1, c: 'étterem / vacsora' }],
-  [['randi', 'randev', 'randiz'], { a: 'program', f: 1.2, c: 'randi' }],
-  [['elso randi'], { f: 1, c: 'első randi' }],
-  [['szinhaz', 'opera', 'balett', 'filharmon', 'hangverseny', 'koncertterem'], { a: 'program', f: 2.5, c: 'színház / opera' }],
-  [['gala', 'estely', 'bal$', 'balra$', 'fogadas', 'premier', 'dij atad', 'dijatado'], { a: 'program', f: 3.5, c: 'gála / estély' }],
-  [['eskuvo', 'eskuvoi', 'lagzi', 'lakodalom'], { a: 'program', f: 3, ev: 'eskuvo', c: 'esküvő' }],
-  [['temetes', 'gyasz', 'megemlekez'], { a: 'program', f: 3, ev: 'temetes', arny: 'sotet', c: 'temetés' }],
-  [['templom', 'mise', 'kereszt', 'bermal', 'elsoaldoz'], { a: 'program', f: 2, ev: 'templom', c: 'templom' }],
-  [['evfordulo', 'jubileum', 'ballagas', 'diplomaoszt', 'avatas'], { a: 'program', f: 2, c: 'ünnepi alkalom' }],
-  [['szulinap', 'szuletesnap', 'nevnap', 'unnepl', 'csaladi ebed', 'csaladi vacsor'], { a: 'program', f: 0.5, c: 'ünneplés' }],
-  [['koktel', 'borkostol', 'borbar', 'rooftop', 'tetobar'], { a: 'program', f: 1.5, c: 'koktélbár' }],
-  [['muzeum', 'kiallitas', 'galeria', 'tarlat'], { a: 'program', f: 0.8, k: 0.5, c: 'kiállítás' }],
+  [['etterem', 'ettermi', 'vacsor', 'bisztro', 'vendeglo', 'restaurant', 'dinner'], { a: 'program', f: 1, c: 'étterem / vacsora' }],
+  [['randi', 'randev', 'randiz', 'date$', 'date night', 'udvarl', 'parommal', 'parjaval', 'pasimmal', 'csajommal', 'valentin', 'talalka'],
+    { a: 'program', f: 1.2, ev: 'randi', c: 'randi' }],
+  [['elso randi', 'first date'], { f: 1, c: 'első randi' }],
+  [['romantikus', 'romantika', 'romantic'], { f: 1, st: { elegans: 1 }, c: 'romantikus' }],
+  [['szexi', 'sexy', 'dogos', 'vonzo', 'csabit', 'hodit', 'femme fatale'], { f: 0.8, st: { elegans: 1 }, arny: 'sotet', c: 'vonzó' }],
+  [['szinhaz', 'opera', 'balett', 'filharmon', 'hangverseny', 'koncertterem', 'musical', 'operett'], { a: 'program', f: 2.5, c: 'színház / opera' }],
+  [['gala$', 'galara', 'galan$', 'galaest', 'galavacsor', 'estely', 'bal$', 'balra$', 'balba$', 'fogadas', 'premier', 'dij atad', 'dijatado', 'dijkioszt',
+    'jotekonysag', 'charity', 'aukcio', 'hivatalos esemeny'], { a: 'program', f: 3.5, c: 'gála / estély' }],
+  [['black tie', 'white tie', 'frakk', 'szmoking', 'tuxedo', 'estelyi', 'nagyestely'], { st: { elegans: 4 }, f: 4, c: 'black tie' }],
+  [['eskuvo', 'eskuvoi', 'lagzi', 'lakodalom', 'menyegzo', 'wedding', 'koszorulany', 'tanu leszek', 'tanukent', 'vofely', 'polgari szertartas'],
+    { a: 'program', f: 3, ev: 'eskuvo', c: 'esküvő' }],
+  [['eljegyz', 'leanykero', 'kezfogo'], { a: 'program', f: 2.5, c: 'eljegyzés' }],
+  [['temetes', 'gyasz', 'megemlekez', 'torra', 'torana', 'vegtisztesseg', 'vegso bucsu', 'koszoruz', 'funeral'], { a: 'program', f: 3, ev: 'temetes', arny: 'sotet', c: 'temetés' }],
+  [['templom', 'mise$', 'misere', 'misen', 'keresztel', 'bermal', 'elsoaldoz', 'konfirmal', 'istentisztelet', 'zsinagog', 'mecset', 'church'],
+    { a: 'program', f: 2, ev: 'templom', c: 'templom' }],
+  [['evfordulo', 'jubileum', 'ballagas', 'ballagni', 'diplomaoszt', 'avatas', 'tanevnyito', 'tanevzaro', 'szalagavato', 'gyurusavat', 'prom$', 'bankett'],
+    { a: 'program', f: 2, c: 'ünnepi alkalom' }],
+  [['szulinap', 'szuletesnap', 'nevnap', 'unnepl', 'csaladi ebed', 'csaladi vacsor', 'birthday'], { a: 'program', f: 0.5, c: 'ünneplés' }],
+  [['karacsony', 'szenteste', 'advent', 'mikulas'], { a: 'program', f: 1, ev: 'karacsony', c: 'karácsony' }],
+  [['szilveszter', 'ujev$', 'ujevi', 'ujevkor'], { a: 'buli', f: 2, st: { elegans: 1 }, c: 'szilveszter' }],
+  [['husvet', 'punkosd', 'hosszu hetvege'], { a: 'program', f: 0.8, c: 'ünnep' }],
+  [['halloween', 'jelmez', 'farsang', 'beoltoz'], { a: 'buli', c: 'jelmezes buli' }],
+  [['halloween'], { arny: 'sotet' }],
+  [['legenybucsu', 'lanybucsu', 'bachelor'], { a: 'buli', f: -0.5, c: 'legény- / lánybúcsú' }],
+  [['koktel', 'borkostol', 'borbar', 'rooftop', 'tetobar', 'pezsgoz', 'whisky'], { a: 'program', f: 1.5, c: 'koktélbár' }],
+  [['jazz', 'zongoraest', 'piano bar'], { a: 'program', f: 1.2, c: 'jazzklub' }],
+  [['muzeum', 'kiallitas', 'galeria', 'tarlat', 'vernisszazs', 'megnyito'], { a: 'program', f: 0.8, k: 0.5, c: 'kiállítás' }],
+  [['kabare', 'stand up', 'standup', 'stand-up', 'comedy', 'improv'], { a: 'program', f: 0.5, c: 'stand-up / kabaré' }],
+  [['vendegseg', 'vendegkent', 'meghivtak', 'meghivas', 'vacsorameghiv', 'atjonnek', 'atmegyunk'], { a: 'program', f: 0.8, c: 'vendégség' }],
+  [['szuleivel', 'szuleihez', 'szuleit', 'szuleinek', 'anyosom', 'anyossal', 'apossal', 'bemutatkoz'], { a: 'program', f: 1.5, c: 'bemutatkozás a szülőknek' }],
   // --- elegancia-szintet jelző szavak ---
-  [['draga', 'dragab'], { f: 2, c: 'drága hely' }],
-  [['luxus', 'elokelo', 'exkluziv', 'puccos', 'flancos', 'michelin', 'fine dining', 'csillagos', 'otcsillag', 'nivos'], { f: 2.5, c: 'előkelő hely' }],
-  [['elegans', 'elegansan', 'elegansab'], { st: { elegans: 3 }, f: 1.5, c: 'elegáns' }],
-  [['formal', 'oltony', 'nyakkendo', 'csokornyakkendo', 'dress code', 'dresszkod', 'kiolt'], { st: { elegans: 3 }, f: 2.5, c: 'formális' }],
-  [['smart casual', 'business casual', 'felelegans', 'felig elegans'], { st: { elegans: 1.5, laza: 1 }, f: 0.8, c: 'smart casual' }],
-  [['csinos', 'jol akarok kinez', 'jol nezzek ki', 'lenyugoz', 'benyomas', 'fontos nekem', 'fontos alkalom', 'fontos nap'], { f: 1, c: 'fontos, hogy jól nézz ki' }],
-  [['olcso', 'gyorsett', 'mekis', 'mcdonald', 'burger', 'kebab', 'gyros', 'bufe', 'menza', 'kifozde', 'street food', 'food truck'], { f: -1.5, c: 'laza hely' }],
-  [['pizzer', 'kocsma', 'sorozo', 'kricsmi', 'romkocsma', 'pub$'], { a: 'buli', f: -1, st: { laza: 1, street: 1 }, c: 'kocsma / pizzéria' }],
+  [['draga$', 'dragab', 'dragan', 'pricey', 'fancy'], { f: 2, c: 'drága hely' }],
+  [['luxus', 'elokelo', 'exkluziv', 'puccos', 'flancos', 'michelin', 'fine dining', 'csillagos', 'otcsillag', 'nivos', 'upscale', 'vip$', 'vip-'], { f: 2.5, c: 'előkelő hely' }],
+  [['elegans', 'elegansan', 'elegansab', 'elegancia', 'elegant', 'classy', 'chic', 'sikk', 'kifinomult', 'igenyes', 'stilusos', 'nobel', 'urias', 'holgyes'],
+    { st: { elegans: 3 }, f: 1.5, c: 'elegáns' }],
+  [['formal', 'oltony', 'nyakkendo', 'csokornyakkendo', 'dress code', 'dresszkod', 'kiolt', 'kicsip', 'kicsinosit', 'alkalmi', 'unnepi', 'unneplo'],
+    { st: { elegans: 3 }, f: 2.5, c: 'formális' }],
+  [['smart casual', 'business casual', 'felelegans', 'felig elegans', 'laza elegans', 'elegans laza', 'sportelegans', 'sport elegans', 'smart$'],
+    { st: { elegans: 1.5, laza: 1 }, f: 0.8, c: 'smart casual' }],
+  [['csinos', 'jol akarok kinez', 'jol nezzek ki', 'jol kell kinez', 'lenyugoz', 'benyomas', 'fontos nekem', 'fontos alkalom', 'fontos nap', 'impress'],
+    { f: 1, c: 'fontos, hogy jól nézz ki' }],
+  [['magabiztos', 'eros benyomas', 'tekintely', 'profi', 'komolyan vegyenek', 'hatarozott', 'power', 'dominans'], { f: 1.5, st: { elegans: 1.5 }, arny: 'sotet', c: 'magabiztos' }],
+  [['olcso', 'gyorsett', 'mekis', 'mcdonald', 'burger', 'kebab', 'gyros', 'bufe', 'menza', 'kifozde', 'street food', 'food truck', 'lacikonyha', 'langos'],
+    { f: -1.5, c: 'laza hely' }],
+  [['pizzer', 'kocsma', 'sorozo', 'kricsmi', 'romkocsma', 'pub$', 'talponallo', 'borozo'], { a: 'buli', f: -1, st: { laza: 1, street: 1 }, c: 'kocsma / pizzéria' }],
   // --- buli, szórakozás ---
-  [['buli', 'parti', 'party', 'bulizn', 'klub', 'diszko', 'szorakoz', 'hazibuli', 'haziparti', 'afterparty', 'techno', 'rave'], { a: 'buli', c: 'buli' }],
-  [['bar$', 'barba', 'barban', 'barral'], { a: 'buli', f: 0.5, c: 'bár' }],
-  [['fesztival', 'sziget', 'volt fesztival', 'balaton sound', 'strand fesztival'], { a: 'buli', st: { street: 2, laza: 1 }, k: 1.5, ev: 'fesztival', c: 'fesztivál' }],
-  [['koncert', 'gig$', 'stadion'], { a: 'buli', st: { street: 2 }, k: 1, c: 'koncert' }],
+  [['buli', 'parti', 'party', 'bulizn', 'klub', 'diszko', 'szorakoz', 'hazibuli', 'haziparti', 'afterparty', 'techno', 'rave', 'clubbing', 'kimozdul'], { a: 'buli', c: 'buli' }],
+  [['bar$', 'barba', 'barban', 'barral', 'barokba', 'bar hopping'], { a: 'buli', f: 0.5, c: 'bár' }],
+  [['tancol', 'tancest', 'tancmulat', 'tancba', 'salsa', 'bachata', 'tango', 'tanchaz', 'swing$'], { a: 'buli', f: 0.5, k: 1, c: 'táncos este' }],
+  [['fesztival', 'sziget', 'volt fesztival', 'balaton sound', 'strand fesztival', 'efott', 'fezen', 'campus fesztival', 'open air'],
+    { a: 'buli', st: { street: 2, laza: 1 }, k: 1.5, ev: 'fesztival', c: 'fesztivál' }],
+  [['koncert', 'gig$', 'stadionkoncert', 'arena$', 'arenaba'], { a: 'buli', st: { street: 2 }, k: 1, c: 'koncert' }],
+  [['meccs', 'szurkol', 'stadion', 'derbi'], { a: 'buli', st: { street: 1.5, sportos: 1 }, k: 1, c: 'meccs' }],
+  [['karaoke', 'kviz', 'quiz', 'tarsasjat', 'tarsasoz', 'lan party', 'gamer', 'videojatek', 'jatekest', 'filmest', 'sorozatnez'], { a: 'laza', f: -0.8, c: 'játékos / filmes este' }],
   // --- sport, mozgás ---
-  [['edzes', 'edzeni', 'edzore', 'kondi', 'gym', 'konditer', 'fitnesz', 'crossfit', 'sulyz'], { a: 'sport', st: { sportos: 3 }, k: 1, c: 'edzés' }],
-  [['futas', 'futni', 'futok', 'kocog', 'jogg', 'maraton'], { a: 'sport', st: { sportos: 3 }, k: 1, c: 'futás' }],
-  [['joga', 'pilates', 'tanc', 'zumba', 'spinning'], { a: 'sport', st: { sportos: 2.5 }, k: 1, c: 'jóga / tánc' }],
-  [['foci', 'kosar', 'tenisz', 'padel', 'squash', 'roplabda', 'uszas', 'uszni', 'bicikl', 'bringa', 'gorkori', 'korcsoly', 'sport$', 'sportol', 'sportra', 'sportpalya'], { a: 'sport', st: { sportos: 2.5 }, k: 1, c: 'sport' }],
-  [['tura', 'turaz', 'kirandul', 'hegy', 'erdo', 'termeszet', 'kemping', 'satoraz'], { a: 'laza', st: { sportos: 2 }, k: 2, ev: 'tura', c: 'túra / kirándulás' }],
+  [['edzes', 'edzeni', 'edzore', 'edzesre', 'kondi', 'gym', 'konditer', 'fitnesz', 'fitness', 'crossfit', 'sulyz', 'workout', 'treningre'],
+    { a: 'sport', st: { sportos: 3 }, k: 1, c: 'edzés' }],
+  [['futas', 'futni', 'futok', 'futunk', 'kocog', 'jogg', 'maraton', 'felmaraton', 'terepfut', 'running'], { a: 'sport', st: { sportos: 3 }, k: 1, c: 'futás' }],
+  [['joga', 'pilates', 'zumba', 'spinning', 'tancora', 'tancedz', 'tanciskol', 'tancprob', 'aerobik', 'stretching', 'nyujtas'], { a: 'sport', st: { sportos: 2.5 }, k: 1, c: 'jóga / tánc' }],
+  [['foci', 'kosar', 'tenisz', 'padel', 'squash', 'roplabda', 'uszas', 'uszni', 'bicikl', 'bringa', 'kerekpar', 'gorkori', 'korcsoly', 'sport$', 'sportol', 'sportra',
+    'sportpalya', 'falmasz', 'boulder', 'box$', 'boxol', 'boxedz', 'judo', 'karate', 'harcmuv', 'evez', 'kajak', 'kenu', 'roller', 'gordeszk'],
+  { a: 'sport', st: { sportos: 2.5 }, k: 1, c: 'sport' }],
+  [['golf'], { a: 'sport', st: { elegans: 1, sportos: 1 }, f: 0.5, c: 'golf' }],
+  [['lovagl', 'lovas', 'lovarda'], { a: 'sport', st: { sportos: 1.5 }, k: 1, c: 'lovaglás' }],
+  [['siel', 'sizni', 'sizes', 'si$', 'snowboard', 'sipalya', 'sitabor', 'szankoz', 'hegyi hazba'], { a: 'sport', ido: 'hideg', st: { sportos: 2 }, k: 1, ev: 'sieles', c: 'síelés' }],
+  [['tura', 'turaz', 'kirandul', 'hegy', 'erdo', 'termeszet', 'kemping', 'satoraz', 'hiking', 'hike$', 'trekking', 'barlang', 'nemzeti park', 'kilato'],
+    { a: 'laza', st: { sportos: 2 }, k: 2, ev: 'tura', c: 'túra / kirándulás' }],
+  [['horgasz', 'vadasz', 'gombasz'], { a: 'laza', st: { sportos: 1 }, k: 1.5, f: -2, c: 'szabadtéri program' }],
   // --- laza napok ---
-  [['hetvege', 'hetvegi', 'szabadnap', 'pihen', 'lazul', 'chill'], { a: 'laza', f: -1, c: 'laza nap' }],
-  [['seta', 'setal', 'csatangol', 'varosnez', 'belvaros'], { a: 'laza', k: 1, c: 'séta' }],
-  [['varos', 'varosban', 'belvaros', 'centrum', 'kozpontba'], { a: 'laza', k: 0.5, c: 'város' }],
-  [['kave', 'kavez', 'brunch', 'reggeliz', 'cukrasz'], { a: 'laza', f: 0.3, c: 'kávézás' }],
-  [['barat', 'haver', 'csajok', 'srac', 'tesoval', 'tesommal'], { a: 'laza', c: 'barátok' }],
-  [['mozi', 'bowling', 'biliard', 'escape', 'kartingoz'], { a: 'laza', f: -0.5, c: 'mozi / szórakozás' }],
-  [['bevasarl', 'shopping', 'pláza', 'plaza', 'piac', 'boltba', 'ugyintez', 'posta'], { a: 'laza', k: 1, f: -0.5, c: 'bevásárlás' }],
-  [['egyetem', 'egyetemre', 'suli', 'iskola', 'gimi', 'eloadas', 'vizsga', 'zh$'], { a: 'laza', f: 0, c: 'egyetem / suli' }],
-  [['otthon', 'itthon', 'kanape', 'netflix'], { a: 'laza', f: -2, k: 2, c: 'otthon' }],
-  [['csalad', 'nagyi', 'nagymam', 'szulok', 'szuleim', 'apos', 'anyos'], { a: 'program', f: 0.5, c: 'családi program' }],
-  [['strand', 'medence', 'vizpart', 'tengerpart', 'balaton', 'furdo', 'aquapark', 'napoz'], { a: 'laza', ido: 'meleg', f: -1.5, ev: 'strand', c: 'strand' }],
-  [['utaz', 'repulo', 'repter', 'vonat', 'buszoz', 'autoz', 'roadtrip'], { a: 'laza', k: 2, ev: 'utazas', c: 'utazás' }],
-  // --- napszak ---
-  [['este', 'esti', 'estere', 'ejszak', 'ejjel', 'ejfel'], { f: 0.5, arny: 'sotet', c: 'este' }],
-  [['reggel', 'delelott', 'napkozben', 'delutan'], { c: 'napközben' }],
+  [['hetvege', 'hetvegi', 'szabadnap', 'pihen', 'lazul', 'chill', 'nyugis nap', 'weekend'], { a: 'laza', f: -1, c: 'laza nap' }],
+  [['seta', 'setal', 'csatangol', 'varosnez', 'belvaros', 'sightseeing'], { a: 'laza', k: 1, c: 'séta' }],
+  [['varos', 'varosban', 'belvaros', 'centrum', 'kozpontba', 'downtown'], { a: 'laza', k: 0.5, c: 'város' }],
+  [['kave', 'kavez', 'brunch', 'reggeliz', 'cukrasz', 'tea$', 'teazo', 'teahaz', 'fagyi', 'pekseg', 'coffee'], { a: 'laza', f: 0.3, c: 'kávézás' }],
+  [['ebed', 'ebedel', 'lunch'], { a: 'laza', f: 0.3, c: 'ebéd' }],
+  [['barat', 'haver', 'csajok', 'srac', 'tesoval', 'tesommal', 'tarsasag', 'spanok', 'cimbor'], { a: 'laza', c: 'barátok' }],
+  [['mozi', 'bowling', 'biliard', 'escape', 'kartingoz', 'csocso', 'darts', 'lezerharc', 'paintball'], { a: 'laza', f: -0.5, c: 'mozi / szórakozás' }],
+  [['bevasarl', 'shopping', 'plaza', 'piac', 'boltba', 'mall$', 'outlet', 'ikea'], { a: 'laza', k: 1, f: -0.5, c: 'bevásárlás' }],
+  [['ugyintez', 'posta', 'bank$', 'bankba', 'bankban', 'okmany', 'kormanyablak', 'hivatal', 'nav$'], { a: 'laza', f: 0, k: 0.5, c: 'ügyintézés' }],
+  [['orvos', 'fogorvos', 'korhaz', 'rendelo', 'patika', 'gyogyszertar', 'kontroll', 'fodrasz', 'kozmetik', 'manikur'], { a: 'laza', f: -0.3, k: 1, c: 'orvos / szépségszalon' }],
+  [['egyetem', 'egyetemre', 'suli', 'iskola', 'gimi', 'eloadas', 'zh$', 'szeminar', 'orara', 'konyvtar', 'tanul', 'koli$', 'kollegium', 'campusra', 'evfolyam'],
+    { a: 'laza', f: 0, c: 'egyetem / suli' }],
+  [['otthon', 'itthon', 'kanape', 'netflix', 'lakasban', 'pizsam'], { a: 'laza', f: -2, k: 2, c: 'otthon' }],
+  [['hazimunka', 'takarit', 'lomtalan', 'koltoz', 'festes', 'meszel', 'barkacs', 'szerelni', 'autoszerel', 'kerteszked', 'fuvagas', 'funyir', 'favag', 'udvart',
+    'piszkos munka'], { a: 'laza', f: -3, k: 2, st: { sportos: 1, laza: 1 }, ev: 'hazimunka', c: 'házimunka / barkácsolás' }],
+  [['csalad', 'nagyi', 'nagymam', 'nagyszul', 'szulok', 'szuleim', 'apos', 'anyos', 'anyak napja', 'apak napja', 'rokon', 'unokatestv'],
+    { a: 'program', f: 0.5, c: 'családi program' }],
+  [['gyerekkel', 'gyerekekkel', 'gyerekem', 'gyerekeim', 'unokaval', 'unokam', 'babaval', 'kisbaba', 'ovi$', 'oviba', 'bolcsi', 'jatszoter', 'allatkert',
+    'vidampark', 'kalandpark', 'babakocsi'], { a: 'laza', k: 2, f: -1, st: { laza: 1 }, c: 'program gyerekekkel' }],
+  [['kutya', 'kutyus'], { a: 'laza', k: 1.5, f: -1.5, c: 'kutyasétáltatás' }],
+  [['piknik', 'grill', 'bogracs', 'kerti', 'kert$', 'kertbe', 'bbq', 'szalonnasut'], { a: 'laza', f: -1, k: 1, ev: 'kerti', c: 'kerti program' }],
+  [['spa$', 'wellness', 'szauna', 'termal', 'gyogyfurdo', 'masszazs'], { a: 'laza', f: -1, k: 2, c: 'wellness' }],
+  [['strand', 'medence', 'vizpart', 'tengerpart', 'balaton', 'furdo', 'aquapark', 'napoz', 'beach', 'tenger$', 'tengerre', 'tengerhez', 'part$', 'partra'],
+    { a: 'laza', ido: 'meleg', f: -1.5, ev: 'strand', c: 'strand' }],
+  [['hajo', 'vitorl', 'yacht', 'jacht', 'setahajo', 'komp$'], { a: 'laza', st: { laza: 1.5 }, ev: 'hajo', c: 'hajózás' }],
+  [['nyaral', 'szabadsag', 'vakacio', 'holiday', 'udul', 'all inclusive'], { a: 'laza', f: -1, st: { laza: 1 }, c: 'nyaralás' }],
+  [['utaz', 'repulo', 'repter', 'repul', 'airport', 'fapados', 'vonat', 'buszoz', 'busszal', 'autoz', 'roadtrip', 'hosszu ut', 'citytrip', 'city break',
+    'varoslatogat', 'kiruccan', 'travel'], { a: 'laza', k: 2, ev: 'utazas', c: 'utazás' }],
+  [['fotoz', 'fotoshoot', 'photoshoot', 'instagram', 'insta$', 'tiktok', 'forgatas', 'portre'], { f: 0.8, st: { street: 1 }, c: 'fotózás' }],
+  // --- napszak (a tagadás itt szinte mindig a mondat másik részére vonatkozik: „nem szeretnék ma este feketét”) ---
+  [['este', 'esti', 'estere', 'ejszak', 'ejjel', 'ejfel', 'night'], { f: 0.5, arny: 'sotet', nt: true, c: 'este' }],
+  [['reggel', 'delelott', 'napkozben', 'delutan', 'del$', 'delben'], { nt: true, c: 'napközben' }],
+  // --- hangulat ---
+  [['faradt', 'kimerult', 'lusta', 'nincs kedvem', 'nincs energiam', 'masnapos', 'beteg vagyok', 'megfaztam', 'rossz napom', 'szomoru', 'nyuzott', 'almos'],
+    { k: 2, st: { laza: 2 }, f: -1, c: 'nyugis, kényelmes' }],
+  [['nyugodt', 'nyugis', 'relax', 'meghitt', 'cozy', 'cosy', 'komfi', 'comfy', 'puha', 'otthonos', 'hygge', 'kuckoz'], { k: 1.5, st: { laza: 2 }, f: -0.5, c: 'nyugis, kényelmes' }],
+  [['kreativ', 'muveszi', 'egyedi', 'kulonleges', 'izgalmas', 'kiserletez', 'jatekos', 'fun$'], { szin: 'szines', st: { street: 1 }, c: 'kreatív, egyedi' }],
+  [['vidam', 'jokedv', 'boldog', 'napsugaras', 'pozitiv', 'happy'], { szin: 'szines', c: 'vidám' }],
+  [['feltunesmentes', 'ne tunjek ki', 'beolvad', 'szerenyen', 'lowkey', 'low key', 'low-key', 'quiet luxury', 'csendes luxus', 'eszrevetlen'],
+    { szin: 'semleges', f: 0.3, c: 'visszafogott' }],
+  [['karcsusit', 'vekonyit', 'magasit', 'alakom', 'pocak', 'hasam', 'molett', 'teltebb', 'duci', 'alacsony vagyok'], { arny: 'sotet', szin: 'semleges', c: 'karcsúsító, nyújtó hatás' }],
   // --- kényelem ---
-  [['kenyelmes', 'kenyelem', 'kenyelmeset'], { k: 2, st: { laza: 1.5 }, c: 'kényelmes' }],
-  [['sokat setal', 'sokat gyalogol', 'egesz nap', 'talpon', 'rohangal', 'futkos', 'sok lepcso'], { k: 2.5, c: 'egész nap talpon' }],
+  [['kenyelmes', 'kenyelem', 'kenyelmeset', 'kenyelmesen', 'comfortable', 'praktikus', 'gyakorlatias'], { k: 2, st: { laza: 1.5 }, c: 'kényelmes' }],
+  [['sokat setal', 'sokat gyalogol', 'egesz nap', 'talpon', 'rohangal', 'futkos', 'sok lepcso', 'allok egesz', 'orakig all', 'sokat all', 'allo munka', 'allni fogok', 'gyalog', 'kilometer', 'ne torje',
+    'labfaj', 'fajos a labam', 'vizholyag', 'sorban all'], { k: 2.5, c: 'egész nap talpon' }],
+  [['biciklivel megyek', 'bringaval megyek', 'rollerrel', 'kerekparral'], { k: 1.5, st: { sportos: 1 }, c: 'biciklivel mész' }],
   // --- stílusszavak ---
-  [['laza', 'lazan', 'lazab', 'casual', 'egyszeru', 'hetkoznapi', 'atlagos'], { st: { laza: 3 }, f: -1, c: 'laza' }],
-  [['sportos', 'sportosab', 'athleis', 'atleti'], { st: { sportos: 3 }, c: 'sportos' }],
-  [['utcai', 'street', 'streetwear', 'hip hop', 'hiphop', 'skate', 'gordeszk', 'oversize', 'baggy'], { st: { street: 3 }, c: 'utcai stílus' }],
-  [['meno', 'trendi', 'divatos', 'vagany', 'cool$', 'kul$', 'modern'], { st: { street: 1.5 }, f: 0.3, c: 'trendi' }],
-  [['klasszikus', 'idotallo', 'retro', 'vintage', 'old money'], { st: { elegans: 1.5 }, f: 0.8, c: 'klasszikus' }],
-  [['minimal', 'letisztult', 'egyszeru szin', 'basic'], { szin: 'semleges', c: 'letisztult' }],
-  [['visszafogott', 'diszkret', 'szolid', 'visszafogottab'], { szin: 'semleges', f: 0.5, c: 'visszafogott' }],
-  [['feltuno', 'extravagans', 'merész', 'meresz', 'vidam', 'elenk', 'szines', 'szinesebb', 'szinesen', 'kirivo'], { szin: 'szines', c: 'színes, feltűnő' }],
-  [['sotet', 'sotetebb', 'sotetet', 'all black', 'csupa fekete', 'feketeben'], { arny: 'sotet', c: 'sötét tónusok' }],
-  [['vilagos', 'vilagosabb', 'pasztell', 'nyari szin', 'feher szett', 'csupa feher'], { arny: 'vilagos', c: 'világos tónusok' }],
+  [['laza', 'lazan', 'lazab', 'casual', 'egyszeru', 'hetkoznapi', 'atlagos', 'mindennap', 'sima$', 'normal', 'lezser', 'nyugi', 'relaxed'],
+    { st: { laza: 3 }, f: -1, c: 'laza' }],
+  [['sportos', 'sportosab', 'athleis', 'atleti', 'sporty', 'trening'], { st: { sportos: 3 }, c: 'sportos' }],
+  [['utcai', 'street', 'streetwear', 'hip hop', 'hiphop', 'skate', 'oversize', 'baggy', 'hype', 'sneakerhead'], { st: { street: 3 }, c: 'utcai stílus' }],
+  [['meno', 'trendi', 'divatos', 'vagany', 'cool$', 'kul$', 'modern', 'stylish', 'trendy'], { st: { street: 1.5 }, f: 0.3, c: 'trendi' }],
+  [['klasszikus', 'idotallo', 'vintage', 'old money', 'tradicional', 'konzervativ', 'classic'], { st: { elegans: 1.5 }, f: 0.8, c: 'klasszikus' }],
+  [['preppy', 'kollegis', 'ivy league', 'tenisz klub', 'yacht klub'], { st: { elegans: 2, laza: 0.5 }, f: 1, szin: 'semleges', c: 'preppy' }],
+  [['retro', 'y2k', '90-e', '80-a', '2000-e', 'kilencvenes', 'nyolcvanas', 'oldschool', 'old school'], { st: { street: 2 }, c: 'retró' }],
+  [['boho', 'bohem', 'hippi', 'etno', 'fesztivalos'], { st: { laza: 2 }, szin: 'szines', f: -0.5, paletta: STY_FOLD, c: 'boho' }],
+  [['rocker', 'rock$', 'rockos', 'punk', 'grunge', 'metal$', 'metalos', 'emo$', 'goth', 'got$', 'gotik', 'edgy', 'bad boy'], { st: { street: 2 }, arny: 'sotet', c: 'rockos' }],
+  [['techwear', 'gorpcore', 'outdoor', 'funkcionalis'], { st: { sportos: 2, street: 1 }, c: 'outdoor' }],
+  [['minimal', 'letisztult', 'egyszeru szin', 'basic', 'skandinav', 'clean$', 'clean look', 'tiszta vonal'], { szin: 'semleges', c: 'letisztult' }],
+  [['semleges', 'neutral', 'nem feltuno szin'], { szin: 'semleges', c: 'semleges színek' }],
+  [['monokrom', 'egyszinu', 'tone on tone', 'total look', 'tetotol talpig'], { szin: 'semleges', c: 'monokróm' }],
+  [['visszafogott', 'diszkret', 'szolid', 'visszafogottab', 'decens', 'illedelmes'], { szin: 'semleges', f: 0.5, c: 'visszafogott' }],
+  [['feltuno', 'extravagans', 'meresz', 'elenk', 'szines', 'szinesebb', 'szinesen', 'kirivo', 'neon', 'harsany', 'bold$', 'colorful', 'statement'],
+    { szin: 'szines', c: 'színes, feltűnő' }],
+  [['sotet', 'sotetebb', 'sotetet', 'all black', 'csupa fekete', 'feketeben', 'total black', 'dark$'], { arny: 'sotet', c: 'sötét tónusok' }],
+  [['vilagos', 'vilagosabb', 'feher szett', 'csupa feher', 'all white', 'light$'], { arny: 'vilagos', c: 'világos tónusok' }],
+  // --- színpaletták ---
+  [['pasztell', 'pastel', 'puderes'], { arny: 'vilagos', paletta: ['rózsaszín', 'világoskék', 'bézs', 'sárga', 'lila', 'türkiz'], c: 'pasztell' }],
+  [['foldszin', 'termeszetes szin', 'natur szin', 'earth tone', 'earthy', 'naturszin'], { szin: 'semleges', paletta: STY_FOLD, c: 'földszínek' }],
+  [['oszi szin', 'oszies', 'oszi hangulat', 'autumn'], { paletta: ['bordó', 'barna', 'narancs', 'olíva', 'sárga', 'khaki'], c: 'őszi színek' }],
+  [['tavaszi szin', 'tavaszias', 'friss szin', 'udito'], { paletta: ['zöld', 'világoskék', 'rózsaszín', 'sárga', 'fehér', 'türkiz'], c: 'tavaszi színek' }],
+  [['nyari szin', 'nyarias', 'summer vibe'], { arny: 'vilagos', paletta: ['fehér', 'világoskék', 'sárga', 'narancs', 'türkiz', 'bézs'], c: 'nyári színek' }],
+  [['teli szin', 'telies', 'teli hangulat'], { paletta: ['bordó', 'sötétzöld', 'sötétkék', 'fekete', 'sötétszürke'], c: 'téli színek' }],
+  [['tengeresz', 'matroz', 'navy look', 'nautical', 'kapitany'], { paletta: ['sötétkék', 'fehér', 'piros'], c: 'tengerész stílus' }],
+  [['karacsonyi szin', 'unnepi szin'], { paletta: ['piros', 'bordó', 'sötétzöld', 'fehér'], c: 'ünnepi színek' }],
+  // --- melyik darabokat vegye elő ---
+  [['kedvenc', 'legjobb darab', 'imadott', 'favorit'], { kedvenc: 1, c: 'kedvenc darabok' }],
+  [['regota nem', 'reg nem hordt', 'ritkan hordt', 'elfelejtett', 'porosod', 'nem hordott', 'hasznalatlan', 'elo sem vett', 'meg nem vettem fel'], { ritka: 1, c: 'rég hordott darabok' }],
+  [['uj ruha', 'uj darab', 'ujonnan', 'most vettem', 'nemreg vett', 'frissen vett', 'ujdonsag', 'uj szerzemeny', 'uj cucc'], { uj: 1, c: 'új darabok' }],
+  [['kiegeszit', 'accessor', 'ekszerrel', 'diszitve'], { kieg: true, c: 'kiegészítők' }],
+  [['reteg', 'retegez', 'hagymaszer', 'layer'], { kabat: true, c: 'réteges öltözék' }],
   // --- időjárás ---
-  [['eso', 'esos', 'esik', 'eshet', 'zapor', 'zivatar', 'vihar', 'ernyo', 'esernyo', 'azas', 'azni', 'sar$', 'saros', 'pocsolya', 'szital'], { ido: 'eso', c: 'eső' }],
-  [['hideg', 'fagy$', 'fagyos', 'fagypont', 'fagyni', 'minusz', 'havaz', 'havas', 'ho$', 'hoesés', 'hoeses', 'telen', 'teli$', 'tel$', 'fazom', 'fazos', 'dermeszt', 'csipos', 'jeges', 'farkasordit', 'zimankos'], { ido: 'hideg', c: 'hideg' }],
-  [['huvos', 'szeles', 'szel$', 'szelben', 'osz$', 'oszi', 'osszel', 'tavasz', 'borult', 'felhos', 'friss$', 'csipos reggel'], { ido: 'huvos', c: 'hűvös' }],
-  [['meleg$', 'melegben', 'melegre', 'meleg van', 'meleg lesz', 'melegunk', 'nyar$', 'nyari', 'nyaron', 'kanikul', 'hoseg', 'forro', 'napos', 'napsut', 'tuz a nap', 'izzaszt', 'fulled', 'tikkaszt'], { ido: 'meleg', c: 'meleg' }],
-  [['enyhe', 'kellemes ido', 'langyos'], { ido: 'enyhe', c: 'enyhe idő' }],
+  [['eso', 'esos', 'esik', 'eshet', 'zapor', 'zivatar', 'vihar', 'ernyo', 'esernyo', 'sar$', 'saros', 'pocsolya', 'szital', 'zuhog', 'szakad az eso', 'csepereg',
+    'jegeso', 'onos', 'rain', 'rainy', 'nedves'], { ido: 'eso', c: 'eső' }],
+  [['azas', 'azni', 'azzak', 'azzunk', 'azom$', 'bazik'], { ido: 'eso', nt: true, c: 'eső' }],
+  [['hideg', 'fagy$', 'fagyos', 'fagypont', 'fagyni', 'minusz', 'havaz', 'havas', 'ho$', 'hoeses', 'hoban', 'hovihar', 'telen', 'teli$', 'tel$',
+    'dermeszt', 'csipos', 'jeges', 'jegpalya', 'farkasordit', 'zimankos', 'cold', 'freezing', 'hidegfront', 'sikos'], { ido: 'hideg', c: 'hideg' }],
+  [['fazom', 'fazos', 'fazni', 'fazzak', 'fazzunk', 'fazok', 'fazekony', 'kihul'], { ido: 'hideg', nt: true, c: 'ne fázz' }],
+  [['huvos', 'szeles ido', 'szeles van', 'szeles lesz', 'fuj a szel', 'szel$', 'szelben', 'nyirkos', 'osz$', 'oszi', 'osszel', 'tavasz', 'borult', 'borongos', 'felhos',
+    'friss$', 'kodos', 'kod$', 'paras', 'lehul', 'chilly', 'windy'], { ido: 'huvos', c: 'hűvös' }],
+  [['meleg$', 'melegben', 'melegre', 'meleg van', 'meleg lesz', 'melegunk', 'nyar$', 'nyari', 'nyaron', 'kanikul', 'hoseg', 'forro', 'napos', 'napsut', 'tuz a nap',
+    'tikkaszt', 'fulled', 'tropikus', 'perzsel', 'hot$', 'warm$', 'sunny'], { ido: 'meleg', c: 'meleg' }],
+  [['izzad', 'izzaszt', 'leolvad', 'megsulok'], { ido: 'meleg', nt: true, c: 'ne izzadj' }],
+  [['enyhe$', 'enyhebb', 'kellemes ido', 'langyos', 'atmeneti', 'valtozekony', 'mild'], { ido: 'enyhe', c: 'enyhe idő' }],
+  // hónapok: csak gyenge jel (ha az időről más nem szól)
+  [['december', 'januar', 'februar'], { idoGy: 'hideg' }],
+  [['marcius', 'november', 'oktober'], { idoGy: 'huvos' }],
+  [['aprilis', 'majus', 'szeptember'], { idoGy: 'enyhe' }],
+  [['junius', 'julius', 'augusztus'], { idoGy: 'meleg' }],
 ];
 
-// ruhadarabok: amit kérhetsz vagy kizárhatsz (a saját ruhák szövegében keressük)
+// ruhadarabok: amit kérhetsz vagy kizárhatsz (a saját ruhák szövegében keressük).
+// Sorrend: a pontosabb előbb („farmerdzseki” ne legyen „farmer”); [szótövek, név, minta, kabát-e]
 const STY_DARAB = [
-  [['ing$', 'inget', 'ingem', 'ingben', 'inggel', 'ingek'], 'ing', '\\bing|ingek'],
-  [['polo', 'polot', 'poloban', 'top$', 'trikot', 'trikob'], 'póló', 'polo|top\\b|triko'],
-  [['pulover', 'pulcsi', 'pulcsit', 'kardigan', 'szvetter'], 'pulóver', 'pulover|pulcsi|kardigan|szvetter'],
-  [['hoodie', 'kapucnis'], 'kapucnis pulóver', 'hoodie|kapucn'],
-  [['body$', 'bodyt', 'bodyban'], 'body', '\\bbody'],
-  [['overal', 'jumpsuit'], 'overál', 'overal|jumpsuit'],
-  [['kendo', 'kendot', 'hajkendo'], 'kendő', 'kendo'],
-  [['garbo'], 'garbó', 'garbo'],
-  [['bluz'], 'blúz', 'bluz'],
+  [['farmerdzsek', 'farmerkabat', 'farmer dzseki', 'farmer kabat', 'denim dzseki', 'denimdzseki', 'denim jacket'], 'farmerdzseki', 'farmerdzs|farmerkab|denim dzs|denim jacket', true],
+  [['bordzsek', 'borkabat', 'bor dzseki', 'bor kabat', 'motoros dzseki', 'biker', 'leather jacket'], 'bőrdzseki', 'bordzs|borkab|bor dzs|bor kab|biker|motoros|leather', true],
+  [['ballonkabat', 'ballon$', 'trencs', 'trench', 'esokabat', 'viharkabat'], 'ballonkabát', 'ballon|trencs|trench|esokab', true],
+  [['pufi', 'puffer', 'steppelt', 'pehely', 'tollkabat', 'telikabat', 'teli kabat', 'sidzsek', 'anorak', 'parka'], 'télikabát',
+    'puffer|pufi|steppelt|pehely|toll|telikab|teli kab|sidzs|anorak|parka', true],
+  [['melleny', 'vest$'], 'mellény', 'melleny|vest'],
+  [['kabat', 'dzseki', 'bomber', 'kabi$', 'kabit', 'kabim', 'jacket', 'coat$', 'felolto', 'szeldzsek', 'softshell'], 'kabát',
+    'kabat|dzseki|parka|bomber|ballon|melleny|jacket|coat|softshell', true],
+  [['oltony', 'suit$', 'szmoking', 'frakk', 'kosztum'], 'öltöny', 'oltony|szmoking|frakk|kosztum|suit'],
   [['zako', 'blezer', 'blazer'], 'zakó / blézer', 'zako|blezer|blazer'],
-  [['oltony'], 'öltöny', 'oltony'],
-  [['kabat', 'dzseki', 'parka', 'bomber', 'ballon', 'mellenyt', 'mellenyben'], 'kabát', 'kabat|dzseki|parka|bomber|ballon|melleny|jacket|coat'],
-  [['farmer', 'jeans', 'farmert', 'farmerben'], 'farmer', 'farmer|jean'],
+  [['ingruha', 'shirt dress'], 'ingruha', 'ingruha'],
+  [['flanel', 'kockas ing', 'favagoing', 'favago ing'], 'flanelling', 'flanel|kockas ing'],
+  [['farmering', 'denim ing'], 'farmering', 'farmering|denim ing'],
+  [['galleros polo', 'pike', 'polo shirt', 'galleros'], 'galléros póló', 'galleros|pike|polo shirt'],
+  [['ing$', 'inget', 'ingem', 'ingben', 'inggel', 'ingek', 'ingre', 'ingbe', 'ingh', 'shirt$', 'ingbluz'], 'ing', '\\bing|ingek|ingbluz|shirt'],
+  [['crop', 'haspolo'], 'crop top', 'crop|haspolo'],
+  [['triko', 'atleta', 'tank top', 'tanktop', 'ujjatlan', 'spagettipant', 'top$', 'topot', 'toppot', 'toppal', 'topban'], 'top / trikó', 'top\\b|triko|atleta|ujjatlan|spagetti|crop'],
+  [['polo', 'polot', 'poloban', 'poloval', 'polcsi', 'tshirt', 't-shirt', 'tee$'], 'póló', 'polo|t-shirt|tshirt|top\\b|triko'],
+  [['garbo', 'turtleneck'], 'garbó', 'garbo|turtleneck'],
+  [['kardigan', 'cardigan'], 'kardigán', 'kardigan|cardigan'],
+  [['hoodie', 'kapucnis', 'kapucnit', 'kapucnival'], 'kapucnis pulóver', 'hoodie|kapucn'],
+  [['pulover', 'pulcsi', 'szvetter', 'sweater', 'jumper', 'sweatshirt'], 'pulóver', 'pulover|pulcsi|kardigan|szvetter|sweat|kotott'],
+  [['bluz', 'blouse'], 'blúz', 'bluz|blouse'],
+  [['tunika'], 'tunika', 'tunik'],
+  [['body$', 'bodyt', 'bodyban', 'bodyval'], 'body', '\\bbody'],
+  [['overal', 'jumpsuit', 'kezeslabas', 'kantaros'], 'overál', 'overal|jumpsuit|kantaros'],
+  [['estelyi ruha', 'kisestelyi', 'koktelruha', 'alkalmi ruha', 'miniruha', 'maxiruha', 'midiruha', 'kotott ruha', 'puloverruha', 'garboruha', 'dress$', 'nyari ruhat',
+    'ruhaban', 'ruhat veszek', 'ruhat vennek'], 'ruha', 'ruha\\b|ruhat\\b|dress|estelyi|koktelruha|miniruha|maxiruha|midiruha|puloverruha|garboruha'],
+  [['farmer', 'jeans', 'denim', 'mom jeans', 'skinny'], 'farmer', 'farmer|jean|denim'],
   [['chino'], 'chino', 'chino'],
+  [['cargo', 'oldalzsebes'], 'cargo nadrág', 'cargo'],
   [['kord'], 'kordbársony', 'kord'],
-  [['nadrag', 'nadragot', 'nadragban'], 'nadrág', 'nadrag|farmer|chino|jogger|pant'],
-  [['rovidnadrag', 'short$', 'sortot', 'rovidnaci'], 'rövidnadrág', 'rovidnadr|short'],
-  [['szoknya', 'szoknyat', 'szoknyaban'], 'szoknya', 'szokny'],
-  [['melegito', 'jogger', 'szabadido'], 'melegítő', 'melegit|jogger|fleece'],
-  [['sneaker', 'tornacip', 'edzocip', 'sportcip', 'futocip'], 'sneaker', 'sneaker|tornacip|edzocip|sportcip|futocip|air max|dunk|samba'],
-  [['csizma', 'bakancs', 'chelsea', 'bokacsizm'], 'csizma / bakancs', 'csizm|bakancs|chelsea|boot'],
-  [['mokaszin', 'felcipo', 'oxford', 'loafer', 'bor cipo', 'borcipo'], 'elegáns cipő', 'mokaszin|felcip|oxford|loafer'],
-  [['szandal', 'papucs', 'strandpapucs'], 'szandál', 'szandal|papucs'],
-  [['taska', 'hatizsak', 'tatyo'], 'táska', 'taska|hatizsak|tatyo|bag'],
-  [['sapka', 'kalap', 'baseball'], 'sapka', 'sapka|kalap|baseball'],
-  [['ov$', 'ovet', 'ovvel'], 'öv', '\\bov\\b|bor ov|barna ov'],
-  [['karora', 'orat', 'oraval'], 'óra', 'ora\\b|karora|watch'],
-  [['sal$', 'salat', 'sallal'], 'sál', '\\bsal\\b'],
-  [['napszemuveg', 'szemuveg'], 'napszemüveg', 'szemuveg'],
-  [['ekszer', 'fulbeval', 'nyaklanc', 'karkoto', 'gyuru'], 'ékszer', 'ekszer|fulbeval|nyaklanc|karkoto|gyuru'],
+  [['szovetnadrag', 'elegans nadrag', 'pantalo', 'szovetnaci', 'vasalt nadrag'], 'szövetnadrág', 'szovet|pantalo|elegans nadrag'],
+  [['leggings', 'leggins', 'cicanadrag', 'jogan'], 'leggings', 'legging|jogan'],
+  [['melegito', 'jogger', 'szabadido', 'treningruha', 'treningnadrag', 'sweatpants', 'tracksuit'], 'melegítő', 'melegit|jogger|fleece|trening|sweatpant|tracksuit'],
+  [['rovidnadrag', 'short$', 'shorts', 'sortot', 'sortban', 'rovidnaci', 'bermuda', 'rovid gatya'], 'rövidnadrág', 'rovidnadr|short|bermuda'],
+  [['nadrag', 'naci', 'gatya', 'gatyo', 'pants', 'trousers'], 'nadrág', 'nadrag|farmer|chino|jogger|pant|cargo|legging|jean'],
+  [['szoknya', 'szoknyat', 'szoknyaban', 'miniszokn', 'ceruzaszokn', 'pliszir', 'rakott szokn', 'skirt', 'szoknyi'], 'szoknya', 'szokny|skirt'],
+  [['harisny', 'zokni', 'socks'], 'harisnya / zokni', 'harisny|zokni|sock'],
+  [['futocip', 'futo cipo', 'running cip'], 'futócipő', 'futocip|running|pegasus|vomero|gel-|hoka|on running|ultraboost'],
+  [['sneaker', 'tornacip', 'edzocip', 'sportcip', 'tornacsuk', 'sportcsuk', 'edzocsuk', 'csuka', 'csukat', 'csukam', 'csukaban', 'air force', 'af1', 'air max',
+    'converse', 'vans$', 'new balance', 'samba', 'dunk', 'jordan', 'trainers'], 'sneaker',
+  'sneaker|tornacip|edzocip|sportcip|futocip|air max|air force|dunk|samba|converse|vans|new balance|jordan|trainer'],
+  [['gumicsizm', 'esocsizm', 'wellington'], 'gumicsizma', 'gumicsizm|esocsizm|wellington'],
+  [['hotapos', 'hocsizm', 'ugg$', 'uggs'], 'hótaposó', 'hotapos|hocsizm|ugg'],
+  [['turabakancs', 'turacip', 'bakancs', 'tura cipo', 'hiking boot'], 'bakancs', 'bakancs|turacip|tura|hiking'],
+  [['terdcsizm', 'bokacsizm', 'csizma', 'csizmat', 'csizmaban', 'chelsea', 'boots', 'boot$', 'cowboy'], 'csizma', 'csizm|chelsea|boot|cowboy'],
+  [['magassark', 'tusark', 'sarkas', 'sarkus', 'heels', 'high heels', 'platform', 'blokksark', 'eksark', 'magas sark', 'stiletto', 'pumps'], 'magassarkú',
+    'magassark|tusark|blokksark|platform|eksark|heels|magas sark|stiletto|pumps'],
+  [['balerin', 'lapos cipo', 'mary jane', 'slingback'], 'balerina', 'balerin|mary jane|slingback'],
+  [['mokaszin', 'felcip', 'oxford', 'loafer', 'bor cipo', 'borcipo', 'derby', 'brogue', 'elegans cipo', 'alkalmi cipo', 'lakkcipo', 'lakk cipo', 'dress shoe'],
+    'elegáns cipő', 'mokaszin|felcip|oxford|loafer|derby|brogue|lakk'],
+  [['espadrill', 'vaszoncip', 'vaszon cipo', 'slip-on', 'slip on'], 'vászoncipő', 'espadrille|vaszon|slip'],
+  [['szandal', 'papucs', 'strandpapucs', 'flip flop', 'flip-flop', 'crocs', 'birkenstock', 'klumpa'], 'szandál / papucs', 'szandal|papucs|crocs|birkenstock|klumpa|flip'],
+  // általános cipő (főleg színnel hasznos: „barna cipő”)
+  [['cipo', 'cipot', 'cipom', 'cipoben', 'cipovel', 'labbeli', 'shoes'], 'cipő', 'cip|sneaker|csizm|bakancs|mokaszin|loafer|szandal|papucs|balerin|boot|shoe|oxford|derby'],
+  [['clutch', 'boritektask', 'estelyi taska', 'kistaska'], 'estélyi táska', 'clutch|boritek|estelyi taska'],
+  [['hatizsak', 'hatitask', 'backpack'], 'hátizsák', 'hatizsak|hatitask|backpack'],
+  [['ovtask', 'bum bag', 'crossbody', 'valltask', 'oldaltask'], 'övtáska / válltáska', 'ovtask|crossbody|valltask|oldaltask'],
+  [['taska', 'tatyo', 'shopper', 'bag$', 'tote'], 'táska', 'taska|tatyo|bag|tote|shopper'],
+  [['sapka', 'sapi', 'beanie', 'kotott sapka', 'telisapka', 'baseball', 'siltes', 'cap$', 'kalap', 'fedora', 'bucket hat'], 'sapka / kalap',
+    'sapka|kalap|baseball|beanie|cap\\b|fedora|bucket'],
+  [['kesztyu', 'gloves'], 'kesztyű', 'kesztyu|glove'],
+  [['nyakkendo', 'csokornyakkendo', 'tie$', 'mandzsett'], 'nyakkendő', 'nyakkendo|csokornyakk|mandzsett|\\btie\\b'],
+  [['ov$', 'ovet', 'ovvel', 'ovem', 'belt$'], 'öv', '\\bov\\b|bor ov|barna ov|fekete ov|belt'],
+  [['karora', 'orat', 'oraval', 'okosora', 'smartwatch', 'watch'], 'óra', 'ora\\b|karora|watch|okosora'],
+  [['sal$', 'salat$', 'sallal', 'salam$', 'scarf'], 'sál', '\\bsal\\b|scarf'],
+  [['napszemuveg', 'szemuveg', 'sunglasses', 'napszemcsi'], 'napszemüveg', 'szemuveg|napszemcsi|sunglass'],
+  [['ekszer', 'fulbeval', 'nyaklanc', 'karkoto', 'karperec', 'gyuru', 'medal', 'bross', 'bizsu', 'lanc$', 'lancot', 'jewel'], 'ékszer',
+    'ekszer|fulbeval|nyaklanc|karkoto|karperec|gyuru|medal|bross|bizsu|jewel'],
+  [['kendo', 'kendot', 'hajkendo', 'bandana'], 'kendő', 'kendo|bandana'],
+  [['furdoruha', 'bikini', 'furdonadrag', 'fecske', 'swimsuit'], 'fürdőruha', 'furdoruh|bikini|furdonadr|fecske|swim'],
 ];
 
-// színek (ékezet nélküli tő → a SZIN_LISTA neve)
+// színek (ékezet nélküli tő → a SZIN_LISTA neve); a „$” végű csak pontos szóra illik
 const STY_SZINEK = [
-  ['sotetszurke', 'sötétszürke'], ['vilagosszurke', 'világosszürke'], ['sotetzold', 'sötétzöld'], ['vilagoskek', 'világoskék'],
-  ['sotetkek', 'sötétkék'], ['tengereszkek', 'sötétkék'], ['navy', 'sötétkék'], ['farmerkek', 'farmerkék'], ['rozsaszin', 'rózsaszín'], ['pink', 'rózsaszín'],
+  ['sotetszurke', 'sötétszürke'], ['vilagosszurke', 'világosszürke'], ['sotetzold', 'sötétzöld'], ['vilagoskek', 'világoskék'], ['sotetkek', 'sötétkék'],
+  ['vilagoszold', 'zöld'], ['sotetbarna', 'barna'], ['vilagosbarna', 'bézs'], ['sotetpiros', 'bordó'], ['sotetlila', 'lila'], ['vilagoslila', 'lila'],
+  ['tengereszkek', 'sötétkék'], ['navy', 'sötétkék'], ['farmerkek', 'farmerkék'], ['rozsaszin', 'rózsaszín'], ['pink', 'rózsaszín'], ['rozearany', 'rózsaszín'],
+  ['tortfeh', 'fehér'], ['hofeh', 'fehér'], ['olivazold', 'olíva'], ['mohazold', 'olíva'], ['katonaizold', 'khaki'], ['military', 'khaki'], ['egikek', 'világoskék'],
+  ['smaragd', 'sötétzöld'], ['fenyozold', 'sötétzöld'], ['uvegzold', 'zöld'], ['mentazold', 'türkiz'],
+  ['egkek', 'világoskék'], ['babakek', 'világoskék'], ['azur', 'kék'], ['kiralykek', 'kék'], ['kobalt', 'kék'], ['indigo', 'sötétkék'], ['tengerkek', 'sötétkék'],
+  ['petrol', 'türkiz'], ['teal$', 'türkiz'], ['aqua', 'türkiz'], ['grafit', 'sötétszürke'], ['antracit', 'sötétszürke'], ['ezust$', 'szürke'], ['ezustszin', 'szürke'],
+  ['ezustos', 'szürke'], ['hamuszurke', 'világosszürke'], ['teveszin', 'bézs'], ['homokszin', 'bézs'], ['nude', 'bézs'], ['ekru', 'bézs'], ['csontszin', 'bézs'],
+  ['vanilia', 'bézs'], ['csoki', 'barna'], ['konyak', 'barna'], ['karamell', 'barna'], ['mogyoro', 'barna'], ['gesztenye', 'barna'], ['rozsda', 'narancs'],
+  ['terrakott', 'narancs'], ['barack', 'narancs'], ['korall', 'narancs'], ['puder', 'rózsaszín'], ['fuksz', 'rózsaszín'], ['magenta', 'rózsaszín'], ['meggy', 'bordó'],
+  ['burgund', 'bordó'], ['borvoros', 'bordó'], ['szilva', 'lila'], ['levendula', 'lila'], ['lavender', 'lila'], ['padlizsan', 'lila'], ['orgona', 'lila'],
+  ['ibolya', 'lila'], ['arany$', 'sárga'], ['aranyszin', 'sárga'], ['citrom', 'sárga'], ['skarlat', 'piros'], ['cseresznye', 'piros'], ['tuzpiros', 'piros'],
   ['fekete', 'fekete'], ['feher', 'fehér'], ['szurke', 'szürke'], ['bezs', 'bézs'], ['drapp', 'bézs'], ['krem', 'bézs'], ['barna', 'barna'],
   ['khaki', 'khaki'], ['oliv', 'olíva'], ['zold', 'zöld'], ['turkiz', 'türkiz'], ['menta', 'türkiz'], ['kek', 'kék'], ['lila', 'lila'],
   ['piros', 'piros'], ['voros', 'piros'], ['bordo', 'bordó'], ['narancs', 'narancs'], ['sarga', 'sárga'], ['mustar', 'sárga'],
+  ['black$', 'fekete'], ['white$', 'fehér'], ['grey$', 'szürke'], ['gray$', 'szürke'], ['blue$', 'kék'], ['red$', 'piros'], ['green$', 'zöld'], ['beige$', 'bézs'],
+  ['brown$', 'barna'], ['purple$', 'lila'], ['yellow$', 'sárga'], ['orange$', 'narancs'], ['cream$', 'bézs'],
 ];
 const STY_SOTET = new Set(['fekete', 'sötétszürke', 'sötétkék', 'bordó', 'sötétzöld', 'barna', 'olíva']);
 const STY_VILAGOS = new Set(['fehér', 'bézs', 'világosszürke', 'világoskék', 'rózsaszín', 'sárga']);
 const styTo = (sz) => sz.length > 3 ? sz.slice(0, -1) : sz;
-const STY_SZIN_RE = STY_SZINEK.map(([to, nev]) => [to, nev]);
-// egy szó színe (ha színt jelöl)
-const stySzinSzo = (szo) => { const x = STY_SZIN_RE.find(([to]) => szo.startsWith(to)); return x ? x[1] : ''; };
+// két szóból álló színek egybeírva: „sötét kék” → „sotetkek”
+const STY_KET_SZO = /\b(sotet|vilagos|tenger|katonai|tort|egi|kiraly|baba|tuz|hamu|bor) (kek|zold|szurke|barna|piros|lila|feher|voros)\b/g;
+// egy szó színe (ha színt jelöl): a színtő-bejegyzés [tő, név]
+const stySzinTo = (szo) => STY_SZINEK.find(([to]) => (to.endsWith('$') ? szo === to.slice(0, -1) : szo.startsWith(to))) || null;
+const stySzinSzo = (szo) => { const x = stySzinTo(szo); return x ? x[1] : ''; };
 // egy ruhadarab színe: a felismert színe, vagy a nevéből („fekete póló” → fekete)
 const styDarabSzin = (d) => {
   if (d.szin) return d.szin;
-  const sz = styNorm(d.label).split(' ').map(stySzinSzo).find(Boolean);
+  const sz = styNorm(d.label).replace(STY_KET_SZO, '$1$2').split(' ').map(stySzinSzo).find(Boolean);
   return sz || '';
 };
 const styDarabSzoveg = (d) => styNorm(d.label + ' ' + (d.cat || '') + ' ' + (d.marka || '') + ' ' + (d.tags || []).join(' ') + ' ' + (d.szin || ''));
 
 // A teljes értelmezés: egy üzenetből kinyert kívánságok
-const styErtelmez = (eredeti) => {
-  const szoveg = ' ' + styNorm(eredeti) + ' ';
+const styErtelmez = (eredeti, ma) => {
+  // a vessző, pont, felkiáltójel… tagmondat-határ marad (a tizedesjegyeket elhagyjuk: „2,5 fok” → 2)
+  const elo = String(eredeti || '').replace(/(\d)[.,]\d+/g, '$1').replace(/[.,;:!?\n()]+|\s[-–]\s/g, ' ' + STY_VESSZO + ' ');
+  const szoveg = ' ' + styNorm(elo).replace(STY_KET_SZO, '$1$2').replace(/\bt ?-?shirt\w*/g, 'polo') + ' ';
   const szavak = szoveg.trim().split(' ').filter(Boolean);
-  const r = { a: {}, st: {}, f: 0, ido: '', k: 0, arny: '', ev: '', szin: '', szinek: [], szinNot: [], kell: [], kerul: [], kabat: undefined, cimkek: [], fok: null, mindegy: false, tagadottStilus: [] };
-  // tagadás: a szó előtti 3 szóban tagadószó (mondathatárig), vagy utána „nélkül”
+  const r = { a: {}, st: {}, f: 0, ido: '', k: 0, arny: '', ev: '', szin: '', szinek: [], szinNot: [], kell: [], kerul: [], kabat: undefined, kieg: undefined,
+    paletta: null, ritka: 0, kedvenc: 0, uj: 0, nap: null, napNev: '', cimkek: [], fok: null, mindegy: false, tagadottStilus: [] };
+  let idoGy = '';
+  // tagadás: a szó előtti 4 szóban tagadószó (tagmondat-határig), vagy utána „nélkül / helyett / ne legyen”
   const tagadott = (i, hossz) => {
-    for (let j = i - 1; j >= Math.max(0, i - 3); j--) {
-      if (STY_HATAR.has(szavak[j])) break;
-      if (STY_TAGADO.has(szavak[j])) return true;
+    for (let j = i - 1; j >= Math.max(0, i - 4); j--) {
+      const w = szavak[j];
+      if (w === 'mint' && szavak.slice(Math.max(0, j - 6), j).includes('inkabb')) return true; // „inkább farmer, mint chino”
+      if (STY_HATAR.has(w)) break;
+      if (STY_TAGADO.has(w)) return true;
+      if (w === 'le' && STY_LE_IGE.has(szavak[j - 1])) return true; // „vedd le a kabátot”
     }
-    const utana = szavak[i + (hossz || 1)];
-    return !!(utana && utana.startsWith('nelkul'));
+    const n = i + (hossz || 1);
+    const utana = szavak[n] || '';
+    if (/^(nelkul|helyett|kivetel|kizarva|tilos|soha|semmikepp)/.test(utana)) return true;
+    // „X ne legyen”, „a fehér inget ne, de…”
+    if ((utana === 'ne' || utana === 'nem' || utana === 'se' || utana === 'sem') && (STY_UTO_IGE.has(szavak[n + 1] || '') || !szavak[n + 1] || STY_HATAR.has(szavak[n + 1]))) return true;
+    if (STY_LE_IGE.has(utana) && szavak[n + 1] === 'le') return true;
+    return false;
+  };
+  // erősítés: a kulcsszó előtti 1-2 szó („nagyon”, „egy kicsit”, „kevésbé”, „még”)
+  const ero = (i) => {
+    let m = 1;
+    for (let j = i - 1; j >= Math.max(0, i - 2); j--) {
+      const w = szavak[j];
+      if (STY_ERO[w] !== undefined) m *= STY_ERO[w];
+      else if (w === 'meg') m *= 1.3;
+      else if (!['egy', 'nem', 'ne', 'legyen', 'is', 'kicsivel', 'joval'].includes(w)) break;
+    }
+    return m;
   };
   // hol fordul elő a szótő (szóindexekkel, a tagadás vizsgálatához)
   const talalat = (to) => {
@@ -904,61 +1146,140 @@ const styErtelmez = (eredeti) => {
     szavak.forEach((sz, i) => { if (styIllik(sz, to)) out.push({ i, hossz: 1 }); });
     return out;
   };
-  const cimke = (c, neg) => { if (c && !r.cimkek.includes((neg ? 'nem ' : '') + c)) r.cimkek.push((neg ? 'nem ' : '') + c); };
+  const cimke = (c, neg, elotag) => {
+    if (!c) return;
+    const x = (neg ? 'nem ' : '') + (elotag || '') + c;
+    if (!r.cimkek.includes(x)) r.cimkek.push(x);
+  };
 
   STY_SZOTAR.forEach(([tovek, h]) => {
     let hit = null;
     for (const to of tovek) { const x = talalat(to); if (x.length) { hit = x[0]; break; } }
     if (!hit) return;
-    const neg = tagadott(hit.i, hit.hossz);
-    const elojel = neg ? -1 : 1;
+    const neg = !h.nt && tagadott(hit.i, hit.hossz);
+    const e = ero(hit.i);
+    // „ne legyen túl elegáns” = csak kicsit kevésbé; „kevésbé sötét” = az ellenkezője felé
+    const szorzo = neg ? (e > 1 ? -0.5 : -1) : e;
+    const fordit = szorzo < 0;
     if (h.a && !neg) r.a[h.a] = (r.a[h.a] || 0) + 1;
-    if (h.st) Object.entries(h.st).forEach(([k, v]) => { r.st[k] = (r.st[k] || 0) + v * elojel; if (neg) r.tagadottStilus.push(k); });
-    if (h.f) r.f += h.f * elojel;
+    if (h.st) Object.entries(h.st).forEach(([k, v]) => { r.st[k] = (r.st[k] || 0) + v * szorzo; if (fordit) r.tagadottStilus.push(k); });
+    if (h.f) r.f += h.f * szorzo;
     if (h.ido && !neg) r.ido = r.ido === 'eso' ? 'eso' : h.ido; // az eső mindent visz
-    if (h.k) r.k += h.k * elojel;
-    if (h.arny) r.arny = neg ? (h.arny === 'sotet' ? 'vilagos' : 'sotet') : h.arny;
+    if (h.ido && neg && !r.ido) r.ido = h.ido === 'hideg' ? 'enyhe' : h.ido === 'meleg' ? 'huvos' : ''; // „nincs hideg”, „nem lesz meleg”
+    if (h.idoGy && !neg) idoGy = h.idoGy;
+    if (h.k) r.k += h.k * szorzo;
+    if (h.arny) r.arny = fordit ? (h.arny === 'sotet' ? 'vilagos' : 'sotet') : h.arny;
     if (h.ev && !neg) r.ev = h.ev;
-    if (h.szin) r.szin = neg ? (h.szin === 'szines' ? 'semleges' : 'szines') : h.szin;
-    cimke(h.c, neg);
+    if (h.szin) r.szin = fordit ? (h.szin === 'szines' ? 'semleges' : 'szines') : h.szin;
+    if (h.paletta && !fordit) r.paletta = h.paletta;
+    if (h.kabat !== undefined) r.kabat = fordit ? !h.kabat : h.kabat;
+    if (h.kieg !== undefined) r.kieg = fordit ? !h.kieg : h.kieg;
+    ['ritka', 'kedvenc', 'uj'].forEach((k) => { if (h[k] && !neg) r[k] = h[k]; });
+    cimke(h.c, neg, neg ? '' : e >= 1.4 ? 'nagyon ' : e < 0 ? 'kevésbé ' : e < 0.8 ? 'kicsit ' : '');
   });
+  if (!r.ido && idoGy) r.ido = idoGy;
 
-  // hőfok számmal: „-3 fok”, „mínusz 5”, „25°”, „15 c”
-  const fokM = szoveg.match(/(minusz\s*|-)?(\d{1,2})\s*(fok|°|c\b)/);
-  if (fokM) {
-    const fok = (fokM[1] ? -1 : 1) * parseInt(fokM[2], 10);
-    r.fok = fok;
-    if (r.ido !== 'eso') r.ido = fok < 8 ? 'hideg' : fok < 16 ? 'huvos' : fok > 24 ? 'meleg' : 'enyhe';
-    cimke(fok + '°');
+  // hőfok számmal vagy betűvel: „-3 fok”, „mínusz 5 fok”, „25°”, „15 c”, „huszonöt fokban” (de nem „egy fokkal melegebb”)
+  szavak.forEach((sz, i) => {
+    if (r.fok !== null) return;
+    const tol = sz.match(/^(-?\d{1,2})-(\d{1,2})(°|fok\w*)?$/); // „20-25 fok”: a kettő átlaga
+    if (tol && (tol[3] || /^(fok|°)/.test(szavak[i + 1] || ''))) { r.fok = Math.round((parseInt(tol[1], 10) + parseInt(tol[2], 10)) / 2); return; }
+    const m = sz.match(/^(-?\d{1,2})(°|c|fok\w*)?$/);
+    let szam = m ? parseInt(m[1], 10) : stySzam(sz);
+    if (szam === null || isNaN(szam)) return;
+    const jel = m && m[2];
+    const kov = szavak[i + 1] || '';
+    if (jel ? /^fokkal/.test(jel) : (!/^(fok|°|c$|celsius)/.test(kov) || /^fokkal/.test(kov))) return;
+    if (szam > 0 && /^(minusz|minus|-)$/.test(szavak[i - 1] || '')) szam = -szam;
+    r.fok = szam;
+  });
+  if (r.fok !== null) {
+    if (r.ido !== 'eso') r.ido = r.fok < 8 ? 'hideg' : r.fok < 16 ? 'huvos' : r.fok > 24 ? 'meleg' : 'enyhe';
+    cimke(r.fok + '°');
   }
 
-  // színek és ruhadarabok, a tagadással együtt; „kék ing” → kék színű ing
+  // melyik napra: „holnap”, „szombaton”, „hétvégén”
+  const mai = ma || new Date();
+  for (const [tovek, nev, cel] of STY_NAPOK) {
+    if (!tovek.some((to) => talalat(to).length)) continue;
+    r.napNev = nev;
+    r.nap = typeof cel === 'number' ? cel
+      : cel === 'hetvege' ? ([0, 6].includes(mai.getDay()) ? 0 : 6 - mai.getDay())
+        : (STY_HET_NAP[cel] - mai.getDay() + 7) % 7;
+    if (r.nap > 0) cimke(nev);
+    break;
+  }
+
+  // színek, a tagadással együtt
   szavak.forEach((sz, i) => {
     const szin = stySzinSzo(sz);
     if (!szin) return;
-    // a „kek” ne illeszkedjen pl. „keksz”-re: legalább a szín teljes töve legyen meg
     if (tagadott(i)) { if (!r.szinNot.includes(szin)) r.szinNot.push(szin); cimke(szin, true); }
     else if (!r.szinek.includes(szin)) { r.szinek.push(szin); cimke(szin); }
   });
-  STY_DARAB.forEach(([tovek, nev, minta]) => {
+  // ruhadarabok; „kék ing”, „fekete bőr dzseki” → színes darab. Egy szót csak egy darab foglalhat le.
+  const foglalt = new Set();
+  STY_DARAB.forEach(([tovek, nev, minta, kabatFele]) => {
     let hit = null;
-    for (const to of tovek) { const x = talalat(to); if (x.length) { hit = x[0]; break; } }
+    for (const to of tovek) {
+      const x = talalat(to).filter((t) => {
+        if (foglalt.has(t.i)) return false;
+        const szt = t.hossz === 1 && stySzinTo(szavak[t.i]); // a „farmerkék” szín, nem farmer
+        return !(szt && szt[0].replace('$', '').length > to.replace('$', '').length);
+      });
+      if (x.length) { hit = x[0]; break; }
+    }
     if (!hit) return;
-    const elotte = szavak[hit.i - 1] || '';
-    const szin = stySzinSzo(elotte);
-    if (tagadott(hit.i, hit.hossz) || (szin && tagadott(hit.i - 1))) {
-      if (nev === 'kabát') r.kabat = false;
+    for (let j = 0; j < hit.hossz; j++) foglalt.add(hit.i + j);
+    let szin = '';
+    let szinHely = -1;
+    for (let j = hit.i - 1; j >= Math.max(0, hit.i - 2) && !szin; j--) {
+      if (STY_HATAR.has(szavak[j])) break;
+      szin = stySzinSzo(szavak[j]);
+      if (szin) szinHely = j;
+    }
+    if (nev === 'cipő' && !szin) return; // a puszta „cipő” nem szűkít semmit („nem tetszik a cipő” = csere, nem tiltás)
+    // „az új dzsekimet”, „a nemrég vett ingem”: az újabb darabokat vegye előre
+    if (szavak.slice(Math.max(0, hit.i - 2), hit.i).some((w) => /^(uj|ujonnan|nemreg|friss|frissen)$/.test(w))) { r.uj = 1; cimke('új darabok'); }
+    if (tagadott(hit.i, hit.hossz) || (szinHely >= 0 && tagadott(szinHely))) {
+      if (kabatFele && nev === 'kabát') r.kabat = false;
       else r.kerul.push({ nev, minta, szin: szin || '' });
-      cimke(nev, true);
+      cimke((szin ? szin + ' ' : '') + nev, true);
     } else {
-      if (nev === 'kabát') r.kabat = true;
+      if (kabatFele) r.kabat = true;
       r.kell.push({ nev, minta, szin: szin || '' });
       cimke((szin ? szin + ' ' : '') + nev);
     }
   });
   if (r.szinek.length === 1 && !r.szin) r.szin = r.szinek[0];
-  if (/\b(mindegy|barmi|barmit|nem tudom|dontsd el|te dontsd|lepj meg|meglepetes|valami jot|ajanlj|ajanlasz|otletet|otlet)\b/.test(szoveg)) r.mindegy = true;
+  if (/\b(mindegy|barmi|barmit|nem tudom|dontsd el|te dontsd|lepj meg|meglepetes|valami jot|ajanlj|ajanlasz|otletet|otlet|whatever|surprise|rad bizom|te tudod)\b/.test(szoveg)) r.mindegy = true;
   return r;
+};
+
+// színtanácsok: mi illik egy színhez (a „mi illik a bordóhoz?” típusú kérdésekre)
+const STY_SZIN_TANACS = {
+  'fekete': 'szinte mindennel megy: fehérrel klasszikus, bordóval vagy sötétzölddel elegáns, egy élénk színnel (piros, sárga) feltűnő',
+  'fehér': 'mindennel jól mutat: sötétkékkel friss, bézzsel és barnával nyugodt, feketével letisztult',
+  'szürke': 'bordóval, sötétkékkel, rózsaszínnel és fehérrel nagyon jó, a sárga is szépen kiemeli',
+  'sötétszürke': 'világoskékkel, fehérrel, bordóval és bézzsel elegáns',
+  'világosszürke': 'sötétkékkel, feketével, pasztellekkel és bordóval jó',
+  'bézs': 'fehérrel, barnával, olívával és sötétkékkel elegáns, a fekete is működik vele',
+  'barna': 'bézzsel, krémmel, olívával, sötétkékkel és narancsos tónusokkal szép, a fekete mellé kevésbé',
+  'khaki': 'fehérrel, sötétkékkel, barnával és fekete kiegészítőkkel jó',
+  'olíva': 'bézzsel, barnával, fehérrel, feketével és mustárral szép',
+  'farmerkék': 'fehérrel, szürkével, bézzsel, barnával és szinte bármilyen színnel megy',
+  'sötétkék': 'fehérrel, bézzsel, szürkével, barnával és világoskékkel jó, pirossal tengerészes',
+  'világoskék': 'sötétkékkel, fehérrel, szürkével, bézzsel és barnával szép',
+  'kék': 'fehérrel, szürkével, bézzsel és sötétkékkel jó, egy narancs kiegészítővel merész',
+  'piros': 'feketével, fehérrel, sötétkékkel és farmerrel jó, zölddel és rózsaszínnel ütheti egymást',
+  'bordó': 'szürkével, bézzsel, sötétkékkel, feketével és olívával elegáns, naranccsal kevésbé',
+  'rózsaszín': 'szürkével, fehérrel, sötétkékkel és farmerrel jó, pirossal és naranccsal ütheti egymást',
+  'lila': 'szürkével, fehérrel, feketével és farmerrel jó, naranccsal nehezen megy',
+  'zöld': 'fehérrel, bézzsel, barnával és sötétkékkel jó, pirossal karácsonyias lesz',
+  'sötétzöld': 'bézzsel, barnával, fehérrel, feketével és bordóval elegáns',
+  'türkiz': 'fehérrel, bézzsel, sötétkékkel és korallos tónusokkal nyárias',
+  'narancs': 'sötétkékkel, fehérrel, bézzsel és barnával jó, rózsaszínnel és lilával nehezebb',
+  'sárga': 'szürkével, sötétkékkel, fehérrel és farmerrel jó, rózsaszínnel kevésbé',
 };
 
 // FŐ KOMPONENS
@@ -1958,21 +2279,25 @@ class Component extends DCLogic {
   // outfitet. Utána finomítható ("elegánsabb", "cseréld a cipőt", "másikat"…).
   // ==========================================================================
   stylistKezdo() {
-    return [{ from: 'bot', text: 'Szia! A Wardro stylistod vagyok. Mondd el, hova készülsz, vagy mit szeretnél ma felvenni – a saját ruháidból rakok össze neked egy outfitet.\n\nÍrj nyugodtan a saját szavaiddal, akár hosszan is – például: „esős időben megyek egy drága étterembe, de ne legyen fekete”, „egész nap a városban leszek, kényelmes legyen” vagy „állásinterjúm lesz, 5 fok van”.' }];
+    return [{ from: 'bot', text: 'Szia! A Wardro stylistod vagyok. Mondd el, hova készülsz, vagy mit szeretnél ma felvenni – a saját ruháidból rakok össze neked egy outfitet.\n\nÍrj nyugodtan a saját szavaiddal, akár hosszan is – például: „esős időben megyek egy drága étterembe, de ne legyen fekete”, „egész nap a városban leszek, kényelmes legyen” vagy „állásinterjúm lesz, 5 fok van”.\n\nMondhatod azt is, melyik napra kell („holnap”, „szombaton” – megnézem az előrejelzést), kérdezhetsz színekről („mi illik a bordóhoz?”), és ha elakadsz, írd be: „mit tudsz?”.' }];
   }
 
-  // pontozás: viselési előzmény + stílus + elegancia + időjárás + szín + kényelem + kért / kerülendő darabok
+  // pontozás: viselési előzmény + stílus + elegancia + időjárás + szín + kényelem + esemény + kért / kerülendő darabok
   stylistOsszerak(darabok, pref, mag, csere, tart) {
     const STILUS = {
-      elegans: /\bing\b|ingek|bluz|blez|blaz|zako|oltony|chino|szovet|mokaszin|chelsea|csizm|\bbor\b|garbo|szokny|kosztum|felcip|oxford|loafer|gyapju|kasmir|karora|\bov\b|pliszir|ballon|ruha\b/,
-      laza: /polo|farmer|jean|sneaker|pulover|pulcsi|hoodie|kapucn|tornacip|sportcip|rovidnadr|vaszon|szandal|taska|sapka|kord|top\b/,
-      sportos: /sport|melegit|futo|edzo|legging|fleece|jogger|tornacip|sneaker|nike|adidas|puma|asics|new balance|hoka|on running|reebok/,
-      street: /hoodie|kapucn|cargo|sneaker|dunk|jordan|air max|oversize|bomber|sapka|corteiz|stussy|supreme|carhartt|baggy/,
+      elegans: /\bing\b|ingek|bluz|blez|blaz|zako|oltony|chino|szovet|mokaszin|chelsea|csizm|\bbor\b|garbo|szokny|kosztum|felcip|oxford|loafer|derby|brogue|gyapju|kasmir|merino|karora|\bov\b|pliszir|ballon|trencs|ruha\b|nyakkend|mandzset|selyem|szaten|tweed|estelyi|koktel|magassark|tusark|blokksark|slingback|mary jane|balerin|gyongy|lakk|pantalo|galleros|pike|kabatruha|midi|clutch|boritek|peplum|organza|csipke/,
+      laza: /polo|farmer|jean|denim|sneaker|pulover|pulcsi|hoodie|kapucn|tornacip|sportcip|rovidnadr|bermuda|vaszon|espadrille|converse|vans|szandal|taska|sapka|kord|top\b|triko|atleta|crop|tunika|kardigan|flanel|overal|kantaros|cargo|hatizsak/,
+      sportos: /sport|melegit|futo|edzo|legging|fleece|jogger|trening|tornacip|sneaker|termo|kompresszio|softshell|szeldzs|nike|adidas|puma|asics|new balance|hoka|on running|reebok|under armour|salomon|north face|columbia|patagonia/,
+      street: /hoodie|kapucn|cargo|sneaker|dunk|jordan|air max|air force|yeezy|oversize|bomber|sapka|beanie|puffer|varsity|corteiz|stussy|supreme|carhartt|palace|bape|off-white|baggy|grafika|feliratos|logo/,
     };
-    const MELEG_JO = /polo|rovid|szandal|vaszon|\blen\b|top\b|\bing\b|bluz/, MELEG_ROSSZ = /pulover|pulcsi|garbo|gyapju|csizm|kabat|fleece|kord|kasmir|hoodie/;
-    const HIDEG_JO = /pulover|pulcsi|garbo|gyapju|csizm|bakancs|farmer|kord|fleece|kasmir|hoodie|chelsea/, HIDEG_ROSSZ = /rovid|szandal|top\b|vaszon|papucs/;
-    const ESO_JO = /csizm|bakancs|chelsea|boot/, ESO_ROSSZ = /vaszon|szandal|papucs|feher sneaker|velur|szarvasbor/;
-    const KENYELMES = /sneaker|tornacip|sportcip|futocip|edzocip|air max|samba/;
+    const MELEG_JO = /polo|rovid|bermuda|szandal|papucs|espadrille|vaszon|\blen\b|top\b|triko|atleta|crop|ujjatlan|spagetti|muszlin|selyem|\bing\b|bluz/;
+    const MELEG_ROSSZ = /pulover|pulcsi|garbo|gyapju|merino|moher|alpaka|kotott|csizm|bakancs|hotapos|kabat|puffer|steppelt|bunda|termo|fleece|kord|kasmir|hoodie/;
+    const HIDEG_JO = /pulover|pulcsi|garbo|gyapju|merino|moher|alpaka|kotott|csizm|bakancs|hotapos|farmer|kord|fleece|termo|puffer|steppelt|bunda|kasmir|hoodie|chelsea|kesztyu|\bsal\b|sapka|beanie/;
+    const HIDEG_ROSSZ = /rovid|bermuda|szandal|papucs|espadrille|balerin|top\b|triko|atleta|crop|ujjatlan|spagetti|muszlin|vaszon|\blen\b/;
+    const ESO_JO = /csizm|bakancs|chelsea|boot|gumicsizm|vizallo|goretex|gore-tex/, ESO_ROSSZ = /vaszon|szandal|papucs|espadrille|balerin|feher sneaker|velur|szarvasbor|nubuk|selyem|szaten/;
+    const ESO_KABAT = /vizallo|esokabat|ballon|trencs|softshell|parka|goretex|gore-tex|impregnal/;
+    const KENYELMES = /sneaker|tornacip|sportcip|futocip|edzocip|air max|samba|new balance|hoka|on running|asics|ultraboost|vans|converse|birkenstock|crocs|slip/;
+    const KENYELMETLEN = /mokaszin|felcip|oxford|magassark|tusark|platform|stiletto/;
     const rnd = prng(mag * 104729 + 7);
     const most = Date.now();
     const f = pref.f || 0;
@@ -1983,6 +2308,8 @@ class Component extends DCLogic {
     const kell = (pref.kell || []).map((k) => ({ ...k, re: new RegExp(k.minta) }));
     const kerulDarab = (pref.kerul || []).map((k) => ({ ...k, re: new RegExp(k.minta) }));
     const szinNot = new Set(pref.szinNot || []);
+    const paletta = new Set(pref.paletta || []);
+    const komoly = ['interju', 'vizsga', 'temetes', 'templom', 'eskuvo'].includes(pref.ev);
     const pont = (d) => {
       const sz = styDarabSzoveg(d);
       const szin = styDarabSzin(d);
@@ -1999,25 +2326,41 @@ class Component extends DCLogic {
       if (pref.ido === 'meleg') { if (MELEG_JO.test(sz)) p += 20; if (MELEG_ROSSZ.test(sz)) p -= 30; }
       if (pref.ido === 'hideg' || pref.ido === 'eso') { if (HIDEG_JO.test(sz)) p += 20; if (HIDEG_ROSSZ.test(sz)) p -= 30; }
       if (pref.ido === 'eso' && hely === 'cipo') { if (ESO_JO.test(sz)) p += 40; if (ESO_ROSSZ.test(sz)) p -= 45; }
+      if (pref.ido === 'eso' && hely === 'kabat') { if (ESO_KABAT.test(sz)) p += 35; if (/bunda|velur|szarvasbor|gyapju/.test(sz)) p -= 20; }
       // kényelem: sok séta, egész nap talpon
-      if ((pref.k || 0) >= 1 && hely === 'cipo') { if (KENYELMES.test(sz)) p += 18 * pref.k; if (/mokaszin|felcip|oxford|magassark|tusark/.test(sz)) p -= 8 * pref.k; }
+      if ((pref.k || 0) >= 1 && hely === 'cipo') { if (KENYELMES.test(sz)) p += 18 * pref.k; if (KENYELMETLEN.test(sz)) p -= 8 * pref.k; }
       // színek
       if (pref.arny === 'sotet') p += STY_SOTET.has(szin) ? 25 : (STY_VILAGOS.has(szin) ? -15 : 0);
       if (pref.arny === 'vilagos') p += STY_VILAGOS.has(szin) ? 25 : (STY_SOTET.has(szin) ? -15 : 0);
       if (pref.szin === 'semleges' && (!szin || SEMLEGES_SZIN.has(szin))) p += 15;
       if (pref.szin === 'szines' && szin && !SEMLEGES_SZIN.has(szin)) p += 25;
       if (pref.szin && SZIN_LISTA[pref.szin] && szin === pref.szin) p += 45;
+      if (szin && paletta.has(szin)) p += 28;
       if (szin && szinNot.has(szin)) p -= 400;
+      // melyik darabokat vegye elő: kedvencek, rég hordottak, újak
+      if (pref.kedvenc) p += Math.min(d.wearCount || 0, 30) * 2.5;
+      if (pref.ritka) p += Math.min(nap, 180) * 0.45 - Math.min(d.wearCount || 0, 20);
+      if (pref.uj) { const kor = d.createdAt ? (most - d.createdAt) / 864e5 : 999; if (kor < 45) p += 60 - kor; if (!(d.wearCount > 0)) p += 15; }
       // különleges alkalmak
       if (pref.ev === 'temetes') p += (!szin || STY_SOTET.has(szin)) ? 40 : (SEMLEGES_SZIN.has(szin) ? 0 : -120);
       if (pref.ev === 'eskuvo' && szin === 'fehér') p -= 200; // vendégként nem viselünk fehéret
-      if (pref.ev === 'interju') { if (!szin || SEMLEGES_SZIN.has(szin)) p += 20; else p -= 30; if (STILUS.street.test(sz) || STILUS.sportos.test(sz)) p -= 40; }
+      if (pref.ev === 'eskuvo' && szin === 'fekete' && hely !== 'cipo' && hely !== 'kieg') p -= 30; // a csupa fekete inkább gyászos
+      if (pref.ev === 'interju' || pref.ev === 'vizsga') { if (!szin || SEMLEGES_SZIN.has(szin)) p += 20; else p -= 30; if (STILUS.street.test(sz) || STILUS.sportos.test(sz)) p -= 40; }
       if (pref.ev === 'templom' && szin && !SEMLEGES_SZIN.has(szin)) p -= 25;
+      if (pref.ev === 'templom' && /rovid|crop|ujjatlan|spagetti|mini/.test(sz)) p -= 40;
       if (pref.ev === 'temetes' && szin === 'fekete') p += 45;
-      if (['interju', 'temetes', 'templom', 'eskuvo'].includes(pref.ev) && /csikos|mintas|kockas|virag|terepmint|grafika|feliratos/.test(sz)) p -= 35; // komoly alkalomra egyszínű
-      if (pref.ev === 'strand') { if (/rovid|szandal|papucs|polo|top\b|vaszon/.test(sz)) p += 30; if (MELEG_ROSSZ.test(sz)) p -= 40; }
-      if (pref.ev === 'tura' && hely === 'cipo') { if (/bakancs|tura|sneaker|futocip|sportcip/.test(sz)) p += 40; if (/mokaszin|felcip|szandal/.test(sz)) p -= 40; }
+      if (komoly && /csikos|mintas|kockas|virag|terepmint|grafika|feliratos|logo|flitter/.test(sz)) p -= 35; // komoly alkalomra egyszínű
+      if (pref.ev === 'strand') { if (/rovid|bermuda|szandal|papucs|polo|top\b|triko|vaszon|furdo|bikini/.test(sz)) p += 30; if (MELEG_ROSSZ.test(sz)) p -= 40; }
+      if (pref.ev === 'tura' && hely === 'cipo') { if (/bakancs|tura|sneaker|futocip|sportcip|salomon/.test(sz)) p += 40; if (/mokaszin|felcip|szandal|magassark|balerin/.test(sz)) p -= 40; }
       if (pref.ev === 'fesztival' && hely === 'cipo' && KENYELMES.test(sz)) p += 30;
+      if (pref.ev === 'randi') { if (STILUS.elegans.test(sz)) p += 15; if (['piros', 'bordó', 'fekete', 'sötétkék'].includes(szin)) p += 12; if (STILUS.sportos.test(sz) && !STILUS.elegans.test(sz)) p -= 20; }
+      if (pref.ev === 'karacsony') { if (['piros', 'bordó', 'sötétzöld', 'fehér'].includes(szin)) p += 25; if (/pulover|pulcsi|kotott|garbo|kardigan/.test(sz)) p += 15; }
+      if (pref.ev === 'sieles') { if (hely === 'kabat' && /puffer|pufi|steppelt|pehely|toll|sidzs|anorak|parka|teli/.test(sz)) p += 40; if (hely === 'cipo') { if (/csizm|bakancs|hotapos/.test(sz)) p += 90; if (/sneaker|futocip|sportcip|vaszon|mokaszin|balerin|szandal/.test(sz)) p -= 40; } }
+      if (pref.ev === 'kerti' && hely === 'cipo') { if (/tusark|magassark|stiletto/.test(sz)) p -= 45; if (KENYELMES.test(sz) || /szandal|vaszon|espadrille/.test(sz)) p += 20; }
+      if (pref.ev === 'hajo' && hely === 'cipo') { if (/vaszon|mokaszin|loafer|espadrille|sneaker/.test(sz)) p += 25; if (/tusark|magassark|stiletto|csizm/.test(sz)) p -= 40; }
+      if (pref.ev === 'hajo' && ['sötétkék', 'fehér'].includes(szin)) p += 15;
+      if (pref.ev === 'hazimunka') { if (STILUS.elegans.test(sz) && !STILUS.laza.test(sz)) p -= 50; p += Math.min(nap, 120) * 0.2; }
+      if (pref.ev === 'video') { if (hely === 'felso' && STILUS.elegans.test(sz)) p += 30; if (hely !== 'felso' && (STILUS.laza.test(sz) || KENYELMES.test(sz))) p += 15; }
       // kért és kerülendő darabok
       kell.forEach((k) => { if (k.re.test(sz)) p += (!k.szin || szin === k.szin) ? 300 : 110; });
       kerulDarab.forEach((k) => { if (k.re.test(sz) && (!k.szin || szin === k.szin)) p -= 500; });
@@ -2031,17 +2374,17 @@ class Component extends DCLogic {
       .map((d) => {
         const szin = styDarabSzin(d);
         const utkozik = szin && !SEMLEGES_SZIN.has(szin) && valasztas.some((x) => { const xs = styDarabSzin(x); return xs && !SEMLEGES_SZIN.has(xs) && xs !== szin; });
-        return { d, p: pont(d) - (utkozik && pref.szin !== 'szines' ? 40 : 0) };
+        return { d, p: pont(d) - (utkozik && pref.szin !== 'szines' && !paletta.has(szin) ? 40 : 0) };
       })
       .sort((a, b) => b.p - a.p)[0];
-    const kellKabat = pref.ev !== 'strand' && (pref.kabat === true
+    const kellKabat = pref.ev !== 'strand' && (pref.kabat === true || pref.ev === 'sieles'
       || (pref.kabat !== false && (['hideg', 'eso', 'huvos'].includes(pref.ido) || (pref.ev === 'tura' && pref.ido !== 'meleg'))));
     const helyek = ['felso', 'also', 'cipo'];
     if (kellKabat) helyek.push('kabat');
     helyek.forEach((h) => { const x = legjobb(h); if (x) valasztas.push(x.d); });
     const kieg = legjobb('kieg');
     const kiegKell = kieg && kell.some((k) => k.re.test(styDarabSzoveg(kieg.d)));
-    if (kieg && (kiegKell || stilus === 'elegans' || marad.has(kieg.d.key) || (!marad.size && rnd() < 0.55)) && kieg.p > -100) valasztas.push(kieg.d);
+    if (kieg && pref.kieg !== false && (kiegKell || pref.kieg === true || stilus === 'elegans' || marad.has(kieg.d.key) || (!marad.size && rnd() < 0.55)) && kieg.p > -100) valasztas.push(kieg.d);
     return { darabok: valasztas, stilus, kellKabat };
   }
 
@@ -2068,23 +2411,56 @@ class Component extends DCLogic {
 
     const uj = styErtelmez(szoveg);
     const semmi = !Object.keys(uj.a).length && !Object.keys(uj.st).length && !uj.f && !uj.ido && !uj.k && !uj.arny && !uj.ev
-      && !uj.szin && !uj.szinNot.length && !uj.kell.length && !uj.kerul.length && uj.kabat === undefined && !uj.mindegy;
+      && !uj.szin && !uj.szinNot.length && !uj.kell.length && !uj.kerul.length && uj.kabat === undefined && uj.kieg === undefined
+      && !uj.paletta && !uj.ritka && !uj.kedvenc && !uj.uj && !uj.nap && !uj.mindegy;
 
-    // --- csevegés: köszönés, köszönet, súgó ---
-    if (semmi && /^ (szia|szius|hello|hali|helo|szevasz|szervusz|jo napot|jo estet|jo reggelt|hey|hi|csa|csumi) /.test(tn)) {
+    // --- csevegés: köszönés, köszönet, hogylét, súgó ---
+    if (semmi && /^ (szia|sziasztok|szius|hello|hellosztok|hali|halihoz|helo|szevasz|szeva|szervusz|csokolom|udv|udvozlet|jo napot|jo estet|jo reggelt|hey|hi|csa|csao|ciao|csumi|hahoo?) /.test(tn)) {
       return { msgs: [bot('Szia! 👋 Mesélj: hova mész ma, milyen idő van, és milyen hangulatban vagy? Minél többet írsz, annál pontosabb szettet rakok össze.')], chips: ALAP_CHIPS };
     }
-    if (semmi && /(koszi|koszonom|kosz |kosszi|thx|thanks|koszike|koszke)/.test(tn)) {
+    if (semmi && /(koszi|koszonom|kosz |kosszi|koszcsi|thx|thanks|thank you|koszike|koszke|halas vagyok)/.test(tn)) {
       return { msgs: [bot('Szívesen! Ha bármikor új szett kell, csak írj. 😊')], chips: utolso ? ['Másikat kérek', 'Kezdjük újra'] : ALAP_CHIPS };
     }
-    if (/(mit tudsz|mire vagy kepes|hogyan mukodsz|hogy mukodik|segitseg| help |mit csinalsz|mit irjak)/.test(tn)) {
-      return { msgs: [bot('Írd le a saját szavaiddal, mire készülsz – én kiszűröm belőle a lényeget:\n\n• hova mész (étterem, iroda, buli, edzés, túra, esküvő…)\n• mennyire elegáns a hely („drága”, „puccos”, „laza kocsma”)\n• milyen az idő („esik”, „hideg van”, „25 fok”)\n• színek („sötét”, „legyen benne kék”, „ne legyen fekete”)\n• darabok („farmerben szeretnék lenni”, „sapka nélkül”)\n• kényelem („egész nap talpon leszek”)\n\nUtána finomíthatsz is: „elegánsabb”, „melegebb”, „nem tetszik a cipő”…')], chips: ALAP_CHIPS };
+    if (semmi && /(hogy vagy|hogy vagytok|mi ujsag|mizu|hogy megy|how are you)/.test(tn)) {
+      return { msgs: [bot('Köszönöm, remekül – épp a szekrényedet nézegetem. 😊 És te? Hova készülsz ma?')], chips: ALAP_CHIPS };
+    }
+    if (semmi && /(ki vagy|mi vagy|robot vagy|ember vagy|ai vagy|mesterseges)/.test(tn)) {
+      return { msgs: [bot('A Wardro stylistja vagyok: a saját ruháidból rakok össze szetteket az alkalomhoz, az időjáráshoz és a hangulatodhoz. Semmit nem kell megvenned – abból dolgozom, ami már megvan.')], chips: ALAP_CHIPS };
+    }
+    if (/(mit tudsz|mire vagy kepes|hogyan mukodsz|hogy mukodik|segitseg| help |mit csinalsz|mit irjak|mit kerdezhetek)/.test(tn)) {
+      return { msgs: [bot('Írd le a saját szavaiddal, mire készülsz – én kiszűröm belőle a lényeget:\n\n• hova mész (iroda, randi, esküvő, temetés, buli, koncert, edzés, túra, síelés, strand, utazás, videóhívás…)\n• mennyire elegáns („drága hely”, „black tie”, „smart casual”, „laza kocsma”)\n• stílus és hangulat („old money”, „boho”, „rockos”, „fáradt vagyok, valami nyugis”, „magabiztos akarok lenni”)\n• milyen az idő („esik”, „ne fázzak”, „huszonöt fok”) – vagy melyik napra kell („holnap”, „szombaton”), és megnézem az előrejelzést\n• színek („sötét”, „földszínek”, „pasztell”, „legyen benne bordó”, „fekete helyett kék”)\n• darabok („a kedvenc kék pulcsim”, „sapka nélkül”, „inkább farmer, mint chino”)\n• mennyire („nagyon elegáns”, „kicsit lazább”, „ne legyen túl színes”)\n• melyik ruhák („a régóta nem hordottak”, „az új darabjaim”)\n\nSzínekről is kérdezhetsz: „mi illik a bordóhoz?”, „a zöld és a piros összeillik?”\n\nUtána finomíthatsz is: „elegánsabb”, „melegebb”, „nem tetszik a cipő”, „vedd le a táskát”…')], chips: ALAP_CHIPS };
+    }
+
+    // --- színtanács: „mi illik a bordóhoz?”, „a zöld és a piros összeillik?” ---
+    const szinKerdes = /(illik|illene|passzol|osszeill|osszepasszol|kombinal|mivel vegyem|mihez vegyem|mivel hordjam|mihez hordjam|megy hozza|mi megy|mivel megy|egyutt mehet|ossze lehet|osszevag|match)/.test(tn);
+    let szinTipp = '';
+    if (szinKerdes && uj.szinek.length) {
+      const az = (x) => (/^[aáeéiíoóöőuúüű]/i.test(x) ? 'Az ' : 'A ') + x;
+      const [a, b] = uj.szinek;
+      if (b) {
+        const v = vsSzinIllik(a, b);
+        szinTipp = v === 1 ? az(a) + ' és a ' + b + ' jól megy együtt' + (SEMLEGES_SZIN.has(a) || SEMLEGES_SZIN.has(b) ? ' – a semleges szín mindent elvisz.' : '.')
+          : v === 0 ? az(a) + ' és a ' + b + ' ütheti egymást. Ha mégis együtt hordod, tegyél melléjük sok semleges színt (fekete, fehér, szürke, bézs).'
+            : az(a) + ' és a ' + b + ' merész páros, de működhet: legyen az egyik a fő szín, a másik csak kiegészítő.';
+      } else if (STY_SZIN_TANACS[a]) {
+        szinTipp = az(a) + ' ' + STY_SZIN_TANACS[a] + '.';
+      }
+      // csak szín, darab nélkül: tanács + a saját ruhák közül, ami illik hozzá
+      if (szinTipp && !uj.kell.length) {
+        const illok = darabok.filter((d) => { const sz = styDarabSzin(d); return sz && sz !== a && vsSzinIllik(a, sz) === 1 && (!b || vsSzinIllik(b, sz) === 1); })
+          .sort((x, y) => (SEMLEGES_SZIN.has(styDarabSzin(x)) ? 1 : 0) - (SEMLEGES_SZIN.has(styDarabSzin(y)) ? 1 : 0) || (y.wearCount || 0) - (x.wearCount || 0))
+          .slice(0, 4).map((d) => d.label);
+        return {
+          msgs: [bot(szinTipp + (illok.length ? '\n\nA szekrényedből ezek illenek hozzá: ' + illok.join(', ') + '.' : ''))],
+          chips: ['Szettet kérek ' + a + ' színnel', ...(b ? ['Szettet kérek ' + b + ' színnel'] : []), 'Kezdjük újra'],
+        };
+      }
     }
 
     // --- műveletek egy már ajánlott outfiten ---
-    const negativ = /(nem tetszik|nem jo|nem az igazi|nem bejon|nem tetszenek|ronda|csunya|uncsi|unalmas|valami mas|mast|masikat|masik |ujat|kovetkezo|nem ez)/.test(tn);
+    const negativ = /(nem tetszik|nem jo|nem az igazi|nem bejon|nem jon be|nem tetszenek|ronda|csunya|uncsi|unalmas|szornyu|borzaszto|valami mas|mast|masikat|masik |ujat|kovetkezo|nem ez|mas otlet|van mas|mutass mast|dobj mast|nah |nope)/.test(tn);
     if (utolso && utolso.length && !negativ) {
-      if (/(veszem fel|ezt veszem|tokeletes|jo lesz|felveszem|mehet|ez az | szuper |tetszik| imadom|pont jo|megfelel|ez jo|ok |oke|rendben)/.test(tn) && semmi) {
+      if (/(veszem fel|ezt veszem|tokeletes|jo lesz|felveszem|mehet|ez az | szuper |tetszik| imadom|pont jo|pont ilyen|megfelel|ez jo|ok |oke|okes|rendben|zsir|kiraly|telitalalat|bejon|bejott|ez lesz|ez kell|legyen ez|maradunk|csodas|gyonyoru|nagyon jo|faja|perfect)/.test(tn) && semmi) {
         return { msgs: [bot('Szuper választás! Naplóztam, hogy ma ezt viseled – így a viselésszámok is frissülnek. Jó napot benne! ✨')], chips: ['Mentsd el outfitként', 'Kezdjük újra'], muvelet: 'visel' };
       }
       if (/(ments|mentes|elment|outfitkent|tedd el)/.test(tn)) {
@@ -2096,14 +2472,25 @@ class Component extends DCLogic {
     let csere = [];
     let tart = [];
     if (utolso && utolso.length) {
-      const HELY_SZO = [['cipo', /cip|sneaker|csizm|bakancs|mokaszin|lab/], ['felso', /felso|polo|\bing|pulover|pulcsi|bluz|garbo|hoodie|top\b/],
-        ['also', /also|nadrag|farmer|szokny|chino|kord|short/], ['kabat', /kabat|dzseki|parka/], ['kieg', /kieg|taska|sapka|\bora|\bov\b|\bsal\b|ekszer/]];
+      const HELY_SZO = [
+        ['cipo', /cip|sneaker|csizm|bakancs|mokaszin|loafer|szandal|papucs|balerin|magassark|tusark|espadrill|csuk|labbeli|\blab/],
+        ['felso', /felso|felul|polo|\bing|pulover|pulcsi|bluz|garbo|hoodie|kapucn|kardigan|top\b|triko|tunika|crop|body/],
+        ['also', /also|alul|nadrag|naci|gatya|farmer|szokny|chino|kord|short|bermuda|leggings|melegito|jogger|cargo/],
+        ['kabat', /kabat|kabi|dzseki|parka|ballon|trencs|melleny|puffer/],
+        ['kieg', /kieg|taska|sapka|kalap|\bora|\bov\b|\bsal\b|ekszer|szemuveg|nyaklanc|fulbeval|kesztyu|nyakkendo/]];
       // hőérzet: "melegebb legyen" → kabát rá, "könnyebb" → kabát le (a többi darab marad)
-      if (/(melegebb|fazom|fazni fogok|hidegebb lett|lehult)/.test(tn) && !/melegebb lett/.test(tn)) { uj.kabat = true; if (pref.ido !== 'eso') uj.ido = 'hideg'; }
-      if (/(konnyebb|huvosebb|melegem van|melegebb lett|izzadok|szellosebb)/.test(tn)) { uj.kabat = false; uj.ido = 'meleg'; }
-      const cserelo = /(csereld|cserel|csere|mas |masik|helyett|nem tetszik|nem jo|ne ez|ne ezt|mast|massal|valtoztass|valts|uj )/.test(tn);
+      if (/(melegebb|fazom|fazni fogok|fazos vagyok|ne fazzak|hidegebb lett|lehult|vastagabb|tobb reteg|retegesebb)/.test(tn) && !/melegebb lett/.test(tn)) { uj.kabat = true; if (pref.ido !== 'eso') uj.ido = 'hideg'; }
+      if (/(konnyebb|huvosebb|melegem van|melegebb lett|izzadok|ne izzadjak|szellosebb|vekonyabb|kevesebb reteg|nyariasabb)/.test(tn)) { uj.kabat = false; uj.ido = 'meleg'; }
+      const cserelo = /(csereld|cserel|csere|mas |masik|helyett|nem tetszik|nem jo|ne ez|ne ezt|mast|massal|valtoztass|valts|uj |inkabb)/.test(tn);
+      const levesz = /(vedd le|hagyd le|szedd le|vegyuk le|hagyjuk le| nelkul|nem kell)/.test(tn);
       const celzott = HELY_SZO.filter(([, re]) => re.test(tn)).map(([h]) => h).filter((h) => !(h === 'kabat' && uj.kabat !== undefined));
-      if (cserelo && celzott.length) {
+      // „vedd le a táskát”, „kiegészítő nélkül”: a kiegészítő hely üres marad
+      if (levesz && celzott.includes('kieg')) { uj.kieg = false; uj.kerul = uj.kerul.filter((k) => k.szin); }
+      // „nem tetszik a nadrág”: a hely darabját cseréljük, nem tiltjuk az összes nadrágot
+      if (cserelo && celzott.length) uj.kerul = uj.kerul.filter((k) => k.szin);
+      if (levesz && celzott.includes('kieg') && celzott.length === 1) {
+        tart = utolso.filter((k) => { const d = darabok.find((x) => x.key === k); return d && helyDarab(d) !== 'kieg'; });
+      } else if (cserelo && celzott.length) {
         csere = utolso.filter((k) => { const d = darabok.find((x) => x.key === k); return d && celzott.includes(helyDarab(d)); });
         tart = utolso.filter((k) => !csere.includes(k));
         mag += 1;
@@ -2142,6 +2529,15 @@ class Component extends DCLogic {
     pref.kell = [...(pref.kell || []).filter((x) => !ujKerul.has(kulcs(x)) && !ujKell.has(kulcs(x))), ...uj.kell];
     pref.kerul = [...(pref.kerul || []).filter((x) => !ujKell.has(kulcs(x)) && !ujKerul.has(kulcs(x))), ...uj.kerul];
     if (uj.kabat !== undefined) pref.kabat = uj.kabat;
+    if (uj.kieg !== undefined) pref.kieg = uj.kieg;
+    if (uj.paletta) pref.paletta = uj.paletta;
+    ['ritka', 'kedvenc', 'uj'].forEach((k) => { if (uj[k]) pref[k] = uj[k]; });
+    // másik napra öltözöl: az időt annak a napnak az előrejelzéséből vesszük (ha nem mondtad meg magad)
+    if (uj.nap !== null && uj.nap !== (pref.nap || 0)) {
+      pref.nap = uj.nap;
+      pref.napNev = uj.napNev;
+      if (!uj.ido && !pref.idoKezi) { delete pref.ido; delete pref.idoAuto; }
+    }
     pref.cimkek = [...new Set([...(pref.cimkek || []), ...uj.cimkek])].slice(-8);
     // saját ruhák név szerint: ha a szöveg egy darabod minden fontos szavát tartalmazza
     const szavak = tn.trim().split(' ');
@@ -2154,7 +2550,7 @@ class Component extends DCLogic {
     // ha a feltett kérdésre "mindegy" a válasz (vagy kétszer sem értettük), azt is elfogadjuk
     const megvan = {
       alkalom: () => !!pref.alkalom, stilus: () => !!pref.stilus, ido: () => !!pref.ido,
-      szin: () => !!(pref.szin || pref.arny || (pref.szinNot || []).length), k: () => pref.kValasz,
+      szin: () => !!(pref.szin || pref.arny || pref.paletta || (pref.szinNot || []).length), k: () => pref.kValasz,
     };
     if (kerdezett === 'k') pref.kValasz = true; // a kényelmi kérdésre bármilyen válasz jó
     if (kerdezett && megvan[kerdezett] && !megvan[kerdezett]()) {
@@ -2163,7 +2559,12 @@ class Component extends DCLogic {
       ['alkalom', 'stilus', 'ido', 'szin'].forEach((k) => { if (!megvan[k]()) pref[k] = 'mindegy'; });
       pref.kValasz = true;
     }
-    if (s.weather && typeof s.weather.tempC === 'number' && !pref.ido) {
+    if (!pref.ido && pref.nap) {
+      const napi = this.stylistNapIdo(pref.nap);
+      if (napi) { pref.ido = napi.ido; pref.idoAuto = napi.auto; }
+      else if (!s.wx && !s.wxLoad) this.fetchWeatherWeek(); // legközelebbre már meglesz
+    }
+    if (s.weather && typeof s.weather.tempC === 'number' && !pref.ido && !pref.nap) {
       const fk = s.weather.tempC;
       pref.ido = fk < 8 ? 'hideg' : fk < 16 ? 'huvos' : fk > 24 ? 'meleg' : 'enyhe';
       pref.idoAuto = Math.round(fk) + '°';
@@ -2176,9 +2577,10 @@ class Component extends DCLogic {
       stilus: [pref.alkalom === 'program' ? 'Mennyire elegáns a hely?' : 'Milyen hangulatú legyen a szett?',
         pref.alkalom === 'program' ? ['Nagyon elegáns, puccos hely', 'Smart casual – félig elegáns', 'Laza hely', 'Mindegy, döntsd el']
           : ['Elegáns', 'Laza és kényelmes', 'Sportos', 'Utcai (streetwear)', 'Mindegy, döntsd el']],
-      ido: ['Milyen idő van kint? (Nem sikerült lekérnem az időjárást.)', ['Hideg', 'Hűvös', 'Meleg', 'Esik az eső']],
+      ido: [pref.nap ? 'Milyen idő lesz ' + pref.napNev + '? (Az előrejelzést most nem értem el.)' : 'Milyen idő van kint? (Nem sikerült lekérnem az időjárást.)',
+        ['Hideg', 'Hűvös', 'Meleg', 'Esik az eső']],
       k: ['Sokat leszel talpon, vagy inkább ülős program lesz?', ['Sokat sétálok, kényelmes cipő kell', 'Inkább ülök', 'Mindegy']],
-      szin: ['Van szín, amit ma szívesen viselnél – vagy amit inkább kerülnél?', ['Semleges', 'Legyen színes', 'Sötét tónusok', 'Ne legyen fekete', 'Mindegy']],
+      szin: ['Van szín, amit szívesen viselnél – vagy amit inkább kerülnél?', ['Semleges', 'Legyen színes', 'Sötét tónusok', 'Ne legyen fekete', 'Mindegy']],
     };
     const kerdezve = pref.kerdezve || [];
     const reszletes = (pref.cimkek || []).length >= 4; // ha sokat elmondtál, kevesebbet kérdezek
@@ -2216,15 +2618,32 @@ class Component extends DCLogic {
       tura: 'Túrára kényelmes cipő és réteges öltözék.',
       fesztival: 'Fesztiválra kényelmes cipő, mert egész nap talpon leszel.',
       utazas: 'Utazáshoz kényelmes, gyűrődésre nem kényes darabok.',
+      vizsga: 'Vizsgára letisztult, rendezett, semleges összeállítás.',
+      randi: 'Randira csinos, de nem túlerőltetett szett – a sötét és a meleg tónusok jól állnak este.',
+      karacsony: 'Karácsonyra ünnepi színek és puha, kötött darabok.',
+      sieles: 'Síeléshez meleg, réteges öltözék, téli kabát és vastag talpú cipő.',
+      kerti: 'Kerti programra kényelmes darabok – tűsarkút a fűbe nem választottam.',
+      hajo: 'Hajóra csúszásmentes, lapos cipő és tengerészes színek.',
+      hazimunka: 'Házimunkához olyan darabokat választottam, amiket nem baj, ha összekoszolsz.',
+      video: 'Videóhíváshoz a felső számít: az rendezett, a többi lehet kényelmes.',
     };
+    if (szinTipp) okok.push(szinTipp);
     if (pref.ev && EV_OK[pref.ev]) okok.push(EV_OK[pref.ev]);
     if (res.stilus) okok.push('Stílus: ' + STILUS_NEV[res.stilus] + ((pref.f || 0) >= 2 && res.stilus === 'elegans' ? ' – ez egy elegánsabb alkalom.' : (pref.alkalom && pref.alkalom !== 'mindegy' ? ' – illik az alkalomhoz.' : '.')));
-    if (res.kellKabat) okok.push(pref.kabat === true ? 'Kabátot kértél, rátettem.' : pref.ido === 'eso' ? 'Esik, ezért kabátot tettem rá, és zárt cipőt választottam.' : (pref.ido === 'hideg' ? 'Hideg' : 'Hűvös') + ' van' + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') + ', ezért kabát is került rá.');
+    // a jövőbeli napra „lesz”, ma „van”
+    const ige = pref.nap ? ' lesz' + (pref.napNev ? ' ' + pref.napNev : '') : ' van';
+    if (res.kellKabat) okok.push(pref.kabat === true ? 'Kabátot kértél, rátettem.' : pref.ev === 'sieles' ? 'A síeléshez téli kabát kell.' : pref.ido === 'eso' ? (pref.nap ? 'Esőt mondanak' + (pref.napNev ? ' ' + pref.napNev : '') + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') : 'Esik') + ', ezért kabátot tettem rá, és zárt cipőt választottam.' : (pref.ido === 'hideg' ? 'Hideg' : 'Hűvös') + ige + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') + ', ezért kabát is került rá.');
     else if (pref.kabat === false) okok.push('Kabát nélkül, ahogy kérted.');
-    else if (pref.ido === 'meleg') okok.push('Meleg van' + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') + ', ezért könnyebb darabokat választottam.');
-    if ((pref.k || 0) >= 1) okok.push('Kényelmes cipőt választottam, mert sokat leszel talpon.');
+    else if (pref.ido === 'meleg') okok.push('Meleg' + ige + (pref.idoAuto ? ' (' + pref.idoAuto + ')' : '') + ', ezért könnyebb darabokat választottam.');
+    else if (pref.nap && pref.idoAuto) okok.push((pref.napNev ? pref.napNev[0].toUpperCase() + pref.napNev.slice(1) + ' ' : '') + 'kellemes idő lesz (' + pref.idoAuto + ').');
+    if ((pref.k || 0) >= 2 && pref.ev !== 'sieles') okok.push('Kényelmes cipőt választottam, mert sokat leszel talpon.');
     if (pref.arny) okok.push(pref.arny === 'sotet' ? 'Sötétebb tónusokat választottam.' : 'Világos tónusokat választottam.');
+    if (pref.paletta) okok.push('A kért színvilágból (' + pref.paletta.slice(0, 4).join(', ') + ') választottam, amit lehetett.');
     if ((pref.szinNot || []).length) okok.push('Kerültem: ' + pref.szinNot.join(', ') + '.');
+    if (pref.kedvenc) okok.push('A legtöbbet hordott, kedvenc darabjaidat vettem elő.');
+    if (pref.ritka) okok.push('Olyan darabokat választottam, amiket rég nem viseltél.');
+    if (pref.uj) okok.push('Az újabb darabjaidat vettem előre.');
+    if (pref.kieg === false) okok.push('Kiegészítő nélkül, ahogy kérted.');
     (pref.kell || []).forEach((k) => {
       const re = new RegExp(k.minta);
       const van = res.darabok.some((d) => re.test(styDarabSzoveg(d)) && (!k.szin || styDarabSzin(d) === k.szin));
@@ -2248,6 +2667,20 @@ class Component extends DCLogic {
       chips: ['Ezt veszem fel', 'Mentsd el outfitként', 'Másikat kérek', 'Elegánsabb', 'Lazább', 'Nem tetszik a cipő', res.kellKabat ? 'Kabát nélkül' : 'Kabáttal', 'Sötétebb'],
       kovetes: 'Tetszik így? Írd meg nyugodtan a saját szavaiddal, mit változtassak – például „nem tetszik a cipő”, „legyen melegebb” vagy „ne legyen benne fekete”.',
     };
+  }
+
+  // egy későbbi nap időjárása az előrejelzésből (state.wx, Open-Meteo napi adatok): { ido, auto } vagy null
+  stylistNapIdo(nap) {
+    const d = this.state.wx && this.state.wx.daily;
+    if (!d || !d.time) return null;
+    const i = d.time.indexOf(dayKey(new Date(Date.now() + nap * 864e5)));
+    if (i < 0) return null;
+    const max = (d.temperature_2m_max || [])[i], min = (d.temperature_2m_min || [])[i];
+    if (typeof max !== 'number' || typeof min !== 'number') return null;
+    const eso = ((d.precipitation_probability_max || [])[i] || 0);
+    const nappal = (max * 2 + min) / 3; // a nap nagy részében érzett hőmérséklet
+    const ido = eso >= 60 ? 'eso' : nappal < 8 ? 'hideg' : nappal < 16 ? 'huvos' : nappal > 24 ? 'meleg' : 'enyhe';
+    return { ido, auto: Math.round(min) + '–' + Math.round(max) + '°' + (eso >= 40 ? ', ' + Math.round(eso) + '% eső' : '') };
   }
 
   // rövid visszajelzés arról, amit a bot megértett (kérdés előtt)

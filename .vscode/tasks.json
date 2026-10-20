@@ -6,7 +6,10 @@
             "type": "shell",
             "command": "node",
             "args": ["${workspaceFolder}/server/index.js"],
+            "options": { "cwd": "${workspaceFolder}/server" },
             "isBackground": true,
+            // a mappa megnyitásakor magától elindul (ha a 8080 már foglalt, csendben kilép)
+            "runOptions": { "runOn": "folderOpen" },
             "presentation": {
                 "reveal": "silent",
                 "panel": "dedicated"

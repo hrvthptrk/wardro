@@ -683,6 +683,17 @@ const server = http.createServer(
           verifyToken: verifyToken,
         });
 
+        // ha a szerveren nincs beállítva az e-mail-küldés (nincs email.config.json),
+        // a megerősítést nem lehetne elvégezni: a fiók azonnal aktív, és be is léptetjük
+        if (!mail.isConfigured()) {
+          await store.markEmailVerified(newUser.id);
+          auth.setSessionCookie(res, auth.createSession(newUser.id));
+          return sendJson(res, 200, {
+            ok: true,
+            user: store.publicUser(Object.assign({}, newUser, { emailVerified: true })),
+          });
+        }
+
         // nem léptetjük be: előbb meg kell erősítenie az e-mail címét
         var kuldes = await mail.sendVerification(
           newUser.email,
@@ -746,6 +757,12 @@ const server = http.createServer(
         }
 
         probaTorol(lEmailKulcs);
+
+        // e-mail-küldés nélkül a korábban megerősítetlenül maradt fiókokat is aktiváljuk
+        if (!loginUser.emailVerified && !mail.isConfigured()) {
+          await store.markEmailVerified(loginUser.id);
+          loginUser.emailVerified = true;
+        }
 
         if (!loginUser.emailVerified) {
           return sendJson(res, 403, {

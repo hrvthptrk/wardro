@@ -6,11 +6,14 @@
 <script>
 // VS Code "Go Live" (Live Server, 5500-as port) helyett a valódi Wardro
 // szerverre váltunk (8080), ha az fut - ott működik minden (QR, fotók).
-// Ha nem fut, maradunk az 5500-on, hogy ne kapj üres oldalt.
+// Ha még nem fut (pl. épp most indítja a VS Code feladata), másodpercenként
+// újrapróbáljuk, és amint elérhető, átváltunk.
 if (location.port === '5500') {
-  fetch('http://localhost:8080/', { mode: 'no-cors', cache: 'no-store' })
-    .then(function () { location.replace('http://localhost:8080' + location.pathname + location.search + location.hash); })
-    .catch(function () { /* a szerver nem fut, maradunk */ });
+  (function probal() {
+    fetch('http://localhost:8080/', { mode: 'no-cors', cache: 'no-store' })
+      .then(function () { location.replace('http://localhost:8080' + location.pathname + location.search + location.hash); })
+      .catch(function () { setTimeout(probal, 1000); });
+  })();
 }
 </script>
 <link rel="stylesheet" href="./Wardro%20Web.css">
