@@ -226,7 +226,7 @@ const KEP_KERET = new Map(); // src -> { x, y, w, h } (0..1 arányok) | null, am
 let kepKeretFrissit = null; // a komponens állítja be: mérés után újrarajzol
 const keretSzamol = (img) => {
   const N = 160;
-  const arany = img.naturalWidth / img.naturalHeight || 1;
+  const arany = (img.naturalWidth || img.width) / (img.naturalHeight || img.height) || 1; // kép vagy vászon
   const cw = arany >= 1 ? N : Math.max(8, Math.round(N * arany));
   const ch = arany >= 1 ? Math.max(8, Math.round(N / arany)) : N;
   const c = document.createElement('canvas');
@@ -249,9 +249,13 @@ const keretSzamol = (img) => {
     hr = med(r); hg = med(gg); hb = med(b);
   }
   const ruha = (i) => (alfa ? px[i + 3] > 40 : Math.abs(px[i] - hr) + Math.abs(px[i + 1] - hg) + Math.abs(px[i + 2] - hb) > 54);
+  // bőrszínű pixelek: ha a "ruha" egy része bőr, a fotón ember (modell, kéz) is van
+  const bor = (i) => { const r = px[i], gz = px[i + 1], bz = px[i + 2]; return r > 95 && gz > 40 && bz > 20 && r > gz && gz > bz && r - gz >= 15 && r - gz <= 110; };
   const oszlop = new Array(cw).fill(0), sor = new Array(ch).fill(0);
+  let ruhaDb = 0, borDb = 0;
   for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++) {
-    if (ruha((y * cw + x) * 4)) { oszlop[x]++; sor[y]++; }
+    const i = (y * cw + x) * 4;
+    if (ruha(i)) { oszlop[x]++; sor[y]++; ruhaDb++; if (bor(i)) borDb++; }
   }
   // a zajt (egy-egy elszórt pixel) és a vékony kiálló részeket (vállfa kampója,
   // címke, árnyék) kihagyjuk: a széleken csak a kellően széles sorok / oszlopok számítanak
@@ -260,12 +264,14 @@ const keretSzamol = (img) => {
   const ys = sor.map((n, i) => (n > Math.max(cw * 0.03, maxSor * 0.22) ? i : -1)).filter((i) => i >= 0);
   if (!xs.length || !ys.length) return { x: 0, y: 0, w: 1, h: 1, alfa, biztos: false };
   // ar: a kép szélesség / magasság aránya (a talált folt valódi arányához, pl. oldalnézeti cipő)
-  const k = { x: xs[0] / cw, y: ys[0] / ch, w: (xs[xs.length - 1] - xs[0] + 1) / cw, h: (ys[ys.length - 1] - ys[0] + 1) / ch, alfa, ar: cw / ch };
+  // bor: a bőrszínű pixelek aránya a ruhán (lásd vanEmber)
+  const k = { x: xs[0] / cw, y: ys[0] / ch, w: (xs[xs.length - 1] - xs[0] + 1) / cw, h: (ys[ys.length - 1] - ys[0] + 1) / ch, alfa, ar: cw / ch, bor: ruhaDb ? borDb / ruhaDb : 0 };
   // mennyire tömör a talált folt: ha a téglalap nagy része háttér, vagy majdnem az egész
   // kép, akkor sima fotón nem bízunk a felismerésben (pl. mintás padló, fal)
   let benne = 0;
   for (let y = ys[0]; y <= ys[ys.length - 1]; y++) for (let x = xs[0]; x <= xs[xs.length - 1]; x++) if (ruha((y * cw + x) * 4)) benne++;
   const tomor = benne / ((xs[xs.length - 1] - xs[0] + 1) * (ys[ys.length - 1] - ys[0] + 1));
+  k.tomor = tomor; // a kivágott képen is jelzi, ha nem ruha maradt meg (pl. csak szétszórt betűk)
   k.biztos = alfa || (tomor > 0.45 && k.w * k.h < 0.85 && k.w * k.h > 0.08);
   return k;
 };
@@ -279,6 +285,129 @@ const kepKeret = (src) => {
     try { KEP_KERET.set(src, keretSzamol(img)); } catch (e) { KEP_KERET.set(src, { x: 0, y: 0, w: 1, h: 1 }); }
     if (kepKeretFrissit) kepKeretFrissit();
   };
+  img.src = src;
+  return null;
+};
+// Ember van a fotón? Ha a "ruha" egy része bőrszínű (arc, kar, kéz), modell / kéz is van
+// rajta. Ha szinte az egész (85% fölött) bőrszínű, az maga a ruha színe (bézs, barna kabát).
+const vanEmber = (k) => !!k && (k.bor || 0) > 0.08 && (k.bor || 0) < 0.85;
+
+// --- Próbababa: egyszínű háttér levétele a böngészőben ---
+// A legtöbb termékfotó egyszínű (többnyire fehér) háttér előtt készül. A hátteret a kép széléről
+// indulva, a hasonló színű szomszédos pixeleken át (elárasztással) átlátszóvá tesszük, így a ruha
+// a saját alakjával kerülhet a babára, mint a kivágott fotók. Nem vágunk, ha a kép széle nem
+// egyszínű (padló, fa, kő), vagy ha ami megmarad, nem egyetlen ruha (két modell, több darab,
+// kis termékképek a szélén) – ilyenkor a ruha a saját színében jelenik meg a szabásmintában.
+const hatterLeSzamol = (img) => {
+  const MAX = 640;
+  const nw = img.naturalWidth, nh = img.naturalHeight;
+  const a = Math.min(1, MAX / Math.max(nw, nh));
+  const w = Math.max(1, Math.round(nw * a)), h = Math.max(1, Math.round(nh * a));
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.drawImage(img, 0, 0, w, h);
+  const kep = g.getImageData(0, 0, w, h);
+  const px = kep.data;
+  // 1) a kép széle: a háttér színe a szélső pixelek mediánja, és a szél nagy részének ilyennek kell lennie
+  const szel = [];
+  for (let x = 0; x < w; x++) szel.push(x, (h - 1) * w + x);
+  for (let y = 1; y < h - 1; y++) szel.push(y * w, y * w + w - 1);
+  const med = (t) => t.sort((p, q) => p - q)[t.length >> 1];
+  const hr = med(szel.map((p) => px[p * 4])), hg = med(szel.map((p) => px[p * 4 + 1])), hb = med(szel.map((p) => px[p * 4 + 2]));
+  const tav = (p) => Math.abs(px[p * 4] - hr) + Math.abs(px[p * 4 + 1] - hg) + Math.abs(px[p * 4 + 2] - hb);
+  const TUR = 42;
+  if (szel.filter((p) => tav(p) <= TUR).length < szel.length * 0.85) return null;
+  // 2) elárasztás a széltől: a háttérrel összefüggő, hasonló színű pixelek a háttér
+  const hatter = new Uint8Array(w * h);
+  const sor = new Int32Array(w * h);
+  let eleje = 0, vege = 0;
+  const ber = (p) => { if (!hatter[p] && tav(p) <= TUR) { hatter[p] = 1; sor[vege++] = p; } };
+  szel.forEach(ber);
+  while (eleje < vege) {
+    const p = sor[eleje++], x = p % w;
+    if (x > 0) ber(p - 1);
+    if (x < w - 1) ber(p + 1);
+    if (p >= w) ber(p - w);
+    if (p < w * (h - 1)) ber(p + w);
+  }
+  // 3) a megmaradt rész összefüggő foltjai: a legnagyobbnak (a ruhának) kell adnia szinte az egészet
+  const folt = new Int32Array(w * h);
+  let ruha = 0, legNagyobb = 0, legDb = 0, fid = 0;
+  for (let s0 = 0; s0 < w * h; s0++) {
+    if (hatter[s0] || folt[s0]) continue;
+    fid++;
+    let db = 0;
+    eleje = 0; vege = 0;
+    folt[s0] = fid; sor[vege++] = s0;
+    while (eleje < vege) {
+      const p = sor[eleje++], x = p % w;
+      db++;
+      const szomszed = [x > 0 ? p - 1 : -1, x < w - 1 ? p + 1 : -1, p >= w ? p - w : -1, p < w * (h - 1) ? p + w : -1];
+      for (const n of szomszed) if (n >= 0 && !hatter[n] && !folt[n]) { folt[n] = fid; sor[vege++] = n; }
+    }
+    if (db > w * h * 0.002) ruha += db; // az apró pöttyök (zaj, betűk) nem számítanak
+    if (db > legDb) { legDb = db; legNagyobb = fid; }
+  }
+  if (ruha < w * h * 0.06 || ruha > w * h * 0.9 || legDb < ruha * 0.9) return null;
+  // világos ruha világos háttéren (fehér póló fehér alapon): a széle alig válik el, az elárasztás
+  // belefolyna a ruhába és lyukas maradna – ha a ruha fő színe a háttérhez közeli, nem vágunk
+  const minta = [];
+  for (let p = 0; p < w * h; p += 7) if (folt[p] === legNagyobb) minta.push(p);
+  const fr = med(minta.map((p) => px[p * 4])), fg = med(minta.map((p) => px[p * 4 + 1])), fb = med(minta.map((p) => px[p * 4 + 2]));
+  if (Math.abs(fr - hr) + Math.abs(fg - hg) + Math.abs(fb - hb) < 100) return null;
+  // a ruha körüli lágy árnyék / szegély is háttér: a háttér felől befelé haladva levesszük azokat
+  // a pixeleket, amelyek színe a háttérhez közelebb áll, mint a ruha fő színéhez
+  const ftav = (p) => Math.abs(px[p * 4] - fr) + Math.abs(px[p * 4 + 1] - fg) + Math.abs(px[p * 4 + 2] - fb);
+  eleje = 0; vege = 0;
+  const atmenet = (p) => { if (folt[p] === legNagyobb && tav(p) < ftav(p) * 0.8) { folt[p] = -1; sor[vege++] = p; } };
+  for (let p = 0; p < w * h; p++) {
+    if (folt[p] === legNagyobb) continue;
+    const x = p % w;
+    if (x > 0) atmenet(p - 1);
+    if (x < w - 1) atmenet(p + 1);
+    if (p >= w) atmenet(p - w);
+    if (p < w * (h - 1)) atmenet(p + w);
+  }
+  while (eleje < vege) {
+    const p = sor[eleje++], x = p % w;
+    if (x > 0) atmenet(p - 1);
+    if (x < w - 1) atmenet(p + 1);
+    if (p >= w) atmenet(p - w);
+    if (p < w * (h - 1)) atmenet(p + w);
+  }
+  // 4) minden, ami nem a ruha, átlátszó. A ruha legszélső pixelsora a háttérrel elmosódott
+  //    (világos perem lenne), ezért az is átlátszó; az alatta lévő sorban a háttérhez közeli
+  //    pixelek félig (simább körvonal). A ruha belsejében egy fehér logó stb. nem lesz áttetsző.
+  const SZEL = 2, BELUL = 1;
+  const allapot = new Uint8Array(w * h); // 0 = kint, BELUL = ruha, SZEL = a ruha legszélső sora
+  for (let p = 0; p < w * h; p++) if (folt[p] === legNagyobb) allapot[p] = BELUL;
+  const mellette = (p, ertek) => { const x = p % w; return (x > 0 && allapot[p - 1] === ertek) || (x < w - 1 && allapot[p + 1] === ertek) || (p >= w && allapot[p - w] === ertek) || (p < w * (h - 1) && allapot[p + w] === ertek); };
+  for (let p = 0; p < w * h; p++) if (allapot[p] === BELUL && mellette(p, 0)) allapot[p] = SZEL;
+  for (let p = 0; p < w * h; p++) {
+    if (allapot[p] !== BELUL) { px[p * 4 + 3] = 0; continue; }
+    const t = tav(p);
+    if (t < TUR * 2 && mellette(p, SZEL)) px[p * 4 + 3] = Math.round(255 * Math.max(0.5, (t - TUR) / TUR));
+  }
+  g.putImageData(kep, 0, 0);
+  const keret = keretSzamol(c);
+  return keret && keret.biztos && keret.alfa ? { c, keret } : null;
+};
+const HATTER_LE = new Map(); // src -> { url, keret } | false (nem vágható) | null (folyamatban)
+const hatterLe = (src) => {
+  if (!src) return false;
+  if (HATTER_LE.has(src)) return HATTER_LE.get(src);
+  HATTER_LE.set(src, null);
+  const kesz = (ertek) => { HATTER_LE.set(src, ertek); if (kepKeretFrissit) kepKeretFrissit(); };
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    let e = null;
+    try { e = hatterLeSzamol(img); } catch (hiba) { e = null; } // pl. idegen (CORS) kép
+    if (!e) return kesz(false);
+    e.c.toBlob((blob) => kesz(blob ? { url: URL.createObjectURL(blob), keret: e.keret } : false), 'image/png');
+  };
+  img.onerror = () => kesz(false);
   img.src = src;
   return null;
 };
@@ -309,6 +438,21 @@ const babaIllesztes = (k, t) => {
     it: ((t.y - k.y * ih) * 100).toFixed(2) + '%',
   };
 };
+// Kivágott ruha egy kártyán (pl. az outfit-összeállító ruhaválasztója): a fotó üres,
+// átlátszó széleit levágjuk, a ruha középre kerül és kitölti a kártyát `margo` szegéllyel.
+// ka: a kártya szélesség / magasság aránya. Legfeljebb 3-szoros nagyítás, hogy ne mosódjon el.
+const kepKitolt = (k, ka, margo) => {
+  const ar = k.ar || 1; // a fotó szélesség / magasság aránya
+  const belso = 1 - 2 * margo;
+  const ih = Math.min(3, (belso * ka) / (k.w * ar), belso / k.h); // a fotó magassága kártya-magasságban
+  const iw = (ar * ih) / ka; // a fotó szélessége kártya-szélességben
+  return {
+    iw: (iw * 100).toFixed(2) + '%',
+    ih: (ih * 100).toFixed(2) + '%',
+    il: ((0.5 - (k.x + k.w / 2) * iw) * 100).toFixed(2) + '%',
+    it: ((0.5 - (k.y + k.h / 2) * ih) * 100).toFixed(2) + '%',
+  };
+};
 
 // a darab formája a babán (a ruhaforma-maszkot választja, lásd Wardro Temak.css 14.)
 const babaForma = (h, d) => {
@@ -336,9 +480,25 @@ const babaAdat = (darabok) => {
     const forma = babaForma(h, d);
     // a fotón mért ruha a baba megfelelő részére illesztve (a kiegészítő egészben marad)
     const mert = d.photoUrl && h !== 'kieg' ? kepKeret(d.photoUrl) : null;
-    // csak a háttér nélküli (átlátszó) fotóknál bízunk a körvonalban: sima fotón a fal, a
-    // padló könnyen a ruhához számít – ott marad a szabásminta közepére nagyított kép
-    const k = mert && mert.biztos && mert.alfa && h !== 'cipo' ? mert : null;
+    // Felső, kabát, alsó: csak tiszta, egyetlen ruhát mutató, háttér nélküli kép kerül a babára,
+    // a saját alakjával (a kivágott fotó, vagy az egyszínű hátterű fotó, amiről a háttér
+    // levehető – lásd hatterLe). Minden más – modell vagy kéz a fotón, több darab, mintás
+    // háttér, majdnem üres kivágás – a ruha saját színében jelenik meg a szabásmintában:
+    // egy felnagyított fotórészlet (kar, másik póló, padló) nem kerülhet a babára.
+    const ruhaHely = h === 'felso' || h === 'kabat' || h === 'also';
+    let src = d.photoUrl || '';
+    let k = null;
+    let szines = false;
+    if (src && ruhaHely) {
+      // a ruha a fotó jó részét kitölti (a sikertelen kivágásból csak a márkafelirat marad, kicsiben)
+      const jo = (m) => m && m.alfa && m.biztos && m.w * m.h > 0.2 && (m.tomor || 0) > 0.35 && !vanEmber(m);
+      if (d.kivagott) {
+        if (jo(mert)) k = mert; else szines = true; // mérés közben (null) is színben, nem villan fel
+      } else {
+        const le = hatterLe(src);
+        if (le && jo(le.keret)) { src = le.url; k = le.keret; } else szines = true;
+      }
+    }
     // a kivágott, illesztett ruha is a szabásmintába kerül: a mintán kívüli részeket a
     // ruha színe tölti ki, így a forma mindig egységes, rajta a ruha valódi mintájával
     const mintaba = !!k;
@@ -348,13 +508,13 @@ const babaAdat = (darabok) => {
     const cipoMinta = h === 'cipo' && !!d.photoUrl && !cipoPar;
     const celKulcs = forma === 'is-v-ruha' ? 'ruha' : forma === 'is-v-short' ? 'short' : forma === 'is-v-szoknya' ? 'szoknya' : h;
     const ill = k && BABA_CEL[celKulcs] ? babaIllesztes(k, BABA_CEL[celKulcs]) : { iw: '', ih: '', il: '', it: '' };
-    b[h] = { src: d.photoUrl || '', nev: d.label, cim: BABA_CIMKE[h],
+    b[h] = { src: szines ? '' : src, nev: d.label, cim: BABA_CIMKE[h],
       // fotó nélkül a darab a saját színében jelenik meg
       szin: d.szinHex || SZIN_LISTA[sz] || '',
       ...ill,
       // kivágott cipő: a fotó kétszer látszik (bal és jobb cipő), az egyik a háttérképből
       bg: cipoPar ? 'url("' + d.photoUrl + '")' : '',
-      cls: [d.photoUrl ? '' : 'is-nincsfoto', d.kivagott && !mintaba && !cipoMinta ? 'is-kivagott' : '', mintaba ? 'is-alfa' : '', forma, k ? 'is-illesztett' : '',
+      cls: [d.photoUrl ? '' : 'is-nincsfoto', szines ? 'is-szines' : '', d.kivagott && !mintaba && !cipoMinta && !szines ? 'is-kivagott' : '', mintaba ? 'is-alfa' : '', forma, k ? 'is-illesztett' : '',
         cipoPar ? 'is-par' : '', cipoMinta ? 'is-cipo-minta' : ''].filter(Boolean).join(' ') };
   });
   return b;
@@ -2100,8 +2260,7 @@ class Component extends DCLogic {
         return {
           label: t.label, hint: t.hint,
           swatches: t.swatches.map((c) => ({ color: c })),
-          border: on ? '2px solid var(--m-accent)' : '1px solid var(--m-line-strong)',
-          bg: on ? 'var(--c-f1eadd)' : 'var(--c-f6f1e7)',
+          cls: on ? 'is-on' : '',
           mark: on ? '✓' : '',
           on: () => { applyTheme(t.key); this.setState({ demoTheme: t.key }); },
         };
@@ -4113,6 +4272,8 @@ class Component extends DCLogic {
       ebayTalalatok: et ? et.items.map(ebayKartya) : [],
     };
     const chip = (label, on, aktiv) => ({ label, on, cls: aktiv ? 'is-active' : '' });
+    // a márkadoboz megtartaná a görgetett helyzetét: nyitáskor / csukáskor az elejére ugrunk
+    const markaDobozElejere = () => { const el = document.querySelector('.we-kat-markak'); if (el) el.scrollTop = 0; };
     return {
       isKatalogus: kat,
       isFotoMod: !kat,
@@ -4126,8 +4287,13 @@ class Component extends DCLogic {
       katHasQ: !!(s.katQ || '').trim(),
       clearKatQ: () => this.setState({ katQ: '', katLimit: 48, ebayTalalat: null }),
       ...ebayVals,
-      katBrands: [chip('Összes márka', () => this.setState({ katBrand: '', katLimit: 48 }), !s.katBrand)]
-        .concat(markak.map((m) => chip(m, () => this.setState({ katBrand: s.katBrand === m ? '' : m, katLimit: 48 }), s.katBrand === m))),
+      // márkát választva a lista összecsukódik, a választott márka elöl látszik, alatta a találatok
+      katBrands: [chip('Összes márka', () => this.setState({ katBrand: '', katLimit: 48, katMarkaNyit: false }, markaDobozElejere), !s.katBrand)]
+        .concat(markak.map((m) => chip(m, () => this.setState({ katBrand: s.katBrand === m ? '' : m, katLimit: 48, katMarkaNyit: false }, markaDobozElejere), s.katBrand === m))),
+      // a márkák két sorban látszanak, a gombbal kinyílik az összes (görgethető dobozban)
+      katMarkaCls: s.katMarkaNyit ? 'is-nyitva' : '',
+      katMarkaGomb: s.katMarkaNyit ? 'Kevesebb márka' : 'Mind a ' + markak.length + ' márka',
+      katMarkaValt: () => this.setState({ katMarkaNyit: !s.katMarkaNyit }, markaDobozElejere),
       katKinds: [chip('Minden típus', () => this.setState({ katKind: '', katLimit: 48 }), !s.katKind)]
         .concat(csoportok.map((k) => chip(k, () => this.setState({ katKind: s.katKind === k ? '' : k, katLimit: 48 }), s.katKind === k))),
       katLine: talalatok.length
@@ -4672,6 +4838,7 @@ class Component extends DCLogic {
       pickerItems: slot
         ? slotItems(slot).map((x) => ({
             label: nameOf(x.label),
+            cls: '', iw: '', ih: '', il: '', it: '', // a demóban nincs fotó
             border: s.bPicks[slot.key] === x.label ? '2px solid var(--c-57462f)' : '2px solid transparent',
             on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.label }, bLap: false }),
           }))
@@ -4714,8 +4881,7 @@ class Component extends DCLogic {
       newCat: s.newCat || '',
       onNewCat: (e) => this.setState({ newCat: e.target.value }),
       addCatLabel: (s.newCat || '').trim() ? 'Kategória hozzáadása' : 'Először nevezd el',
-      addCatBg: (s.newCat || '').trim() ? 'var(--c-57462f)' : 'var(--c-d8d1c1)',
-      addCatFg: (s.newCat || '').trim() ? 'var(--c-f6f1e7)' : 'var(--c-6b5940)',
+      addCatCls: (s.newCat || '').trim() ? 'is-ready' : '',
       addCategory: () => {
         const v = (s.newCat || '').trim();
         if (!v || rawAll.indexOf(v) > -1) return;
@@ -4723,9 +4889,9 @@ class Component extends DCLogic {
       },
       // Emlékeztető-kapcsolók
       reminders: [
-        { label: 'Heti áttekintés', hint: 'Vasárnap, 19:00', bg: s.rWeekly ? 'var(--c-57462f)' : 'var(--c-d8d1c1)', knob: s.rWeekly ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rWeekly: !s.rWeekly }) },
-        { label: 'Naplózd, mit viseltél', hint: 'Naponta, 21:00', bg: s.rDaily ? 'var(--c-57462f)' : 'var(--c-d8d1c1)', knob: s.rDaily ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rDaily: !s.rDaily }) },
-        { label: 'Kihasználatlan darabok', hint: 'Ha valami elér 6 hónapot', bg: s.rIdle ? 'var(--c-57462f)' : 'var(--c-d8d1c1)', knob: s.rIdle ? 'flex-end' : 'flex-start', toggle: () => this.setState({ rIdle: !s.rIdle }) },
+        { label: 'Heti áttekintés', hint: 'Vasárnap, 19:00', cls: s.rWeekly ? 'is-on' : '', aria: s.rWeekly ? 'true' : 'false', toggle: () => this.setState({ rWeekly: !s.rWeekly }) },
+        { label: 'Naplózd, mit viseltél', hint: 'Naponta, 21:00', cls: s.rDaily ? 'is-on' : '', aria: s.rDaily ? 'true' : 'false', toggle: () => this.setState({ rDaily: !s.rDaily }) },
+        { label: 'Kihasználatlan darabok', hint: 'Ha valami elér 6 hónapot', cls: s.rIdle ? 'is-on' : '', aria: s.rIdle ? 'true' : 'false', toggle: () => this.setState({ rIdle: !s.rIdle }) },
       ],
       resetAll: () => this.setState({ ...BASE }),
 
@@ -5253,12 +5419,20 @@ class Component extends DCLogic {
       pickerTitle: slot ? (SLOT_CIM[slot.key] && !slotSzur(slot.key, allItems).mind ? SLOT_CIM[slot.key] : 'Bármilyen darab') : 'Darabok',
       pickerCount: slot ? slotSzur(slot.key, allItems).darabok.length + ' db' : '',
       pickerItems: slot
-        ? slotSzur(slot.key, allItems).darabok.map((x) => ({
-            label: x.label,
-            photoUrl: x.photoUrl || '',
-            border: s.bPicks[slot.key] === x.key ? '2px solid var(--c-57462f)' : '2px solid transparent',
-            on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.key }, bLap: false }),
-          }))
+        ? slotSzur(slot.key, allItems).darabok.map((x) => {
+            // háttér nélküli fotón ismert a ruha körvonala: a 3:4-es kártyát kitölti (lásd kepKitolt)
+            const k = x.photoUrl && x.kivagott ? kepKeret(x.photoUrl) : null;
+            const ill = k && k.alfa && k.biztos ? kepKitolt(k, 3 / 4, 0.08) : { iw: '', ih: '', il: '', it: '' };
+            return {
+              label: x.label,
+              photoUrl: x.photoUrl || '',
+              // fotónál nincs helyőrző-csíkozás; a háttér nélküli ruha egészben, világos alapon látszik
+              cls: [x.photoUrl ? 'has-photo' : '', x.photoUrl && x.kivagott ? 'is-kivagott' : '', ill.iw ? 'is-illesztett' : ''].filter(Boolean).join(' '),
+              ...ill,
+              border: s.bPicks[slot.key] === x.key ? '2px solid var(--c-57462f)' : '2px solid transparent',
+              on: () => this.setState({ bPicks: { ...s.bPicks, [slot.key]: x.key }, bLap: false }),
+            };
+          })
         : [],
 
       idleLine: idleAll.length ? idleAll.length + ' darab, a legrégebbi elöl' : 'Nincs kihasználatlan darab',
@@ -5297,12 +5471,11 @@ class Component extends DCLogic {
       newCat: s.newCat || '',
       onNewCat: (e) => this.setState({ newCat: e.target.value }),
       addCatLabel: (s.newCat || '').trim() ? 'Kategória hozzáadása' : 'Először nevezd el',
-      addCatBg: (s.newCat || '').trim() ? 'var(--c-57462f)' : 'var(--c-d8d1c1)',
-      addCatFg: (s.newCat || '').trim() ? 'var(--c-f6f1e7)' : 'var(--c-6b5940)',
+      addCatCls: (s.newCat || '').trim() ? 'is-ready' : '',
       addCategory: () => this.realAddCategory(),
 
       reminders: [
-        { label: 'Kihasználatlan darabok', hint: 'Ha valami elér 6 hónapot', bg: reminders.idle ? 'var(--c-57462f)' : 'var(--c-d8d1c1)', knob: reminders.idle ? 'flex-end' : 'flex-start', toggle: () => this.realSaveSettings({ reminders: { ...reminders, idle: !reminders.idle } }) },
+        { label: 'Kihasználatlan darabok', hint: 'Ha valami elér 6 hónapot', cls: reminders.idle ? 'is-on' : '', aria: reminders.idle ? 'true' : 'false', toggle: () => this.realSaveSettings({ reminders: { ...reminders, idle: !reminders.idle } }) },
       ],
       themeOptions: THEMES.map((t) => {
         const on = ((user && user.theme) || DEFAULT_THEME) === t.key;
@@ -5310,8 +5483,7 @@ class Component extends DCLogic {
           label: t.label,
           hint: t.hint,
           swatches: t.swatches.map((c) => ({ color: c })),
-          border: on ? '2px solid var(--m-accent)' : '1px solid var(--m-line-strong)',
-          bg: on ? 'var(--c-f1eadd)' : 'var(--c-f6f1e7)',
+          cls: on ? 'is-on' : '',
           mark: on ? '✓' : '',
           on: () => { if (!on) this.realSaveSettings({ theme: t.key }); },
         };

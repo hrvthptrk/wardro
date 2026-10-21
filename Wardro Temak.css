@@ -1385,15 +1385,9 @@
   background: var(--m-accent);
   color: var(--m-accent-ink);
   box-shadow: 0 16px 34px -16px color-mix(in srgb, var(--m-accent) 70%, transparent);
-  animation: we-verify-lebeg 4s ease-in-out infinite;
 }
 
 .we-auth-abs1 .we-verify-ico .we-ico { width: 28px; height: 28px; }
-
-@keyframes we-verify-lebeg {
-  0%, 100% { transform: translateY(0) rotate(-3deg); }
-  50% { transform: translateY(-5px) rotate(3deg); }
-}
 
 .we-auth-abs1 .we-verify .we-login-text2 { line-height: 1.55; }
 .we-auth-abs1 .we-verify .we-login-text2 b { color: var(--c-2c2219); font-weight: 600; }
@@ -1422,10 +1416,6 @@
   gap: 4px;
   font: 400 13px/1.5 'Instrument Sans',system-ui,sans-serif;
   color: var(--c-8a7a62);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .we-auth-abs1 .we-verify-ico { animation: none; }
 }
 
 /* új jelszó: erősség-csík és a fiók címe */
@@ -2420,9 +2410,10 @@
   .we-baba > .we-baba-zona.is-alfa:hover .we-photo { filter: url(#wd-felvett) saturate(1.12) contrast(1.06) brightness(1.08); }
 }
 
-/* fotó nélkül: anyagszerű szövésminta a darab színén */
-.we-baba > .we-baba-zona.is-nincsfoto:not(.is-kivagott) .we-photo { display: none; }
-.we-baba > .we-baba-zona.is-nincsfoto:is(.we-baba-felso, .we-baba-kabat, .we-baba-also):not(.is-kivagott)::before {
+/* fotó nélkül – vagy ha a fotó nem tisztán egy ruha (modell, több darab, mintás háttér,
+   lásd babaAdat: is-szines) –: anyagszerű szövésminta a darab színén */
+.we-baba > .we-baba-zona:is(.is-nincsfoto, .is-szines):not(.is-kivagott) .we-photo { display: none; }
+.we-baba > .we-baba-zona:is(.is-nincsfoto, .is-szines):is(.we-baba-felso, .we-baba-kabat, .we-baba-also):not(.is-kivagott)::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -2430,7 +2421,7 @@
   background: repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 2px, rgba(0,0,0,.035) 2px 4px);
 }
 
-.we-baba > .we-baba-also.is-nincsfoto:not(.is-kivagott)::before {
+.we-baba > .we-baba-also:is(.is-nincsfoto, .is-szines):not(.is-kivagott)::before {
   background:
     repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.05) 1px 3px),
     repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px);
@@ -3300,4 +3291,463 @@
 
 @media (prefers-reduced-motion: reduce) {
   .we-keret-grid1.is-mob-lap :is(.we-keret-box2, .we-mob-lap-hatter) { animation: none; }
+}
+
+
+/* ==========================================================================
+   BEÁLLÍTÁSOK (.we-beall) – saját, nyugodt elrendezés
+   Asztalon minden szakasz egy sor: balra a cím és egy mondat, jobbra a
+   vezérlők. Telefonon egymás alatt. Csak téma-változókat használ, így mind
+   a kilenc színtémában működik. Lekerekítés: felület 16px, vezérlő 12px.
+   ========================================================================== */
+.we-beall {
+  --b-ease: cubic-bezier(.2,.8,.2,1);
+  flex: 1;
+  overflow: auto;
+  padding: 36px clamp(16px, 3vw, 40px) 72px;
+  color: var(--c-2c2219);
+}
+
+.we-beall-fej {
+  padding-bottom: 28px;
+}
+
+.we-beall-cim {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.we-beall-al {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: var(--c-6b5940);
+}
+
+.we-beall-szak {
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) minmax(0, 1fr);
+  gap: 24px 56px;
+  padding: 32px 0;
+  border-top: 1px solid var(--m-line);
+}
+
+.we-beall-szak-fej h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.we-beall-szak-fej p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--c-6b5940);
+}
+
+/* --- mezők --- */
+.we-beall-mezok {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.we-beall-mezo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-6b5940);
+}
+
+.we-beall input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--m-line-strong);
+  background: var(--c-f1eadd);
+  color: var(--c-2c2219);
+  font: 500 15px/1 'Instrument Sans', system-ui, sans-serif;
+  outline: none;
+  transition: border-color .16s ease, background .16s ease;
+}
+
+.we-beall input::placeholder { color: var(--c-8a7a62); }
+.we-beall input:hover { border-color: var(--c-c9b99e); }
+.we-beall input:focus { border-color: var(--m-accent); background: var(--c-f6f1e7); }
+
+/* --- színtémák --- */
+.we-beall-temak {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 12px;
+}
+
+.we-beall-tema {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 8px 12px;
+  border-radius: 16px;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line);
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease;
+}
+
+.we-beall-tema:hover { background: var(--c-f1eadd); border-color: var(--m-line-strong); }
+
+.we-beall-tema.is-on {
+  border-color: var(--m-accent);
+  box-shadow: inset 0 0 0 1px var(--m-accent);
+}
+
+/* a minta egy kicsinyített képernyő: háttér, rajta egy kártya, egy szövegsor és a kiemelő pötty.
+   A színminták sorrendje: kiemelő, háttér, felület, szöveg. */
+.we-beall-tema-minta {
+  position: relative;
+  height: 64px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.we-beall-tema-minta i { position: absolute; display: block; }
+.we-beall-tema-minta i:nth-of-type(2) { inset: 0; }
+.we-beall-tema-minta i:nth-of-type(3) { left: 10px; top: 12px; bottom: 12px; right: 44%; border-radius: 6px; }
+.we-beall-tema-minta i:nth-of-type(4) { left: 18px; top: 22px; width: 30%; height: 4px; border-radius: 2px; }
+.we-beall-tema-minta i:nth-of-type(1) { right: 14px; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; z-index: 1; }
+
+.we-beall-tema-pipa {
+  position: absolute;
+  z-index: 2;
+  right: 13px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--m-accent);
+  color: var(--m-accent-ink);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* a kiválasztott téma pöttyének helyére pipa kerül – a kiemelő színe ilyenkor az oldalé is */
+.we-beall-tema:not(.is-on) .we-beall-tema-pipa { display: none; }
+.we-beall-tema.is-on .we-beall-tema-pipa { animation: we-beall-pipa .22s var(--b-ease) both; }
+
+@keyframes we-beall-pipa {
+  from { opacity: 0; transform: scale(.5); }
+  to { opacity: 1; transform: none; }
+}
+
+.we-beall-tema-nev {
+  padding: 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.we-beall-tema-leiras {
+  padding: 0 4px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--c-6b5940);
+}
+
+/* --- listák (kategóriák, emlékeztetők) --- */
+.we-beall-lista {
+  border-radius: 16px;
+  background: var(--c-f6f1e7);
+  border: 1px solid var(--m-line);
+  padding: 6px;
+}
+
+.we-beall-kat,
+.we-beall-emlek {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 12px;
+}
+
+.we-beall-kat,
+.we-beall-emlek { position: relative; }
+
+/* elválasztó a sorok között: egyenes, beljebb húzott vonal (a lekerekített sor széle nem látszik) */
+.we-beall-kat + .we-beall-kat::before,
+.we-beall-emlek + .we-beall-emlek::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 0;
+  height: 1px;
+  background: var(--m-line);
+}
+
+/* a kategória neve szövegnek látszik, rámutatva / szerkesztéskor lesz mező */
+.we-beall-kat input {
+  flex: 1;
+  height: 40px;
+  border-color: transparent;
+  background: transparent;
+  font-weight: 600;
+}
+
+.we-beall-kat input:hover { background: var(--c-f1eadd); border-color: transparent; }
+.we-beall-kat input:focus { background: var(--c-ebe2d2); border-color: var(--m-accent); }
+
+.we-beall-kat-db {
+  flex: none;
+  font-size: 14px;
+  color: var(--c-6b5940);
+  font-variant-numeric: tabular-nums;
+}
+
+.we-beall-kat-torol {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-b8433a);
+  cursor: pointer;
+  transition: background .16s ease;
+}
+
+.we-beall-kat-torol:hover { background: color-mix(in srgb, var(--c-b8433a) 12%, transparent); }
+.we-beall-kat-torol .we-ico { width: 15px; height: 15px; }
+
+.we-beall-uj {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 8px 4px 4px;
+  box-shadow: 0 -1px 0 var(--m-line);
+}
+
+.we-beall-uj input { flex: 1; height: 44px; }
+
+.we-beall-uj-gomb {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--c-f1eadd);
+  color: var(--c-8a7a62);
+  cursor: default;
+  transition: background .18s ease, color .18s ease;
+}
+
+.we-beall-uj-gomb .we-ico { width: 16px; height: 16px; }
+.we-beall-uj-gomb.is-ready { background: var(--m-accent); color: var(--m-accent-ink); cursor: pointer; }
+
+.we-beall-emlek { cursor: pointer; padding-left: 12px; transition: background .16s ease; }
+.we-beall-emlek:hover { background: var(--c-f1eadd); }
+
+.we-beall-emlek-szoveg {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.we-beall-emlek-nev { font-size: 15px; font-weight: 600; }
+.we-beall-emlek-ido { font-size: 13px; color: var(--c-6b5940); }
+
+.we-beall-kapcs {
+  flex: none;
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--c-d8d1c1);
+  transition: background .2s ease;
+}
+
+.we-beall-kapcs i {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--c-2c2219);
+  transition: transform .22s var(--b-ease), background .2s ease;
+}
+
+.we-beall-kapcs.is-on { background: var(--m-accent); }
+.we-beall-kapcs.is-on i { transform: translateX(18px); background: var(--m-accent-ink); }
+
+/* --- munkamenet --- */
+.we-beall-gombok {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.we-beall-gomb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--m-line-strong);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-2c2219);
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease;
+}
+
+.we-beall-gomb .we-ico { width: 16px; height: 16px; }
+.we-beall-gomb:hover { background: var(--c-f1eadd); }
+.we-beall-gomb.is-veszely { color: var(--c-b8433a); }
+.we-beall-gomb.is-veszely:hover { background: color-mix(in srgb, var(--c-b8433a) 12%, transparent); border-color: transparent; }
+
+/* --- kisebb képernyők --- */
+@media (max-width: 1180px) {
+  .we-beall-szak { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+
+@media (max-width: 760px) {
+  .we-beall { overflow: visible; padding-top: 24px; padding-bottom: 32px; }
+  .we-beall-fej { padding-bottom: 20px; }
+  .we-beall-cim { font-size: 28px; }
+  .we-beall-szak { padding: 24px 0; }
+  .we-beall-temak { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .we-beall-tema { padding: 6px 6px 10px; }
+  .we-beall-tema-minta { height: 48px; margin-bottom: 4px; }
+  .we-beall-tema-minta i:nth-of-type(1) { right: 8px; width: 14px; height: 14px; margin-top: -7px; }
+  .we-beall-tema-pipa { right: 6px; width: 18px; height: 18px; margin-top: -9px; font-size: 11px; }
+  .we-beall-tema-minta i:nth-of-type(3) { left: 7px; top: 9px; bottom: 9px; }
+  .we-beall-tema-minta i:nth-of-type(4) { left: 13px; top: 17px; }
+  .we-beall-tema-nev { font-size: 14px; }
+  .we-beall-tema-leiras { display: none; }
+  .we-beall-kat-torol span:last-child { display: none; }
+  .we-beall-uj { flex-direction: column; }
+  .we-beall-uj input { flex: none; }
+  .we-beall-uj-gomb { justify-content: center; }
+  .we-beall-gombok > * { flex: 1 1 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-beall-tema.is-on .we-beall-tema-pipa { animation: none; }
+  .we-beall-kapcs, .we-beall-kapcs i { transition: none; }
+}
+
+
+/* ==========================================================================
+   MÁRKAVÁLASZTÓ és chip-sorok (Ruhák hozzáadása → Keresés márkák között)
+   A 129 márka egy vízszintes sorban, rejtett görgetősávval volt: egérgörgővel
+   ez nem görgethető, így pár márka után elakadt. Most:
+   - asztalon minden chip-sor tördelődik (telefonon marad az ujjal húzható sor);
+   - a márkák két sorra csukva látszanak, a választott márka előre kerül,
+     a gombbal kinyílik az összes egy függőlegesen görgethető dobozban.
+   ========================================================================== */
+@media (min-width: 761px) {
+  .we-kat-chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+.we-kat-chips.we-kat-markak {
+  flex-wrap: wrap;
+  overflow: hidden;
+  max-height: 80px; /* két sor: 2 × 36px + 8px köz */
+  padding-bottom: 0;
+}
+
+.we-kat-markak .we-kat-chip {
+  box-sizing: border-box;
+  height: 36px;
+}
+
+/* összecsukva a kiválasztott márka elöl van, így nem bújhat el */
+.we-kat-markak:not(.is-nyitva) .we-kat-chip.is-active {
+  order: -1;
+}
+
+.we-kat-chips.we-kat-markak.is-nyitva {
+  max-height: min(344px, 55vh);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  /* halvány felület: látszik, hogy ez egy külön görgethető doboz */
+  padding: 10px;
+  border-radius: 18px;
+  background: var(--c-f6f1e7);
+}
+
+.we-kat-marka-gomb {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  margin-top: -6px;
+  padding: 0 10px 0 12px;
+  border-radius: 16px;
+  font: 600 13px 'Instrument Sans', sans-serif;
+  color: var(--c-2c2219);
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s ease;
+}
+
+.we-kat-marka-gomb:hover {
+  background: var(--c-f1eadd);
+}
+
+.we-kat-marka-gomb .we-ico {
+  width: 14px;
+  height: 14px;
+  transform: rotate(90deg);
+  transition: transform .2s cubic-bezier(.2,.8,.2,1);
+}
+
+.we-kat-marka-gomb.is-nyitva .we-ico {
+  transform: rotate(-90deg);
+}
+
+@media (max-width: 760px) {
+  .we-kat-chips.we-kat-markak {
+    max-height: 80px;
+  }
+
+  .we-kat-chips.we-kat-markak.is-nyitva {
+    max-height: min(320px, 50vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-kat-marka-gomb .we-ico { transition: none; }
 }

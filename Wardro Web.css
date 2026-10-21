@@ -2526,9 +2526,11 @@ input {
 }
 
 /* ===== Jobb panel – ruhaválasztó (rail-picker) ===== */
+/* minmax(0, 1fr): két egyforma oszlop - a sima 1fr a leghosszabb név
+   szélességére nőne, és a jobb oszlop kilógna a panelből */
 .we-rail-picker-grid1 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -2543,11 +2545,14 @@ input {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
   cursor: pointer;
 }
 
+/* álló 3:4-es kártya: a ruhafotók többsége ilyen arányú, így a darab egésze
+   látszik (a régi fekvő 104px-es kártya csak a fotó közepét mutatta, felnagyítva) */
 .we-picker-items-box1 {
-  height: 104px;
+  aspect-ratio: 3 / 4;
   border-radius: 11px;
   background: var(--c-dcd8ce);
   position: relative;
@@ -2560,11 +2565,43 @@ input {
   background: repeating-linear-gradient(135deg,rgba(var(--c-57462f-rgb),.1) 0 6px,transparent 6px 12px);
 }
 
+/* fotónál nincs helyőrző-csíkozás, és a sötét témák tompítása (brightness .92)
+   sem kell: ruhaválasztásnál a valódi színek számítanak */
+.we-picker-items-box1.has-photo .we-picker-items-abs1 {
+  display: none;
+}
+
+:root .we-rail-picker-grid1 .we-picker-items-box1 .we-photo {
+  filter: none;
+}
+
+/* háttér nélküli (kivágott) ruha: egészben, kis margóval, világos semleges
+   alapon - így a sötét darabok sem olvadnak bele a sötét témákba */
+.we-picker-items-box1.is-kivagott {
+  background: #ECEBE8;
+}
+
+.we-picker-items-box1.is-kivagott .we-photo {
+  object-fit: contain;
+  padding: 8%;
+  box-sizing: border-box;
+}
+
+/* ha a ruha körvonala már megvan mérve, a logika pontos méretet és helyet ad
+   (kepKitolt): az üres szélek kimaradnak, a ruha kitölti a kártyát */
+.we-picker-items-box1.is-kivagott.is-illesztett .we-photo {
+  padding: 0;
+}
+
+/* a hosszú név legfeljebb két sorban, utána "…" (a teljes név a title-ben) */
 .we-picker-items-text1 {
-  font: 500 12px 'Instrument Sans',sans-serif;
+  font: 500 12px/1.35 'Instrument Sans',sans-serif;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow-wrap: anywhere;
 }
 
 /* ===== Jobb panel – kezdőlap (rail-home) ===== */

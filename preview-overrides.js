@@ -18,17 +18,31 @@
   if (params.has("showUnwornFlags")) overrides.showUnwornFlags = params.get("showUnwornFlags") !== "false";
   if (!Object.keys(overrides).length) return;
 
-  // A runtime (support.js) csak azután áll készen a propok felülírására, hogy
-  // lefutott a boot() – ezt röviden kivárjuk, majd feladjuk, ha mégsem indul el.
+  // A runtime (support.js) a boot() után még lefordítja a logikát és a sablont,
+  // és csak a felcsatolt komponens figyel a változásokra. Ha ennél korábban
+  // állítjuk be a propokat, a változás elvész (hidegindításkor így maradt a
+  // belépő képernyő). Ezért megvárjuk, hogy a fő komponens kész legyen és
+  // figyeljen – legfeljebb kb. 20 másodpercig.
+  function kesz(rootName) {
+    var reg = window.__dcRegistry;
+    if (!reg) return true; // régebbi runtime: nincs mit figyelni, mehet
+    var e = reg[rootName];
+    return !!(e && e.Logic && e.tpl && e.subs && e.subs.size);
+  }
+
   var tries = 0;
   var timer = setInterval(function () {
     tries++;
     var rootName = window.__dcRootName && window.__dcRootName();
-    if (window.__dcSetProps && rootName) {
+    if (window.__dcSetProps && rootName && kesz(rootName)) {
       clearInterval(timer);
       window.__dcSetProps(rootName, overrides);
-    } else if (tries > 100) {
-      clearInterval(timer); // kb. 5 másodperc után feladjuk, valami más lehet a gond
+      // A logika this.props-a csak a renderelés UTÁN frissül (componentDidUpdate),
+      // így az első újrarajzolás még a régi propokkal fut – egy második,
+      // azonos beállítás után már az újakkal rajzol.
+      setTimeout(function () { window.__dcSetProps(rootName, overrides); }, 100);
+    } else if (tries > 400) {
+      clearInterval(timer); // kb. 20 másodperc után feladjuk, valami más lehet a gond
     }
   }, 50);
 })();

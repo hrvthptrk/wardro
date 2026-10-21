@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- böngészőfül-ikon: ugyanaz a "W" jel, mint az oldalsávban -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F4F4F5'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='%2312140C'%3EW%3C/text%3E%3C/svg%3E">
 <script>
 // VS Code "Go Live" (Live Server, 5500-as port) helyett a valódi Wardro
 // szerverre váltunk (8080), ha az fut - ott működik minden (QR, fotók).
@@ -24,6 +26,7 @@ if (location.port === '5500') {
 <script src="./katalogus.js"></script>
 <script src="./Wardro%20Web.logic.js"></script>
 <script src="./preview-overrides.js"></script>
+<script src="./nyomas.js"></script>
 </head>
 <body>
 <!-- Próbababa: az anyag gyűrődése (SVG-szűrők). A ruha képét finoman meghullámosítják,
@@ -1684,83 +1687,107 @@ if (location.port === '5500') {
 
     <!-- --- Ha látszik: Beállítások --- -->
     <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
-    <div class="we-untouched-col1 we-page-hero">
-      <span class="we-page-kicker">Fiók</span>
-      <span class="we-home-text1">Beállítások</span>
-      <span class="we-home-text2">Bejelentkezve ezen a gépen</span>
-    </div>
-    <div class="we-settings-col1">
-      <div class="we-settings-col2">
-        <span class="we-builder-text4 we-sec-head"><span class="we-ico we-ico-user"></span>Fiók</span>
-        <div class="we-settings-grid1">
-          <div class="we-settings-col3">
-            <span class="we-settings-text1">Név</span>
-            <input class="we-settings-text2" value="{{ sName }}" onChange="{{ onSName }}" />
-          </div>
-          <div class="we-settings-col3">
-            <span class="we-settings-text1">E-mail</span>
-            <input class="we-settings-text2" value="{{ sEmail }}" onChange="{{ onSEmail }}" />
-          </div>
-        </div>
+    <div class="we-beall">
+      <div class="we-beall-fej">
+        <h1 class="we-beall-cim">Beállítások</h1>
+        <p class="we-beall-al">{{ accountName }} · bejelentkezve ezen a gépen</p>
       </div>
-      <div class="we-settings-col4">
-        <span class="we-builder-text4 we-sec-head"><span class="we-ico we-ico-palette"></span>Színtéma</span>
-        <div class="we-theme-grid1">
+
+      <section class="we-beall-szak">
+        <div class="we-beall-szak-fej">
+          <h2>Fiók</h2>
+          <p>A neved és az e-mail címed, amivel belépsz.</p>
+        </div>
+        <div class="we-beall-mezok">
+          <label class="we-beall-mezo">
+            <span>Név</span>
+            <input value="{{ sName }}" onChange="{{ onSName }}" placeholder="A neved" />
+          </label>
+          <label class="we-beall-mezo">
+            <span>E-mail</span>
+            <input value="{{ sEmail }}" onChange="{{ onSEmail }}" placeholder="te@email.com" />
+          </label>
+        </div>
+      </section>
+
+      <section class="we-beall-szak">
+        <div class="we-beall-szak-fej">
+          <h2>Színtéma</h2>
+          <p>Öt sötét és négy világos téma. Koppints rá, és azonnal átvált.</p>
+        </div>
+        <div class="we-beall-temak">
           <!-- · Lista: Választható színtémák · -->
           <sc-for list="{{ themeOptions }}" as="th" hint-placeholder-count="3">
-            <div class="we-theme-options-btn1" onClick="{{ th.on }}" sc-camel-style="background:{{ th.bg }};border:{{ th.border }}">
-              <div class="we-theme-options-row1">
-                <!-- · Lista: A téma színmintái · -->
+            <div class="we-beall-tema {{ th.cls }}" onClick="{{ th.on }}" title="{{ th.hint }}">
+              <div class="we-beall-tema-minta">
+                <!-- · Lista: A téma színmintái (kiemelő, háttér, felület, szöveg) · -->
                 <sc-for list="{{ th.swatches }}" as="sw" hint-placeholder-count="4">
-                  <div class="we-theme-options-box1" sc-camel-style="background:{{ sw.color }}"></div>
+                  <i sc-camel-style="background:{{ sw.color }}"></i>
                 </sc-for>
-                <span class="we-theme-options-text1">{{ th.mark }}</span>
+                <span class="we-beall-tema-pipa">{{ th.mark }}</span>
               </div>
-              <span class="we-login-text10">{{ th.label }}</span>
-              <span class="we-login-text7">{{ th.hint }}</span>
+              <span class="we-beall-tema-nev">{{ th.label }}</span>
+              <span class="we-beall-tema-leiras">{{ th.hint }}</span>
             </div>
           </sc-for>
         </div>
-      </div>
-      <div class="we-settings-col4">
-        <span class="we-builder-text4 we-sec-head"><span class="we-ico we-ico-tag"></span>Kategóriák</span>
-        <!-- · Lista: Kategóriák szerkesztése (sorok) · -->
-        <sc-for list="{{ catEditRows }}" as="ce" hint-placeholder-count="5">
-          <div class="we-cat-edit-rows-row1">
-            <input class="we-cat-edit-rows-text1" value="{{ ce.value }}" onChange="{{ ce.onChange }}" />
-            <span class="we-cat-edit-rows-text2">{{ ce.count }}</span>
-            <sc-if value="{{ ce.removable }}" hint-placeholder-val="{{ false }}">
-            <span class="we-cat-edit-rows-btn1" onClick="{{ ce.remove }}" title="Kategória eltávolítása"><span class="we-ico we-ico-trash"></span><span class="we-cat-edit-rows-lbl">Eltávolítás</span></span>
-            </sc-if>
-          </div>
-        </sc-for>
-        <div class="we-settings-row2">
-          <input class="we-settings-text3" value="{{ newCat }}" onChange="{{ onNewCat }}" placeholder="Új kategória neve" />
-          <div class="we-settings-btn1" onClick="{{ addCategory }}" sc-camel-style="background:{{ addCatBg }};color:{{ addCatFg }}">
-            <span class="we-ico we-ico-plus"></span>
-            <span class="we-settings-text4" sc-camel-style="color:{{ addCatFg }}">{{ addCatLabel }}</span>
+      </section>
+
+      <section class="we-beall-szak">
+        <div class="we-beall-szak-fej">
+          <h2>Kategóriák</h2>
+          <p>Nevezd át őket, vagy adj hozzá újat. A darabszám a szekrényedből jön.</p>
+        </div>
+        <div class="we-beall-lista">
+          <!-- · Lista: Kategóriák szerkesztése (sorok) · -->
+          <sc-for list="{{ catEditRows }}" as="ce" hint-placeholder-count="5">
+            <div class="we-beall-kat">
+              <input value="{{ ce.value }}" onChange="{{ ce.onChange }}" aria-label="Kategória neve" />
+              <span class="we-beall-kat-db">{{ ce.count }}</span>
+              <sc-if value="{{ ce.removable }}" hint-placeholder-val="{{ false }}">
+              <span class="we-beall-kat-torol" onClick="{{ ce.remove }}" title="Kategória eltávolítása"><span class="we-ico we-ico-trash"></span><span>Eltávolítás</span></span>
+              </sc-if>
+            </div>
+          </sc-for>
+          <div class="we-beall-uj">
+            <input value="{{ newCat }}" onChange="{{ onNewCat }}" placeholder="Új kategória neve" />
+            <div class="we-beall-uj-gomb {{ addCatCls }}" onClick="{{ addCategory }}">
+              <span class="we-ico we-ico-plus"></span>
+              <span>{{ addCatLabel }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="we-settings-col4">
-        <span class="we-builder-text4 we-sec-head"><span class="we-ico we-ico-bell"></span>Emlékeztetők</span>
-        <!-- · Lista: Emlékeztetők · -->
-        <sc-for list="{{ reminders }}" as="r" hint-placeholder-count="1">
-          <div class="we-reminders-row1">
-            <div class="we-reminders-col1">
-              <span class="we-login-text10">{{ r.label }}</span>
-              <span class="we-login-text7">{{ r.hint }}</span>
+      </section>
+
+      <section class="we-beall-szak">
+        <div class="we-beall-szak-fej">
+          <h2>Emlékeztetők</h2>
+          <p>Mikor szóljon a Wardro.</p>
+        </div>
+        <div class="we-beall-lista">
+          <!-- · Lista: Emlékeztetők · -->
+          <sc-for list="{{ reminders }}" as="r" hint-placeholder-count="1">
+            <div class="we-beall-emlek" onClick="{{ r.toggle }}">
+              <div class="we-beall-emlek-szoveg">
+                <span class="we-beall-emlek-nev">{{ r.label }}</span>
+                <span class="we-beall-emlek-ido">{{ r.hint }}</span>
+              </div>
+              <div class="we-beall-kapcs {{ r.cls }}" role="switch" aria-checked="{{ r.aria }}" aria-label="{{ r.label }}"><i></i></div>
             </div>
-            <div class="we-reminders-btn1" onClick="{{ r.toggle }}" sc-camel-style="background:{{ r.bg }};justify-content:{{ r.knob }}">
-              <div class="we-reminders-box1"></div>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-      <div class="we-signup-row2">
-        <div class="we-settings-btn3" onClick="{{ logOut }}"><span class="we-ico we-ico-logout"></span><span>Kijelentkezés</span></div>
-        <div class="we-settings-btn4" onClick="{{ resetAll }}"><span class="we-ico we-ico-refresh"></span><span>Munkamenet visszaállítása</span></div>
-      </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section class="we-beall-szak">
+        <div class="we-beall-szak-fej">
+          <h2>Munkamenet</h2>
+          <p>Kilépés erről a gépről, vagy újrakezdés tiszta lappal.</p>
+        </div>
+        <div class="we-beall-gombok">
+          <div class="we-beall-gomb" onClick="{{ logOut }}"><span class="we-ico we-ico-logout"></span><span>Kijelentkezés</span></div>
+          <div class="we-beall-gomb is-veszely" onClick="{{ resetAll }}"><span class="we-ico we-ico-refresh"></span><span>Munkamenet visszaállítása</span></div>
+        </div>
+      </section>
     </div>
     </sc-if>
 
@@ -1794,12 +1821,13 @@ if (location.port === '5500') {
           <span class="we-has-query-btn1" onClick="{{ clearKatQ }}" title="Keresés törlése"><span class="we-ico we-ico-close"></span></span>
           </sc-if>
         </div>
-        <!-- · Lista: márkák · -->
-        <div class="we-kat-chips">
+        <!-- · Lista: márkák – két sorban, a gombbal kinyílik az összes · -->
+        <div class="we-kat-chips we-kat-markak {{ katMarkaCls }}">
           <sc-for list="{{ katBrands }}" as="b" hint-placeholder-count="8">
             <div class="we-kat-chip {{ b.cls }}" onClick="{{ b.on }}">{{ b.label }}</div>
           </sc-for>
         </div>
+        <div class="we-kat-marka-gomb {{ katMarkaCls }}" onClick="{{ katMarkaValt }}"><span>{{ katMarkaGomb }}</span><span class="we-ico we-ico-chev-right"></span></div>
         <!-- · Lista: típusok · -->
         <div class="we-kat-chips">
           <sc-for list="{{ katKinds }}" as="k" hint-placeholder-count="8">
@@ -2234,11 +2262,11 @@ if (location.port === '5500') {
         <!-- · Lista: Ruhaválasztó elemei · -->
         <sc-for list="{{ pickerItems }}" as="pi" hint-placeholder-count="6">
           <div class="we-picker-items-btn1" onClick="{{ pi.on }}">
-            <div class="we-picker-items-box1" sc-camel-style="border:{{ pi.border }}">
+            <div class="we-picker-items-box1 {{ pi.cls }}" sc-camel-style="border:{{ pi.border }}">
               <div class="we-picker-items-abs1"></div>
-              <img class="we-photo" src="{{ pi.photoUrl }}" alt="" />
+              <img class="we-photo" src="{{ pi.photoUrl }}" alt="" loading="lazy" decoding="async" draggable="false" sc-camel-style="width:{{ pi.iw }};height:{{ pi.ih }};left:{{ pi.il }};top:{{ pi.it }}" />
             </div>
-            <span class="we-picker-items-text1">{{ pi.label }}</span>
+            <span class="we-picker-items-text1" title="{{ pi.label }}">{{ pi.label }}</span>
           </div>
         </sc-for>
       </div>
